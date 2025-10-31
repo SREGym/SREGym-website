@@ -41,7 +41,7 @@ export default async function Dataset({
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/registry">Registry</BreadcrumbLink>
+              <BreadcrumbLink href="/problems">Problems</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -63,7 +63,7 @@ export default async function Dataset({
           <FilterableTaskGrid tasks={tasks} />
         ) : (
           <p className="text-muted-foreground font-mono sm:text-sm">
-            Tasks have not been uploaded yet.
+            Problems have not been uploaded yet.
           </p>
         )}
         <div className="mt-6 flex flex-1 flex-col justify-end">

@@ -112,7 +112,7 @@ export function FilterableTaskGrid({ tasks }: FilterableTaskGridProps) {
     <div className="-mx-4 flex flex-col sm:mx-0">
       <div className="mb-3 flex items-center justify-between px-4 sm:px-0">
         <p className="text-muted-foreground font-mono text-sm">
-          Showing {filteredTasks.length} tasks
+          Showing {filteredTasks.length} problems
         </p>
         <button
           className="text-primary disabled:text-muted-foreground font-mono text-sm font-normal underline-offset-4 hover:underline disabled:hover:no-underline"
@@ -149,7 +149,7 @@ export function FilterableTaskGrid({ tasks }: FilterableTaskGridProps) {
       <div className="flex flex-col px-4 sm:px-0">
         {filteredTasks.length > 0 && (
           <p className="text-muted-foreground mt-6 font-mono text-sm">
-            Displaying {filteredTasks.length} of {tasks.length} available tasks
+            Displaying {filteredTasks.length} of {tasks.length} available problems
           </p>
         )}
       </div>

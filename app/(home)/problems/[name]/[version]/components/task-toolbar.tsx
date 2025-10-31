@@ -39,7 +39,7 @@ export function TaskToolbar({
       <div className="relative -mb-px flex h-16 border border-x-0 sm:-mr-px sm:border-x">
         <input
           type="text"
-          placeholder="Search tasks"
+          placeholder="Search problems"
           className="placeholder:text-muted-foreground bg-card flex w-full min-w-0 px-6 font-mono text-base outline-none sm:text-sm"
           onChange={(e) => onSearch(e.target.value)}
           value={searchQuery}

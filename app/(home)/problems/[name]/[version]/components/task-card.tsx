@@ -17,7 +17,7 @@ type TaskCardProps = {
 export function TaskCard({ task, behavior }: TaskCardProps) {
   return (
     <GridItem
-      href={`/registry/${task.dataset_name}/${task.dataset_version}/${task.id}`}
+      href={`/problems/${task.dataset_name}/${task.dataset_version}/${task.id}`}
     >
       <div className="flex flex-1 flex-col justify-between gap-6 py-6">
         <CardHeader>

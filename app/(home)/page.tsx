@@ -7,7 +7,7 @@ import { unstable_cache } from "next/cache";
 import Link from "next/link";
 import { Callout } from "./components/callout";
 import { LeaderboardChart } from "./components/leaderboard-chart";
-import { TaskGrid } from "./registry/[name]/[version]/components/task-grid";
+import { TaskGrid } from "./problems/[name]/[version]/components/task-grid";
 
 const getTasks = unstable_cache(
   async () => {
@@ -134,7 +134,7 @@ export default async function Tasks() {
             <div className="-mx-4 flex flex-col gap-12 sm:mx-0 sm:gap-16">
               <TaskGrid tasks={tasks} behavior="navigate" />
               <Link
-                href="/tasks"
+                href="/problems/terminal-bench-core/head"
                 className={cn(
                   buttonVariants({
                     variant: "secondary",
@@ -143,7 +143,7 @@ export default async function Tasks() {
                   }),
                 )}
               >
-                view all terminal-bench tasks ↗
+                view all terminal-bench problems ↗
               </Link>
             </div>
           )}

@@ -73,11 +73,11 @@ export default async function Task({ params }: PageProps) {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/registry">Registry</BreadcrumbLink>
+              <BreadcrumbLink href="/problems">Problems</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href={`/registry/${name}/${version}`}>
+              <BreadcrumbLink href={`/problems/${name}/${version}`}>
                 {name}=={version}
               </BreadcrumbLink>
             </BreadcrumbItem>

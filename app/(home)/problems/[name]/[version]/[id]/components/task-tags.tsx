@@ -18,7 +18,7 @@ export function TaskTags({ tags, datasetName, datasetVersion }: TaskTagsProps) {
           <Fragment key={tag}>
             <Link
               href={{
-                pathname: `/registry/${datasetName}/${datasetVersion}`,
+                pathname: `/problems/${datasetName}/${datasetVersion}`,
                 query: { tags: [tag] },
               }}
               className="hover:underline"

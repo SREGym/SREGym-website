@@ -27,7 +27,7 @@ export function FilterButton({
 
   const handleClick = () => {
     setValues(new Set([...values, value]));
-    toast.info(`Now showing ${value} tasks`);
+    toast.info(`Now showing ${value} problems`);
   };
 
   return (

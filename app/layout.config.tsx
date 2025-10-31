@@ -31,13 +31,8 @@ export const baseOptions: BaseLayoutProps = {
       active: "nested-url",
     },
     {
-      text: "Tasks",
-      url: "/registry/terminal-bench-core/head",
-      active: "nested-url",
-    },
-    {
-      text: "Registry",
-      url: "/registry",
+      text: "Problems",
+      url: "/problems/terminal-bench-core/head",
       active: "nested-url",
     },
     {
@@ -51,14 +46,9 @@ export const baseOptions: BaseLayoutProps = {
       active: "nested-url",
     },
     {
-      text: "Terminus",
-      url: "/terminus",
+      text: "Stratus",
+      url: "/stratus",
       active: "nested-url",
-    },
-    {
-      text: "Discord",
-      url: "https://discord.gg/6xWPKhGDbA",
-      external: true,
     },
   ],
   themeSwitch: {

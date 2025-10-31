@@ -1,7 +1,7 @@
 import { getMDXComponents } from "@/mdx-components";
-import Content from "./terminus.mdx";
+import Content from "./stratus.mdx";
 
-export default function TerminusPage() {
+export default function StratusPage() {
   return (
     <div className="flex flex-1 flex-col items-center px-4">
       <div className="flex w-full max-w-4xl flex-1 flex-col items-center">
@@ -12,7 +12,7 @@ export default function TerminusPage() {
             </p>
           </div>
           <h1 className="mb-8 font-mono text-4xl font-medium tracking-tight">
-            Terminus
+            Stratus
           </h1>
           <p className="text-fd-muted-foreground mb-8 font-mono">
             A research-preview agent for consistently evaluating the abilities of language models to power autonomous agents in the terminal.
@@ -51,6 +51,6 @@ export default function TerminusPage() {
 }
 
 export const metadata = {
-    title: "Terminus",
+    title: "Stratus",
     description: "A research-preview agent for consistently evaluating the abilities of language models to power autonomous agents in the terminal.",
 };
