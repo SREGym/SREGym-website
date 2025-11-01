@@ -32,7 +32,7 @@ export const baseOptions: BaseLayoutProps = {
     },
     {
       text: "Problems",
-      url: "/problems/terminal-bench-core/head",
+      url: "/problems/problem-repertoire/head",
       active: "nested-url",
     },
     {

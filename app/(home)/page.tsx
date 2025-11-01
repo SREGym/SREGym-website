@@ -1,43 +1,24 @@
 import { CanaryString } from "@/components/canary-string";
 import { buttonVariants } from "@/components/ui/button";
-import { createClient } from "@/lib/supabase/authless-server";
+import { getTasks } from "@/lib/problems-data";
 import { cn } from "@/lib/utils";
 import { ChevronDown, Terminal } from "lucide-react";
-import { unstable_cache } from "next/cache";
 import Link from "next/link";
 import { Callout } from "./components/callout";
 import { LeaderboardChart } from "./components/leaderboard-chart";
 import { TaskGrid } from "./problems/[name]/[version]/components/task-grid";
 
-const getTasks = unstable_cache(
-  async () => {
-    const supabase = await createClient();
-    const { data: tasks, error } = await supabase
-      .from("task")
-      .select("*, registry(*)")
-      .eq("dataset_name", "terminal-bench-core")
-      .eq("dataset_version", "head")
-      .in("id", [
-        "configure-git-webserver",
-        "openssl-selfsigned-cert",
-        "build-linux-kernel-qemu",
-        "reshard-c4-data",
-        "crack-7z-hash",
-        "train-fasttext",
-      ]);
-
-    if (error) {
-      throw new Error(error.message);
-    }
-
-    return tasks;
-  },
-  ["landingTasks"],
-  { revalidate: 3600, tags: ["landingTasks"] },
-);
-
 export default async function Tasks() {
-  const tasks = await getTasks();
+  const allTasks = await getTasks("problem-repertoire", "head");
+  const taskIds = [
+    "configure-git-webserver",
+    "openssl-selfsigned-cert",
+    "build-linux-kernel-qemu",
+    "reshard-c4-data",
+    "crack-7z-hash",
+    "train-fasttext",
+  ];
+  const tasks = allTasks.filter((task) => taskIds.includes(task.id));
 
   return (
     <div className="flex flex-1 flex-col items-center px-4 py-6">
@@ -134,7 +115,7 @@ export default async function Tasks() {
             <div className="-mx-4 flex flex-col gap-12 sm:mx-0 sm:gap-16">
               <TaskGrid tasks={tasks} behavior="navigate" />
               <Link
-                href="/problems/terminal-bench-core/head"
+                href="/problems/problem-repertoire/head"
                 className={cn(
                   buttonVariants({
                     variant: "secondary",
@@ -143,7 +124,7 @@ export default async function Tasks() {
                   }),
                 )}
               >
-                view all terminal-bench problems ↗
+                view all problems ↗
               </Link>
             </div>
           )}

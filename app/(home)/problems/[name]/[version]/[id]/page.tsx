@@ -7,10 +7,11 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { createClient } from "@/lib/supabase/authless-server";
-import { unstable_cache } from "next/cache";
+import { getTask } from "@/lib/problems-data";
+import { formatDatasetName } from "@/lib/utils";
 import { SearchParams } from "nuqs";
 import { buildTaskGithubUrl } from "../../../lib/utils";
+import { notFound } from "next/navigation";
 import { TaskDemo } from "./components/task-demo";
 import { TaskHeader } from "./components/task-header";
 import { TaskInstruction } from "./components/task-instruction";
@@ -26,42 +27,13 @@ type PageProps = {
   searchParams: Promise<SearchParams>;
 };
 
-const getTask = unstable_cache(
-  async ({
-    id,
-    name,
-    version,
-  }: {
-    id: string;
-    name: string;
-    version: string;
-  }) => {
-    const supabase = await createClient();
-
-    const { data, error } = await supabase
-      .from("task")
-      .select("*, registry!inner(*)")
-      .eq("id", id)
-      .eq("dataset_name", name)
-      .eq("dataset_version", version)
-      .single();
-
-    if (error) {
-      throw new Error(error.message);
-    }
-
-    return data;
-  },
-  ["task"],
-  {
-    revalidate: 3600,
-    tags: ["task"],
-  },
-);
-
 export default async function Task({ params }: PageProps) {
   const { id, name, version } = await params;
-  const task = await getTask({ id, name, version });
+  const task = await getTask(id, name, version);
+
+  if (!task) {
+    notFound();
+  }
 
   return (
     <div className="flex flex-1 flex-col items-center px-4 py-6 sm:pt-12">
@@ -78,7 +50,7 @@ export default async function Task({ params }: PageProps) {
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbLink href={`/problems/${name}/${version}`}>
-                {name}=={version}
+                {formatDatasetName(name)}=={version}
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />

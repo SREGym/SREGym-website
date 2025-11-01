@@ -8,7 +8,8 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { CodeBlock } from "@/components/ui/code-block";
-import { createClient } from "@/lib/supabase/authless-server";
+import { getTasks } from "@/lib/problems-data";
+import { formatDatasetName } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import { FilterableTaskGrid } from "./components/filterable-task-grid";
 
@@ -19,15 +20,9 @@ export default async function Dataset({
 }) {
   const { name, version } = await params;
 
-  const supabase = await createClient();
+  const tasks = await getTasks(name, version);
 
-  const { data: tasks, error } = await supabase
-    .from("task")
-    .select("*, registry!inner(*)")
-    .eq("dataset_name", name)
-    .eq("dataset_version", version);
-
-  if (error) {
+  if (tasks.length === 0) {
     notFound();
   }
 
@@ -46,13 +41,13 @@ export default async function Dataset({
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbPage>
-                {name}=={version}
+                {formatDatasetName(name)}=={version}
               </BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
         <h2 className="mb-6 font-mono text-4xl tracking-tighter">
-          {name}=={version}
+          {formatDatasetName(name)}=={version}
         </h2>
         <CodeBlock
           code={`tb run -d ${name}==${version} -a "<agent>" -m "<model>"`}

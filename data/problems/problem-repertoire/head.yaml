@@ -1,0 +1,106 @@
+registry:
+  name: problem-repertoire
+  version: head
+  branch: main
+  commit_hash: head
+  dataset_path: tasks
+  github_url: https://github.com/example/problem-repertoire.git
+  description: Problem Repertoire dataset
+  is_encrypted: false
+  terminal_bench_version: "1.0.0"
+
+tasks:
+  - id: configure-git-webserver
+    author_email: author@example.com
+    author_name: Example Author
+    category: git
+    difficulty: medium
+    instruction: |
+      Configure a Git web server on this machine.
+      The server should be accessible at http://localhost:8080
+      and should display the repository content.
+    tags:
+      - git
+      - webserver
+      - configuration
+    github_url: https://github.com/example/problem-repertoire.git
+    include_in_launch: true
+
+  - id: openssl-selfsigned-cert
+    author_email: author@example.com
+    author_name: Example Author
+    category: security
+    difficulty: easy
+    instruction: |
+      Generate a self-signed SSL certificate using OpenSSL.
+      The certificate should be valid for 365 days and use RSA 2048-bit encryption.
+    tags:
+      - openssl
+      - ssl
+      - security
+      - certificate
+    github_url: https://github.com/example/problem-repertoire.git
+    include_in_launch: true
+
+  - id: build-linux-kernel-qemu
+    author_email: author@example.com
+    author_name: Example Author
+    category: kernel
+    difficulty: hard
+    instruction: |
+      Build a Linux kernel from source and run it in QEMU.
+      Configure the kernel with appropriate options for QEMU emulation.
+    tags:
+      - linux
+      - kernel
+      - qemu
+      - compilation
+    github_url: https://github.com/example/problem-repertoire.git
+    include_in_launch: true
+
+  - id: reshard-c4-data
+    author_email: author@example.com
+    author_name: Example Author
+    category: data-processing
+    difficulty: medium
+    instruction: |
+      Reshard the C4 dataset into smaller chunks.
+      The output should maintain the original data format.
+    tags:
+      - data
+      - processing
+      - resharding
+    github_url: https://github.com/example/problem-repertoire.git
+    include_in_launch: true
+
+  - id: crack-7z-hash
+    author_email: author@example.com
+    author_name: Example Author
+    category: security
+    difficulty: hard
+    instruction: |
+      Crack a 7-Zip archive password hash.
+      Use appropriate tools and techniques to recover the password.
+    tags:
+      - security
+      - password
+      - cracking
+      - 7z
+    github_url: https://github.com/example/problem-repertoire.git
+    include_in_launch: true
+
+  - id: train-fasttext
+    author_email: author@example.com
+    author_name: Example Author
+    category: ml
+    difficulty: medium
+    instruction: |
+      Train a FastText model on the provided text corpus.
+      The model should be saved in the appropriate format.
+    tags:
+      - machine-learning
+      - fasttext
+      - nlp
+    github_url: https://github.com/example/problem-repertoire.git
+    include_in_launch: true
+

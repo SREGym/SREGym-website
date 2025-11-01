@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { formatDatasetName } from "@/lib/utils";
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { CopyTaskId } from "./copy-task-id";
@@ -24,7 +25,7 @@ export function TaskHeader({
     <div className="space-y-4">
       <CopyTaskId id={id} />
       <Badge>
-        {dataset_name}=={dataset_version}
+        {formatDatasetName(dataset_name)}=={dataset_version}
       </Badge>
       <div className="flex gap-2">
         <Link

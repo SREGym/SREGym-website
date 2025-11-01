@@ -92,10 +92,10 @@ export function DataTable<TData, TValue>({
         <p>
           Results in this leaderboard correspond to{" "}
           <Link
-            href="/problems/terminal-bench-core/0.1.1"
+            href="/problems/problem-repertoire/head"
             className="text-foreground underline underline-offset-4"
           >
-            terminal-bench-core==0.1.1
+            Problem Repertoire==head
           </Link>
           .
         </p>

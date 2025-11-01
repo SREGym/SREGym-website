@@ -77,6 +77,8 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  /* Override fumadocs secondary color for code blocks */
+  --color-fd-secondary: var(--muted);
 }
 
 .dark {
@@ -111,6 +113,8 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  /* Override fumadocs secondary color for code blocks */
+  --color-fd-secondary: var(--muted);
 }
 
 @layer base {
@@ -119,6 +123,30 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Override code block background in docs pages - use muted instead of secondary */
+/* Using utilities layer for highest priority after Tailwind */
+@layer utilities {
+  /* Direct override of bg-fd-secondary - fumadocs uses this for code blocks */
+  .bg-fd-secondary {
+    background-color: var(--muted) !important;
+  }
+  
+  /* Target all code block containers */
+  figure.bg-fd-secondary,
+  figure.shiki.bg-fd-secondary,
+  .shiki.bg-fd-secondary,
+  [data-fumadocs-code-block].bg-fd-secondary {
+    background-color: var(--muted) !important;
+  }
+  
+  /* Override nested divs inside code blocks */
+  figure.bg-fd-secondary > div,
+  .bg-fd-secondary > div,
+  figure.shiki > div.bg-fd-secondary {
+    background-color: var(--muted) !important;
   }
 }
 
