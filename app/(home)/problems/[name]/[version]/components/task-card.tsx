@@ -19,23 +19,27 @@ export function TaskCard({ task, behavior }: TaskCardProps) {
     <GridItem
       href={`/problems/${task.dataset_name}/${task.dataset_version}/${task.id}`}
     >
-      <div className="flex flex-1 flex-col justify-between gap-6 py-6">
-        <CardHeader>
-          <div className="mb-2 flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
-            <div className="flex items-center gap-2">
-              <CardTitle>
-                <h2 className="line-clamp-1 font-mono text-xl font-medium">
+      <div className="flex min-w-0 flex-1 flex-col justify-between gap-6 py-6">
+        <CardHeader className="min-w-0">
+          <div className="mb-2 flex min-w-0 flex-col justify-between gap-2 sm:flex-row sm:items-center">
+            <div className="flex min-w-0 flex-1 items-center gap-2 overflow-hidden">
+              <CardTitle className="min-w-0 flex-1 overflow-hidden">
+                <h2 className="truncate font-mono text-xl font-medium">
                   {task.id}
                 </h2>
               </CardTitle>
-              <CopyButton text={task.id} successMessage="Copied task ID" />
+              <div className="flex-shrink-0">
+                <CopyButton text={task.id} successMessage="Copied task ID" />
+              </div>
             </div>
-            <GithubLinkButton
-              githubUrl={buildTaskGithubUrl({
-                dataset: task.registry,
-                taskId: task.registry.is_encrypted ? `${task.id}.zip` : task.id,
-              })}
-            />
+            <div className="flex-shrink-0">
+              <GithubLinkButton
+                githubUrl={buildTaskGithubUrl({
+                  dataset: task.registry,
+                  taskId: task.registry.is_encrypted ? `${task.id}.zip` : task.id,
+                })}
+              />
+            </div>
           </div>
           <div className="flex gap-2">
             <FilterOrLink
