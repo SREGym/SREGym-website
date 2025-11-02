@@ -65,14 +65,14 @@ export default async function Tasks() {
           <div className="mx-auto flex max-w-3xl flex-col gap-4 md:flex-row md:gap-2">
             <Callout
               className="flex-1"
-              title="introducing terminal-bench"
+              title="introducing sregym"
               description="read our launch announcement ↗"
               href="/news/announcement"
               icon={Terminal}
             />
             <Callout
               className="flex-1"
-              title="terminal-bench dataset registry"
+              title="sregym dataset registry"
               description="easily evaluate your agent on standard third-party benchmarks ↗"
               href="/news/registry-and-adapters"
               icon={Terminal}
@@ -107,7 +107,7 @@ export default async function Tasks() {
         <div className="hidden min-h-[90vh] flex-col justify-center py-12 sm:pb-16">
           <div className="mb-4 flex flex-col items-center gap-2">
             <p className="font-mono text-sm">
-              view terminal-bench task examples
+              view sregym task examples
             </p>
             <ChevronDown className="animate-float size-4" />
           </div>

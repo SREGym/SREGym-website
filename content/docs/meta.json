@@ -1,10 +1,9 @@
 {
     "pages": [
-        "---Terminal-Bench---",
+        "---SREGym---",
         "index",
         "installation",
         "first-steps",
-        "---Datasets---",
         "task-overview",
         "registry",
         "versioning",

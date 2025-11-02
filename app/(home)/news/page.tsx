@@ -12,7 +12,7 @@ export default async function BlogPage() {
             News
           </h1>
           <p className="text-fd-muted-foreground mb-8 font-mono">
-            Latest updates and announcements from the Terminal-Bench team.
+            Latest updates and announcements from the SREGym team.
           </p>
         </div>
 

@@ -20,14 +20,14 @@ export function TaskUsage({
         <Tab value="uv">
           <CodeBlock
             lang="bash"
-            code="uv tool install terminal-bench"
+            code="uv tool install sregym"
             className="my-0"
           />
         </Tab>
         <Tab value="pip">
           <CodeBlock
             lang="bash"
-            code="pip install terminal-bench"
+            code="pip install sregym"
             className="my-0"
           />
         </Tab>
@@ -42,7 +42,7 @@ export function TaskUsage({
         className="my-0"
       />
       <p className="font-mono sm:text-sm">
-        New to terminal-bench? See our{" "}
+        New to sregym? See our{" "}
         <Link href="/docs/installation" className="text-foreground underline">
           quickstart guide
         </Link>

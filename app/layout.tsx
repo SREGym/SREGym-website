@@ -10,7 +10,7 @@ import "./global.css";
 
 export const metadata: Metadata = {
   title: "SREGym: An AI-Native Platform for Benchmarking SRE Agents",
-  metadataBase: new URL("https://www.tbench.ai"),
+  metadataBase: new URL("https://www.sregym.ai"),
   description: "A benchmark for terminal agents",
   icons: {
     icon: "/favicon.ico",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     title: "SREGym: An AI-Native Platform for Benchmarking SRE Agents",
     description: "A benchmark for terminal agents",
     images: "/og/ascii-logo-dark-1200x630.png",
-    url: "https://www.tbench.ai",
+    url: "https://www.sregym.ai",
     siteName: "SREGym: An AI-Native Platform for Benchmarking SRE Agents",
     locale: "en_US",
     type: "website",

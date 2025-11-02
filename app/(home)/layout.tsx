@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 
 const homeOptions: HomeLayoutProps = {
   ...baseOptions,
-  githubUrl: "https://github.com/laude-institute/terminal-bench",
+  githubUrl: "https://github.com/laude-institute/sregym",
   searchToggle: {
     enabled: false,
   },

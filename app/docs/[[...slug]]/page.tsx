@@ -48,7 +48,7 @@ export async function generateMetadata(props: {
   return {
     title: page.data.title,
     description: page.data.description,
-    metadataBase: new URL("https://www.tbench.ai"),
+    metadataBase: new URL("https://www.sregym.ai"),
     icons: {
       icon: "/favicon.ico",
     },
@@ -56,8 +56,8 @@ export async function generateMetadata(props: {
       title: page.data.title,
       description: page.data.description,
       images: "/og/ascii-logo-dark-1200x630.png",
-      url: "https://www.tbench.ai",
-      siteName: "Terminal-Bench",
+      url: "https://www.sregym.ai",
+      siteName: "SREGym",
       locale: "en_US",
       type: "website",
     },

@@ -123,7 +123,7 @@ export function DataTable<TData, TValue>({
           </svg>
 
           <p>
-            A Terminal-Bench team member ran the evaluation and verified the
+            A SREGym team member ran the evaluation and verified the
             results.
           </p>
         </div>
