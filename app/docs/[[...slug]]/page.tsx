@@ -50,7 +50,7 @@ export async function generateMetadata(props: {
     description: page.data.description,
     metadataBase: new URL("https://www.sregym.ai"),
     icons: {
-      icon: "/favicon.ico",
+      icon: "/LOGO_VECTORIZED.svg",
     },
     openGraph: {
       title: page.data.title,

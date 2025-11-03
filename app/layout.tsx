@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.sregym.ai"),
   description: "A benchmark for terminal agents",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/LOGO_VECTORIZED.svg",
   },
   openGraph: {
     title: "SREGym: An AI-Native Platform for Benchmarking SRE Agents",

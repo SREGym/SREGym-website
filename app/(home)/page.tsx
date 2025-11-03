@@ -25,13 +25,27 @@ export default async function Tasks() {
       <div className="flex w-full max-w-7xl flex-1 flex-col items-center">
         <div className="flex flex-col justify-center gap-16 sm:pt-24 sm:pb-0">
           <div className="space-y-8">
-            <h2 className="text-center font-mono text-3xl/tight font-medium tracking-tighter text-balance sm:mb-8 sm:text-6xl/tight">
-              SREGym: An AI-Native Platform for Benchmarking SRE Agents
-            </h2>
-            <p className="text-fd-muted-foreground text-center font-mono tracking-tight text-balance sm:text-xl/relaxed">
-            SREGym is a unified platform to enable the design, development, and evaluation of AI agents for Site Reliability Engineering (SRE). The core idea is to create live system environments for SRE agents to solve real-world problems. SREGym also provides a comprehensive SRE benchmark suite with a wide variety of problems for evaluating SRE agents and for training next-generation AI agents.
-            </p>
+            <div className="flex items-center justify-center gap-4 sm:gap-6">
+              <div className="h-[83px] w-[83px] flex-shrink-0 overflow-hidden shadow-lg sm:h-[125px] sm:w-[125px]" style={{ borderRadius: '16px' }}>
+                <img
+                  src="/LOGO_VECTORIZED.svg"
+                  alt="SREGym Logo"
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <div className="h-[83px] sm:h-[125px] flex flex-col justify-center">
+                <h2 className="font-mono text-5xl font-medium tracking-tighter whitespace-nowrap sm:text-8xl">
+                  SREGym
+                </h2>
+                <p className="font-mono text-xl tracking-tight text-balance sm:text-2xl">
+                    An AI-Native Platform for Benchmarking SRE Agents
+                </p>
+              </div>
+            </div>
           </div>
+          <p className="text-fd-muted-foreground text-center font-mono tracking-tight text-balance sm:text-xl/relaxed mt-[40px]">
+            SREGym is a unified platform to enable the design, development, and evaluation of AI agents for Site Reliability Engineering (SRE). The core idea is to create live system environments for SRE agents to solve real-world problems. SREGym also provides a comprehensive SRE benchmark suite with a wide variety of problems for evaluating SRE agents and for training next-generation AI agents.
+          </p>
           <div className="mx-auto grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-2">
             <Link
               href="/docs/installation"
