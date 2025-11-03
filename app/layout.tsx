@@ -46,7 +46,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="en"
-      className={cn(inter.className, GeistMono.variable)}
+      className={cn(inter.className, GeistMono.variable, "light")}
       suppressHydrationWarning
     >
       <body className="flex min-h-screen flex-col">
