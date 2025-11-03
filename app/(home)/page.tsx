@@ -28,7 +28,7 @@ export default async function Tasks() {
             <div className="flex items-center justify-center gap-4 sm:gap-6">
               <div className="h-[83px] w-[83px] flex-shrink-0 overflow-hidden shadow-lg sm:h-[125px] sm:w-[125px]" style={{ borderRadius: '16px' }}>
                 <img
-                  src="/LOGO_VECTORIZED.svg"
+                  src="/logov2.jpg"
                   alt="SREGym Logo"
                   className="h-full w-full object-cover"
                 />
