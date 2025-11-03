@@ -9,24 +9,24 @@ import type { ReactNode } from "react";
 import "./global.css";
 
 export const metadata: Metadata = {
-  title: "SREGym: An AI-Native Platform for Benchmarking SRE Agents",
+  title: "SREGym",
   metadataBase: new URL("https://www.sregym.ai"),
   description: "A benchmark for terminal agents",
   icons: {
     icon: "/logov2.jpg",
   },
   openGraph: {
-    title: "SREGym: An AI-Native Platform for Benchmarking SRE Agents",
+    title: "SREGym",
     description: "A benchmark for terminal agents",
     images: "/og/ascii-logo-dark-1200x630.png",
     url: "https://www.sregym.ai",
-    siteName: "SREGym: An AI-Native Platform for Benchmarking SRE Agents",
+    siteName: "SREGym",
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "SREGym: An AI-Native Platform for Benchmarking SRE Agents",
+    title: "SREGym",
     description: "A benchmark for terminal agents",
     images: [
       {

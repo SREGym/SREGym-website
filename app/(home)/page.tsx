@@ -94,7 +94,7 @@ export default async function Tasks() {
           </div>
           <div className="mx-auto flex max-w-xl flex-col justify-center gap-4">
             <p className="text-center font-mono text-sm sm:text-base">
-              Xlab @ University of Illinois at Urbana-Champaign
+              xlab @ University of Illinois at Urbana-Champaign
             </p>
           </div>
         </div>
