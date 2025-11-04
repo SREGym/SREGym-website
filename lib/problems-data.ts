@@ -71,7 +71,16 @@ export async function getTasks(
     ...task,
     dataset_name: data.registry.name,
     dataset_version: data.registry.version,
-    registry: data.registry,
+    created_at: task.created_at ?? new Date().toISOString(),
+    updated_at: task.updated_at ?? new Date().toISOString(),
+    include_in_launch: task.include_in_launch ?? false,
+    demo_url: task.demo_url ?? null,
+    registry: {
+      ...data.registry,
+      created_at: data.registry.created_at ?? new Date().toISOString(),
+      updated_at: data.registry.updated_at ?? new Date().toISOString(),
+      description: data.registry.description ?? null,
+    },
   }));
 }
 
@@ -96,7 +105,16 @@ export async function getTask(
     ...task,
     dataset_name: data.registry.name,
     dataset_version: data.registry.version,
-    registry: data.registry,
+    created_at: task.created_at ?? new Date().toISOString(),
+    updated_at: task.updated_at ?? new Date().toISOString(),
+    include_in_launch: task.include_in_launch ?? false,
+    demo_url: task.demo_url ?? null,
+    registry: {
+      ...data.registry,
+      created_at: data.registry.created_at ?? new Date().toISOString(),
+      updated_at: data.registry.updated_at ?? new Date().toISOString(),
+      description: data.registry.description ?? null,
+    },
   };
 }
 

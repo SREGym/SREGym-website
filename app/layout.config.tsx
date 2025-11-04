@@ -52,6 +52,6 @@ export const baseOptions: BaseLayoutProps = {
   ],
   themeSwitch: {
     enabled: false,
-    mode: "light",
+    mode: "light-dark-system",
   },
 };
