@@ -40,15 +40,7 @@ export default function TeamPage() {
           </h2>
           <div className="space-y-4">
             <p className="text-muted-foreground font-mono text-sm/relaxed">
-              Built with support from the Microsoft Grant in Customer Experience
-              Innovation.
-            </p>
-            <p className="text-muted-foreground font-mono text-sm/relaxed">
-              In collaboration with Laude Institute.
-            </p>
-            <p className="text-muted-foreground font-mono text-sm/relaxed">
-              Thanks for feedback from the teams at OpenHands, Anthropic,
-              Cognition, Aider, Goose, Manus, and Replit.
+              This project is generously supported by a Slingshot grant from the Laude Institute.
             </p>
           </div>
         </div>
