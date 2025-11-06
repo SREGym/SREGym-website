@@ -49,11 +49,6 @@ export default async function Dataset({
         <h2 className="mb-6 font-mono text-4xl tracking-tighter">
           {formatDatasetName(name)}=={version}
         </h2>
-        <CodeBlock
-          code={`tb run -d ${name}==${version} -a "<agent>" -m "<model>"`}
-          lang="bash"
-          className="mt-0 font-mono"
-        />
         {tasks.length > 0 ? (
           <FilterableTaskGrid tasks={tasks} />
         ) : (
