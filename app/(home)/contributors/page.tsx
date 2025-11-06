@@ -1,7 +1,13 @@
 import Link from "next/link";
 
 const CONTRIBUTORS = [
-  { name: "John Doe", link: "https://google.com", role: "Co-Lead" },
+  { name: "Bohan Cui", link: "./contributors", role: "Watchee" },
+  { name: "Jackson Clark", link: "./contributors", role: "Watchee" },
+  { name: "Jiaqi Huang", link: "./contributors", role: "Watchee" },
+  { name: "Lily Gniedziejko", link: "./contributors", role: "Watchee" },
+  { name: "Saad Mohammad Rafid Pial", link: "./contributors", role: "Watchee" },
+  { name: "Yiming Su", link: "./contributors", role: "Watchee" },
+  { name: "Tianyin Xu", link: "./contributors", role: "Watcher" },
 ];
 
 export default function TeamPage() {
