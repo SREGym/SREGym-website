@@ -85,7 +85,7 @@ export function TaskCard({ task, behavior }: TaskCardProps) {
             </div>
           ) : (
             <p className="line-clamp-[10] font-mono wrap-anywhere whitespace-pre-wrap sm:text-sm">
-              {task.instruction}
+              {task.description}
             </p>
           )}
           <div className="space-y-6">

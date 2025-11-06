@@ -14,7 +14,7 @@ import { buildTaskGithubUrl } from "../../../lib/utils";
 import { notFound } from "next/navigation";
 import { TaskDemo } from "./components/task-demo";
 import { TaskHeader } from "./components/task-header";
-import { TaskInstruction } from "./components/task-instruction";
+import { TaskDescription } from "./components/task-description";
 import { TaskTags } from "./components/task-tags";
 
 type PageProps = {
@@ -70,8 +70,8 @@ export default async function Task({ params }: PageProps) {
           dataset_version={task.dataset_version}
         />
         {task.demo_url && <TaskDemo demoUrl={task.demo_url} />}
-        <TaskInstruction
-          instruction={task.instruction}
+        <TaskDescription
+          description={task.description}
           encrypted={task.registry.is_encrypted}
         />
         <TaskTags

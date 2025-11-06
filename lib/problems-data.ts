@@ -14,7 +14,7 @@ type TaskData = {
     author_name: string;
     category: string;
     difficulty: "easy" | "medium" | "hard";
-    instruction: string;
+    description: string;
     tags: string[];
     github_url: string;
     demo_url?: string | null;

@@ -122,7 +122,7 @@ export type Database = {
           github_url: string
           id: string
           include_in_launch: boolean
-          instruction: string
+          description: string
           tags: string[]
           updated_at: string
         }
@@ -138,7 +138,7 @@ export type Database = {
           github_url: string
           id: string
           include_in_launch?: boolean
-          instruction: string
+          description: string
           tags: string[]
           updated_at?: string
         }
@@ -154,7 +154,7 @@ export type Database = {
           github_url?: string
           id?: string
           include_in_launch?: boolean
-          instruction?: string
+          description?: string
           tags?: string[]
           updated_at?: string
         }
@@ -178,7 +178,7 @@ export type Database = {
           ended_at: string | null
           failure_mode: string
           id: string
-          instruction: string
+          description: string
           is_resolved: boolean | null
           n_input_tokens: number | null
           n_output_tokens: number | null
@@ -200,7 +200,7 @@ export type Database = {
           ended_at?: string | null
           failure_mode: string
           id?: string
-          instruction: string
+          description: string
           is_resolved?: boolean | null
           n_input_tokens?: number | null
           n_output_tokens?: number | null
@@ -222,7 +222,7 @@ export type Database = {
           ended_at?: string | null
           failure_mode?: string
           id?: string
-          instruction?: string
+          description?: string
           is_resolved?: boolean | null
           n_input_tokens?: number | null
           n_output_tokens?: number | null

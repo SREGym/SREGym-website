@@ -23,7 +23,7 @@ export const filterTasks = (
       query === "" ||
       task.id.toLowerCase().includes(query.toLowerCase()) ||
       task.author_name.toLowerCase().includes(query.toLowerCase()) ||
-      task.instruction.toLowerCase().includes(query.toLowerCase()) ||
+      task.description.toLowerCase().includes(query.toLowerCase()) ||
       task.category.toLowerCase().includes(query.toLowerCase()) ||
       task.tags.some((tag) => tag.toLowerCase().includes(query.toLowerCase()));
 

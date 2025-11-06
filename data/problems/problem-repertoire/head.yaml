@@ -16,17 +16,15 @@ tasks:
   - id: faulty_image_correlated
     author_email: author@example.com
     author_name: Example Author
-    category: application-fault
+    category: Correlated Failure
     difficulty: hard
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a correlated fault where multiple services in the hotel reservation application are deployed with incorrect Docker images.
       The fault manifests as all frontend, geo, profile, rate, recommendation, reservation, user, and search services using a faulty image (jackcuii/hotel-reservation:latest) instead of the correct ones.
       Inject the fault by updating the deployment images for all affected services simultaneously.
     tags:
-      - application-fault
-      - correlated-failure
-      - docker-image
-      - deployment
+      - Correlated Failure
       - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -34,18 +32,16 @@ tasks:
   - id: update_incompatible_correlated
     author_email: author@example.com
     author_name: Example Author
-    category: application-fault
+    category: Correlated Failure
     difficulty: hard
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a correlated fault where multiple MongoDB services are updated to an incompatible version.
       The fault involves updating all MongoDB instances (mongodb-geo, mongodb-profile, mongodb-rate, mongodb-recommendation, mongodb-reservation, mongodb-user) to version mongo:8.0.14-rc0, which is incompatible with the application.
       Inject the fault by modifying the deployment images for all affected MongoDB services to the incompatible version.
     tags:
-      - application-fault
-      - correlated-failure
-      - mongodb
-      - version-incompatibility
-      - database
+      - Correlated Failure
+      - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
 
@@ -53,16 +49,15 @@ tasks:
   - id: incorrect_image
     author_email: author@example.com
     author_name: Example Author
-    category: application-fault
+    category: System/Application Software Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where the product-catalog service in the astronomy shop application is deployed with an incorrect Docker image.
       The fault manifests as the service using app-image:latest instead of the correct image.
       Inject the fault by modifying the deployment to use the incorrect image tag.
     tags:
-      - application-fault
-      - docker-image
-      - deployment
+      - System/Application Software Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -70,17 +65,15 @@ tasks:
   - id: incorrect_port_assignment
     author_email: author@example.com
     author_name: Example Author
-    category: application-fault
+    category: Misconfiguration Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where the checkout service in the astronomy shop application uses an incorrect port assignment for the PRODUCT_CATALOG_ADDR environment variable.
       The fault manifests as the service connecting to port 8082 instead of the correct port 8080.
       Inject the fault by modifying the environment variable in the deployment to point to the wrong port.
     tags:
-      - application-fault
-      - configuration
-      - port
-      - environment-variable
+      - Misconfiguration Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -88,33 +81,31 @@ tasks:
   - id: misconfig_app_hotel_res
     author_email: author@example.com
     author_name: Example Author
-    category: application-fault
+    category: System/Application Software Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate an application misconfiguration fault in the geo service of the hotel reservation application.
       The fault manifests as incorrect application-level configuration causing service failures.
       Inject the fault by modifying the application configuration for the geo service.
     tags:
-      - application-fault
-      - configuration
+      - System/Application Software Failure
       - hotel-reservation
-      - geo-service
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
 
   - id: missing_env_variable_astronomy_shop
     author_email: author@example.com
     author_name: Example Author
-    category: application-fault
+    category: Misconfiguration Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where the frontend service in the astronomy shop application is missing a required environment variable.
       The fault manifests as the service failing to start or operate correctly due to missing configuration.
       Inject the fault by removing a critical environment variable from the frontend service deployment.
     tags:
-      - application-fault
-      - environment-variable
-      - configuration
+      - Misconfiguration Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -122,17 +113,15 @@ tasks:
   - id: revoke_auth_mongodb-1
     author_email: author@example.com
     author_name: Example Author
-    category: application-fault
+    category: Security Failure
     difficulty: hard
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a fault where authentication is revoked for the mongodb-geo service in the hotel reservation application.
       The fault manifests as the MongoDB instance denying access to authorized users, causing database connection failures.
       Inject the fault by revoking authentication credentials for the mongodb-geo service.
     tags:
-      - application-fault
-      - authentication
-      - mongodb
-      - database
+      - Security Failure
       - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -140,17 +129,15 @@ tasks:
   - id: revoke_auth_mongodb-2
     author_email: author@example.com
     author_name: Example Author
-    category: application-fault
+    category: Security Failure
     difficulty: hard
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a fault where authentication is revoked for the mongodb-rate service in the hotel reservation application.
       The fault manifests as the MongoDB instance denying access to authorized users, causing database connection failures.
       Inject the fault by revoking authentication credentials for the mongodb-rate service.
     tags:
-      - application-fault
-      - authentication
-      - mongodb
-      - database
+      - Security Failure
       - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -158,17 +145,15 @@ tasks:
   - id: storage_user_unregistered-1
     author_email: author@example.com
     author_name: Example Author
-    category: application-fault
+    category: Security Failure
     difficulty: hard
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a fault where the storage user for mongodb-geo service becomes unregistered in the hotel reservation application.
       The fault manifests as database access failures due to unregistered user credentials.
       Inject the fault by unregistering the storage user account for the mongodb-geo service.
     tags:
-      - application-fault
-      - mongodb
-      - database
-      - user-management
+      - Security Failure
       - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -176,17 +161,15 @@ tasks:
   - id: storage_user_unregistered-2
     author_email: author@example.com
     author_name: Example Author
-    category: application-fault
+    category: Security Failure
     difficulty: hard
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a fault where the storage user for mongodb-rate service becomes unregistered in the hotel reservation application.
       The fault manifests as database access failures due to unregistered user credentials.
       Inject the fault by unregistering the storage user account for the mongodb-rate service.
     tags:
-      - application-fault
-      - mongodb
-      - database
-      - user-management
+      - Security Failure
       - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -194,17 +177,15 @@ tasks:
   - id: valkey_auth_disruption
     author_email: author@example.com
     author_name: Example Author
-    category: application-fault
+    category: Security Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where authentication is disrupted for the valkey-cart service in the astronomy shop application.
       The fault manifests as authentication failures preventing access to the Valkey cache service.
       Inject the fault by disrupting authentication mechanisms for the valkey-cart service.
     tags:
-      - application-fault
-      - authentication
-      - valkey
-      - cache
+      - Security Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -212,17 +193,15 @@ tasks:
   - id: valkey_memory_disruption
     author_email: author@example.com
     author_name: Example Author
-    category: application-fault
+    category: Database Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where memory is disrupted for Valkey services in the astronomy shop application.
       The fault manifests as memory-related failures in the cache service, causing performance degradation or service failures.
       Inject the fault by disrupting memory allocation or management for Valkey services.
     tags:
-      - application-fault
-      - memory
-      - valkey
-      - cache
+      - Database Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -232,18 +211,15 @@ tasks:
   - id: capacity_decrease_rpc_retry_storm
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Metastable Failure
     difficulty: hard
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a metastable failure where RPC retry storms occur due to capacity decrease in the hotel reservation application.
       The fault manifests as cascading failures where RPC timeouts and misconfigured retry policies cause retry storms, leading to capacity degradation.
       Inject the fault by configuring RPC timeout and retry misconfigurations that trigger retry storms when capacity decreases.
     tags:
-      - virtualization-fault
-      - metastable-failure
-      - rpc
-      - retry-storm
-      - capacity
+      - Metastable Failure
       - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -251,36 +227,32 @@ tasks:
   - id: gc_capacity_degradation
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Metastable Failure
     difficulty: hard
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a metastable failure where garbage collection causes capacity degradation in the application.
       The fault manifests as GC-related performance degradation leading to cascading capacity issues.
       Inject the fault by triggering aggressive garbage collection that causes capacity degradation.
     tags:
-      - virtualization-fault
-      - metastable-failure
-      - garbage-collection
-      - capacity
-      - performance
+      - Metastable Failure
+      - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
 
   - id: load_spike_rpc_retry_storm
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Metastable Failure
     difficulty: hard
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a metastable failure where RPC retry storms occur due to load spikes in the application.
       The fault manifests as cascading failures where sudden load increases combined with RPC retry misconfigurations cause retry storms.
       Inject the fault by introducing load spikes and configuring RPC timeout/retry policies that trigger retry storms.
     tags:
-      - virtualization-fault
-      - metastable-failure
-      - rpc
-      - retry-storm
-      - load-spike
+      - Metastable Failure
+      - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
 
@@ -288,50 +260,47 @@ tasks:
   - id: assign_to_non_existent_node
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Cloud Management System Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on social-network.
       Simulate a fault where pods are assigned to non-existent nodes in the Kubernetes cluster.
       The fault manifests as pods unable to be scheduled or running, causing service unavailability.
       Inject the fault by configuring pod scheduling to assign pods to nodes that do not exist.
     tags:
-      - virtualization-fault
-      - kubernetes
-      - node-assignment
-      - scheduling
+      - Cloud Management System Failure
+      - social-network
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
 
   - id: auth_miss_mongodb
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Security Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on social-network.
       Simulate a fault where MongoDB authentication is missing in the application.
       The fault manifests as database connection failures due to missing authentication credentials.
       Inject the fault by removing or misconfiguring MongoDB authentication settings.
     tags:
-      - virtualization-fault
-      - mongodb
-      - authentication
-      - database
+      - Security Failure
+      - social-network
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
 
   - id: configmap_drift_hotel_reservation
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Misconfiguration Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a fault where ConfigMap drift occurs in the geo service of the hotel reservation application.
       The fault manifests as the ConfigMap missing critical keys that are required by the service, causing configuration errors.
       Inject the fault by removing critical keys from the geo service ConfigMap after the service has started.
     tags:
-      - virtualization-fault
-      - configmap
-      - configuration-drift
+      - Misconfiguration Failure
       - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -339,17 +308,15 @@ tasks:
   - id: duplicate_pvc_mounts_astronomy_shop
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Cloud Management System Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where duplicate PVC mounts are configured for the frontend service in the astronomy shop application.
       The fault manifests as pod startup failures or storage-related errors due to conflicting volume mounts.
       Inject the fault by configuring duplicate PersistentVolumeClaim mounts in the frontend service deployment.
     tags:
-      - virtualization-fault
-      - pvc
-      - storage
-      - volume-mount
+      - Cloud Management System Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -357,17 +324,15 @@ tasks:
   - id: duplicate_pvc_mounts_hotel_reservation
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Cloud Management System Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a fault where duplicate PVC mounts are configured for the frontend service in the hotel reservation application.
       The fault manifests as pod startup failures or storage-related errors due to conflicting volume mounts.
       Inject the fault by configuring duplicate PersistentVolumeClaim mounts in the frontend service deployment.
     tags:
-      - virtualization-fault
-      - pvc
-      - storage
-      - volume-mount
+      - Cloud Management System Failure
       - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -375,17 +340,15 @@ tasks:
   - id: duplicate_pvc_mounts_social_network
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Cloud Management System Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on social-network.
       Simulate a fault where duplicate PVC mounts are configured for the jaeger service in the social network application.
       The fault manifests as pod startup failures or storage-related errors due to conflicting volume mounts.
       Inject the fault by configuring duplicate PersistentVolumeClaim mounts in the jaeger service deployment.
     tags:
-      - virtualization-fault
-      - pvc
-      - storage
-      - volume-mount
+      - Cloud Management System Failure
       - social-network
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -393,17 +356,15 @@ tasks:
   - id: env_variable_shadowing_astronomy_shop
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Misconfiguration Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where environment variable shadowing occurs in the frontend-proxy service of the astronomy shop application.
       The fault manifests as incorrect environment variable values being used due to shadowing conflicts between container and init container environment variables.
       Inject the fault by configuring environment variables in init containers that shadow variables used by the main container.
     tags:
-      - virtualization-fault
-      - environment-variable
-      - shadowing
-      - configuration
+      - Misconfiguration Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -411,17 +372,15 @@ tasks:
   - id: k8s_target_port-misconfig
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Misconfiguration Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on social-network.
       Simulate a Kubernetes misconfiguration fault where the target port is incorrectly configured for the user-service in the social network application.
       The fault manifests as service connectivity failures due to mismatched port configurations.
       Inject the fault by misconfiguring the target port in the Kubernetes service or deployment for the user-service.
     tags:
-      - virtualization-fault
-      - kubernetes
-      - port
-      - service-configuration
+      - Misconfiguration Failure
       - social-network
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -429,17 +388,15 @@ tasks:
   - id: liveness_probe_misconfiguration_astronomy_shop
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Misconfiguration Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where the liveness probe is misconfigured for the frontend service in the astronomy shop application.
       The fault manifests as pods being incorrectly terminated due to failing liveness probes, causing service unavailability.
       Inject the fault by misconfiguring the liveness probe parameters (path, port, or timeout) for the frontend service.
     tags:
-      - virtualization-fault
-      - liveness-probe
-      - health-check
-      - kubernetes
+      - Misconfiguration Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -447,17 +404,15 @@ tasks:
   - id: liveness_probe_misconfiguration_hotel_reservation
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Misconfiguration Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a fault where the liveness probe is misconfigured for the recommendation service in the hotel reservation application.
       The fault manifests as pods being incorrectly terminated due to failing liveness probes, causing service unavailability.
       Inject the fault by misconfiguring the liveness probe parameters (path, port, or timeout) for the recommendation service.
     tags:
-      - virtualization-fault
-      - liveness-probe
-      - health-check
-      - kubernetes
+      - Misconfiguration Failure
       - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -465,17 +420,15 @@ tasks:
   - id: liveness_probe_misconfiguration_social_network
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Misconfiguration Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on social-network.
       Simulate a fault where the liveness probe is misconfigured for the user-service in the social network application.
       The fault manifests as pods being incorrectly terminated due to failing liveness probes, causing service unavailability.
       Inject the fault by misconfiguring the liveness probe parameters (path, port, or timeout) for the user-service.
     tags:
-      - virtualization-fault
-      - liveness-probe
-      - health-check
-      - kubernetes
+      - Misconfiguration Failure
       - social-network
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -483,17 +436,15 @@ tasks:
   - id: liveness_probe_too_aggressive_astronomy_shop
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Cloud Management System Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where the liveness probe is too aggressive for services in the astronomy shop application.
       The fault manifests as pods being unnecessarily restarted due to overly sensitive liveness probe checks, causing service disruption.
       Inject the fault by configuring liveness probes with overly aggressive timeout or failure threshold settings.
     tags:
-      - virtualization-fault
-      - liveness-probe
-      - health-check
-      - kubernetes
+      - Cloud Management System Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -501,17 +452,15 @@ tasks:
   - id: liveness_probe_too_aggressive_hotel_reservation
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Cloud Management System Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a fault where the liveness probe is too aggressive for services in the hotel reservation application.
       The fault manifests as pods being unnecessarily restarted due to overly sensitive liveness probe checks, causing service disruption.
       Inject the fault by configuring liveness probes with overly aggressive timeout or failure threshold settings.
     tags:
-      - virtualization-fault
-      - liveness-probe
-      - health-check
-      - kubernetes
+      - Cloud Management System Failure
       - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -519,17 +468,15 @@ tasks:
   - id: liveness_probe_too_aggressive_social_network
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Cloud Management System Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on social-network.
       Simulate a fault where the liveness probe is too aggressive for services in the social network application.
       The fault manifests as pods being unnecessarily restarted due to overly sensitive liveness probe checks, causing service disruption.
       Inject the fault by configuring liveness probes with overly aggressive timeout or failure threshold settings.
     tags:
-      - virtualization-fault
-      - liveness-probe
-      - health-check
-      - kubernetes
+      - Cloud Management System Failure
       - social-network
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -537,17 +484,15 @@ tasks:
   - id: missing_configmap_hotel_reservation
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Cloud Management System Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a fault where the ConfigMap is missing for the mongodb-geo service in the hotel reservation application.
       The fault manifests as the service unable to access required configuration, causing startup or runtime failures.
       Inject the fault by deleting or failing to create the ConfigMap required by the mongodb-geo service.
     tags:
-      - virtualization-fault
-      - configmap
-      - configuration
-      - mongodb
+      - Cloud Management System Failure
       - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -555,17 +500,15 @@ tasks:
   - id: missing_configmap_social_network
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Cloud Management System Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on social-network.
       Simulate a fault where the ConfigMap is missing for the media-mongodb service in the social network application.
       The fault manifests as the service unable to access required configuration, causing startup or runtime failures.
       Inject the fault by deleting or failing to create the ConfigMap required by the media-mongodb service.
     tags:
-      - virtualization-fault
-      - configmap
-      - configuration
-      - mongodb
+      - Cloud Management System Failure
       - social-network
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -573,17 +516,15 @@ tasks:
   - id: missing_service_astronomy_shop
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Cloud Management System Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where the ad service is missing in the astronomy shop application.
       The fault manifests as service discovery failures and inability to communicate with the ad service.
       Inject the fault by deleting or failing to create the Kubernetes service for the ad service.
     tags:
-      - virtualization-fault
-      - service
-      - service-discovery
-      - kubernetes
+      - Cloud Management System Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -591,17 +532,15 @@ tasks:
   - id: missing_service_hotel_reservation
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Cloud Management System Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a fault where the mongodb-rate service is missing in the hotel reservation application.
       The fault manifests as service discovery failures and inability to communicate with the database service.
       Inject the fault by deleting or failing to create the Kubernetes service for the mongodb-rate service.
     tags:
-      - virtualization-fault
-      - service
-      - service-discovery
-      - mongodb
+      - Cloud Management System Failure
       - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -609,17 +548,15 @@ tasks:
   - id: missing_service_social_network
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Cloud Management System Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on social-network.
       Simulate a fault where the user-service is missing in the social network application.
       The fault manifests as service discovery failures and inability to communicate with the user service.
       Inject the fault by deleting or failing to create the Kubernetes service for the user-service.
     tags:
-      - virtualization-fault
-      - service
-      - service-discovery
-      - kubernetes
+      - Cloud Management System Failure
       - social-network
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -627,90 +564,79 @@ tasks:
   - id: namespace_memory_limit
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Cloud Management System Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a fault where namespace-level memory limits are set too restrictively.
       The fault manifests as pods being evicted or unable to start due to insufficient memory resources at the namespace level.
       Inject the fault by setting restrictive memory limits at the namespace ResourceQuota level.
     tags:
-      - virtualization-fault
-      - resource-quota
-      - memory
-      - namespace
-      - kubernetes
+      - Cloud Management System Failure
+      - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
 
   - id: pod_anti_affinity_deadlock
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Cloud Management System Failure
     difficulty: hard
-    instruction: |
+    description: |
+      The problem runs on social-network.
       Simulate a fault where pod anti-affinity rules create a scheduling deadlock.
       The fault manifests as pods unable to be scheduled due to conflicting anti-affinity constraints, preventing the application from starting.
       Inject the fault by configuring pod anti-affinity rules that create unresolvable scheduling constraints.
     tags:
-      - virtualization-fault
-      - pod-affinity
-      - scheduling
-      - deadlock
-      - kubernetes
+      - Cloud Management System Failure
+      - social-network
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
 
   - id: persistent_volume_affinity_violation
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Cloud Management System Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on social-network.
       Simulate a fault where persistent volume affinity constraints are violated.
       The fault manifests as pods unable to access their persistent volumes due to node affinity mismatches.
       Inject the fault by configuring persistent volumes with node affinity requirements that conflict with pod scheduling.
     tags:
-      - virtualization-fault
-      - persistent-volume
-      - node-affinity
-      - storage
-      - kubernetes
+      - Cloud Management System Failure
+      - social-network
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
 
   - id: pvc_claim_mismatch
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Cloud Management System Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a fault where PersistentVolumeClaim and PersistentVolume specifications do not match.
       The fault manifests as PVCs unable to bind to available PVs, causing pod startup failures.
       Inject the fault by creating PVCs with storage class, access mode, or size requirements that don't match available PVs.
     tags:
-      - virtualization-fault
-      - pvc
-      - persistent-volume
-      - storage
-      - kubernetes
+      - Cloud Management System Failure
+      - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
 
   - id: rbac_misconfiguration
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Cloud Management System Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where RBAC (Role-Based Access Control) is misconfigured for init containers in the astronomy shop application.
       The fault manifests as init containers unable to perform required operations due to insufficient permissions.
       Inject the fault by misconfiguring RBAC roles or role bindings for the init containers.
     tags:
-      - virtualization-fault
-      - rbac
-      - security
-      - init-container
-      - kubernetes
+      - Cloud Management System Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -718,17 +644,15 @@ tasks:
   - id: readiness_probe_misconfiguration_astronomy_shop
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Misconfiguration Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where the readiness probe is misconfigured for the frontend service in the astronomy shop application.
       The fault manifests as pods being incorrectly marked as not ready, causing them to be removed from service endpoints.
       Inject the fault by misconfiguring the readiness probe parameters (path, port, or timeout) for the frontend service.
     tags:
-      - virtualization-fault
-      - readiness-probe
-      - health-check
-      - kubernetes
+      - Misconfiguration Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -736,17 +660,15 @@ tasks:
   - id: readiness_probe_misconfiguration_hotel_reservation
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Misconfiguration Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a fault where the readiness probe is misconfigured for the frontend service in the hotel reservation application.
       The fault manifests as pods being incorrectly marked as not ready, causing them to be removed from service endpoints.
       Inject the fault by misconfiguring the readiness probe parameters (path, port, or timeout) for the frontend service.
     tags:
-      - virtualization-fault
-      - readiness-probe
-      - health-check
-      - kubernetes
+      - Misconfiguration Failure
       - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -754,17 +676,15 @@ tasks:
   - id: readiness_probe_misconfiguration_social_network
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Misconfiguration Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on social-network.
       Simulate a fault where the readiness probe is misconfigured for the user-service in the social network application.
       The fault manifests as pods being incorrectly marked as not ready, causing them to be removed from service endpoints.
       Inject the fault by misconfiguring the readiness probe parameters (path, port, or timeout) for the user-service.
     tags:
-      - virtualization-fault
-      - readiness-probe
-      - health-check
-      - kubernetes
+      - Misconfiguration Failure
       - social-network
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -772,17 +692,15 @@ tasks:
   - id: resource_request_too_large
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Cloud Management System Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a fault where resource requests are set too large for the mongodb-rate service in the hotel reservation application.
       The fault manifests as pods unable to be scheduled due to insufficient cluster resources, or resource starvation for other pods.
       Inject the fault by setting excessively large resource requests (CPU or memory) for the mongodb-rate service deployment.
     tags:
-      - virtualization-fault
-      - resource-request
-      - scheduling
-      - kubernetes
+      - Cloud Management System Failure
       - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -790,17 +708,15 @@ tasks:
   - id: resource_request_too_small
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Cloud Management System Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a fault where resource requests are set too small for the mongodb-rate service in the hotel reservation application.
       The fault manifests as pods being evicted due to resource pressure, or performance degradation due to insufficient allocated resources.
       Inject the fault by setting excessively small resource requests (CPU or memory) for the mongodb-rate service deployment.
     tags:
-      - virtualization-fault
-      - resource-request
-      - resource-pressure
-      - kubernetes
+      - Cloud Management System Failure
       - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -808,17 +724,15 @@ tasks:
   - id: rolling_update_misconfigured_hotel_reservation
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Misconfiguration Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a fault where rolling update strategy is misconfigured in the hotel reservation application.
       The fault manifests as deployment update failures, service disruptions during updates, or inability to roll back.
       Inject the fault by misconfiguring the rolling update parameters (maxSurge, maxUnavailable) or update strategy.
     tags:
-      - virtualization-fault
-      - rolling-update
-      - deployment-strategy
-      - kubernetes
+      - Misconfiguration Failure
       - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -826,17 +740,15 @@ tasks:
   - id: rolling_update_misconfigured_social_network
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Misconfiguration Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on social-network.
       Simulate a fault where rolling update strategy is misconfigured in the social network application.
       The fault manifests as deployment update failures, service disruptions during updates, or inability to roll back.
       Inject the fault by misconfiguring the rolling update parameters (maxSurge, maxUnavailable) or update strategy.
     tags:
-      - virtualization-fault
-      - rolling-update
-      - deployment-strategy
-      - kubernetes
+      - Misconfiguration Failure
       - social-network
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -844,17 +756,15 @@ tasks:
   - id: scale_pod_zero_social_net
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Cloud Management System Failure
     difficulty: easy
-    instruction: |
+    description: |
+      The problem runs on social-network.
       Simulate a fault where pods are scaled to zero in the social network application.
       The fault manifests as service unavailability due to no running pod instances.
       Inject the fault by scaling the deployment replica count to zero.
     tags:
-      - virtualization-fault
-      - scaling
-      - replica
-      - kubernetes
+      - Cloud Management System Failure
       - social-network
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -862,17 +772,15 @@ tasks:
   - id: service_dns_resolution_failure_astronomy_shop
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Network Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where DNS resolution fails for services in the astronomy shop application.
       The fault manifests as service-to-service communication failures due to inability to resolve service names to IP addresses.
       Inject the fault by disrupting DNS resolution mechanisms (CoreDNS, service DNS, etc.) for the frontend service.
     tags:
-      - virtualization-fault
-      - dns
-      - service-discovery
-      - network
+      - Network Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -880,17 +788,15 @@ tasks:
   - id: service_dns_resolution_failure_social_network
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Network Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on social-network.
       Simulate a fault where DNS resolution fails for services in the social network application.
       The fault manifests as service-to-service communication failures due to inability to resolve service names to IP addresses.
       Inject the fault by disrupting DNS resolution mechanisms (CoreDNS, service DNS, etc.) for the user-service.
     tags:
-      - virtualization-fault
-      - dns
-      - service-discovery
-      - network
+      - Network Failure
       - social-network
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -898,17 +804,15 @@ tasks:
   - id: sidecar_port_conflict_astronomy_shop
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Misconfiguration Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where sidecar containers have port conflicts with the main container in the frontend service of the astronomy shop application.
       The fault manifests as pod startup failures or port binding errors due to conflicting port assignments.
       Inject the fault by configuring sidecar containers with ports that conflict with the main application container ports.
     tags:
-      - virtualization-fault
-      - sidecar
-      - port-conflict
-      - container
+      - Misconfiguration Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -916,17 +820,15 @@ tasks:
   - id: sidecar_port_conflict_hotel_reservation
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Misconfiguration Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a fault where sidecar containers have port conflicts with the main container in the frontend service of the hotel reservation application.
       The fault manifests as pod startup failures or port binding errors due to conflicting port assignments.
       Inject the fault by configuring sidecar containers with ports that conflict with the main application container ports.
     tags:
-      - virtualization-fault
-      - sidecar
-      - port-conflict
-      - container
+      - Misconfiguration Failure
       - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -934,17 +836,15 @@ tasks:
   - id: sidecar_port_conflict_social_network
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Misconfiguration Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on social-network.
       Simulate a fault where sidecar containers have port conflicts with the main container in the user-service of the social network application.
       The fault manifests as pod startup failures or port binding errors due to conflicting port assignments.
       Inject the fault by configuring sidecar containers with ports that conflict with the main application container ports.
     tags:
-      - virtualization-fault
-      - sidecar
-      - port-conflict
-      - container
+      - Misconfiguration Failure
       - social-network
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -952,17 +852,15 @@ tasks:
   - id: stale_coredns_config_astronomy_shop
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Network Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where CoreDNS configuration becomes stale in the astronomy shop application.
       The fault manifests as DNS resolution failures or incorrect DNS responses due to outdated CoreDNS configuration.
       Inject the fault by preventing CoreDNS from updating its configuration or by introducing stale DNS records.
     tags:
-      - virtualization-fault
-      - coredns
-      - dns
-      - configuration
+      - Network Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -970,17 +868,15 @@ tasks:
   - id: stale_coredns_config_social_network
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Network Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on social-network.
       Simulate a fault where CoreDNS configuration becomes stale in the social network application.
       The fault manifests as DNS resolution failures or incorrect DNS responses due to outdated CoreDNS configuration.
       Inject the fault by preventing CoreDNS from updating its configuration or by introducing stale DNS records.
     tags:
-      - virtualization-fault
-      - coredns
-      - dns
-      - configuration
+      - Network Failure
       - social-network
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -988,18 +884,15 @@ tasks:
   - id: taint_no_toleration_social_network
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Cloud Management System Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on social-network.
       Simulate a fault where nodes are tainted but pods lack corresponding tolerations in the social network application.
       The fault manifests as pods unable to be scheduled on tainted nodes, causing service unavailability.
       Inject the fault by adding taints to nodes without configuring corresponding tolerations in pod specifications.
     tags:
-      - virtualization-fault
-      - taint
-      - toleration
-      - node
-      - scheduling
+      - Cloud Management System Failure
       - social-network
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -1007,34 +900,31 @@ tasks:
   - id: wrong_bin_usage
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: System/Application Software Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a fault where the wrong binary or executable is used in a container.
       The fault manifests as application startup failures or incorrect behavior due to executing the wrong binary.
       Inject the fault by modifying the container command or entrypoint to use an incorrect binary path.
     tags:
-      - virtualization-fault
-      - binary
-      - container
-      - executable
+      - System/Application Software Failure
+      - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
 
   - id: wrong_dns_policy_astronomy_shop
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Network Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where the DNS policy is incorrectly configured for the frontend service in the astronomy shop application.
       The fault manifests as DNS resolution failures or incorrect DNS behavior due to wrong DNS policy settings.
       Inject the fault by setting an incorrect dnsPolicy (e.g., Default instead of ClusterFirst) for the frontend service pods.
     tags:
-      - virtualization-fault
-      - dns-policy
-      - dns
-      - kubernetes
+      - Network Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -1042,17 +932,15 @@ tasks:
   - id: wrong_dns_policy_hotel_reservation
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Network Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a fault where the DNS policy is incorrectly configured for the profile service in the hotel reservation application.
       The fault manifests as DNS resolution failures or incorrect DNS behavior due to wrong DNS policy settings.
       Inject the fault by setting an incorrect dnsPolicy (e.g., Default instead of ClusterFirst) for the profile service pods.
     tags:
-      - virtualization-fault
-      - dns-policy
-      - dns
-      - kubernetes
+      - Network Failure
       - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -1060,17 +948,15 @@ tasks:
   - id: wrong_dns_policy_social_network
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Network Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on social-network.
       Simulate a fault where the DNS policy is incorrectly configured for the user-service in the social network application.
       The fault manifests as DNS resolution failures or incorrect DNS behavior due to wrong DNS policy settings.
       Inject the fault by setting an incorrect dnsPolicy (e.g., Default instead of ClusterFirst) for the user-service pods.
     tags:
-      - virtualization-fault
-      - dns-policy
-      - dns
-      - kubernetes
+      - Network Failure
       - social-network
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -1078,17 +964,15 @@ tasks:
   - id: wrong_service_selector_astronomy_shop
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Misconfiguration Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where the service selector is incorrectly configured for the frontend service in the astronomy shop application.
       The fault manifests as service endpoints being empty or incorrect, causing service connectivity failures.
       Inject the fault by configuring the Kubernetes service with selector labels that don't match the pod labels.
     tags:
-      - virtualization-fault
-      - service-selector
-      - service-discovery
-      - kubernetes
+      - Misconfiguration Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -1096,17 +980,15 @@ tasks:
   - id: wrong_service_selector_hotel_reservation
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Misconfiguration Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a fault where the service selector is incorrectly configured for the frontend service in the hotel reservation application.
       The fault manifests as service endpoints being empty or incorrect, causing service connectivity failures.
       Inject the fault by configuring the Kubernetes service with selector labels that don't match the pod labels.
     tags:
-      - virtualization-fault
-      - service-selector
-      - service-discovery
-      - kubernetes
+      - Misconfiguration Failure
       - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -1114,17 +996,15 @@ tasks:
   - id: wrong_service_selector_social_network
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: Misconfiguration Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on social-network.
       Simulate a fault where the service selector is incorrectly configured for the user-service in the social network application.
       The fault manifests as service endpoints being empty or incorrect, causing service connectivity failures.
       Inject the fault by configuring the Kubernetes service with selector labels that don't match the pod labels.
     tags:
-      - virtualization-fault
-      - service-selector
-      - service-discovery
-      - kubernetes
+      - Misconfiguration Failure
       - social-network
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -1133,16 +1013,15 @@ tasks:
   - id: astronomy_shop_ad_service_failure
     author_email: author@example.com
     author_name: Example Author
-    category: opentelemetry-fault
+    category: System/Application Software Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where the ad service fails in the astronomy shop application using OpenTelemetry fault injection.
       The fault manifests as the ad service returning errors or becoming unavailable, affecting the user experience.
       Inject the fault by enabling the adFailure feature flag in the OpenTelemetry demo application.
     tags:
-      - opentelemetry
-      - fault-injection
-      - service-failure
+      - System/Application Software Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -1150,17 +1029,15 @@ tasks:
   - id: astronomy_shop_ad_service_high_cpu
     author_email: author@example.com
     author_name: Example Author
-    category: opentelemetry-fault
+    category: System/Application Software Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where the ad service experiences high CPU usage in the astronomy shop application.
       The fault manifests as performance degradation in the ad service due to excessive CPU consumption.
       Inject the fault by enabling the adHighCpu feature flag in the OpenTelemetry demo application.
     tags:
-      - opentelemetry
-      - fault-injection
-      - cpu
-      - performance
+      - System/Application Software Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -1168,17 +1045,15 @@ tasks:
   - id: astronomy_shop_ad_service_manual_gc
     author_email: author@example.com
     author_name: Example Author
-    category: opentelemetry-fault
+    category: System/Application Software Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where manual garbage collection is triggered for the ad service in the astronomy shop application.
       The fault manifests as service pauses or performance degradation due to manual GC triggering.
       Inject the fault by enabling manual GC feature flag in the OpenTelemetry demo application for the ad service.
     tags:
-      - opentelemetry
-      - fault-injection
-      - garbage-collection
-      - performance
+      - System/Application Software Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -1186,16 +1061,15 @@ tasks:
   - id: astronomy_shop_cart_service_failure
     author_email: author@example.com
     author_name: Example Author
-    category: opentelemetry-fault
+    category: System/Application Software Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where the cart service fails in the astronomy shop application using OpenTelemetry fault injection.
       The fault manifests as the cart service returning errors or becoming unavailable, preventing users from managing their shopping cart.
       Inject the fault by enabling the cart service failure feature flag in the OpenTelemetry demo application.
     tags:
-      - opentelemetry
-      - fault-injection
-      - service-failure
+      - System/Application Software Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -1203,17 +1077,15 @@ tasks:
   - id: astronomy_shop_ad_service_image_slow_load
     author_email: author@example.com
     author_name: Example Author
-    category: opentelemetry-fault
+    category: System/Application Software Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where the ad service experiences slow image loading in the astronomy shop application.
       The fault manifests as slow loading times for advertisement images, affecting user experience.
       Inject the fault by enabling slow image loading feature flag in the OpenTelemetry demo application for the ad service.
     tags:
-      - opentelemetry
-      - fault-injection
-      - performance
-      - image-loading
+      - System/Application Software Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -1221,17 +1093,15 @@ tasks:
   - id: astronomy_shop_payment_service_failure
     author_email: author@example.com
     author_name: Example Author
-    category: opentelemetry-fault
+    category: System/Application Software Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where the payment service fails in the astronomy shop application using OpenTelemetry fault injection.
       The fault manifests as the payment service returning errors or becoming unavailable, preventing users from completing purchases.
       Inject the fault by enabling the paymentFailure feature flag in the OpenTelemetry demo application.
     tags:
-      - opentelemetry
-      - fault-injection
-      - service-failure
-      - payment
+      - System/Application Software Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -1239,17 +1109,15 @@ tasks:
   - id: astronomy_shop_payment_service_unreachable
     author_email: author@example.com
     author_name: Example Author
-    category: opentelemetry-fault
+    category: System/Application Software Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where the payment service becomes unreachable in the astronomy shop application.
       The fault manifests as network connectivity failures when trying to reach the payment service.
       Inject the fault by enabling the payment service unreachable feature flag in the OpenTelemetry demo application.
     tags:
-      - opentelemetry
-      - fault-injection
-      - network
-      - service-unreachable
+      - System/Application Software Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -1257,17 +1125,15 @@ tasks:
   - id: astronomy_shop_product_catalog_service_failure
     author_email: author@example.com
     author_name: Example Author
-    category: opentelemetry-fault
+    category: System/Application Software Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where the product catalog service fails in the astronomy shop application using OpenTelemetry fault injection.
       The fault manifests as the product catalog service returning errors, preventing users from viewing products.
       Inject the fault by enabling the product catalog service failure feature flag in the OpenTelemetry demo application.
     tags:
-      - opentelemetry
-      - fault-injection
-      - service-failure
-      - product-catalog
+      - System/Application Software Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -1275,53 +1141,48 @@ tasks:
   - id: astronomy_shop_recommendation_service_cache_failure
     author_email: author@example.com
     author_name: Example Author
-    category: opentelemetry-fault
+    category: System/Application Software Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where the recommendation service cache fails in the astronomy shop application.
       The fault manifests as cache failures in the recommendation service, causing performance degradation or incorrect recommendations.
       Inject the fault by enabling the recommendation cache failure feature flag in the OpenTelemetry demo application.
     tags:
-      - opentelemetry
-      - fault-injection
-      - cache
-      - recommendation
+      - System/Application Software Failure
       - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
 
-  - id: kafka_queue_problems_hotel_reservation
+  - id: kafka_queue_problems
     author_email: author@example.com
     author_name: Example Author
-    category: opentelemetry-fault
+    category: System/Application Software Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where Kafka queue problems occur in the hotel reservation application.
       The fault manifests as message queue failures, causing message processing delays or failures.
       Inject the fault by enabling kafkaQueueProblems feature flag in the OpenTelemetry demo application for the memcached-rate service.
     tags:
-      - opentelemetry
-      - fault-injection
-      - kafka
-      - message-queue
-      - hotel-reservation
+      - System/Application Software Failure
+      - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
 
   - id: loadgenerator_flood_homepage
     author_email: author@example.com
     author_name: Example Author
-    category: opentelemetry-fault
+    category: System/Application Software Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where the load generator floods the homepage with excessive requests.
       The fault manifests as overwhelming traffic to the homepage, potentially causing service degradation or failures.
       Inject the fault by configuring the load generator to flood the homepage endpoint with excessive requests.
     tags:
-      - opentelemetry
-      - fault-injection
-      - load-generator
-      - traffic-flood
+      - System/Application Software Failure
+      - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
 
@@ -1329,34 +1190,32 @@ tasks:
   - id: trainticket_f17_nested_sql_select_clause_error
     author_email: author@example.com
     author_name: Example Author
-    category: train-ticket-fault
+    category: System/Application Software Failure
     difficulty: hard
-    instruction: |
+    description: |
+      The problem runs on train-ticket.
       Simulate a fault where a nested SQL SELECT clause error occurs in the ts-voucher-service of the train ticket application.
       The fault manifests as SQL query errors due to incorrect nested SELECT clause syntax, causing database operation failures.
       Inject the fault by modifying SQL queries in the ts-voucher-service to include incorrect nested SELECT clause syntax.
     tags:
+      - System/Application Software Failure
       - train-ticket
-      - sql
-      - database
-      - query-error
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
 
   - id: trainticket_f22_sql_column_name_mismatch_error
     author_email: author@example.com
     author_name: Example Author
-    category: train-ticket-fault
+    category: System/Application Software Failure
     difficulty: hard
-    instruction: |
+    description: |
+      The problem runs on train-ticket.
       Simulate a fault where a SQL column name mismatch error occurs in the ts-contacts-service of the train ticket application.
       The fault manifests as SQL query errors due to referencing non-existent column names, causing database operation failures.
       Inject the fault by modifying SQL queries in the ts-contacts-service to reference incorrect column names.
     tags:
+      - System/Application Software Failure
       - train-ticket
-      - sql
-      - database
-      - column-mismatch
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
 
@@ -1364,17 +1223,16 @@ tasks:
   - id: read_error
     author_email: author@example.com
     author_name: Example Author
-    category: hardware-fault
+    category: Hardware Component Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a hardware fault where read errors occur in storage devices.
       The fault manifests as I/O read failures when accessing storage, causing application errors or data access failures.
       Inject the fault by introducing hardware-level read errors in storage devices.
     tags:
-      - hardware-fault
-      - storage
-      - io-error
-      - read-error
+      - Hardware Component Failure
+      - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
 
@@ -1382,16 +1240,15 @@ tasks:
   - id: ingress_misroute
     author_email: author@example.com
     author_name: Example Author
-    category: kubernetes-api
+    category: Network Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a fault where Ingress routing is misconfigured in the hotel reservation application.
       The fault manifests as HTTP requests to /api being routed to the wrong backend service (recommendation-service instead of frontend-service).
       Inject the fault by modifying the Ingress resource to route /api path to the incorrect backend service.
     tags:
-      - kubernetes
-      - ingress
-      - routing
+      - Network Failure
       - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -1399,16 +1256,15 @@ tasks:
   - id: network_policy_block
     author_email: author@example.com
     author_name: Example Author
-    category: kubernetes-api
+    category: Network Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on hotel-reservation.
       Simulate a fault where NetworkPolicy blocks all traffic to the payment-service in the hotel reservation application.
       The fault manifests as complete network isolation of the payment-service, preventing any ingress or egress traffic.
       Inject the fault by creating a NetworkPolicy that blocks all traffic (empty ingress and egress rules) for the payment-service pods.
     tags:
-      - kubernetes
-      - network-policy
-      - network-isolation
+      - Network Failure
       - hotel-reservation
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
@@ -1417,18 +1273,18 @@ tasks:
   - id: social_net_hotel_res_astro_shop_concurrent_failures
     author_email: author@example.com
     author_name: Example Author
-    category: multiple-failures
+    category: Multiple Independent Failures
     difficulty: hard
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop, hotel-reservation, social-network.
       Simulate multiple concurrent independent failures across different applications.
       The fault manifests as three simultaneous failures: (1) K8S target port misconfiguration in user-service of social network, (2) MongoDB auth revocation in mongodb-geo of hotel reservation, and (3) wrong service selector in astronomy shop.
       Inject the fault by simultaneously applying all three fault configurations across the different applications.
     tags:
-      - multiple-failures
-      - concurrent
-      - kubernetes
-      - mongodb
-      - service-configuration
+      - Multiple Independent Failures
+      - astronomy-shop
+      - hotel-reservation
+      - social-network
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
 
@@ -1436,33 +1292,32 @@ tasks:
   - id: kubelet_crash
     author_email: author@example.com
     author_name: Example Author
-    category: infrastructure-fault
+    category: Correlated Failure
     difficulty: hard
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where the kubelet daemon crashes on nodes in the cluster.
       The fault manifests as nodes becoming unresponsive, pods unable to be scheduled or restarted, and service unavailability.
       Inject the fault by crashing the kubelet daemon process on cluster nodes, then triggering pod rollouts to expose the failure.
     tags:
-      - infrastructure
-      - kubelet
-      - node-failure
-      - cluster
+      - Correlated Failure
+      - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
 
   - id: workload_imbalance
     author_email: author@example.com
     author_name: Example Author
-    category: virtualization-fault
+    category: System/Application Software Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on astronomy-shop.
       Simulate a fault where workload is imbalanced across pods or nodes in the cluster.
       The fault manifests as uneven distribution of load, causing some pods to be overloaded while others are underutilized.
       Inject the fault by configuring improper load balancing or resource distribution mechanisms.
     tags:
-      - virtualization-fault
-      - workload-balance
-      - load-distribution
+      - System/Application Software Failure
+      - astronomy-shop
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
 
@@ -1470,88 +1325,80 @@ tasks:
   - id: operator_overload_replicas
     author_email: author@example.com
     author_name: Example Author
-    category: operator-fault
+    category: Cloud Management System Failure
     difficulty: hard
-    instruction: |
+    description: |
+      The problem runs on fleet-cast.
       Simulate a fault where a Kubernetes operator misconfigures replicas to an extremely high number (overload) in the TiDB cluster.
       The fault manifests as the operator requesting an excessive number of replicas (e.g., 100,000), causing cluster unhealthiness and only a few pods to be created successfully.
       Inject the fault by modifying the operator configuration to set replica count to an unreasonably high value.
     tags:
-      - operator
-      - kubernetes-operator
-      - replica
-      - tidb
-      - misoperation
+      - Cloud Management System Failure
+      - fleet-cast
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
 
   - id: operator_non_existent_storage
     author_email: author@example.com
     author_name: Example Author
-    category: operator-fault
+    category: Cloud Management System Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on fleet-cast.
       Simulate a fault where a Kubernetes operator references non-existent storage resources.
       The fault manifests as pods unable to start or mount volumes due to referencing storage that doesn't exist.
       Inject the fault by configuring the operator to reference non-existent storage classes or persistent volumes.
     tags:
-      - operator
-      - kubernetes-operator
-      - storage
-      - misoperation
+      - Cloud Management System Failure
+      - fleet-cast
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
 
   - id: operator_invalid_affinity_toleration
     author_email: author@example.com
     author_name: Example Author
-    category: operator-fault
+    category: Misconfiguration Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on fleet-cast.
       Simulate a fault where a Kubernetes operator configures invalid affinity or toleration rules.
       The fault manifests as pods unable to be scheduled due to conflicting or invalid affinity/toleration constraints.
       Inject the fault by configuring the operator with invalid pod affinity or toleration settings.
     tags:
-      - operator
-      - kubernetes-operator
-      - affinity
-      - toleration
-      - misoperation
+      - Misconfiguration Failure
+      - fleet-cast
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
 
   - id: operator_security_context_fault
     author_email: author@example.com
     author_name: Example Author
-    category: operator-fault
+    category: Misconfiguration Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on fleet-cast.
       Simulate a fault where a Kubernetes operator misconfigures security context settings.
       The fault manifests as pods unable to start or having incorrect security permissions due to misconfigured security contexts.
       Inject the fault by configuring the operator with incorrect security context settings (e.g., wrong user IDs, capabilities, or permissions).
     tags:
-      - operator
-      - kubernetes-operator
-      - security-context
-      - misoperation
+      - Misconfiguration Failure
+      - fleet-cast
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
 
   - id: operator_wrong_update_strategy_fault
     author_email: author@example.com
     author_name: Example Author
-    category: operator-fault
+    category: Misconfiguration Failure
     difficulty: medium
-    instruction: |
+    description: |
+      The problem runs on fleet-cast.
       Simulate a fault where a Kubernetes operator uses the wrong update strategy for deployments.
       The fault manifests as deployment updates failing, service disruptions, or inability to roll back due to incorrect update strategy configuration.
       Inject the fault by configuring the operator to use an inappropriate update strategy for the application workload.
     tags:
-      - operator
-      - kubernetes-operator
-      - update-strategy
-      - deployment
-      - misoperation
+      - Misconfiguration Failure
+      - fleet-cast
     github_url: https://github.com/example/problem-repertoire.git
     include_in_launch: true
 
