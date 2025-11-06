@@ -16,7 +16,6 @@ import { TaskDemo } from "./components/task-demo";
 import { TaskHeader } from "./components/task-header";
 import { TaskInstruction } from "./components/task-instruction";
 import { TaskTags } from "./components/task-tags";
-import { TaskUsage } from "./components/task-usage";
 
 type PageProps = {
   params: Promise<{
@@ -69,11 +68,6 @@ export default async function Task({ params }: PageProps) {
           difficulty={task.difficulty}
           dataset_name={task.dataset_name}
           dataset_version={task.dataset_version}
-        />
-        <TaskUsage
-          taskId={id}
-          datasetName={task.dataset_name}
-          datasetVersion={task.dataset_version}
         />
         {task.demo_url && <TaskDemo demoUrl={task.demo_url} />}
         <TaskInstruction
