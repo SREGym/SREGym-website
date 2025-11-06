@@ -11,13 +11,13 @@ import "./global.css";
 export const metadata: Metadata = {
   title: "SREGym",
   metadataBase: new URL("https://www.sregym.ai"),
-  description: "A benchmark for terminal agents",
+  description: "An AI-Native Platform for Benchmarking SRE Agents",
   icons: {
     icon: "/logov2.jpg",
   },
   openGraph: {
     title: "SREGym",
-    description: "A benchmark for terminal agents",
+    description: "An AI-Native Platform for Benchmarking SRE Agents",
     images: "/og/ascii-logo-dark-1200x630.png",
     url: "https://www.sregym.ai",
     siteName: "SREGym",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "SREGym",
-    description: "A benchmark for terminal agents",
+    description: "An AI-Native Platform for Benchmarking SRE Agents",
     images: [
       {
         url: "/og/ascii-logo-dark-1200x630.png",
