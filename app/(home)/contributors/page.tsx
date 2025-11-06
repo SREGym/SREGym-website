@@ -7,7 +7,7 @@ const CONTRIBUTORS = [
   { name: "Lily Gniedziejko", link: "./contributors", role: "Watchee" },
   { name: "Saad Mohammad Rafid Pial", link: "./contributors", role: "Watchee" },
   { name: "Yiming Su", link: "./contributors", role: "Watchee" },
-  { name: "Tianyin Xu", link: "./contributors", role: "Watcher" },
+  { name: "Tianyin Xu", link: "./contributors", role: "Watchman" },
 ];
 
 export default function TeamPage() {
