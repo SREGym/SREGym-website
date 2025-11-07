@@ -2,7 +2,6 @@
     "pages": [
         "---SREGym---",
         "index",
-        "---Getting Started---",
         "installation",
         "cluster-setup",
         "quick-start",
