@@ -17,7 +17,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Correlated Failure
-    difficulty: hard
     description: |
       The problem runs on hotel-reservation.
       Simulate a correlated fault where multiple services in the hotel reservation application are deployed with incorrect Docker images.
@@ -33,7 +32,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Correlated Failure
-    difficulty: hard
     description: |
       The problem runs on hotel-reservation.
       Simulate a correlated fault where multiple MongoDB services are updated to an incompatible version.
@@ -50,7 +48,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: System/Application Software Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the product-catalog service in the astronomy shop application is deployed with an incorrect Docker image.
@@ -66,7 +63,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Misconfiguration Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the checkout service in the astronomy shop application uses an incorrect port assignment for the PRODUCT_CATALOG_ADDR environment variable.
@@ -82,7 +78,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: System/Application Software Failure
-    difficulty: medium
     description: |
       The problem runs on hotel-reservation.
       Simulate an application misconfiguration fault in the geo service of the hotel reservation application.
@@ -98,7 +93,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Misconfiguration Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the frontend service in the astronomy shop application is missing a required environment variable.
@@ -114,7 +108,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Security Failure
-    difficulty: hard
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where authentication is revoked for the mongodb-geo service in the hotel reservation application.
@@ -130,7 +123,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Security Failure
-    difficulty: hard
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where authentication is revoked for the mongodb-rate service in the hotel reservation application.
@@ -146,7 +138,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Security Failure
-    difficulty: hard
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where the storage user for mongodb-geo service becomes unregistered in the hotel reservation application.
@@ -162,7 +153,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Security Failure
-    difficulty: hard
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where the storage user for mongodb-rate service becomes unregistered in the hotel reservation application.
@@ -178,7 +168,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Security Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where authentication is disrupted for the valkey-cart service in the astronomy shop application.
@@ -194,7 +183,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Database Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where memory is disrupted for Valkey services in the astronomy shop application.
@@ -212,7 +200,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Metastable Failure
-    difficulty: hard
     description: |
       The problem runs on hotel-reservation.
       Simulate a metastable failure where RPC retry storms occur due to capacity decrease in the hotel reservation application.
@@ -228,7 +215,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Metastable Failure
-    difficulty: hard
     description: |
       The problem runs on hotel-reservation.
       Simulate a metastable failure where garbage collection causes capacity degradation in the application.
@@ -244,7 +230,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Metastable Failure
-    difficulty: hard
     description: |
       The problem runs on hotel-reservation.
       Simulate a metastable failure where RPC retry storms occur due to load spikes in the application.
@@ -261,7 +246,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Cloud Management System Failure
-    difficulty: medium
     description: |
       The problem runs on social-network.
       Simulate a fault where pods are assigned to non-existent nodes in the Kubernetes cluster.
@@ -277,7 +261,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Security Failure
-    difficulty: medium
     description: |
       The problem runs on social-network.
       Simulate a fault where MongoDB authentication is missing in the application.
@@ -293,7 +276,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Misconfiguration Failure
-    difficulty: medium
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where ConfigMap drift occurs in the geo service of the hotel reservation application.
@@ -309,7 +291,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Cloud Management System Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where duplicate PVC mounts are configured for the frontend service in the astronomy shop application.
@@ -325,7 +306,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Cloud Management System Failure
-    difficulty: medium
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where duplicate PVC mounts are configured for the frontend service in the hotel reservation application.
@@ -341,7 +321,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Cloud Management System Failure
-    difficulty: medium
     description: |
       The problem runs on social-network.
       Simulate a fault where duplicate PVC mounts are configured for the jaeger service in the social network application.
@@ -357,7 +336,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Misconfiguration Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where environment variable shadowing occurs in the frontend-proxy service of the astronomy shop application.
@@ -373,7 +351,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Misconfiguration Failure
-    difficulty: medium
     description: |
       The problem runs on social-network.
       Simulate a Kubernetes misconfiguration fault where the target port is incorrectly configured for the user-service in the social network application.
@@ -389,7 +366,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Misconfiguration Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the liveness probe is misconfigured for the frontend service in the astronomy shop application.
@@ -405,7 +381,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Misconfiguration Failure
-    difficulty: medium
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where the liveness probe is misconfigured for the recommendation service in the hotel reservation application.
@@ -421,7 +396,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Misconfiguration Failure
-    difficulty: medium
     description: |
       The problem runs on social-network.
       Simulate a fault where the liveness probe is misconfigured for the user-service in the social network application.
@@ -437,7 +411,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Cloud Management System Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the liveness probe is too aggressive for services in the astronomy shop application.
@@ -453,7 +426,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Cloud Management System Failure
-    difficulty: medium
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where the liveness probe is too aggressive for services in the hotel reservation application.
@@ -469,7 +441,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Cloud Management System Failure
-    difficulty: medium
     description: |
       The problem runs on social-network.
       Simulate a fault where the liveness probe is too aggressive for services in the social network application.
@@ -485,7 +456,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Cloud Management System Failure
-    difficulty: medium
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where the ConfigMap is missing for the mongodb-geo service in the hotel reservation application.
@@ -501,7 +471,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Cloud Management System Failure
-    difficulty: medium
     description: |
       The problem runs on social-network.
       Simulate a fault where the ConfigMap is missing for the media-mongodb service in the social network application.
@@ -517,7 +486,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Cloud Management System Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the ad service is missing in the astronomy shop application.
@@ -533,7 +501,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Cloud Management System Failure
-    difficulty: medium
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where the mongodb-rate service is missing in the hotel reservation application.
@@ -549,7 +516,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Cloud Management System Failure
-    difficulty: medium
     description: |
       The problem runs on social-network.
       Simulate a fault where the user-service is missing in the social network application.
@@ -565,7 +531,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Cloud Management System Failure
-    difficulty: medium
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where namespace-level memory limits are set too restrictively.
@@ -581,7 +546,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Cloud Management System Failure
-    difficulty: hard
     description: |
       The problem runs on social-network.
       Simulate a fault where pod anti-affinity rules create a scheduling deadlock.
@@ -597,7 +561,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Cloud Management System Failure
-    difficulty: medium
     description: |
       The problem runs on social-network.
       Simulate a fault where persistent volume affinity constraints are violated.
@@ -613,7 +576,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Cloud Management System Failure
-    difficulty: medium
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where PersistentVolumeClaim and PersistentVolume specifications do not match.
@@ -629,7 +591,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Cloud Management System Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where RBAC (Role-Based Access Control) is misconfigured for init containers in the astronomy shop application.
@@ -645,7 +606,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Misconfiguration Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the readiness probe is misconfigured for the frontend service in the astronomy shop application.
@@ -661,7 +621,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Misconfiguration Failure
-    difficulty: medium
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where the readiness probe is misconfigured for the frontend service in the hotel reservation application.
@@ -677,7 +636,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Misconfiguration Failure
-    difficulty: medium
     description: |
       The problem runs on social-network.
       Simulate a fault where the readiness probe is misconfigured for the user-service in the social network application.
@@ -693,7 +651,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Cloud Management System Failure
-    difficulty: medium
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where resource requests are set too large for the mongodb-rate service in the hotel reservation application.
@@ -709,7 +666,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Cloud Management System Failure
-    difficulty: medium
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where resource requests are set too small for the mongodb-rate service in the hotel reservation application.
@@ -725,7 +681,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Misconfiguration Failure
-    difficulty: medium
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where rolling update strategy is misconfigured in the hotel reservation application.
@@ -741,7 +696,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Misconfiguration Failure
-    difficulty: medium
     description: |
       The problem runs on social-network.
       Simulate a fault where rolling update strategy is misconfigured in the social network application.
@@ -757,7 +711,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Cloud Management System Failure
-    difficulty: easy
     description: |
       The problem runs on social-network.
       Simulate a fault where pods are scaled to zero in the social network application.
@@ -773,7 +726,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Network Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where DNS resolution fails for services in the astronomy shop application.
@@ -789,7 +741,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Network Failure
-    difficulty: medium
     description: |
       The problem runs on social-network.
       Simulate a fault where DNS resolution fails for services in the social network application.
@@ -805,7 +756,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Misconfiguration Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where sidecar containers have port conflicts with the main container in the frontend service of the astronomy shop application.
@@ -821,7 +771,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Misconfiguration Failure
-    difficulty: medium
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where sidecar containers have port conflicts with the main container in the frontend service of the hotel reservation application.
@@ -837,7 +786,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Misconfiguration Failure
-    difficulty: medium
     description: |
       The problem runs on social-network.
       Simulate a fault where sidecar containers have port conflicts with the main container in the user-service of the social network application.
@@ -853,7 +801,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Network Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where CoreDNS configuration becomes stale in the astronomy shop application.
@@ -869,7 +816,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Network Failure
-    difficulty: medium
     description: |
       The problem runs on social-network.
       Simulate a fault where CoreDNS configuration becomes stale in the social network application.
@@ -885,7 +831,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Cloud Management System Failure
-    difficulty: medium
     description: |
       The problem runs on social-network.
       Simulate a fault where nodes are tainted but pods lack corresponding tolerations in the social network application.
@@ -901,7 +846,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: System/Application Software Failure
-    difficulty: medium
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where the wrong binary or executable is used in a container.
@@ -917,7 +861,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Network Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the DNS policy is incorrectly configured for the frontend service in the astronomy shop application.
@@ -933,7 +876,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Network Failure
-    difficulty: medium
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where the DNS policy is incorrectly configured for the profile service in the hotel reservation application.
@@ -949,7 +891,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Network Failure
-    difficulty: medium
     description: |
       The problem runs on social-network.
       Simulate a fault where the DNS policy is incorrectly configured for the user-service in the social network application.
@@ -965,7 +906,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Misconfiguration Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the service selector is incorrectly configured for the frontend service in the astronomy shop application.
@@ -981,7 +921,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Misconfiguration Failure
-    difficulty: medium
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where the service selector is incorrectly configured for the frontend service in the hotel reservation application.
@@ -997,7 +936,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Misconfiguration Failure
-    difficulty: medium
     description: |
       The problem runs on social-network.
       Simulate a fault where the service selector is incorrectly configured for the user-service in the social network application.
@@ -1014,7 +952,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: System/Application Software Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the ad service fails in the astronomy shop application using OpenTelemetry fault injection.
@@ -1030,7 +967,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: System/Application Software Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the ad service experiences high CPU usage in the astronomy shop application.
@@ -1046,7 +982,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: System/Application Software Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where manual garbage collection is triggered for the ad service in the astronomy shop application.
@@ -1062,7 +997,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: System/Application Software Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the cart service fails in the astronomy shop application using OpenTelemetry fault injection.
@@ -1078,7 +1012,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: System/Application Software Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the ad service experiences slow image loading in the astronomy shop application.
@@ -1094,7 +1027,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: System/Application Software Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the payment service fails in the astronomy shop application using OpenTelemetry fault injection.
@@ -1110,7 +1042,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: System/Application Software Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the payment service becomes unreachable in the astronomy shop application.
@@ -1126,7 +1057,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: System/Application Software Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the product catalog service fails in the astronomy shop application using OpenTelemetry fault injection.
@@ -1142,7 +1072,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: System/Application Software Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the recommendation service cache fails in the astronomy shop application.
@@ -1158,7 +1087,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: System/Application Software Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where Kafka queue problems occur in the hotel reservation application.
@@ -1174,7 +1102,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: System/Application Software Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the load generator floods the homepage with excessive requests.
@@ -1191,7 +1118,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: System/Application Software Failure
-    difficulty: hard
     description: |
       The problem runs on train-ticket.
       Simulate a fault where a nested SQL SELECT clause error occurs in the ts-voucher-service of the train ticket application.
@@ -1207,7 +1133,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: System/Application Software Failure
-    difficulty: hard
     description: |
       The problem runs on train-ticket.
       Simulate a fault where a SQL column name mismatch error occurs in the ts-contacts-service of the train ticket application.
@@ -1224,7 +1149,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Hardware Component Failure
-    difficulty: medium
     description: |
       The problem runs on hotel-reservation.
       Simulate a hardware fault where read errors occur in storage devices.
@@ -1241,7 +1165,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Network Failure
-    difficulty: medium
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where Ingress routing is misconfigured in the hotel reservation application.
@@ -1257,7 +1180,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Network Failure
-    difficulty: medium
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where NetworkPolicy blocks all traffic to the payment-service in the hotel reservation application.
@@ -1274,7 +1196,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Multiple Independent Failures
-    difficulty: hard
     description: |
       The problem runs on astronomy-shop, hotel-reservation, social-network.
       Simulate multiple concurrent independent failures across different applications.
@@ -1293,7 +1214,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Correlated Failure
-    difficulty: hard
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the kubelet daemon crashes on nodes in the cluster.
@@ -1309,7 +1229,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: System/Application Software Failure
-    difficulty: medium
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where workload is imbalanced across pods or nodes in the cluster.
@@ -1326,7 +1245,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Cloud Management System Failure
-    difficulty: hard
     description: |
       The problem runs on fleet-cast.
       Simulate a fault where a Kubernetes operator misconfigures replicas to an extremely high number (overload) in the TiDB cluster.
@@ -1342,7 +1260,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Cloud Management System Failure
-    difficulty: medium
     description: |
       The problem runs on fleet-cast.
       Simulate a fault where a Kubernetes operator references non-existent storage resources.
@@ -1358,7 +1275,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Misconfiguration Failure
-    difficulty: medium
     description: |
       The problem runs on fleet-cast.
       Simulate a fault where a Kubernetes operator configures invalid affinity or toleration rules.
@@ -1374,7 +1290,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Misconfiguration Failure
-    difficulty: medium
     description: |
       The problem runs on fleet-cast.
       Simulate a fault where a Kubernetes operator misconfigures security context settings.
@@ -1390,7 +1305,6 @@ tasks:
     author_email: author@example.com
     author_name: Example Author
     category: Misconfiguration Failure
-    difficulty: medium
     description: |
       The problem runs on fleet-cast.
       Simulate a fault where a Kubernetes operator uses the wrong update strategy for deployments.

@@ -118,7 +118,7 @@ export type Database = {
           dataset_name: string
           dataset_version: string
           demo_url: string | null
-          difficulty: Database["public"]["Enums"]["difficulty_type"]
+          // difficulty: Database["public"]["Enums"]["difficulty_type"]
           github_url: string
           id: string
           include_in_launch: boolean
@@ -134,7 +134,7 @@ export type Database = {
           dataset_name?: string
           dataset_version?: string
           demo_url?: string | null
-          difficulty: Database["public"]["Enums"]["difficulty_type"]
+          // difficulty: Database["public"]["Enums"]["difficulty_type"]
           github_url: string
           id: string
           include_in_launch?: boolean
@@ -150,7 +150,7 @@ export type Database = {
           dataset_name?: string
           dataset_version?: string
           demo_url?: string | null
-          difficulty?: Database["public"]["Enums"]["difficulty_type"]
+          // difficulty?: Database["public"]["Enums"]["difficulty_type"]
           github_url?: string
           id?: string
           include_in_launch?: boolean

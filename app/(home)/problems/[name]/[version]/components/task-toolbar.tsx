@@ -12,13 +12,13 @@ interface TaskToolbarProps {
   onSearch: (query: string) => void;
   categories: FilterOption[];
   tags: FilterOption[];
-  difficulties: FilterOption[];
+  // difficulties: FilterOption[];
   selectedCategories: Set<string>;
   selectedTags: Set<string>;
-  selectedDifficulties: Set<string>;
+  // selectedDifficulties: Set<string>;
   onCategoryChange: (categories: Set<string>) => void;
   onTagChange: (tags: Set<string>) => void;
-  onDifficultyChange: (difficulties: Set<string>) => void;
+  // onDifficultyChange: (difficulties: Set<string>) => void;
 }
 
 export function TaskToolbar({
@@ -26,13 +26,13 @@ export function TaskToolbar({
   onSearch,
   categories,
   tags,
-  difficulties,
+  // difficulties,
   selectedCategories,
   selectedTags,
-  selectedDifficulties,
+  // selectedDifficulties,
   onCategoryChange,
   onTagChange,
-  onDifficultyChange,
+  // onDifficultyChange,
 }: TaskToolbarProps) {
   return (
     <div className="grid grid-cols-1 xl:grid-cols-3">
@@ -79,7 +79,7 @@ export function TaskToolbar({
           count={selectedTags.size > 0 ? selectedTags.size : tags.length}
           itemCounts={Object.fromEntries(tags.map((t) => [t.label, t.count]))}
         />
-        <TaskCombobox
+        {/* <TaskCombobox
           values={difficulties.map((d) => d.label)}
           placeholder="Select difficulty"
           selectedValues={selectedDifficulties}
@@ -93,7 +93,7 @@ export function TaskToolbar({
           itemCounts={Object.fromEntries(
             difficulties.map((d) => [d.label, d.count]),
           )}
-        />
+        /> */}
       </div>
     </div>
   );

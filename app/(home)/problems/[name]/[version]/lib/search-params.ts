@@ -16,7 +16,7 @@ export const filterTasks = (
   query: string,
   categories: Set<string>,
   tags: Set<string>,
-  difficulties: Set<string>,
+  // difficulties: Set<string>,
 ) => {
   return tasks.filter((task) => {
     const matchesSearch =
@@ -33,11 +33,11 @@ export const filterTasks = (
     const matchesTags =
       tags.size === 0 || task.tags.some((tag) => tags.has(tag));
 
-    const matchesDifficulties =
-      difficulties.size === 0 || difficulties.has(task.difficulty);
+    // const matchesDifficulties =
+    //   difficulties.size === 0 || difficulties.has(task.difficulty);
 
     return (
-      matchesSearch && matchesCategories && matchesTags && matchesDifficulties
+      matchesSearch && matchesCategories && matchesTags /*&& matchesDifficulties*/
     );
   });
 };

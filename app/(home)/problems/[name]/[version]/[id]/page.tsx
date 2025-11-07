@@ -65,7 +65,7 @@ export default async function Task({ params }: PageProps) {
             taskId: task.registry.is_encrypted ? `${task.id}.zip` : task.id,
           })}
           category={task.category}
-          difficulty={task.difficulty}
+          // difficulty={task.difficulty}
           dataset_name={task.dataset_name}
           dataset_version={task.dataset_version}
         />

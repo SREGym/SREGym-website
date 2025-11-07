@@ -25,19 +25,19 @@ export function FilterableTaskGrid({ tasks }: FilterableTaskGridProps) {
     "tags",
     parseAsSetOfStrings.withDefault(new Set()),
   );
-  const [selectedDifficulties, setSelectedDifficulties] = useQueryState(
-    "difficulties",
-    parseAsSetOfStrings.withDefault(new Set()),
-  );
+  // const [selectedDifficulties, setSelectedDifficulties] = useQueryState(
+  //   "difficulties",
+  //   parseAsSetOfStrings.withDefault(new Set()),
+  // );
 
-  const { categories, tags, difficulties } = useMemo(() => {
+  const { categories, tags, /*difficulties*/ } = useMemo(() => {
     return tasks.reduce(
       (acc, task) => {
         acc.categories[task.category] =
           (acc.categories[task.category] ?? 0) + 1;
 
-        acc.difficulties[task.difficulty] =
-          (acc.difficulties[task.difficulty] ?? 0) + 1;
+        // acc.difficulties[task.difficulty] =
+        //   (acc.difficulties[task.difficulty] ?? 0) + 1;
 
         task.tags.forEach((tag) => {
           acc.tags[tag] = (acc.tags[tag] ?? 0) + 1;
@@ -69,12 +69,12 @@ export function FilterableTaskGrid({ tasks }: FilterableTaskGridProps) {
     [tags],
   );
 
-  const difficultyOptions: FilterOption[] = useMemo(() => {
-    const order = ["easy", "medium", "hard"];
-    return order
-      .filter((level) => difficulties[level])
-      .map((label) => ({ label, count: difficulties[label] }));
-  }, [difficulties]);
+  // const difficultyOptions: FilterOption[] = useMemo(() => {
+  //   const order = ["easy", "medium", "hard"];
+  //   return order
+  //     .filter((level) => difficulties[level])
+  //     .map((label) => ({ label, count: difficulties[label] }));
+  // }, [difficulties]);
 
   const filteredTasks = useMemo(() => {
     return filterTasks(
@@ -82,14 +82,14 @@ export function FilterableTaskGrid({ tasks }: FilterableTaskGridProps) {
       searchQuery,
       selectedCategories,
       selectedTags,
-      selectedDifficulties,
+      // selectedDifficulties,
     );
   }, [
     tasks,
     searchQuery,
     selectedCategories,
     selectedTags,
-    selectedDifficulties,
+    // selectedDifficulties,
   ]);
 
   const handleSearch = (query: string) => {
@@ -104,9 +104,9 @@ export function FilterableTaskGrid({ tasks }: FilterableTaskGridProps) {
     setSelectedTags(tags);
   };
 
-  const handleDifficultyChange = (difficulties: Set<string>) => {
-    setSelectedDifficulties(difficulties);
-  };
+  // const handleDifficultyChange = (difficulties: Set<string>) => {
+  //   setSelectedDifficulties(difficulties);
+  // };
 
   return (
     <div className="-mx-4 flex flex-col sm:mx-0">
@@ -117,7 +117,7 @@ export function FilterableTaskGrid({ tasks }: FilterableTaskGridProps) {
         <button
           className="text-primary disabled:text-muted-foreground font-mono text-sm font-normal underline-offset-4 hover:underline disabled:hover:no-underline"
           disabled={
-            selectedDifficulties.size === 0 &&
+            /*selectedDifficulties.size === 0 &&*/
             selectedCategories.size === 0 &&
             selectedTags.size === 0 &&
             searchQuery === ""
@@ -126,7 +126,7 @@ export function FilterableTaskGrid({ tasks }: FilterableTaskGridProps) {
             setSearchQuery(null);
             setSelectedCategories(null);
             setSelectedTags(null);
-            setSelectedDifficulties(null);
+            /*setSelectedDifficulties(null);*/
           }}
         >
           Clear filters
@@ -137,13 +137,13 @@ export function FilterableTaskGrid({ tasks }: FilterableTaskGridProps) {
         onSearch={handleSearch}
         categories={categoryOptions}
         tags={tagOptions}
-        difficulties={difficultyOptions}
+        // difficulties={difficultyOptions}
         selectedCategories={new Set(selectedCategories)}
         selectedTags={new Set(selectedTags)}
-        selectedDifficulties={new Set(selectedDifficulties)}
+        // selectedDifficulties={new Set(selectedDifficulties)}
         onCategoryChange={handleCategoryChange}
         onTagChange={handleTagChange}
-        onDifficultyChange={handleDifficultyChange}
+        // onDifficultyChange={handleDifficultyChange}
       />
       <TaskGrid tasks={filteredTasks} behavior="filter" />
       <div className="flex flex-col px-4 sm:px-0">

@@ -56,7 +56,7 @@ export function TaskCard({ task, behavior }: TaskCardProps) {
                 {task.category}
               </Badge>
             </FilterOrLink>
-            <FilterOrLink
+            {/* <FilterOrLink
               value={task.difficulty}
               valuesName="difficulties"
               behavior={behavior}
@@ -69,7 +69,7 @@ export function TaskCard({ task, behavior }: TaskCardProps) {
               >
                 {task.difficulty}
               </Badge>
-            </FilterOrLink>
+            </FilterOrLink> */}
           </div>
         </CardHeader>
         <CardContent className="flex flex-1 flex-col justify-between space-y-6">

@@ -13,7 +13,7 @@ type TaskData = {
     author_email: string;
     author_name: string;
     category: string;
-    difficulty: "easy" | "medium" | "hard";
+    // difficulty: "easy" | "medium" | "hard";
     description: string;
     tags: string[];
     github_url: string;

@@ -8,7 +8,7 @@ interface TaskHeaderProps {
   id: string;
   githubUrl: string;
   category: string;
-  difficulty: string;
+  // difficulty: string;
   dataset_name: string;
   dataset_version: string;
 }
@@ -17,7 +17,7 @@ export function TaskHeader({
   id,
   githubUrl,
   category,
-  difficulty,
+  // difficulty,
   dataset_name,
   dataset_version,
 }: TaskHeaderProps) {
@@ -55,14 +55,14 @@ export function TaskHeader({
         <Link
           href={{
             pathname: `/problems/${dataset_name}/${dataset_version}`,
-            query: { difficulties: [difficulty] },
+            // query: { difficulties: [difficulty] },
           }}
         >
           <Badge
             variant="secondary"
             className="hover:bg-muted-foreground/15 font-mono transition-colors duration-200"
           >
-            {difficulty}
+            {/* {difficulty} */}
           </Badge>
         </Link>
       </div>
