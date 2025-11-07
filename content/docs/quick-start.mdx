@@ -1,0 +1,43 @@
+---
+title: Quick Start
+description: Get up and running with SREGym quickly - setup your cluster and run your first agent
+---
+
+<Callout type="info">
+Make sure you've completed the [Installation](/docs/installation) steps before proceeding with Quick Start.
+</Callout>
+
+## Setup your cluster
+
+You need a Kubernetes cluster to run SREGym. For detailed setup instructions, see the [Cluster Setup](/docs/cluster-setup) guide.
+
+## Running an Agent
+
+### Quick Start
+
+To get started with the included Stratus agent:
+
+1. Create your `.env` file:
+```bash
+cp .env.example .env
+```
+
+2. Open the `.env` file and configure your model and API key.
+
+3. Run the benchmark:
+```bash
+python main.py
+```
+
+### Monitoring with Dashboard
+
+SREGym provides a dashboard to monitor the status of your evaluation. The dashboard runs automatically when you start the benchmark with `python main.py` and can be accessed at `http://localhost:11451` in your web browser.
+
+## Next Steps
+
+Now that you've run your first agent, you can:
+
+- Learn about [MCP Tools](/docs/mcp-tools) available for your agent
+- Read the guide on [Running Your Own Agent](/docs/running-your-own-agent) to create custom agents
+- Check out [Troubleshooting](/docs/troubleshooting) if you run into problems
+

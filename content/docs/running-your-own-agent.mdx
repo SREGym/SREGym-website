@@ -1,0 +1,74 @@
+---
+title: Running Your Own Agent
+description: Guide to registering and running your custom agent in SREGym, including understanding evaluation phases and configuring task lists
+---
+
+## Agent Registration
+
+SREGym uses [`agents.yaml`](https://github.com/SREGym/SREGym/blob/main/agents.yaml) to register agents for execution. This is how SREGym knows which agent to run when you start the benchmark. The Stratus agent is already registered:
+
+```yaml
+agents:
+- name: stratus
+  kickoff_command: python -m clients.stratus.stratus_agent.driver.driver --server http://localhost:8000
+  kickoff_workdir: .
+  kickoff_env: null
+```
+
+**To register your own agent:**
+- `name`: A unique identifier for your agent
+- `kickoff_command`: The command SREGym will execute to start your agent
+- `kickoff_workdir`: The working directory from which to run the command
+- `kickoff_env`: Optional environment variables (use `null` if none needed)
+
+Add a new entry to `agents.yaml` following this format to register your custom agent.
+
+## Understanding Evaluation Phases
+
+There are at most 4 phases in each problem of SREGym:
+
+1. **NO-OP Detection**: We have deployed the application, but there is no incident happening. The agent should detect no incident in the cluster. After agent submission for this problem, the fault is injected.
+
+   **Expected submission**: "Yes" or "No" to indicate incident.
+
+2. **Incident Detection**: We've injected a fault into the cluster, it is now experiencing an incident.
+
+   **Expected submission**: "Yes" or "No" to indicate incident.
+
+3. **Fault Localization**: The agent should localize where the incident originates.
+
+   **Expected submission**: The UID(s) of the resource where the incident originates.
+
+4. **Incident Mitigation**: The agent should try to mitigate the incident and bring the cluster back online.
+
+   **Expected submission**: No arguments for mitigation problems. *NOTE*: Not all problems are evaluated for mitigation.
+
+## Configuring Task Lists
+
+By default, SREGym runs the common evaluation with all available problems and tasks. If you want to run a **custom evaluation** with a specific subset of problems or tasks, you can configure this using [`tasklist.yaml`](https://github.com/SREGym/SREGym/blob/main/SREGym/conductor/tasklist.yml).
+
+The task list follows this format for each problem:
+
+```yaml
+k8s_target_port-misconfig:
+  - detection
+  - localization
+  - mitigation
+```
+
+To create a custom evaluation, edit `tasklist.yaml` and specify which problems and tasks you want to run. For each problem (identified by `problem_id`), list any combination of `detection`, `localization`, or `mitigation` tasks (in this order). The `noop` phase is automatically included as the starting stage.
+
+<Callout type="info">
+If no entry exists for a problem in `tasklist.yaml`, all tasks will run by default. Additionally, `localization` and `mitigation` may be skipped if the problem does not have a corresponding oracle attached.
+</Callout>
+
+## Monitoring Your Agent
+
+SREGym provides a dashboard to monitor the status of your evaluation. The dashboard runs automatically when you start the benchmark with `python main.py` and can be accessed at `http://localhost:11451` in your web browser.
+
+## Next Steps
+
+- Learn about the [MCP Tools](/docs/mcp-tools) your agent can use
+- Review [Troubleshooting](/docs/troubleshooting) if you encounter problems
+- Check out the [Stratus agent](https://github.com/SREGym/SREGym/tree/main/clients/stratus) for example implementations
+

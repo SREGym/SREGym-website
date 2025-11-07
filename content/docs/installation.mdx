@@ -1,0 +1,49 @@
+---
+title: Installation
+description: Install SREGym and set up your development environment with all required dependencies
+---
+
+## Requirements
+
+Before installing SREGym, ensure you have the following prerequisites:
+
+- **Python >= 3.12**
+- [Helm](https://helm.sh/) - Kubernetes package manager
+- [brew](https://docs.brew.sh/Homebrew-and-Python) - Package manager for macOS/Linux
+- [kubectl](https://kubernetes.io/docs/tasks/tools/) - Kubernetes command-line tool
+- [uv](https://github.com/astral-sh/uv) - Fast Python package installer and resolver
+- [kind](https://kind.sigs.k8s.io/) - Kubernetes in Docker (if running locally)
+
+## Recommendations
+
+These tools are not required but recommended for a better development experience:
+
+- [MCP Inspector](https://modelcontextprotocol.io/docs/tools/inspector) - Test MCP tools before integrating into your agent
+- [k9s](https://k9scli.io/) - Terminal UI to observe and manage your Kubernetes cluster
+
+## Installation Steps
+
+1. **Clone the repository** with submodules:
+   ```bash
+   git clone --recurse-submodules https://github.com/SREGym/SREGym
+   cd SREGym
+   ```
+
+2. **Install dependencies** using uv:
+   ```bash
+   uv sync
+   ```
+
+3. **Install pre-commit hooks** to ensure code quality:
+   ```bash
+   uv run pre-commit install
+   ```
+
+## Next Steps
+
+Once installation is complete:
+
+- **[Cluster Setup](/docs/cluster-setup)** - Set up your Kubernetes cluster (Emulated cluster or full cluster)
+- **[Quick Start](/docs/quick-start)** - Run your first agent
+- **[Troubleshooting](/docs/troubleshooting)** - Troubleshooting guide if you encounter problems
+

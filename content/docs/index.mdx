@@ -3,12 +3,34 @@ title: Introduction
 description: A unified platform to enable the design, development, and evaluation of AI agents for Site Reliability Engineering (SRE).
 ---
 
-```text
-SREGym is a gym for ... problems.
-```
-
 SREGym is a unified platform to enable the design, development, and evaluation of AI agents for Site Reliability Engineering (SRE). The core idea is to create live system environments for SRE agents to solve real-world problems.
 
-<Callout type="warning">
-    frsgsrgrsh.
-</Callout>
+SREGym also provides a comprehensive SRE benchmark suite with a wide variety of problems for evaluating SRE agents and for training next-generation AI agents.
+
+
+## SRE Problems
+
+Problems in SREGym consist of three components: an application, a fault, and an oracle. When evaluating a problem, SREGym first deploys the application specified in the problem. After deployment, the fault is injected into the system to cause the incident. Then, SREGym begins evaluating the agent and uses the oracle as the ground truth for the problem's solution.
+
+See our [registry](/problems/problem-repertoire/head) for a complete list of problems.
+
+SREGym is built to be extensible, we always welcome new contributions. See [Contributing](/docs/contributing) to get started.
+
+## Getting Started
+
+- **[Installation](/docs/installation)** - Install SREGym and set up your development environment
+- **[Cluster Setup](/docs/cluster-setup)** - Set up your Kubernetes cluster (Emulated cluster or full cluster)
+- **[Quick Start](/docs/quick-start)** - Run your first agent
+- **[Troubleshooting](/docs/troubleshooting)** - Troubleshooting guide for common problems
+
+## Using SREGym
+
+- **[MCP Tools](/docs/mcp-tools)** - Complete reference for MCP tools available in SREGym
+- **[Running Your Own Agent](/docs/running-your-own-agent)** - Guide to registering and running custom agents
+
+## Development
+
+- **[Development Guide](/docs/development-guide)** - Testing tools and development workflow
+- **[Contributing](/docs/contributing)** - How to contribute to SREGym
+
+SREGym is built to be extensible, we always welcome new contributions. See [Contributing](/docs/contributing) to get started.

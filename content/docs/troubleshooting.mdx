@@ -1,0 +1,114 @@
+---
+title: Troubleshooting
+description: Troubleshooting guide for common problems when setting up and running SREGym
+---
+
+## Docker and Kind Issues
+
+### Docker Issues
+
+Ensure Docker is running within your WSL2 environment. Verify with `docker ps` to list running containers.
+
+**Troubleshooting:**
+- Check Docker Desktop is running (if using WSL2)
+- Verify Docker daemon is accessible: `docker info`
+- Restart Docker if needed
+
+### Cluster Creation Failures
+
+Check that Docker is correctly installed and that your system has enough resources (CPU, memory). Examine the output of `kind export logs <cluster-name>` for details.
+
+**Common causes:**
+- Insufficient system resources (CPU/memory)
+- Docker not running or misconfigured
+- Port conflicts
+- Incorrect kind configuration file
+
+**Solutions:**
+- Check system resources: `docker stats`
+- Review kind logs: `kind export logs <cluster-name>`
+- Verify kind configuration file references correct image
+- Ensure no port conflicts on required ports
+
+### Deployment Problems
+
+Use `kubectl logs <pod-name>` to view pod logs and diagnose application issues. Make sure that your `kind-config.yaml` file references the correct image.
+
+**Troubleshooting steps:**
+1. Check pod status: `kubectl get pods --all-namespaces`
+2. View pod logs: `kubectl logs <pod-name> -n <namespace>`
+3. Describe pod for events: `kubectl describe pod <pod-name> -n <namespace>`
+4. Verify image exists and is accessible
+5. Check `kind-config.yaml` references correct image name
+
+### Resource Allocation
+
+WSL2 may require additional resources. Adjust the WSL2 settings in your `.wslconfig` file on Windows if you encounter performance issues.
+
+**WSL2 Configuration:**
+
+Create or edit `.wslconfig` in your Windows user directory:
+
+```ini
+[wsl2]
+memory=8GB
+processors=4
+swap=2GB
+```
+
+After modifying `.wslconfig`, restart WSL2:
+```powershell
+wsl --shutdown
+```
+
+Then restart your WSL2 distribution.
+
+## Ansible Issues
+
+### Host Key Authentication Errors
+
+If you're running into issues from Ansible related to host key authentication, try typing `yes` in your terminal for each node, or proceed with the following steps:
+
+You can create a file in the same directory as the Ansible README called `ansible.cfg` to turn off that warning:
+
+```yaml
+[defaults]
+host_key_checking = False
+```
+
+<Callout type="warning">
+Be mindful about the security implications of disabling host key checking. Only use this in trusted environments.
+</Callout>
+
+## General Troubleshooting
+
+### Checking Cluster Status
+
+Verify your cluster is running correctly:
+
+```bash
+kubectl get nodes
+```
+
+All nodes should show `Ready` status.
+
+### Viewing Logs
+
+To diagnose issues with specific components:
+
+```bash
+# View pod logs
+kubectl logs <pod-name>
+
+# View logs for all pods in a namespace
+kubectl logs -n <namespace> --all-containers=true
+```
+
+### Dashboard Access
+
+If the dashboard at `http://localhost:11451` is not accessible, common issues:
+
+1. Verify the benchmark is running with `python main.py`
+2. Check if the port is already in use
+3. Review the console output for any error messages
+
