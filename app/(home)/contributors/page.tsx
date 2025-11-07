@@ -1,13 +1,13 @@
 import Link from "next/link";
 
 const CONTRIBUTORS = [
-  { name: "Bohan Cui", link: "./contributors", role: "Watchee" },
-  { name: "Jackson Clark", link: "./contributors", role: "Watchee" },
-  { name: "Jiaqi Huang", link: "./contributors", role: "Watchee" },
-  { name: "Lily Gniedziejko", link: "./contributors", role: "Watchee" },
-  { name: "Saad Mohammad Rafid Pial", link: "./contributors", role: "Watchee" },
-  { name: "Yiming Su", link: "./contributors", role: "Watchee" },
-  { name: "Tianyin Xu", link: "./contributors", role: "Watchman" },
+  { name: "Jackson Clark", link: "https://hacksonclark.github.io/", role: "Lead" },
+  { name: "Yiming Su", link: "https://yimingsu01.github.io/", role: "Co-Lead" },
+  { name: "Saad Mohammad Rafid Pial", link: "./contributors", role: "Contributor" },
+  { name: "Bohan Cui", link: "./contributors", role: "Contributor" },
+  { name: "Jiaqi Huang", link: "./contributors", role: "Contributor" },
+  { name: "Lily Gniedziejko", link: "./contributors", role: "Contributor" },
+  { name: "Tianyin Xu", link: "https://tianyin.github.io/", role: "Advisor" },
 ];
 
 export default function TeamPage() {
