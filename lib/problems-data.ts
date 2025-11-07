@@ -16,6 +16,7 @@ type TaskData = {
     // difficulty: "easy" | "medium" | "hard";
     description: string;
     tags: string[];
+    file_id: string;
     github_url: string;
     demo_url?: string | null;
     include_in_launch?: boolean;

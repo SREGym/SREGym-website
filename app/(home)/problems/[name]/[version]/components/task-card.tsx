@@ -36,7 +36,7 @@ export function TaskCard({ task, behavior }: TaskCardProps) {
               <GithubLinkButton
                 githubUrl={buildTaskGithubUrl({
                   dataset: task.registry,
-                  taskId: task.registry.is_encrypted ? `${task.id}.zip` : task.id,
+                  taskId: task.registry.is_encrypted ? `${task.id}.zip` : task.file_id,
                 })}
               />
             </div>

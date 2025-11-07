@@ -52,19 +52,19 @@ export function TaskHeader({
             {category}
           </Badge>
         </Link>
-        <Link
+        {/* <Link
           href={{
             pathname: `/problems/${dataset_name}/${dataset_version}`,
-            // query: { difficulties: [difficulty] },
+            query: { difficulties: [difficulty] },
           }}
         >
           <Badge
             variant="secondary"
             className="hover:bg-muted-foreground/15 font-mono transition-colors duration-200"
           >
-            {/* {difficulty} */}
+            {difficulty}
           </Badge>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

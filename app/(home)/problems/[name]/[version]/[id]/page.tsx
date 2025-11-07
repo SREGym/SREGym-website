@@ -62,7 +62,7 @@ export default async function Task({ params }: PageProps) {
           id={id}
           githubUrl={buildTaskGithubUrl({
             dataset: task.registry,
-            taskId: task.registry.is_encrypted ? `${task.id}.zip` : task.id,
+            taskId: task.registry.is_encrypted ? `${task.id}.zip` : task.file_id,
           })}
           category={task.category}
           // difficulty={task.difficulty}

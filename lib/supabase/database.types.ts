@@ -120,6 +120,7 @@ export type Database = {
           demo_url: string | null
           // difficulty: Database["public"]["Enums"]["difficulty_type"]
           github_url: string
+          file_id: string
           id: string
           include_in_launch: boolean
           description: string
@@ -136,6 +137,7 @@ export type Database = {
           demo_url?: string | null
           // difficulty: Database["public"]["Enums"]["difficulty_type"]
           github_url: string
+          file_id: string
           id: string
           include_in_launch?: boolean
           description: string
@@ -152,6 +154,7 @@ export type Database = {
           demo_url?: string | null
           // difficulty?: Database["public"]["Enums"]["difficulty_type"]
           github_url?: string
+          file_id?: string
           id?: string
           include_in_launch?: boolean
           description?: string
