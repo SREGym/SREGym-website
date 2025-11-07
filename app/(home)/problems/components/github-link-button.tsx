@@ -15,8 +15,8 @@ export function GithubLinkButton({
 }: GithubLinkButtonProps) {
   return (
     <button
-      onClick={(e) => {
-        e.preventDefault();
+      onClick={(event) => {
+        event.preventDefault();
         window.open(githubUrl, "_blank", "noopener,noreferrer");
       }}
       className={cn(

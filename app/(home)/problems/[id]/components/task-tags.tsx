@@ -4,11 +4,9 @@ import { Section } from "./section";
 
 interface TaskTagsProps {
   tags: string[];
-  datasetName: string;
-  datasetVersion: string;
 }
 
-export function TaskTags({ tags, datasetName, datasetVersion }: TaskTagsProps) {
+export function TaskTags({ tags }: TaskTagsProps) {
   if (tags.length === 0) return null;
 
   return (
@@ -18,7 +16,7 @@ export function TaskTags({ tags, datasetName, datasetVersion }: TaskTagsProps) {
           <Fragment key={tag}>
             <Link
               href={{
-                pathname: `/problems/${datasetName}/${datasetVersion}`,
+                pathname: "/problems",
                 query: { tags: [tag] },
               }}
               className="hover:underline"

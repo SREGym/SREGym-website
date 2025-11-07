@@ -4,7 +4,7 @@ import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tables } from "@/lib/supabase/database.types";
 import { Lock } from "lucide-react";
 import { Fragment } from "react";
-import { buildTaskGithubUrl } from "../../../lib/utils";
+import { buildTaskGithubUrl } from "../lib/utils";
 import { CopyButton } from "./copy-button";
 import { FilterOrLink } from "./filter-or-link";
 import { GithubLinkButton } from "./github-link-button";
@@ -16,9 +16,7 @@ type TaskCardProps = {
 
 export function TaskCard({ task, behavior }: TaskCardProps) {
   return (
-    <GridItem
-      href={`/problems/${task.dataset_name}/${task.dataset_version}/${task.id}`}
-    >
+    <GridItem href={`/problems/${task.id}`}>
       <div className="flex min-w-0 flex-1 flex-col justify-between gap-6 py-6">
         <CardHeader className="min-w-0">
           <div className="mb-2 flex min-w-0 flex-col justify-between gap-2 sm:flex-row sm:items-center">
@@ -46,8 +44,6 @@ export function TaskCard({ task, behavior }: TaskCardProps) {
               value={task.category}
               valuesName="categories"
               behavior={behavior}
-              datasetName={task.dataset_name}
-              datasetVersion={task.dataset_version}
             >
               <Badge
                 variant="secondary"
@@ -60,8 +56,6 @@ export function TaskCard({ task, behavior }: TaskCardProps) {
               value={task.difficulty}
               valuesName="difficulties"
               behavior={behavior}
-              datasetName={task.dataset_name}
-              datasetVersion={task.dataset_version}
             >
               <Badge
                 variant="secondary"
@@ -95,8 +89,6 @@ export function TaskCard({ task, behavior }: TaskCardProps) {
                   <FilterOrLink
                     value={tag}
                     valuesName="tags"
-                    datasetName={task.dataset_name}
-                    datasetVersion={task.dataset_version}
                     className="cursor-default"
                     behavior={behavior}
                   >

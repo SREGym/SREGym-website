@@ -25,7 +25,7 @@ export function TaskHeader({
     <div className="space-y-4">
       <CopyTaskId id={id} />
       <Badge>
-        {formatDatasetName(dataset_name)}=={dataset_version}
+        Problem List
       </Badge>
       <div className="flex gap-2">
         <Link
@@ -41,7 +41,7 @@ export function TaskHeader({
       <div className="flex gap-2">
         <Link
           href={{
-            pathname: `/problems/${dataset_name}/${dataset_version}`,
+            pathname: "/problems",
             query: { categories: [category] },
           }}
         >
@@ -54,7 +54,7 @@ export function TaskHeader({
         </Link>
         {/* <Link
           href={{
-            pathname: `/problems/${dataset_name}/${dataset_version}`,
+            pathname: "/problems",
             query: { difficulties: [difficulty] },
           }}
         >

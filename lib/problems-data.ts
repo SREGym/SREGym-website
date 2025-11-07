@@ -40,6 +40,13 @@ type TaskData = {
 
 const DATA_DIR = path.join(process.cwd(), "data", "problems");
 
+export const DEFAULT_DATASET_NAME = "problem-repertoire";
+export const DEFAULT_DATASET_VERSION = "head";
+export const DEFAULT_DATASET = {
+  name: DEFAULT_DATASET_NAME,
+  version: DEFAULT_DATASET_VERSION,
+} as const;
+
 function loadYamlData(name: string, version: string): TaskData | null {
   try {
     const filePath = path.join(DATA_DIR, name, `${version}.yaml`);
@@ -117,5 +124,13 @@ export async function getTask(
       description: data.registry.description ?? null,
     },
   };
+}
+
+export async function getDefaultTasks(): Promise<Task[]> {
+  return getTasks(DEFAULT_DATASET_NAME, DEFAULT_DATASET_VERSION);
+}
+
+export async function getDefaultTask(id: string): Promise<Task | null> {
+  return getTask(id, DEFAULT_DATASET_NAME, DEFAULT_DATASET_VERSION);
 }
 

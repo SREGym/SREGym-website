@@ -41,7 +41,7 @@ export function TaskToolbar({
           type="text"
           placeholder="Search problems"
           className="placeholder:text-muted-foreground bg-card flex w-full min-w-0 px-6 font-mono text-base outline-none sm:text-sm"
-          onChange={(e) => onSearch(e.target.value)}
+          onChange={(event) => onSearch(event.target.value)}
           value={searchQuery}
         />
         <button

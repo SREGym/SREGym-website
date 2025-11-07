@@ -7,24 +7,19 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { CodeBlock } from "@/components/ui/code-block";
-import { getTasks } from "@/lib/problems-data";
+import { Badge } from "@/components/ui/badge";
+import {
+  DEFAULT_DATASET_NAME,
+  DEFAULT_DATASET_VERSION,
+  getDefaultTasks,
+} from "@/lib/problems-data";
 import { formatDatasetName } from "@/lib/utils";
-import { notFound } from "next/navigation";
 import { FilterableTaskGrid } from "./components/filterable-task-grid";
 
-export default async function Dataset({
-  params,
-}: {
-  params: Promise<{ name: string; version: string }>;
-}) {
-  const { name, version } = await params;
-
-  const tasks = await getTasks(name, version);
-
-  if (tasks.length === 0) {
-    notFound();
-  }
+export default async function ProblemsPage() {
+  const tasks = await getDefaultTasks();
+  const datasetName = tasks[0]?.dataset_name ?? DEFAULT_DATASET_NAME;
+  const datasetVersion = tasks[0]?.dataset_version ?? DEFAULT_DATASET_VERSION;
 
   return (
     <div className="flex flex-1 flex-col items-center px-4 py-6 sm:pt-12">
@@ -36,19 +31,16 @@ export default async function Dataset({
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/problems">Problems</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>
-                {formatDatasetName(name)}=={version}
-              </BreadcrumbPage>
+              <BreadcrumbPage>Problems</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <h2 className="mb-6 font-mono text-4xl tracking-tighter">
-          {formatDatasetName(name)}=={version}
-        </h2>
+        <div className="mb-6 space-y-3">
+          <h2 className="font-mono text-4xl tracking-tighter">Problem List</h2>
+          {/* <Badge variant="secondary" className="font-mono">
+            {formatDatasetName(datasetName)}=={datasetVersion}
+          </Badge> */}
+        </div>
         {tasks.length > 0 ? (
           <FilterableTaskGrid tasks={tasks} />
         ) : (

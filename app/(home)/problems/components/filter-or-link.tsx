@@ -9,8 +9,6 @@ interface FilterOrLinkProps {
   children: React.ReactNode;
   className?: string;
   behavior?: "filter" | "navigate";
-  datasetName: string;
-  datasetVersion: string;
 }
 
 export function FilterOrLink({
@@ -19,8 +17,6 @@ export function FilterOrLink({
   children,
   className,
   behavior = "filter",
-  datasetName,
-  datasetVersion,
 }: FilterOrLinkProps) {
   const router = useRouter();
 
@@ -28,17 +24,18 @@ export function FilterOrLink({
     return (
       <button
         className={className}
-        onClick={(e) => {
-          e.preventDefault();
-          router.push(
-            `/problems/${datasetName}/${datasetVersion}?${valuesName}=${value}`,
-          );
+        onClick={(event) => {
+          event.preventDefault();
+          const params = new URLSearchParams();
+          params.set(valuesName, value);
+          router.push(`/problems?${params.toString()}`);
         }}
       >
         {children}
       </button>
     );
   }
+
   return (
     <FilterButton value={value} valuesName={valuesName} className={className}>
       {children}

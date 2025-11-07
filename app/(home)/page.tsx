@@ -1,15 +1,15 @@
 import { CanaryString } from "@/components/canary-string";
 import { buttonVariants } from "@/components/ui/button";
-import { getTasks } from "@/lib/problems-data";
+import { getDefaultTasks } from "@/lib/problems-data";
 import { cn } from "@/lib/utils";
 import { ChevronDown, Terminal } from "lucide-react";
 import Link from "next/link";
 import { Callout } from "./components/callout";
 import { LeaderboardChart } from "./components/leaderboard-chart";
-import { TaskGrid } from "./problems/[name]/[version]/components/task-grid";
+import { TaskGrid } from "@/app/(home)/problems/components/task-grid";
 
 export default async function Tasks() {
-  const allTasks = await getTasks("problem-repertoire", "head");
+  const allTasks = await getDefaultTasks();
   const taskIds = [
     "configure-git-webserver",
     "openssl-selfsigned-cert",
@@ -129,7 +129,7 @@ export default async function Tasks() {
             <div className="-mx-4 flex flex-col gap-12 sm:mx-0 sm:gap-16">
               <TaskGrid tasks={tasks} behavior="navigate" />
               <Link
-                href="/problems/problem-repertoire/head"
+                href="/problems"
                 className={cn(
                   buttonVariants({
                     variant: "secondary",

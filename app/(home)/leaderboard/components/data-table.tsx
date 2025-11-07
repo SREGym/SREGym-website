@@ -92,10 +92,10 @@ export function DataTable<TData, TValue>({
         <p>
           Results in this leaderboard correspond to{" "}
           <Link
-            href="/problems/problem-repertoire/head"
+            href="/problems"
             className="text-foreground underline underline-offset-4"
           >
-            Problem Repertoire==head
+            Problems
           </Link>
           .
         </p>

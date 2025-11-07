@@ -3,9 +3,9 @@
 import { Tables } from "@/lib/supabase/database.types";
 import { parseAsString, useQueryState } from "nuqs";
 import { useMemo } from "react";
-import { parseAsSetOfStrings } from "../lib/parse-as-set-of-strings";
-import { filterTasks } from "../lib/search-params";
-import { TaskGrid } from "./task-grid";
+import { parseAsSetOfStrings } from "@/app/(home)/problems/lib/parse-as-set-of-strings";
+import { filterTasks } from "@/app/(home)/problems/lib/search-params";
+import { TaskGrid } from "@/app/(home)/problems/components/task-grid";
 import { FilterOption, TaskToolbar } from "./task-toolbar";
 
 interface FilterableTaskGridProps {
@@ -30,7 +30,7 @@ export function FilterableTaskGrid({ tasks }: FilterableTaskGridProps) {
   //   parseAsSetOfStrings.withDefault(new Set()),
   // );
 
-  const { categories, tags, /*difficulties*/ } = useMemo(() => {
+  const { categories, tags /*, difficulties*/ } = useMemo(() => {
     return tasks.reduce(
       (acc, task) => {
         acc.categories[task.category] =
@@ -138,8 +138,8 @@ export function FilterableTaskGrid({ tasks }: FilterableTaskGridProps) {
         categories={categoryOptions}
         tags={tagOptions}
         // difficulties={difficultyOptions}
-        selectedCategories={new Set(selectedCategories)}
-        selectedTags={new Set(selectedTags)}
+  selectedCategories={new Set(selectedCategories ?? [])}
+  selectedTags={new Set(selectedTags ?? [])}
         // selectedDifficulties={new Set(selectedDifficulties)}
         onCategoryChange={handleCategoryChange}
         onTagChange={handleTagChange}

@@ -7,28 +7,23 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { getTask } from "@/lib/problems-data";
-import { formatDatasetName } from "@/lib/utils";
-import { SearchParams } from "nuqs";
-import { buildTaskGithubUrl } from "../../../lib/utils";
+import { getDefaultTask } from "@/lib/problems-data";
 import { notFound } from "next/navigation";
+import { buildTaskGithubUrl } from "../lib/utils";
 import { TaskDemo } from "./components/task-demo";
-import { TaskHeader } from "./components/task-header";
 import { TaskDescription } from "./components/task-description";
+import { TaskHeader } from "./components/task-header";
 import { TaskTags } from "./components/task-tags";
 
 type PageProps = {
   params: Promise<{
     id: string;
-    name: string;
-    version: string;
   }>;
-  searchParams: Promise<SearchParams>;
 };
 
 export default async function Task({ params }: PageProps) {
-  const { id, name, version } = await params;
-  const task = await getTask(id, name, version);
+  const { id } = await params;
+  const task = await getDefaultTask(id);
 
   if (!task) {
     notFound();
@@ -45,12 +40,6 @@ export default async function Task({ params }: PageProps) {
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbLink href="/problems">Problems</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink href={`/problems/${name}/${version}`}>
-                {formatDatasetName(name)}=={version}
-              </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -74,11 +63,7 @@ export default async function Task({ params }: PageProps) {
           description={task.description}
           encrypted={task.registry.is_encrypted}
         />
-        <TaskTags
-          tags={task.tags}
-          datasetName={task.dataset_name}
-          datasetVersion={task.dataset_version}
-        />
+        <TaskTags tags={task.tags} />
         {task.author_name !== "unknown" && task.author_name !== "anonymous" && (
           <p className="text-muted-foreground font-mono text-sm">
             Created by {task.author_name}
