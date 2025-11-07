@@ -1,11 +1,11 @@
 registry:
-  name: problem-repertoire
+  name: problem list
   version: head
   branch: main
   commit_hash: head
   dataset_path: sregym/conductor/problems
   github_url: https://github.com/SREGym/SREGym.git
-  description: Problem Repertoire dataset
+  description: Problem List dataset
   is_encrypted: false
   terminal_bench_version: "1.0.0"
 
@@ -42,6 +42,7 @@ tasks:
       - Correlated Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: update_incompatible_correlated.py
     include_in_launch: true
 
   # --- REGULAR APPLICATION PROBLEMS ---
@@ -58,6 +59,7 @@ tasks:
       - System/Application Software Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: incorrect_image.py
     include_in_launch: true
 
   - id: incorrect_port_assignment
@@ -73,6 +75,7 @@ tasks:
       - Misconfiguration Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: incorrect_port_assignment.py
     include_in_launch: true
 
   - id: misconfig_app_hotel_res
@@ -88,6 +91,7 @@ tasks:
       - System/Application Software Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: misconfig_app.py
     include_in_launch: true
 
   - id: missing_env_variable_astronomy_shop
@@ -103,6 +107,7 @@ tasks:
       - Misconfiguration Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: missing_env_variable.py
     include_in_launch: true
 
   - id: revoke_auth_mongodb-1
@@ -118,6 +123,7 @@ tasks:
       - Security Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: revoke_auth.py
     include_in_launch: true
 
   - id: revoke_auth_mongodb-2
@@ -133,6 +139,7 @@ tasks:
       - Security Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: revoke_auth.py
     include_in_launch: true
 
   - id: storage_user_unregistered-1
@@ -148,6 +155,7 @@ tasks:
       - Security Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: storage_user_unregistered.py
     include_in_launch: true
 
   - id: storage_user_unregistered-2
@@ -163,6 +171,7 @@ tasks:
       - Security Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: storage_user_unregistered.py
     include_in_launch: true
 
   - id: valkey_auth_disruption
@@ -178,6 +187,7 @@ tasks:
       - Security Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: valkey_auth_disruption.py
     include_in_launch: true
 
   - id: valkey_memory_disruption
@@ -193,6 +203,7 @@ tasks:
       - Database Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: valkey_memory_disruption.py
     include_in_launch: true
 
   # ==================== VIRTUALIZATION FAULT INJECTOR ====================
@@ -210,6 +221,7 @@ tasks:
       - Metastable Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: capacity_decrease_rpc_retry_storm.py
     include_in_launch: true
 
   - id: gc_capacity_degradation
@@ -225,6 +237,7 @@ tasks:
       - Metastable Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: gc_capacity_degradation.py
     include_in_launch: true
 
   - id: load_spike_rpc_retry_storm
@@ -240,6 +253,7 @@ tasks:
       - Metastable Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: load_spike_rpc_retry_storm.py
     include_in_launch: true
 
   # --- REGULAR VIRTUALIZATION PROBLEMS ---
@@ -256,6 +270,7 @@ tasks:
       - Cloud Management System Failure
       - social-network
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: assign_non_existent_node.py
     include_in_launch: true
 
   - id: auth_miss_mongodb
@@ -271,6 +286,7 @@ tasks:
       - Security Failure
       - social-network
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: auth_miss_mongodb.py
     include_in_launch: true
 
   - id: configmap_drift_hotel_reservation
@@ -286,6 +302,7 @@ tasks:
       - Misconfiguration Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: configmap_drift.py
     include_in_launch: true
 
   - id: duplicate_pvc_mounts_astronomy_shop
@@ -301,6 +318,7 @@ tasks:
       - Cloud Management System Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: duplicate_pvc_mounts.py
     include_in_launch: true
 
   - id: duplicate_pvc_mounts_hotel_reservation
@@ -316,6 +334,7 @@ tasks:
       - Cloud Management System Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: duplicate_pvc_mounts.py
     include_in_launch: true
 
   - id: duplicate_pvc_mounts_social_network
@@ -331,6 +350,7 @@ tasks:
       - Cloud Management System Failure
       - social-network
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: duplicate_pvc_mounts.py
     include_in_launch: true
 
   - id: env_variable_shadowing_astronomy_shop
@@ -346,6 +366,7 @@ tasks:
       - Misconfiguration Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: env_variable_shadowing.py
     include_in_launch: true
 
   - id: k8s_target_port-misconfig
@@ -361,6 +382,7 @@ tasks:
       - Misconfiguration Failure
       - social-network
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: target_port.py
     include_in_launch: true
 
   - id: liveness_probe_misconfiguration_astronomy_shop
@@ -376,6 +398,7 @@ tasks:
       - Misconfiguration Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: liveness_probe_misconfiguration.py
     include_in_launch: true
 
   - id: liveness_probe_misconfiguration_hotel_reservation
@@ -391,6 +414,7 @@ tasks:
       - Misconfiguration Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: liveness_probe_misconfiguration.py
     include_in_launch: true
 
   - id: liveness_probe_misconfiguration_social_network
@@ -406,6 +430,7 @@ tasks:
       - Misconfiguration Failure
       - social-network
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: liveness_probe_misconfiguration.py
     include_in_launch: true
 
   - id: liveness_probe_too_aggressive_astronomy_shop
@@ -421,6 +446,7 @@ tasks:
       - Cloud Management System Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: liveness_probe_too_aggressive.py
     include_in_launch: true
 
   - id: liveness_probe_too_aggressive_hotel_reservation
@@ -436,6 +462,7 @@ tasks:
       - Cloud Management System Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: liveness_probe_too_aggressive.py
     include_in_launch: true
 
   - id: liveness_probe_too_aggressive_social_network
@@ -451,6 +478,7 @@ tasks:
       - Cloud Management System Failure
       - social-network
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: liveness_probe_too_aggressive.py
     include_in_launch: true
 
   - id: missing_configmap_hotel_reservation
@@ -466,6 +494,7 @@ tasks:
       - Cloud Management System Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: missing_configmap.py
     include_in_launch: true
 
   - id: missing_configmap_social_network
@@ -481,6 +510,7 @@ tasks:
       - Cloud Management System Failure
       - social-network
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: missing_configmap.py
     include_in_launch: true
 
   - id: missing_service_astronomy_shop
@@ -496,6 +526,7 @@ tasks:
       - Cloud Management System Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: missing_service.py
     include_in_launch: true
 
   - id: missing_service_hotel_reservation
@@ -511,6 +542,7 @@ tasks:
       - Cloud Management System Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: missing_service.py
     include_in_launch: true
 
   - id: missing_service_social_network
@@ -526,6 +558,7 @@ tasks:
       - Cloud Management System Failure
       - social-network
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: missing_service.py
     include_in_launch: true
 
   - id: namespace_memory_limit
@@ -541,6 +574,7 @@ tasks:
       - Cloud Management System Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: namespace_memory_limit.py
     include_in_launch: true
 
   - id: pod_anti_affinity_deadlock
@@ -556,6 +590,7 @@ tasks:
       - Cloud Management System Failure
       - social-network
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: pod_anti_affinity_deadlock.py
     include_in_launch: true
 
   - id: persistent_volume_affinity_violation
@@ -571,6 +606,7 @@ tasks:
       - Cloud Management System Failure
       - social-network
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: persistent_volume_affinity_violation.py
     include_in_launch: true
 
   - id: pvc_claim_mismatch
@@ -586,6 +622,7 @@ tasks:
       - Cloud Management System Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: pvc_claim_mismatch.py
     include_in_launch: true
 
   - id: rbac_misconfiguration
@@ -601,6 +638,7 @@ tasks:
       - Cloud Management System Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: rbac_misconfiguration.py
     include_in_launch: true
 
   - id: readiness_probe_misconfiguration_astronomy_shop
@@ -616,6 +654,7 @@ tasks:
       - Misconfiguration Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: readiness_probe_misconfiguration.py
     include_in_launch: true
 
   - id: readiness_probe_misconfiguration_hotel_reservation
@@ -631,6 +670,7 @@ tasks:
       - Misconfiguration Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: readiness_probe_misconfiguration.py
     include_in_launch: true
 
   - id: readiness_probe_misconfiguration_social_network
@@ -646,6 +686,7 @@ tasks:
       - Misconfiguration Failure
       - social-network
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: readiness_probe_misconfiguration.py
     include_in_launch: true
 
   - id: resource_request_too_large
@@ -661,6 +702,7 @@ tasks:
       - Cloud Management System Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: resource_request.py
     include_in_launch: true
 
   - id: resource_request_too_small
@@ -676,6 +718,7 @@ tasks:
       - Cloud Management System Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: resource_request.py
     include_in_launch: true
 
   - id: rolling_update_misconfigured_hotel_reservation
@@ -691,6 +734,7 @@ tasks:
       - Misconfiguration Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: rolling_update_misconfigured.py
     include_in_launch: true
 
   - id: rolling_update_misconfigured_social_network
@@ -706,6 +750,7 @@ tasks:
       - Misconfiguration Failure
       - social-network
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: rolling_update_misconfigured.py
     include_in_launch: true
 
   - id: scale_pod_zero_social_net
@@ -721,6 +766,7 @@ tasks:
       - Cloud Management System Failure
       - social-network
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: scale_pod.py
     include_in_launch: true
 
   - id: service_dns_resolution_failure_astronomy_shop
@@ -736,6 +782,7 @@ tasks:
       - Network Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: service_dns_resolution_failure.py
     include_in_launch: true
 
   - id: service_dns_resolution_failure_social_network
@@ -751,6 +798,7 @@ tasks:
       - Network Failure
       - social-network
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: service_dns_resolution_failure.py
     include_in_launch: true
 
   - id: sidecar_port_conflict_astronomy_shop
@@ -766,6 +814,7 @@ tasks:
       - Misconfiguration Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: sidecar_port_conflict.py
     include_in_launch: true
 
   - id: sidecar_port_conflict_hotel_reservation
@@ -781,6 +830,7 @@ tasks:
       - Misconfiguration Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: sidecar_port_conflict.py
     include_in_launch: true
 
   - id: sidecar_port_conflict_social_network
@@ -796,6 +846,7 @@ tasks:
       - Misconfiguration Failure
       - social-network
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: sidecar_port_conflict.py
     include_in_launch: true
 
   - id: stale_coredns_config_astronomy_shop
@@ -811,6 +862,7 @@ tasks:
       - Network Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: stale_coredns_config.py
     include_in_launch: true
 
   - id: stale_coredns_config_social_network
@@ -826,6 +878,7 @@ tasks:
       - Network Failure
       - social-network
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: stale_coredns_config.py
     include_in_launch: true
 
   - id: taint_no_toleration_social_network
@@ -841,6 +894,7 @@ tasks:
       - Cloud Management System Failure
       - social-network
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: taint_no_toleration.py
     include_in_launch: true
 
   - id: wrong_bin_usage
@@ -856,6 +910,7 @@ tasks:
       - System/Application Software Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: wrong_bin_usage.py
     include_in_launch: true
 
   - id: wrong_dns_policy_astronomy_shop
@@ -871,6 +926,7 @@ tasks:
       - Network Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: wrong_dns_policy.py
     include_in_launch: true
 
   - id: wrong_dns_policy_hotel_reservation
@@ -886,6 +942,7 @@ tasks:
       - Network Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: wrong_dns_policy.py
     include_in_launch: true
 
   - id: wrong_dns_policy_social_network
@@ -901,6 +958,7 @@ tasks:
       - Network Failure
       - social-network
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: wrong_dns_policy.py
     include_in_launch: true
 
   - id: wrong_service_selector_astronomy_shop
@@ -916,6 +974,7 @@ tasks:
       - Misconfiguration Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: wrong_service_selector.py
     include_in_launch: true
 
   - id: wrong_service_selector_hotel_reservation
@@ -931,6 +990,7 @@ tasks:
       - Misconfiguration Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: wrong_service_selector.py
     include_in_launch: true
 
   - id: wrong_service_selector_social_network
@@ -946,6 +1006,7 @@ tasks:
       - Misconfiguration Failure
       - social-network
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: wrong_service_selector.py
     include_in_launch: true
 
   # ==================== OPENTELEMETRY FAULT INJECTOR ====================
@@ -962,6 +1023,7 @@ tasks:
       - System/Application Software Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: ad_service_failure.py
     include_in_launch: true
 
   - id: astronomy_shop_ad_service_high_cpu
@@ -977,6 +1039,7 @@ tasks:
       - System/Application Software Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: ad_service_high_cpu.py
     include_in_launch: true
 
   - id: astronomy_shop_ad_service_manual_gc
@@ -992,6 +1055,7 @@ tasks:
       - System/Application Software Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: ad_service_manual_gc.py
     include_in_launch: true
 
   - id: astronomy_shop_cart_service_failure
@@ -1007,6 +1071,7 @@ tasks:
       - System/Application Software Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: cart_service_failure.py
     include_in_launch: true
 
   - id: astronomy_shop_ad_service_image_slow_load
@@ -1022,6 +1087,7 @@ tasks:
       - System/Application Software Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: image_slow_load.py
     include_in_launch: true
 
   - id: astronomy_shop_payment_service_failure
@@ -1037,6 +1103,7 @@ tasks:
       - System/Application Software Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: payment_service_failure.py
     include_in_launch: true
 
   - id: astronomy_shop_payment_service_unreachable
@@ -1052,6 +1119,7 @@ tasks:
       - System/Application Software Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: payment_service_unreachable.py
     include_in_launch: true
 
   - id: astronomy_shop_product_catalog_service_failure
@@ -1067,6 +1135,7 @@ tasks:
       - System/Application Software Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: product_catalog_failure.py
     include_in_launch: true
 
   - id: astronomy_shop_recommendation_service_cache_failure
@@ -1082,6 +1151,7 @@ tasks:
       - System/Application Software Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: recommendation_service_cache_failure.py
     include_in_launch: true
 
   - id: kafka_queue_problems
@@ -1097,6 +1167,7 @@ tasks:
       - System/Application Software Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: kafka_queue_problems.py
     include_in_launch: true
 
   - id: loadgenerator_flood_homepage
@@ -1112,6 +1183,7 @@ tasks:
       - System/Application Software Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: loadgenerator_flood_homepage.py
     include_in_launch: true
 
   # ==================== TRAIN TICKET FAULT INJECTOR ====================
@@ -1128,6 +1200,7 @@ tasks:
       - System/Application Software Failure
       - train-ticket
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: trainticket_f17.py
     include_in_launch: true
 
   - id: trainticket_f22_sql_column_name_mismatch_error
@@ -1143,6 +1216,7 @@ tasks:
       - System/Application Software Failure
       - train-ticket
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: train_ticket_f22.py
     include_in_launch: true
 
   # ==================== HARDWARE FAULT INJECTOR ====================
@@ -1159,6 +1233,7 @@ tasks:
       - Hardware Component Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: read_error.py
     include_in_launch: true
 
   # ==================== DIRECT K8S API ====================
@@ -1175,6 +1250,7 @@ tasks:
       - Network Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: ingress_misroute.py
     include_in_launch: true
 
   - id: network_policy_block
@@ -1190,6 +1266,7 @@ tasks:
       - Network Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: network_policy_block.py
     include_in_launch: true
 
   # ==================== MULTIPLE INDEPENDENT FAILURES ====================
@@ -1208,6 +1285,7 @@ tasks:
       - hotel-reservation
       - social-network
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: multiple_failures.py
     include_in_launch: true
 
   # ==================== AD HOC PROBLEMS ====================
@@ -1224,6 +1302,7 @@ tasks:
       - Correlated Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: kubelet_crash.py
     include_in_launch: true
 
   - id: workload_imbalance
@@ -1239,6 +1318,7 @@ tasks:
       - System/Application Software Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: workload_imbalance.py
     include_in_launch: true
 
   # ==================== K8S OPERATOR MISOPERATION ====================
@@ -1255,6 +1335,7 @@ tasks:
       - Cloud Management System Failure
       - fleet-cast
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: overload_replicas.py
     include_in_launch: true
 
   - id: operator_non_existent_storage
@@ -1270,6 +1351,7 @@ tasks:
       - Cloud Management System Failure
       - fleet-cast
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: non_existent_storage.py
     include_in_launch: true
 
   - id: operator_invalid_affinity_toleration
@@ -1285,6 +1367,7 @@ tasks:
       - Misconfiguration Failure
       - fleet-cast
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: invalid_affinity_toleration.py
     include_in_launch: true
 
   - id: operator_security_context_fault
@@ -1300,6 +1383,7 @@ tasks:
       - Misconfiguration Failure
       - fleet-cast
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: security_context_fault.py
     include_in_launch: true
 
   - id: operator_wrong_update_strategy_fault
@@ -1315,5 +1399,6 @@ tasks:
       - Misconfiguration Failure
       - fleet-cast
     github_url: https://github.com/SREGym/SREGym.git
+    file_id: wrong_update_strategy.py
     include_in_launch: true
 
