@@ -54,47 +54,45 @@ export function TaskToolbar({
           <X className="h-4 w-4" />
         </button>
       </div>
-      <div className="col-span-2 grid grid-cols-1 lg:grid-cols-3">
-        <TaskCombobox
-          values={categories.map((c) => c.label)}
-          placeholder="Select categories"
-          selectedValues={selectedCategories}
-          onValueChange={onCategoryChange}
-          className="-mb-px h-16 border border-x-0 sm:-mr-px sm:border-x"
-          count={
-            selectedCategories.size > 0
-              ? selectedCategories.size
-              : categories.length
-          }
-          itemCounts={Object.fromEntries(
-            categories.map((c) => [c.label, c.count]),
-          )}
-        />
-        <TaskCombobox
-          values={tags.map((t) => t.label)}
-          placeholder="Select tags"
-          selectedValues={selectedTags}
-          onValueChange={onTagChange}
-          className="-mb-px h-16 border border-x-0 sm:-mr-px sm:border-x"
-          count={selectedTags.size > 0 ? selectedTags.size : tags.length}
-          itemCounts={Object.fromEntries(tags.map((t) => [t.label, t.count]))}
-        />
-        {/* <TaskCombobox
-          values={difficulties.map((d) => d.label)}
-          placeholder="Select difficulty"
-          selectedValues={selectedDifficulties}
-          onValueChange={onDifficultyChange}
-          className="-mb-px h-16 border border-x-0 sm:-mr-px sm:border-x"
-          count={
-            selectedDifficulties.size > 0
-              ? selectedDifficulties.size
-              : difficulties.length
-          }
-          itemCounts={Object.fromEntries(
-            difficulties.map((d) => [d.label, d.count]),
-          )}
-        /> */}
-      </div>
+      <TaskCombobox
+        values={categories.map((c) => c.label)}
+        placeholder="Select categories"
+        selectedValues={selectedCategories}
+        onValueChange={onCategoryChange}
+        className="-mb-px h-16 border border-x-0 sm:-mr-px sm:border-x"
+        count={
+          selectedCategories.size > 0
+            ? selectedCategories.size
+            : categories.length
+        }
+        itemCounts={Object.fromEntries(
+          categories.map((c) => [c.label, c.count]),
+        )}
+      />
+      <TaskCombobox
+        values={tags.map((t) => t.label)}
+        placeholder="Select tags"
+        selectedValues={selectedTags}
+        onValueChange={onTagChange}
+        className="-mb-px h-16 border border-x-0 sm:-mr-px sm:border-x"
+        count={selectedTags.size > 0 ? selectedTags.size : tags.length}
+        itemCounts={Object.fromEntries(tags.map((t) => [t.label, t.count]))}
+      />
+      {/* <TaskCombobox
+        values={difficulties.map((d) => d.label)}
+        placeholder="Select difficulty"
+        selectedValues={selectedDifficulties}
+        onValueChange={onDifficultyChange}
+        className="-mb-px h-16 border border-x-0 sm:-mr-px sm:border-x"
+        count={
+          selectedDifficulties.size > 0
+            ? selectedDifficulties.size
+            : difficulties.length
+        }
+        itemCounts={Object.fromEntries(
+          difficulties.map((d) => [d.label, d.count]),
+        )}
+      /> */}
     </div>
   );
 }

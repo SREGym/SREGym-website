@@ -47,8 +47,8 @@ tasks:
 
   # --- REGULAR APPLICATION PROBLEMS ---
   - id: incorrect_image
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: System/Application Software Failure
     description: |
       The problem runs on astronomy-shop.
@@ -63,8 +63,8 @@ tasks:
     include_in_launch: true
 
   - id: incorrect_port_assignment
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Misconfiguration Failure
     description: |
       The problem runs on astronomy-shop.
@@ -79,8 +79,8 @@ tasks:
     include_in_launch: true
 
   - id: misconfig_app_hotel_res
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: System/Application Software Failure
     description: |
       The problem runs on hotel-reservation.
@@ -95,8 +95,8 @@ tasks:
     include_in_launch: true
 
   - id: missing_env_variable_astronomy_shop
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Misconfiguration Failure
     description: |
       The problem runs on astronomy-shop.
@@ -111,8 +111,8 @@ tasks:
     include_in_launch: true
 
   - id: revoke_auth_mongodb-1
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Security Failure
     description: |
       The problem runs on hotel-reservation.
@@ -127,8 +127,8 @@ tasks:
     include_in_launch: true
 
   - id: revoke_auth_mongodb-2
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Security Failure
     description: |
       The problem runs on hotel-reservation.
@@ -143,8 +143,8 @@ tasks:
     include_in_launch: true
 
   - id: storage_user_unregistered-1
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Security Failure
     description: |
       The problem runs on hotel-reservation.
@@ -159,8 +159,8 @@ tasks:
     include_in_launch: true
 
   - id: storage_user_unregistered-2
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Security Failure
     description: |
       The problem runs on hotel-reservation.
@@ -258,8 +258,8 @@ tasks:
 
   # --- REGULAR VIRTUALIZATION PROBLEMS ---
   - id: assign_to_non_existent_node
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Cloud Management System Failure
     description: |
       The problem runs on social-network.
@@ -274,8 +274,8 @@ tasks:
     include_in_launch: true
 
   - id: auth_miss_mongodb
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Security Failure
     description: |
       The problem runs on social-network.
@@ -290,8 +290,8 @@ tasks:
     include_in_launch: true
 
   - id: configmap_drift_hotel_reservation
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Misconfiguration Failure
     description: |
       The problem runs on hotel-reservation.
@@ -306,8 +306,8 @@ tasks:
     include_in_launch: true
 
   - id: duplicate_pvc_mounts_astronomy_shop
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Cloud Management System Failure
     description: |
       The problem runs on astronomy-shop.
@@ -322,8 +322,8 @@ tasks:
     include_in_launch: true
 
   - id: duplicate_pvc_mounts_hotel_reservation
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Cloud Management System Failure
     description: |
       The problem runs on hotel-reservation.
@@ -338,8 +338,8 @@ tasks:
     include_in_launch: true
 
   - id: duplicate_pvc_mounts_social_network
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Cloud Management System Failure
     description: |
       The problem runs on social-network.
@@ -354,8 +354,8 @@ tasks:
     include_in_launch: true
 
   - id: env_variable_shadowing_astronomy_shop
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Misconfiguration Failure
     description: |
       The problem runs on astronomy-shop.
@@ -370,8 +370,8 @@ tasks:
     include_in_launch: true
 
   - id: k8s_target_port-misconfig
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Misconfiguration Failure
     description: |
       The problem runs on social-network.
@@ -386,8 +386,8 @@ tasks:
     include_in_launch: true
 
   - id: liveness_probe_misconfiguration_astronomy_shop
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Misconfiguration Failure
     description: |
       The problem runs on astronomy-shop.
@@ -402,8 +402,8 @@ tasks:
     include_in_launch: true
 
   - id: liveness_probe_misconfiguration_hotel_reservation
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Misconfiguration Failure
     description: |
       The problem runs on hotel-reservation.
@@ -418,8 +418,8 @@ tasks:
     include_in_launch: true
 
   - id: liveness_probe_misconfiguration_social_network
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Misconfiguration Failure
     description: |
       The problem runs on social-network.
@@ -434,8 +434,8 @@ tasks:
     include_in_launch: true
 
   - id: liveness_probe_too_aggressive_astronomy_shop
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Cloud Management System Failure
     description: |
       The problem runs on astronomy-shop.
@@ -450,8 +450,8 @@ tasks:
     include_in_launch: true
 
   - id: liveness_probe_too_aggressive_hotel_reservation
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Cloud Management System Failure
     description: |
       The problem runs on hotel-reservation.
@@ -466,8 +466,8 @@ tasks:
     include_in_launch: true
 
   - id: liveness_probe_too_aggressive_social_network
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Cloud Management System Failure
     description: |
       The problem runs on social-network.
@@ -482,8 +482,8 @@ tasks:
     include_in_launch: true
 
   - id: missing_configmap_hotel_reservation
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Cloud Management System Failure
     description: |
       The problem runs on hotel-reservation.
@@ -498,8 +498,8 @@ tasks:
     include_in_launch: true
 
   - id: missing_configmap_social_network
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Cloud Management System Failure
     description: |
       The problem runs on social-network.
@@ -514,8 +514,8 @@ tasks:
     include_in_launch: true
 
   - id: missing_service_astronomy_shop
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Cloud Management System Failure
     description: |
       The problem runs on astronomy-shop.
@@ -530,8 +530,8 @@ tasks:
     include_in_launch: true
 
   - id: missing_service_hotel_reservation
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Cloud Management System Failure
     description: |
       The problem runs on hotel-reservation.
@@ -546,8 +546,8 @@ tasks:
     include_in_launch: true
 
   - id: missing_service_social_network
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Cloud Management System Failure
     description: |
       The problem runs on social-network.
@@ -562,8 +562,8 @@ tasks:
     include_in_launch: true
 
   - id: namespace_memory_limit
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Cloud Management System Failure
     description: |
       The problem runs on hotel-reservation.
@@ -578,8 +578,8 @@ tasks:
     include_in_launch: true
 
   - id: pod_anti_affinity_deadlock
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Cloud Management System Failure
     description: |
       The problem runs on social-network.
@@ -594,8 +594,8 @@ tasks:
     include_in_launch: true
 
   - id: persistent_volume_affinity_violation
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Cloud Management System Failure
     description: |
       The problem runs on social-network.
@@ -610,8 +610,8 @@ tasks:
     include_in_launch: true
 
   - id: pvc_claim_mismatch
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Cloud Management System Failure
     description: |
       The problem runs on hotel-reservation.
@@ -626,8 +626,8 @@ tasks:
     include_in_launch: true
 
   - id: rbac_misconfiguration
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Cloud Management System Failure
     description: |
       The problem runs on astronomy-shop.
@@ -642,8 +642,8 @@ tasks:
     include_in_launch: true
 
   - id: readiness_probe_misconfiguration_astronomy_shop
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Misconfiguration Failure
     description: |
       The problem runs on astronomy-shop.
@@ -658,8 +658,8 @@ tasks:
     include_in_launch: true
 
   - id: readiness_probe_misconfiguration_hotel_reservation
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Misconfiguration Failure
     description: |
       The problem runs on hotel-reservation.
@@ -674,8 +674,8 @@ tasks:
     include_in_launch: true
 
   - id: readiness_probe_misconfiguration_social_network
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Misconfiguration Failure
     description: |
       The problem runs on social-network.
@@ -690,8 +690,8 @@ tasks:
     include_in_launch: true
 
   - id: resource_request_too_large
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Cloud Management System Failure
     description: |
       The problem runs on hotel-reservation.
@@ -706,8 +706,8 @@ tasks:
     include_in_launch: true
 
   - id: resource_request_too_small
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Cloud Management System Failure
     description: |
       The problem runs on hotel-reservation.
@@ -722,8 +722,8 @@ tasks:
     include_in_launch: true
 
   - id: rolling_update_misconfigured_hotel_reservation
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Misconfiguration Failure
     description: |
       The problem runs on hotel-reservation.
@@ -738,8 +738,8 @@ tasks:
     include_in_launch: true
 
   - id: rolling_update_misconfigured_social_network
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Misconfiguration Failure
     description: |
       The problem runs on social-network.
@@ -754,8 +754,8 @@ tasks:
     include_in_launch: true
 
   - id: scale_pod_zero_social_net
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Cloud Management System Failure
     description: |
       The problem runs on social-network.
@@ -770,8 +770,8 @@ tasks:
     include_in_launch: true
 
   - id: service_dns_resolution_failure_astronomy_shop
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Network Failure
     description: |
       The problem runs on astronomy-shop.
@@ -786,8 +786,8 @@ tasks:
     include_in_launch: true
 
   - id: service_dns_resolution_failure_social_network
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Network Failure
     description: |
       The problem runs on social-network.
@@ -802,8 +802,8 @@ tasks:
     include_in_launch: true
 
   - id: sidecar_port_conflict_astronomy_shop
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Misconfiguration Failure
     description: |
       The problem runs on astronomy-shop.
@@ -818,8 +818,8 @@ tasks:
     include_in_launch: true
 
   - id: sidecar_port_conflict_hotel_reservation
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Misconfiguration Failure
     description: |
       The problem runs on hotel-reservation.
@@ -834,8 +834,8 @@ tasks:
     include_in_launch: true
 
   - id: sidecar_port_conflict_social_network
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Misconfiguration Failure
     description: |
       The problem runs on social-network.
@@ -850,8 +850,8 @@ tasks:
     include_in_launch: true
 
   - id: stale_coredns_config_astronomy_shop
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Network Failure
     description: |
       The problem runs on astronomy-shop.
@@ -866,8 +866,8 @@ tasks:
     include_in_launch: true
 
   - id: stale_coredns_config_social_network
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Network Failure
     description: |
       The problem runs on social-network.
@@ -898,8 +898,8 @@ tasks:
     include_in_launch: true
 
   - id: wrong_bin_usage
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: System/Application Software Failure
     description: |
       The problem runs on hotel-reservation.
@@ -914,8 +914,8 @@ tasks:
     include_in_launch: true
 
   - id: wrong_dns_policy_astronomy_shop
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Network Failure
     description: |
       The problem runs on astronomy-shop.
@@ -930,8 +930,8 @@ tasks:
     include_in_launch: true
 
   - id: wrong_dns_policy_hotel_reservation
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Network Failure
     description: |
       The problem runs on hotel-reservation.
@@ -946,8 +946,8 @@ tasks:
     include_in_launch: true
 
   - id: wrong_dns_policy_social_network
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Network Failure
     description: |
       The problem runs on social-network.
@@ -962,8 +962,8 @@ tasks:
     include_in_launch: true
 
   - id: wrong_service_selector_astronomy_shop
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Misconfiguration Failure
     description: |
       The problem runs on astronomy-shop.
@@ -978,8 +978,8 @@ tasks:
     include_in_launch: true
 
   - id: wrong_service_selector_hotel_reservation
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Misconfiguration Failure
     description: |
       The problem runs on hotel-reservation.
@@ -994,8 +994,8 @@ tasks:
     include_in_launch: true
 
   - id: wrong_service_selector_social_network
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Misconfiguration Failure
     description: |
       The problem runs on social-network.
@@ -1011,8 +1011,8 @@ tasks:
 
   # ==================== OPENTELEMETRY FAULT INJECTOR ====================
   - id: astronomy_shop_ad_service_failure
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: System/Application Software Failure
     description: |
       The problem runs on astronomy-shop.
@@ -1027,8 +1027,8 @@ tasks:
     include_in_launch: true
 
   - id: astronomy_shop_ad_service_high_cpu
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: System/Application Software Failure
     description: |
       The problem runs on astronomy-shop.
@@ -1043,8 +1043,8 @@ tasks:
     include_in_launch: true
 
   - id: astronomy_shop_ad_service_manual_gc
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: System/Application Software Failure
     description: |
       The problem runs on astronomy-shop.
@@ -1059,8 +1059,8 @@ tasks:
     include_in_launch: true
 
   - id: astronomy_shop_cart_service_failure
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: System/Application Software Failure
     description: |
       The problem runs on astronomy-shop.
@@ -1075,8 +1075,8 @@ tasks:
     include_in_launch: true
 
   - id: astronomy_shop_ad_service_image_slow_load
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: System/Application Software Failure
     description: |
       The problem runs on astronomy-shop.
@@ -1091,8 +1091,8 @@ tasks:
     include_in_launch: true
 
   - id: astronomy_shop_payment_service_failure
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: System/Application Software Failure
     description: |
       The problem runs on astronomy-shop.
@@ -1107,8 +1107,8 @@ tasks:
     include_in_launch: true
 
   - id: astronomy_shop_payment_service_unreachable
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: System/Application Software Failure
     description: |
       The problem runs on astronomy-shop.
@@ -1123,8 +1123,8 @@ tasks:
     include_in_launch: true
 
   - id: astronomy_shop_product_catalog_service_failure
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: System/Application Software Failure
     description: |
       The problem runs on astronomy-shop.
@@ -1139,8 +1139,8 @@ tasks:
     include_in_launch: true
 
   - id: astronomy_shop_recommendation_service_cache_failure
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: System/Application Software Failure
     description: |
       The problem runs on astronomy-shop.
@@ -1155,8 +1155,8 @@ tasks:
     include_in_launch: true
 
   - id: kafka_queue_problems
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: System/Application Software Failure
     description: |
       The problem runs on astronomy-shop.
@@ -1171,8 +1171,8 @@ tasks:
     include_in_launch: true
 
   - id: loadgenerator_flood_homepage
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: System/Application Software Failure
     description: |
       The problem runs on astronomy-shop.
@@ -1188,8 +1188,8 @@ tasks:
 
   # ==================== TRAIN TICKET FAULT INJECTOR ====================
   - id: trainticket_f17_nested_sql_select_clause_error
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: System/Application Software Failure
     description: |
       The problem runs on train-ticket.
@@ -1204,8 +1204,8 @@ tasks:
     include_in_launch: true
 
   - id: trainticket_f22_sql_column_name_mismatch_error
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: System/Application Software Failure
     description: |
       The problem runs on train-ticket.
@@ -1323,8 +1323,8 @@ tasks:
 
   # ==================== K8S OPERATOR MISOPERATION ====================
   - id: operator_overload_replicas
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Cloud Management System Failure
     description: |
       The problem runs on fleet-cast.
@@ -1339,8 +1339,8 @@ tasks:
     include_in_launch: true
 
   - id: operator_non_existent_storage
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Cloud Management System Failure
     description: |
       The problem runs on fleet-cast.
@@ -1355,8 +1355,8 @@ tasks:
     include_in_launch: true
 
   - id: operator_invalid_affinity_toleration
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Misconfiguration Failure
     description: |
       The problem runs on fleet-cast.
@@ -1371,8 +1371,8 @@ tasks:
     include_in_launch: true
 
   - id: operator_security_context_fault
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Misconfiguration Failure
     description: |
       The problem runs on fleet-cast.
@@ -1387,8 +1387,8 @@ tasks:
     include_in_launch: true
 
   - id: operator_wrong_update_strategy_fault
-    author_email: gagan.somashekar@gmail.com
-    author_name: Gagan Somashekar
+    author_email: yinfang3@illinois.edu
+    author_name: Yinfang Chen
     category: Misconfiguration Failure
     description: |
       The problem runs on fleet-cast.
