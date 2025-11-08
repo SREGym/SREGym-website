@@ -12,7 +12,7 @@ export const baseOptions: BaseLayoutProps = {
     title: (
       <div className="flex items-center gap-2">
         <img src="/i.png" alt="SREGym Logo" className="size-6" />
-        <p className="font-mono text-base font-medium tracking-tight">
+        <p className="font-mono text-lg font-medium tracking-tight">
           SREGym
         </p>
       </div>
@@ -25,11 +25,6 @@ export const baseOptions: BaseLayoutProps = {
       active: "nested-url",
     },
     {
-      text: "Leaderboard",
-      url: "/leaderboard",
-      active: "nested-url",
-    },
-    {
       text: "Problems",
       url: "/problems/problem-repertoire/head",
       active: "nested-url",
@@ -37,16 +32,6 @@ export const baseOptions: BaseLayoutProps = {
     {
       text: "Contributors",
       url: "/contributors",
-      active: "nested-url",
-    },
-    {
-      text: "News",
-      url: "/news",
-      active: "nested-url",
-    },
-    {
-      text: "Stratus",
-      url: "/stratus",
       active: "nested-url",
     },
   ],
