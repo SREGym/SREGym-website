@@ -628,14 +628,14 @@ tasks:
   - id: rbac_misconfiguration
     author_email: yinfang3@illinois.edu
     author_name: Yinfang Chen
-    category: Cloud Management System Failure
+    category: Misconfiguration Failure
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where RBAC (Role-Based Access Control) is misconfigured for init containers in the astronomy shop application.
       The fault manifests as init containers unable to perform required operations due to insufficient permissions.
       Inject the fault by misconfiguring RBAC roles or role bindings for the init containers.
     tags:
-      - Cloud Management System Failure
+      - Misconfiguration Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
     file_id: rbac_misconfiguration.py
@@ -1373,14 +1373,14 @@ tasks:
   - id: operator_security_context_fault
     author_email: yinfang3@illinois.edu
     author_name: Yinfang Chen
-    category: Misconfiguration Failure
+    category: Security Failure
     description: |
       The problem runs on fleet-cast.
       Simulate a fault where a Kubernetes operator misconfigures security context settings.
       The fault manifests as pods unable to start or having incorrect security permissions due to misconfigured security contexts.
       Inject the fault by configuring the operator with incorrect security context settings (e.g., wrong user IDs, capabilities, or permissions).
     tags:
-      - Misconfiguration Failure
+      - Security Failure
       - fleet-cast
     github_url: https://github.com/SREGym/SREGym.git
     file_id: security_context_fault.py
