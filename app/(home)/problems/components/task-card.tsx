@@ -4,7 +4,7 @@ import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tables } from "@/lib/supabase/database.types";
 import { Lock } from "lucide-react";
 import { Fragment } from "react";
-import { buildTaskGithubUrl } from "../../../lib/utils";
+import { buildTaskGithubUrl } from "../lib/utils";
 import { CopyButton } from "./copy-button";
 import { FilterOrLink } from "./filter-or-link";
 import { GithubLinkButton } from "./github-link-button";
@@ -16,9 +16,7 @@ type TaskCardProps = {
 
 export function TaskCard({ task, behavior }: TaskCardProps) {
   return (
-    <GridItem
-      href={`/problems/${task.dataset_name}/${task.dataset_version}/${task.id}`}
-    >
+    <GridItem href={`/problems/${task.id}`}>
       <div className="flex min-w-0 flex-1 flex-col justify-between gap-6 py-6">
         <CardHeader className="min-w-0">
           <div className="mb-2 flex min-w-0 flex-col justify-between gap-2 sm:flex-row sm:items-center">
@@ -36,7 +34,7 @@ export function TaskCard({ task, behavior }: TaskCardProps) {
               <GithubLinkButton
                 githubUrl={buildTaskGithubUrl({
                   dataset: task.registry,
-                  taskId: task.registry.is_encrypted ? `${task.id}.zip` : task.id,
+                  taskId: task.registry.is_encrypted ? `${task.id}.zip` : task.file_id,
                 })}
               />
             </div>
@@ -46,8 +44,6 @@ export function TaskCard({ task, behavior }: TaskCardProps) {
               value={task.category}
               valuesName="categories"
               behavior={behavior}
-              datasetName={task.dataset_name}
-              datasetVersion={task.dataset_version}
             >
               <Badge
                 variant="secondary"
@@ -56,12 +52,10 @@ export function TaskCard({ task, behavior }: TaskCardProps) {
                 {task.category}
               </Badge>
             </FilterOrLink>
-            <FilterOrLink
+            {/* <FilterOrLink
               value={task.difficulty}
               valuesName="difficulties"
               behavior={behavior}
-              datasetName={task.dataset_name}
-              datasetVersion={task.dataset_version}
             >
               <Badge
                 variant="secondary"
@@ -69,7 +63,7 @@ export function TaskCard({ task, behavior }: TaskCardProps) {
               >
                 {task.difficulty}
               </Badge>
-            </FilterOrLink>
+            </FilterOrLink> */}
           </div>
         </CardHeader>
         <CardContent className="flex flex-1 flex-col justify-between space-y-6">
@@ -85,7 +79,7 @@ export function TaskCard({ task, behavior }: TaskCardProps) {
             </div>
           ) : (
             <p className="line-clamp-[10] font-mono wrap-anywhere whitespace-pre-wrap sm:text-sm">
-              {task.instruction}
+              {task.description}
             </p>
           )}
           <div className="space-y-6">
@@ -95,8 +89,6 @@ export function TaskCard({ task, behavior }: TaskCardProps) {
                   <FilterOrLink
                     value={tag}
                     valuesName="tags"
-                    datasetName={task.dataset_name}
-                    datasetVersion={task.dataset_version}
                     className="cursor-default"
                     behavior={behavior}
                   >

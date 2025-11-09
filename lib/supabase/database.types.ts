@@ -118,11 +118,12 @@ export type Database = {
           dataset_name: string
           dataset_version: string
           demo_url: string | null
-          difficulty: Database["public"]["Enums"]["difficulty_type"]
+          // difficulty: Database["public"]["Enums"]["difficulty_type"]
           github_url: string
+          file_id: string
           id: string
           include_in_launch: boolean
-          instruction: string
+          description: string
           tags: string[]
           updated_at: string
         }
@@ -134,11 +135,12 @@ export type Database = {
           dataset_name?: string
           dataset_version?: string
           demo_url?: string | null
-          difficulty: Database["public"]["Enums"]["difficulty_type"]
+          // difficulty: Database["public"]["Enums"]["difficulty_type"]
           github_url: string
+          file_id: string
           id: string
           include_in_launch?: boolean
-          instruction: string
+          description: string
           tags: string[]
           updated_at?: string
         }
@@ -150,11 +152,12 @@ export type Database = {
           dataset_name?: string
           dataset_version?: string
           demo_url?: string | null
-          difficulty?: Database["public"]["Enums"]["difficulty_type"]
+          // difficulty?: Database["public"]["Enums"]["difficulty_type"]
           github_url?: string
+          file_id?: string
           id?: string
           include_in_launch?: boolean
-          instruction?: string
+          description?: string
           tags?: string[]
           updated_at?: string
         }
@@ -178,7 +181,7 @@ export type Database = {
           ended_at: string | null
           failure_mode: string
           id: string
-          instruction: string
+          description: string
           is_resolved: boolean | null
           n_input_tokens: number | null
           n_output_tokens: number | null
@@ -200,7 +203,7 @@ export type Database = {
           ended_at?: string | null
           failure_mode: string
           id?: string
-          instruction: string
+          description: string
           is_resolved?: boolean | null
           n_input_tokens?: number | null
           n_output_tokens?: number | null
@@ -222,7 +225,7 @@ export type Database = {
           ended_at?: string | null
           failure_mode?: string
           id?: string
-          instruction?: string
+          description?: string
           is_resolved?: boolean | null
           n_input_tokens?: number | null
           n_output_tokens?: number | null

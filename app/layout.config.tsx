@@ -31,7 +31,7 @@ export const baseOptions: BaseLayoutProps = {
     },
     {
       text: "Problems",
-      url: "/problems/problem-repertoire/head",
+      url: "/problems",
       active: "nested-url",
     },
     {

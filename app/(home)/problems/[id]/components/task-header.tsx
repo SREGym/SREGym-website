@@ -8,7 +8,7 @@ interface TaskHeaderProps {
   id: string;
   githubUrl: string;
   category: string;
-  difficulty: string;
+  // difficulty: string;
   dataset_name: string;
   dataset_version: string;
 }
@@ -17,7 +17,7 @@ export function TaskHeader({
   id,
   githubUrl,
   category,
-  difficulty,
+  // difficulty,
   dataset_name,
   dataset_version,
 }: TaskHeaderProps) {
@@ -25,7 +25,7 @@ export function TaskHeader({
     <div className="space-y-4">
       <CopyTaskId id={id} />
       <Badge>
-        {formatDatasetName(dataset_name)}=={dataset_version}
+        Problem List
       </Badge>
       <div className="flex gap-2">
         <Link
@@ -41,7 +41,7 @@ export function TaskHeader({
       <div className="flex gap-2">
         <Link
           href={{
-            pathname: `/problems/${dataset_name}/${dataset_version}`,
+            pathname: "/problems",
             query: { categories: [category] },
           }}
         >
@@ -52,9 +52,9 @@ export function TaskHeader({
             {category}
           </Badge>
         </Link>
-        <Link
+        {/* <Link
           href={{
-            pathname: `/problems/${dataset_name}/${dataset_version}`,
+            pathname: "/problems",
             query: { difficulties: [difficulty] },
           }}
         >
@@ -64,7 +64,7 @@ export function TaskHeader({
           >
             {difficulty}
           </Badge>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

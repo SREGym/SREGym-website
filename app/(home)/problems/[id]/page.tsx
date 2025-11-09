@@ -7,29 +7,23 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { getTask } from "@/lib/problems-data";
-import { formatDatasetName } from "@/lib/utils";
-import { SearchParams } from "nuqs";
-import { buildTaskGithubUrl } from "../../../lib/utils";
+import { getDefaultTask } from "@/lib/problems-data";
 import { notFound } from "next/navigation";
+import { buildTaskGithubUrl } from "../lib/utils";
 import { TaskDemo } from "./components/task-demo";
+import { TaskDescription } from "./components/task-description";
 import { TaskHeader } from "./components/task-header";
-import { TaskInstruction } from "./components/task-instruction";
 import { TaskTags } from "./components/task-tags";
-import { TaskUsage } from "./components/task-usage";
 
 type PageProps = {
   params: Promise<{
     id: string;
-    name: string;
-    version: string;
   }>;
-  searchParams: Promise<SearchParams>;
 };
 
 export default async function Task({ params }: PageProps) {
-  const { id, name, version } = await params;
-  const task = await getTask(id, name, version);
+  const { id } = await params;
+  const task = await getDefaultTask(id);
 
   if (!task) {
     notFound();
@@ -49,12 +43,6 @@ export default async function Task({ params }: PageProps) {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href={`/problems/${name}/${version}`}>
-                {formatDatasetName(name)}=={version}
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
               <BreadcrumbPage>{id}</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
@@ -63,28 +51,19 @@ export default async function Task({ params }: PageProps) {
           id={id}
           githubUrl={buildTaskGithubUrl({
             dataset: task.registry,
-            taskId: task.registry.is_encrypted ? `${task.id}.zip` : task.id,
+            taskId: task.registry.is_encrypted ? `${task.id}.zip` : task.file_id,
           })}
           category={task.category}
-          difficulty={task.difficulty}
+          // difficulty={task.difficulty}
           dataset_name={task.dataset_name}
           dataset_version={task.dataset_version}
         />
-        <TaskUsage
-          taskId={id}
-          datasetName={task.dataset_name}
-          datasetVersion={task.dataset_version}
-        />
         {task.demo_url && <TaskDemo demoUrl={task.demo_url} />}
-        <TaskInstruction
-          instruction={task.instruction}
+        <TaskDescription
+          description={task.description}
           encrypted={task.registry.is_encrypted}
         />
-        <TaskTags
-          tags={task.tags}
-          datasetName={task.dataset_name}
-          datasetVersion={task.dataset_version}
-        />
+        <TaskTags tags={task.tags} />
         {task.author_name !== "unknown" && task.author_name !== "anonymous" && (
           <p className="text-muted-foreground font-mono text-sm">
             Created by {task.author_name}
