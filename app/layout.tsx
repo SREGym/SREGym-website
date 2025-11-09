@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import { RootProvider } from "fumadocs-ui/provider";
 import { GeistMono } from "geist/font/mono";
-import { Inter } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import { Metadata } from "next/types";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import type { ReactNode } from "react";
@@ -38,15 +38,16 @@ export const metadata: Metadata = {
   },
 };
 
-const inter = Inter({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
+  variable: "--font-jetbrains-mono",
 });
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="en"
-      className={cn(inter.className, GeistMono.variable, "light")}
+      className={cn(jetbrainsMono.variable, jetbrainsMono.className, GeistMono.variable, "light")}
       suppressHydrationWarning
     >
       <body className="flex min-h-screen flex-col">

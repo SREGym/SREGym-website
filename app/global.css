@@ -129,6 +129,7 @@ nav button {
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-jetbrains-mono), ui-sans-serif, system-ui, sans-serif;
   }
 }
 
