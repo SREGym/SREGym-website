@@ -48,7 +48,7 @@ export default async function Tasks() {
           </p>
           <div className="mx-auto flex flex-col sm:flex-row gap-4 sm:gap-2 justify-center items-center mb-12 sm:mb-9">
             <Link
-              href="/docs/installation"
+              href="https://github.com/SREGym/SREGym"
               className={cn(
                 "font-mono text-xl py-8 px-10 whitespace-nowrap w-full sm:w-auto sm:min-w-[350px]",
                 buttonVariants({ size: "xl", className: "rounded-none !text-xl" }),
@@ -57,7 +57,7 @@ export default async function Tasks() {
               Quick  Start!  💪
             </Link>
             <Link
-              href="/docs/setup-guide"
+              href="/problems/problem-repertoire/head"
               className={cn(
                 "font-mono text-xl py-8 px-10 whitespace-nowrap w-full sm:w-auto sm:min-w-[350px]",
                 buttonVariants({
@@ -67,7 +67,7 @@ export default async function Tasks() {
                 }),
               )}
             >
-              See Our Problems 👀
+              Problem List 👀
             </Link>
           </div>
           <div className="mx-auto flex max-w-3xl flex-col gap-4 md:flex-row md:gap-2 hidden">
@@ -88,7 +88,7 @@ export default async function Tasks() {
           </div>
           <div className="mx-auto flex max-w-xl flex-col justify-center gap-4">
             <p className="text-center font-mono text-sm sm:text-base">
-            @ University of Illinois at Urbana-Champaign
+            University of Illinois at Urbana-Champaign
             </p>
           </div>
         </div>
