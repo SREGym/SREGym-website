@@ -44,6 +44,12 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* Navigation bar font size */
+nav a,
+nav button {
+  font-size: 1.05rem !important; /* text-lg */
+}
+
 :root {
   --radius: 0rem;
   --background: oklch(1 0 0); /* white 0xffffff */
