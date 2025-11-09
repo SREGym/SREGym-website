@@ -43,7 +43,7 @@ export default async function Tasks() {
               </div>
             </div>
           </div>
-          <p className="text-fd-muted-foreground text-right font-mono tracking-tight sm:text-xl/relaxed mt-[40px] mb-12 sm:mb-8 w-full text-right">
+          <p className="text-fd-muted-foreground text-right font-mono tracking-tight sm:text-xl/relaxed mt-[40px] mb-12 sm:mb-8 w-full text-center">
             SREGym is a unified platform to enable the design / development / evaluation of <br /> AI agents for Site Reliability Engineering (SRE). <br /> SREGym creates live system environments for SRE agents to solve real-world problems. <br />  SREGym provides a comprehensive SRE benchmark suite with a wide variety of problems <br /> for evaluating SRE agents and for training next-generation AI agents.
           </p>
           <div className="mx-auto flex flex-col sm:flex-row gap-4 sm:gap-2 justify-center items-center mb-12 sm:mb-9">
@@ -136,9 +136,6 @@ export default async function Tasks() {
               </Link>
             </div>
           )}
-        </div>
-        <div className="flex flex-1 flex-col justify-end">
-          <CanaryString />
         </div>
       </div>
     </div>
