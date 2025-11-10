@@ -45,7 +45,7 @@ export default function TeamPage() {
         </div>
         <div className="mt-6 flex flex-col sm:mt-12">
           <h2 className="mb-6 font-mono text-2xl tracking-tighter">
-            Acknowledgements
+            Acknowledgement
           </h2>
           <div className="space-y-4">
             <p className="text-muted-foreground font-mono text-sm/relaxed">
