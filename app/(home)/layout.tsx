@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 
 const homeOptions: HomeLayoutProps = {
   ...baseOptions,
-  githubUrl: "https://github.com/laude-institute/sregym",
+  githubUrl: "https://github.com/SREGym/SREGym",
   searchToggle: {
     enabled: false,
   },

@@ -7,7 +7,7 @@ const docsOptions: DocsLayoutProps = {
   ...baseOptions,
   tree: source.pageTree,
   links: [...(baseOptions.links ?? [])],
-  githubUrl: "https://github.com/laude-institute/sregym",
+  githubUrl: "https://github.com/SREGym/SREGym",
 };
 
 export default function Layout({ children }: { children: ReactNode }) {
