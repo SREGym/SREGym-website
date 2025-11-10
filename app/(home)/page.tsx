@@ -29,7 +29,12 @@ export default async function Tasks() {
                 <img
                   src="/logov2.jpg"
                   alt="SREGym Logo"
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-cover block dark:hidden"
+                />
+                <img
+                  src="/logov4.png"
+                  alt="SREGym Logo"
+                  className="h-full w-full object-cover hidden dark:block"
                 />
               </div>
               <div className="h-[83px] sm:h-[125px] flex flex-col justify-center">
