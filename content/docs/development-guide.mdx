@@ -1,0 +1,110 @@
+---
+title: Development Guide
+description: Guide for developers working on SREGym - testing tools and debugging
+---
+
+## Overview
+
+This guide covers testing tools for developers working on SREGym. For development setup, code style, and contribution process, see the [Contributing](/docs/contributing) guide.
+
+## Testing Tools
+
+### cli.py
+
+SREGym CLI client (`cli.py`). Use this for debugging and platform development work. Otherwise use `main.py`.
+
+This version talks directly to the in-process Conductor for both environment setup and grading, but still gives you the PromptToolkit + Rich UI.
+
+#### Usage
+
+Run the CLI:
+
+```bash
+python cli.py
+```
+
+#### Available Commands
+
+- `start <problem_id>` - Run your selected problem
+- `exit` - Exit the CLI
+
+
+#### Features
+
+- Use the `submit()` function in the console to test an agent submission
+- Execute shell commands directly in the interactive console (e.g., kubectl commands)
+
+<Callout type="warning">
+Starting a new problem will restart any running app. Make sure you finish working before you start.
+</Callout>
+
+#### Example Usage
+
+The CLI provides an interactive Python console where you can use CLI commands, test submissions, and execute shell commands:
+
+```python
+$ python cli.py
+> start k8s_target_port-misconfig
+Problem started: k8s_target_port-misconfig
+
+# Test agent submissions
+> submit("No")
+> submit("Yes")
+
+# Execute kubectl commands directly to inspect the cluster
+> !kubectl logs my-pod -n default
+> !kubectl describe pod my-pod
+> !kubectl get services
+
+# Exit the CLI
+> exit
+```
+
+### MCP Inspector
+
+[MCP Inspector](https://modelcontextprotocol.io/docs/tools/inspector) is an interactive developer tool for testing and debugging MCP servers. It allows you to test MCP tools before integrating them into your agent.
+
+#### Installation and Usage
+
+The Inspector runs directly through `npx` without requiring installation:
+
+```bash
+npx @modelcontextprotocol/inspector <command>
+```
+
+#### Features
+
+The Inspector provides several features for interacting with your MCP server:
+
+- **Tools tab**: Lists available tools, shows tool schemas and descriptions, enables tool testing with custom inputs, and displays tool execution results
+- **Resources tab**: Lists all available resources, shows resource metadata, and allows resource content inspection
+- **Prompts tab**: Displays available prompt templates and enables prompt testing with custom arguments
+- **Notifications pane**: Presents all logs recorded from the server and shows notifications received
+
+#### Connecting to SREGym MCP Server
+
+To test SREGym's MCP tools:
+
+1. Start SREGym with `python main.py` (the MCP server runs automatically)
+2. Run the Inspector:
+   ```bash
+   npx @modelcontextprotocol/inspector <connection-command>
+   ```
+3. Use the Tools tab to test individual MCP tools available in SREGym
+
+For more details, see the [MCP Inspector documentation](https://modelcontextprotocol.io/docs/tools/inspector).
+
+## Debugging
+
+For debugging and troubleshooting, see the [Troubleshooting](/docs/troubleshooting) guide which includes:
+- kubectl commands for viewing logs and checking cluster status
+- Common debugging steps
+- Troubleshooting tips
+
+## Next Steps
+
+For more information on:
+- **Development setup and code style**: See the [Contributing](/docs/contributing) guide
+- **MCP Tools**: Learn about [MCP Tools](/docs/mcp-tools) for agent development
+- **Troubleshooting**: Check [Troubleshooting](/docs/troubleshooting) for troubleshooting
+

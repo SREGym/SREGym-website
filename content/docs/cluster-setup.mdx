@@ -1,0 +1,59 @@
+---
+title: Cluster Setup
+description: Setting up your Kubernetes cluster for SREGym using an emulated cluster (Kind) or a full Kubernetes cluster (Ansible)
+---
+
+## Setup your cluster
+
+We currenlty support both local and remote setup. The options are:
+
+- **Emulated cluster (Kind)**: Quick setup for local development - see [Cluster Setup](/docs/cluster-setup)
+- **Kubernetes Cluster (Ansible)**: Production setup for CloudLab or remote servers - see [Cluster Setup](/docs/cluster-setup)
+
+<Tabs items={['Kubernetes Cluster (Recommended)', 'Emulated cluster']}>
+  <Tab value="Kubernetes Cluster (Recommended)">
+## Kubernetes Cluster
+
+SREGym supports any kubernetes cluster that your `kubectl` context is set to, whether it's a cluster from a cloud provider or one you build yourself.
+
+We have an Ansible playbook to setup clusters on providers like [CloudLab](https://www.cloudlab.us/) and our own machines. This instruction covers using Ansible to build a remote cluster for SREGym. This will work on any servers you have access to.
+
+### 1) Modify the inventory file
+
+```bash
+cp inventory.yml.example inventory.yml
+```
+
+Modify the IPs and user names in the inventory file accordingly, `inventory.yml`.
+
+### 2) Run the Ansible playbook
+
+```bash
+ansible-playbook -i inventory.yml setup_cluster.yml
+```
+
+After these, you should see every node running inside the cluster:
+
+```bash
+kubectl get nodes
+```
+
+### Common Errors
+
+For troubleshooting Ansible-related issues, including host key authentication errors, see the [Host Key Authentication Errors](/docs/troubleshooting#host-key-authentication-errors) section in the Troubleshooting guide.
+  </Tab>
+  <Tab value="Emulated cluster">
+## Emulated cluster
+
+SREGym can be run on an emulated cluster using [kind](https://kind.sigs.k8s.io/) on your local machine. However, not all problems are supported.
+
+```bash
+# For x86 machines
+kind create cluster --config kind/kind-config-x86.yaml
+
+# For ARM machines
+kind create cluster --config kind/kind-config-arm.yaml
+```
+  </Tab>
+</Tabs>
+
