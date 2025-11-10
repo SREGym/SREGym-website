@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { CanaryString } from "@/components/canary-string";
 import {
   Breadcrumb,
@@ -42,7 +43,13 @@ export default async function ProblemsPage() {
           </Badge> */}
         </div>
         {tasks.length > 0 ? (
-          <FilterableTaskGrid tasks={tasks} />
+          <Suspense fallback={
+            <p className="text-muted-foreground font-mono sm:text-sm">
+              Loading problems...
+            </p>
+          }>
+            <FilterableTaskGrid tasks={tasks} />
+          </Suspense>
         ) : (
           <p className="text-muted-foreground font-mono sm:text-sm">
             Problems have not been uploaded yet.
