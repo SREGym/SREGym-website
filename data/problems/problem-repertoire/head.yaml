@@ -1,11 +1,11 @@
 registry:
-  name: problem list
+  name: problem set
   version: head
   branch: main
   commit_hash: head
   dataset_path: sregym/conductor/problems
   github_url: https://github.com/SREGym/SREGym.git
-  description: Problem List dataset
+  description: Problem Set dataset
   is_encrypted: false
   terminal_bench_version: "1.0.0"
 

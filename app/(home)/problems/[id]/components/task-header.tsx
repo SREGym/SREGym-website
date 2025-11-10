@@ -25,7 +25,7 @@ export function TaskHeader({
     <div className="space-y-4">
       <CopyTaskId id={id} />
       <Badge>
-        Problem List
+        Problem Set
       </Badge>
       <div className="flex gap-2">
         <Link

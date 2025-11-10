@@ -36,7 +36,7 @@ export default async function ProblemsPage() {
           </BreadcrumbList>
         </Breadcrumb>
         <div className="mb-6 space-y-3">
-          <h2 className="font-mono text-4xl tracking-tighter">Problem List</h2>
+          <h2 className="font-mono text-4xl tracking-tighter">Problem Set</h2>
           {/* <Badge variant="secondary" className="font-mono">
             {formatDatasetName(datasetName)}=={datasetVersion}
           </Badge> */}

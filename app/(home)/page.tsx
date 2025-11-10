@@ -66,7 +66,7 @@ export default async function Tasks() {
                 }),
               )}
             >
-              Problem List 👀
+              Problem Set 👀
             </Link>
           </div>
           <div className="mx-auto flex max-w-3xl flex-col gap-4 md:flex-row md:gap-2 hidden">
