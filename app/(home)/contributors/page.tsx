@@ -7,7 +7,10 @@ const CONTRIBUTORS = [
   { name: "Bohan Cui", link: "./contributors", role: "Contributor" },
   { name: "Jiaqi Huang", link: "https://777lefty.github.io/", role: "Contributor" },
   { name: "Lily Gniedziejko", link: "https://lilygniedz.me/", role: "Contributor" },
+  { name: "Yinfang Chen", link: "https://yinfangchen.github.io/", role: "Advisor" },
   { name: "Tianyin Xu", link: "https://tianyin.github.io/", role: "Advisor" },
+  { name: "Brighten Godfrey", link: "https://pbg.cs.illinois.edu/", role: "Advisor" },
+  { name: "And many more...", link: "https://github.com/SREGym/SREGym/graphs/contributors" },
 ];
 
 export default function TeamPage() {
