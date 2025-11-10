@@ -1,4 +1,3 @@
-import { CanaryString } from "@/components/canary-string";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -69,9 +68,6 @@ export default async function Task({ params }: PageProps) {
             Created by {task.author_name}
           </p>
         )}
-        <div className="flex flex-1 flex-col justify-end">
-          <CanaryString />
-        </div>
       </div>
     </div>
   );

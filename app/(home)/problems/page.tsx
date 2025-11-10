@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import { CanaryString } from "@/components/canary-string";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -55,9 +54,6 @@ export default async function ProblemsPage() {
             Problems have not been uploaded yet.
           </p>
         )}
-        <div className="mt-6 flex flex-1 flex-col justify-end">
-          <CanaryString />
-        </div>
       </div>
     </div>
   );

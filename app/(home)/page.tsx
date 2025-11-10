@@ -1,4 +1,3 @@
-import { CanaryString } from "@/components/canary-string";
 import { buttonVariants } from "@/components/ui/button";
 import { getDefaultTasks } from "@/lib/problems-data";
 import { cn } from "@/lib/utils";
