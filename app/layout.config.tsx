@@ -34,6 +34,11 @@ export const baseOptions: BaseLayoutProps = {
       url: "/contributors",
       active: "nested-url",
     },
+    {
+      text: "Slack",
+      url: "https://join.slack.com/t/SREGym/shared_invite/zt-3gvqxpkpc-RvCUcyBEMvzvXaQS9KtS_w",
+      external: true,
+    },
   ],
   themeSwitch: {
     enabled: false,
