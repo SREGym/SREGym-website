@@ -57,7 +57,7 @@ export default async function Tasks() {
               Quick  Start!  💪
             </Link>
             <Link
-              href="/problems/problem-repertoire/head"
+              href="/problems"
               className={cn(
                 "font-mono text-xl py-8 px-10 whitespace-nowrap w-full sm:w-auto sm:min-w-[350px]",
                 buttonVariants({
