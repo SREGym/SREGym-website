@@ -3,14 +3,14 @@ import Link from "next/link";
 const CONTRIBUTORS = [
   { name: "Jackson Clark", link: "https://hacksonclark.github.io/", role: "Lead" },
   { name: "Yiming Su", link: "https://yimingsu01.github.io/", role: "Co-Lead" },
-  { name: "Saad Mohammad Rafid Pial", link: "https://saadmrp1038.github.io/", role: "Contributor" },
-  { name: "Bohan Cui", link: "./contributors", role: "Contributor" },
-  { name: "Jiaqi Huang", link: "https://777lefty.github.io/", role: "Contributor" },
-  { name: "Lily Gniedziejko", link: "https://lilygniedz.me/", role: "Contributor" },
+  { name: "Saad Mohammad Rafid Pial", link: "https://saadmrp1038.github.io/", role: "Core Team" },
+  { name: "Bohan Cui", link: "./contributors", role: "Core Team" },
+  { name: "Jiaqi Huang", link: "https://777lefty.github.io/", role: "Core Team" },
+  { name: "Lily Gniedziejko", link: "https://lilygniedz.me/", role: "Core Team" },
   { name: "Yinfang Chen", link: "https://yinfangchen.github.io/", role: "Advisor" },
   { name: "Tianyin Xu", link: "https://tianyin.github.io/", role: "Advisor" },
   { name: "Brighten Godfrey", link: "https://pbg.cs.illinois.edu/", role: "Advisor" },
-  { name: "And many more...", link: "https://github.com/SREGym/SREGym/graphs/contributors" },
+  { name: "Many more...", link: "https://github.com/SREGym/SREGym/graphs/contributors" },
 ];
 
 export default function TeamPage() {
