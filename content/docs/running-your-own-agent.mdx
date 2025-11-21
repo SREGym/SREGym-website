@@ -25,21 +25,13 @@ Add a new entry to `agents.yaml` following this format to register your custom a
 
 ## Understanding Evaluation Phases
 
-There are at most 4 phases in each problem of SREGym:
+There are at most 2 phases in each problem of SREGym:
 
-1. **NO-OP Detection**: We have deployed the application, but there is no incident happening. The agent should detect no incident in the cluster. After agent submission for this problem, the fault is injected.
+1. **Fault Diagnosis**: The agent should localize where the incident originates and explain the root cause.
 
-   **Expected submission**: "Yes" or "No" to indicate incident.
+   **Expected submission**: The root cause of the incident in natural language.
 
-2. **Incident Detection**: We've injected a fault into the cluster, it is now experiencing an incident.
-
-   **Expected submission**: "Yes" or "No" to indicate incident.
-
-3. **Fault Localization**: The agent should localize where the incident originates.
-
-   **Expected submission**: The UID(s) of the resource where the incident originates.
-
-4. **Incident Mitigation**: The agent should try to mitigate the incident and bring the cluster back online.
+2. **Incident Mitigation**: The agent should try to mitigate the incident and bring the cluster back online.
 
    **Expected submission**: No arguments for mitigation problems. *NOTE*: Not all problems are evaluated for mitigation.
 
@@ -51,15 +43,13 @@ The task list follows this format for each problem:
 
 ```yaml
 k8s_target_port-misconfig:
-  - detection
-  - localization
+  - diagnosis
   - mitigation
 ```
 
-To create a custom evaluation, edit `tasklist.yaml` and specify which problems and tasks you want to run. For each problem (identified by `problem_id`), list any combination of `detection`, `localization`, or `mitigation` tasks (in this order). The `noop` phase is automatically included as the starting stage.
 
 <Callout type="info">
-If no entry exists for a problem in `tasklist.yaml`, all tasks will run by default. Additionally, `localization` and `mitigation` may be skipped if the problem does not have a corresponding oracle attached.
+If no entry exists for a problem in `tasklist.yaml`, all tasks will run by default. Additionally, `diagnosis` and `mitigation` may be skipped if the problem does not have a corresponding oracle attached.
 </Callout>
 
 ## Monitoring Your Agent
