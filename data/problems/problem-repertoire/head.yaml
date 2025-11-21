@@ -20,7 +20,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a correlated fault where multiple services in the hotel reservation application are deployed with incorrect Docker images.
-      The fault manifests as all frontend, geo, profile, rate, recommendation, reservation, user, and search services using a faulty image (jackcuii/hotel-reservation:latest) instead of the correct ones.
+      The deployment `frontend`, `geo`, `profile`, `rate`, `recommendation`, `reservation`, `user`, and `search` are configured to use a faulty image 'jackcuii/hotel-reservation:latest'.
       Inject the fault by updating the deployment images for all affected services simultaneously.
     tags:
       - Correlated Failure
@@ -36,7 +36,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a correlated fault where multiple MongoDB services are updated to an incompatible version.
-      The fault involves updating all MongoDB instances (mongodb-geo, mongodb-profile, mongodb-rate, mongodb-recommendation, mongodb-reservation, mongodb-user) to version mongo:8.0.14-rc0, which is incompatible with the application.
+      The MongoDB deployments (mongodb-geo, mongodb-profile, mongodb-rate, and mongodb-recommendation) are updated to use an incompatible image version 'mongo:8.0.14-rc0'.
       Inject the fault by modifying the deployment images for all affected MongoDB services to the incompatible version.
     tags:
       - Correlated Failure
@@ -53,7 +53,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the product-catalog service in the astronomy shop application is deployed with an incorrect Docker image.
-      The fault manifests as the service using app-image:latest instead of the correct image.
+      The 'product-catalog' deployment is mis-configured to pull the non-existent image 'app-image:latest'.
       Inject the fault by modifying the deployment to use the incorrect image tag.
     tags:
       - System/Application Software Failure
@@ -69,7 +69,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the checkout service in the astronomy shop application uses an incorrect port assignment for the PRODUCT_CATALOG_ADDR environment variable.
-      The fault manifests as the service connecting to port 8082 instead of the correct port 8080.
+      The deployment `checkout` has the environment variable `PRODUCT_CATALOG_ADDR` configured with an incorrect port `8082` instead of `8080`.
       Inject the fault by modifying the environment variable in the deployment to point to the wrong port.
     tags:
       - Misconfiguration Failure
@@ -85,7 +85,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate an application misconfiguration fault in the geo service of the hotel reservation application.
-      The fault manifests as incorrect application-level configuration causing service failures.
+      The 'geo' deployment is configured to use a buggy container image 'yinfangchen/geo:app3', this causes the pod keep restarting and entering the 'Error' state.
       Inject the fault by modifying the application configuration for the geo service.
     tags:
       - System/Application Software Failure
@@ -101,7 +101,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the frontend service in the astronomy shop application is missing a required environment variable.
-      The fault manifests as the service failing to start or operate correctly due to missing configuration.
+      The deployment `frontend` is missing the environment variable `CART_ADDR`.
       Inject the fault by removing a critical environment variable from the frontend service deployment.
     tags:
       - Misconfiguration Failure
@@ -117,7 +117,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where authentication is revoked for the mongodb-geo service in the hotel reservation application.
-      The fault manifests as the MongoDB instance denying access to authorized users, causing database connection failures.
+      The service `mongodb-geo-db` is configured to revoke the access to the database for the service `mongodb-geo`.
       Inject the fault by revoking authentication credentials for the mongodb-geo service.
     tags:
       - Security Failure
@@ -133,7 +133,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where authentication is revoked for the mongodb-rate service in the hotel reservation application.
-      The fault manifests as the MongoDB instance denying access to authorized users, causing database connection failures.
+      The service `mongodb-rate-db` is configured to revoke the access to the database for the service `mongodb-rate`.
       Inject the fault by revoking authentication credentials for the mongodb-rate service.
     tags:
       - Security Failure
@@ -149,7 +149,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where the storage user for mongodb-geo service becomes unregistered in the hotel reservation application.
-      The fault manifests as database access failures due to unregistered user credentials.
+      The MongoDB service `mongodb-geo` has an unregistered user, causing authentication failures for the associated service.
       Inject the fault by unregistering the storage user account for the mongodb-geo service.
     tags:
       - Security Failure
@@ -165,7 +165,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where the storage user for mongodb-rate service becomes unregistered in the hotel reservation application.
-      The fault manifests as database access failures due to unregistered user credentials.
+      The MongoDB service `mongodb-rate` has an unregistered user, causing authentication failures for the associated service.
       Inject the fault by unregistering the storage user account for the mongodb-rate service.
     tags:
       - Security Failure
@@ -181,7 +181,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where authentication is disrupted for the valkey-cart service in the astronomy shop application.
-      The fault manifests as authentication failures preventing access to the Valkey cache service.
+      The valkey-cart service has an invalid password configured, causing authentication failures for dependent services.
       Inject the fault by disrupting authentication mechanisms for the valkey-cart service.
     tags:
       - Security Failure
@@ -197,7 +197,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where memory is disrupted for Valkey services in the astronomy shop application.
-      The fault manifests as memory-related failures in the cache service, causing performance degradation or service failures.
+      A job is flooding the valkey-cart store with large payloads (10MB each), causing it to enter an out-of-memory (OOM) state.
       Inject the fault by disrupting memory allocation or management for Valkey services.
     tags:
       - Database Failure
@@ -215,7 +215,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a metastable failure where RPC retry storms occur due to capacity decrease in the hotel reservation application.
-      The fault manifests as cascading failures where RPC timeouts and misconfigured retry policies cause retry storms, leading to capacity degradation.
+      The ConfigMap `rpc` has misconfigured RPC timeout (50ms) and retry settings (30 retries), causing an RPC retry storm that overwhelms the service. It is a metastable failure.
       Inject the fault by configuring RPC timeout and retry misconfigurations that trigger retry storms when capacity decreases.
     tags:
       - Metastable Failure
@@ -231,7 +231,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a metastable failure where garbage collection causes capacity degradation in the application.
-      The fault manifests as GC-related performance degradation leading to cascading capacity issues.
+      All deployments have the GOGC environment variable set to 10 (instead of the default 100), causing aggressive garbage collection that degrades service capacity and performance. This is a metastable failure.
       Inject the fault by triggering aggressive garbage collection that causes capacity degradation.
     tags:
       - Metastable Failure
@@ -247,7 +247,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a metastable failure where RPC retry storms occur due to load spikes in the application.
-      The fault manifests as cascading failures where sudden load increases combined with RPC retry misconfigurations cause retry storms.
+      The ConfigMap `rpc` has misconfigured RPC timeout (50ms) and retry settings (30 retries), combined with a load spike, causing an RPC retry storm that overwhelms the service.
       Inject the fault by introducing load spikes and configuring RPC timeout/retry policies that trigger retry storms.
     tags:
       - Metastable Failure
@@ -264,7 +264,7 @@ tasks:
     description: |
       The problem runs on social-network.
       Simulate a fault where pods are assigned to non-existent nodes in the Kubernetes cluster.
-      The fault manifests as pods unable to be scheduled or running, causing service unavailability.
+      The deployment `user-service` is configured with a nodeSelector pointing to a non-existent node (extra-node), causing pods to remain in Pending state.
       Inject the fault by configuring pod scheduling to assign pods to nodes that do not exist.
     tags:
       - Cloud Management System Failure
@@ -280,7 +280,7 @@ tasks:
     description: |
       The problem runs on social-network.
       Simulate a fault where MongoDB authentication is missing in the application.
-      The fault manifests as database connection failures due to missing authentication credentials.
+      The MongoDB service `url-shorten-mongodb` is configured to require TLS authentication, but the certificates are not properly configured, causing connection failures.
       Inject the fault by removing or misconfiguring MongoDB authentication settings.
     tags:
       - Security Failure
@@ -296,7 +296,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where ConfigMap drift occurs in the geo service of the hotel reservation application.
-      The fault manifests as the ConfigMap missing critical keys that are required by the service, causing configuration errors.
+      The ConfigMap `geo-config` is missing critical configuration keys (e.g., GeoMongoAddress), causing the deployment `geo` to malfunction.
       Inject the fault by removing critical keys from the geo service ConfigMap after the service has started.
     tags:
       - Misconfiguration Failure
@@ -312,7 +312,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where duplicate PVC mounts are configured for the frontend service in the astronomy shop application.
-      The fault manifests as pod startup failures or storage-related errors due to conflicting volume mounts.
+      Multiple replicas of the deployment `frontend` are configured to share a single ReadWriteOnce PVC, causing mount conflicts and preventing pods from starting.
       Inject the fault by configuring duplicate PersistentVolumeClaim mounts in the frontend service deployment.
     tags:
       - Cloud Management System Failure
@@ -328,7 +328,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where duplicate PVC mounts are configured for the frontend service in the hotel reservation application.
-      The fault manifests as pod startup failures or storage-related errors due to conflicting volume mounts.
+      Multiple replicas of the deployment `frontend` are configured to share a single ReadWriteOnce PVC, causing mount conflicts and preventing pods from starting.
       Inject the fault by configuring duplicate PersistentVolumeClaim mounts in the frontend service deployment.
     tags:
       - Cloud Management System Failure
@@ -344,7 +344,7 @@ tasks:
     description: |
       The problem runs on social-network.
       Simulate a fault where duplicate PVC mounts are configured for the jaeger service in the social network application.
-      The fault manifests as pod startup failures or storage-related errors due to conflicting volume mounts.
+      Multiple replicas of the deployment `jaeger` are configured to share a single ReadWriteOnce PVC, causing mount conflicts and preventing pods from starting.
       Inject the fault by configuring duplicate PersistentVolumeClaim mounts in the jaeger service deployment.
     tags:
       - Cloud Management System Failure
@@ -360,7 +360,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where environment variable shadowing occurs in the frontend-proxy service of the astronomy shop application.
-      The fault manifests as incorrect environment variable values being used due to shadowing conflicts between container and init container environment variables.
+      The deployment `frontend-proxy` has environment variables (e.g., FRONTEND_HOST) that shadow expected values, causing incorrect service configuration.
       Inject the fault by configuring environment variables in init containers that shadow variables used by the main container.
     tags:
       - Misconfiguration Failure
@@ -376,7 +376,7 @@ tasks:
     description: |
       The problem runs on social-network.
       Simulate a Kubernetes misconfiguration fault where the target port is incorrectly configured for the user-service in the social network application.
-      The fault manifests as service connectivity failures due to mismatched port configurations.
+      The service `user-service` has a misconfigured target port (9999 instead of 9090), causing connection failures.
       Inject the fault by misconfiguring the target port in the Kubernetes service or deployment for the user-service.
     tags:
       - Misconfiguration Failure
@@ -392,7 +392,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the liveness probe is misconfigured for the frontend service in the astronomy shop application.
-      The fault manifests as pods being incorrectly terminated due to failing liveness probes, causing service unavailability.
+      The deployment `frontend` has a misconfigured liveness probe pointing to a non-existent health endpoint (/healthz on port 8080), causing pods to be restarted repeatedly.
       Inject the fault by misconfiguring the liveness probe parameters (path, port, or timeout) for the frontend service.
     tags:
       - Misconfiguration Failure
@@ -408,7 +408,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where the liveness probe is misconfigured for the recommendation service in the hotel reservation application.
-      The fault manifests as pods being incorrectly terminated due to failing liveness probes, causing service unavailability.
+      The deployment `recommendation` has a misconfigured liveness probe pointing to a non-existent health endpoint (/healthz on port 8080), causing pods to be restarted repeatedly.
       Inject the fault by misconfiguring the liveness probe parameters (path, port, or timeout) for the recommendation service.
     tags:
       - Misconfiguration Failure
@@ -424,7 +424,7 @@ tasks:
     description: |
       The problem runs on social-network.
       Simulate a fault where the liveness probe is misconfigured for the user-service in the social network application.
-      The fault manifests as pods being incorrectly terminated due to failing liveness probes, causing service unavailability.
+      The deployment `user-service` has a misconfigured liveness probe pointing to a non-existent health endpoint (/healthz on port 8080), causing pods to be restarted repeatedly.
       Inject the fault by misconfiguring the liveness probe parameters (path, port, or timeout) for the user-service.
     tags:
       - Misconfiguration Failure
@@ -440,7 +440,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the liveness probe is too aggressive for services in the astronomy shop application.
-      The fault manifests as pods being unnecessarily restarted due to overly sensitive liveness probe checks, causing service disruption.
+      The deployment `aux-service` has an overly aggressive liveness probe (initialDelaySeconds=0, periodSeconds=1, failureThreshold=1) with terminationGracePeriodSeconds=0, causing pods to be killed immediately if the probe fails.
       Inject the fault by configuring liveness probes with overly aggressive timeout or failure threshold settings.
     tags:
       - Cloud Management System Failure
@@ -456,7 +456,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where the liveness probe is too aggressive for services in the hotel reservation application.
-      The fault manifests as pods being unnecessarily restarted due to overly sensitive liveness probe checks, causing service disruption.
+      The deployment `aux-service` has an overly aggressive liveness probe (initialDelaySeconds=0, periodSeconds=1, failureThreshold=1) with terminationGracePeriodSeconds=0, causing pods to be killed immediately if the probe fails.
       Inject the fault by configuring liveness probes with overly aggressive timeout or failure threshold settings.
     tags:
       - Cloud Management System Failure
@@ -472,7 +472,7 @@ tasks:
     description: |
       The problem runs on social-network.
       Simulate a fault where the liveness probe is too aggressive for services in the social network application.
-      The fault manifests as pods being unnecessarily restarted due to overly sensitive liveness probe checks, causing service disruption.
+      The deployment `aux-service` has an overly aggressive liveness probe (initialDelaySeconds=0, periodSeconds=1, failureThreshold=1) with terminationGracePeriodSeconds=0, causing pods to be killed immediately if the probe fails.
       Inject the fault by configuring liveness probes with overly aggressive timeout or failure threshold settings.
     tags:
       - Cloud Management System Failure
@@ -488,7 +488,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where the ConfigMap is missing for the mongodb-geo service in the hotel reservation application.
-      The fault manifests as the service unable to access required configuration, causing startup or runtime failures.
+      The ConfigMap required by the deployment `mongodb-geo` has been deleted, causing the pods to fail to start or malfunction.
       Inject the fault by deleting or failing to create the ConfigMap required by the mongodb-geo service.
     tags:
       - Cloud Management System Failure
@@ -504,7 +504,7 @@ tasks:
     description: |
       The problem runs on social-network.
       Simulate a fault where the ConfigMap is missing for the media-mongodb service in the social network application.
-      The fault manifests as the service unable to access required configuration, causing startup or runtime failures.
+      The ConfigMap required by the deployment `media-mongodb` has been deleted, causing the pods to fail to start or malfunction.
       Inject the fault by deleting or failing to create the ConfigMap required by the media-mongodb service.
     tags:
       - Cloud Management System Failure
@@ -520,7 +520,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the ad service is missing in the astronomy shop application.
-      The fault manifests as service discovery failures and inability to communicate with the ad service.
+      The service `ad` has been deleted, causing service discovery failures for dependent services.
       Inject the fault by deleting or failing to create the Kubernetes service for the ad service.
     tags:
       - Cloud Management System Failure
@@ -536,7 +536,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where the mongodb-rate service is missing in the hotel reservation application.
-      The fault manifests as service discovery failures and inability to communicate with the database service.
+      The service `mongodb-rate` has been deleted, causing service discovery failures for dependent services.
       Inject the fault by deleting or failing to create the Kubernetes service for the mongodb-rate service.
     tags:
       - Cloud Management System Failure
@@ -552,7 +552,7 @@ tasks:
     description: |
       The problem runs on social-network.
       Simulate a fault where the user-service is missing in the social network application.
-      The fault manifests as service discovery failures and inability to communicate with the user service.
+      The service `user-service` has been deleted, causing service discovery failures for dependent services.
       Inject the fault by deleting or failing to create the Kubernetes service for the user-service.
     tags:
       - Cloud Management System Failure
@@ -568,7 +568,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where namespace-level memory limits are set too restrictively.
-      The fault manifests as pods being evicted or unable to start due to insufficient memory resources at the namespace level.
+      The namespace has a ResourceQuota with a memory limit (1Gi) that is too restrictive, preventing the deployment `search` from scheduling new pods or causing existing pods to be evicted.
       Inject the fault by setting restrictive memory limits at the namespace ResourceQuota level.
     tags:
       - Cloud Management System Failure
@@ -584,7 +584,7 @@ tasks:
     description: |
       The problem runs on social-network.
       Simulate a fault where pod anti-affinity rules create a scheduling deadlock.
-      The fault manifests as pods unable to be scheduled due to conflicting anti-affinity constraints, preventing the application from starting.
+      The deployment `user-service` has strict pod anti-affinity rules (requiredDuringSchedulingIgnoredDuringExecution) that prevent multiple replicas from being scheduled on the same node, but with insufficient nodes, causing a scheduling deadlock where pods remain in Pending state.
       Inject the fault by configuring pod anti-affinity rules that create unresolvable scheduling constraints.
     tags:
       - Cloud Management System Failure
@@ -600,7 +600,7 @@ tasks:
     description: |
       The problem runs on social-network.
       Simulate a fault where persistent volume affinity constraints are violated.
-      The fault manifests as pods unable to access their persistent volumes due to node affinity mismatches.
+      The deployment `user-service` is configured with a PersistentVolume (temp-pv) that has node affinity to node A, but the deployment has a nodeSelector pointing to node B, causing a volume affinity violation and pods to remain in Pending state.
       Inject the fault by configuring persistent volumes with node affinity requirements that conflict with pod scheduling.
     tags:
       - Cloud Management System Failure
@@ -616,7 +616,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where PersistentVolumeClaim and PersistentVolume specifications do not match.
-      The fault manifests as PVCs unable to bind to available PVs, causing pod startup failures.
+      Multiple MongoDB deployments are configured with PVC claim names that do not exist (claimName-broken), causing pods to remain in Pending state.
       Inject the fault by creating PVCs with storage class, access mode, or size requirements that don't match available PVs.
     tags:
       - Cloud Management System Failure
@@ -632,7 +632,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where RBAC (Role-Based Access Control) is misconfigured for init containers in the astronomy shop application.
-      The fault manifests as init containers unable to perform required operations due to insufficient permissions.
+      The deployment `frontend` uses a ServiceAccount with a ClusterRole that lacks ConfigMap permissions, but an init container tries to access a ConfigMap, causing the init container to fail and pods to remain in Init state.
       Inject the fault by misconfiguring RBAC roles or role bindings for the init containers.
     tags:
       - Misconfiguration Failure
@@ -648,7 +648,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the readiness probe is misconfigured for the frontend service in the astronomy shop application.
-      The fault manifests as pods being incorrectly marked as not ready, causing them to be removed from service endpoints.
+      The deployment `frontend` has a misconfigured readiness probe pointing to a non-existent health endpoint (/healthz on port 8080), causing pods to never become ready and be excluded from service endpoints.
       Inject the fault by misconfiguring the readiness probe parameters (path, port, or timeout) for the frontend service.
     tags:
       - Misconfiguration Failure
@@ -664,7 +664,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where the readiness probe is misconfigured for the frontend service in the hotel reservation application.
-      The fault manifests as pods being incorrectly marked as not ready, causing them to be removed from service endpoints.
+      The deployment `frontend` has a misconfigured readiness probe pointing to a non-existent health endpoint (/healthz on port 8080), causing pods to never become ready and be excluded from service endpoints.
       Inject the fault by misconfiguring the readiness probe parameters (path, port, or timeout) for the frontend service.
     tags:
       - Misconfiguration Failure
@@ -680,7 +680,7 @@ tasks:
     description: |
       The problem runs on social-network.
       Simulate a fault where the readiness probe is misconfigured for the user-service in the social network application.
-      The fault manifests as pods being incorrectly marked as not ready, causing them to be removed from service endpoints.
+      The deployment `user-service` has a misconfigured readiness probe pointing to a non-existent health endpoint (/healthz on port 8080), causing pods to never become ready and be excluded from service endpoints.
       Inject the fault by misconfiguring the readiness probe parameters (path, port, or timeout) for the user-service.
     tags:
       - Misconfiguration Failure
@@ -696,7 +696,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where resource requests are set too large for the mongodb-rate service in the hotel reservation application.
-      The fault manifests as pods unable to be scheduled due to insufficient cluster resources, or resource starvation for other pods.
+      The deployment `mongodb-rate` has a memory request that exceeds the node's memory capacity, causing pods to be unschedulable and remain in Pending state.
       Inject the fault by setting excessively large resource requests (CPU or memory) for the mongodb-rate service deployment.
     tags:
       - Cloud Management System Failure
@@ -712,7 +712,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where resource requests are set too small for the mongodb-rate service in the hotel reservation application.
-      The fault manifests as pods being evicted due to resource pressure, or performance degradation due to insufficient allocated resources.
+      The deployment `mongodb-rate` has a memory limit that is too small (10Mi), causing pods to be killed due to OOM (Out of Memory) errors.
       Inject the fault by setting excessively small resource requests (CPU or memory) for the mongodb-rate service deployment.
     tags:
       - Cloud Management System Failure
@@ -728,7 +728,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where rolling update strategy is misconfigured in the hotel reservation application.
-      The fault manifests as deployment update failures, service disruptions during updates, or inability to roll back.
+      The deployment `custom-service` has a misconfigured rolling update strategy (maxUnavailable=100%, maxSurge=0%) with an init container that hangs indefinitely, causing the deployment to be stuck during updates.
       Inject the fault by misconfiguring the rolling update parameters (maxSurge, maxUnavailable) or update strategy.
     tags:
       - Misconfiguration Failure
@@ -744,7 +744,7 @@ tasks:
     description: |
       The problem runs on social-network.
       Simulate a fault where rolling update strategy is misconfigured in the social network application.
-      The fault manifests as deployment update failures, service disruptions during updates, or inability to roll back.
+      The deployment `custom-service` has a misconfigured rolling update strategy (maxUnavailable=100%, maxSurge=0%) with an init container that hangs indefinitely, causing the deployment to be stuck during updates.
       Inject the fault by misconfiguring the rolling update parameters (maxSurge, maxUnavailable) or update strategy.
     tags:
       - Misconfiguration Failure
@@ -760,7 +760,7 @@ tasks:
     description: |
       The problem runs on social-network.
       Simulate a fault where pods are scaled to zero in the social network application.
-      The fault manifests as service unavailability due to no running pod instances.
+      The deployment `user-service` is scaled down to 0 replicas, causing the service to be unavailable.
       Inject the fault by scaling the deployment replica count to zero.
     tags:
       - Cloud Management System Failure
@@ -776,7 +776,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where DNS resolution fails for services in the astronomy shop application.
-      The fault manifests as service-to-service communication failures due to inability to resolve service names to IP addresses.
+      CoreDNS is configured with an NXDOMAIN template for the service `frontend.astronomy-shop.svc.cluster.local`, causing DNS resolution to fail for this service.
       Inject the fault by disrupting DNS resolution mechanisms (CoreDNS, service DNS, etc.) for the frontend service.
     tags:
       - Network Failure
@@ -792,7 +792,7 @@ tasks:
     description: |
       The problem runs on social-network.
       Simulate a fault where DNS resolution fails for services in the social network application.
-      The fault manifests as service-to-service communication failures due to inability to resolve service names to IP addresses.
+      CoreDNS is configured with an NXDOMAIN template for the service `user-service.social-network.svc.cluster.local`, causing DNS resolution to fail for this service.
       Inject the fault by disrupting DNS resolution mechanisms (CoreDNS, service DNS, etc.) for the user-service.
     tags:
       - Network Failure
@@ -808,7 +808,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where sidecar containers have port conflicts with the main container in the frontend service of the astronomy shop application.
-      The fault manifests as pod startup failures or port binding errors due to conflicting port assignments.
+      The deployment `frontend` has a sidecar container that binds to the same port as the main container, causing port conflicts and preventing the service from starting properly.
       Inject the fault by configuring sidecar containers with ports that conflict with the main application container ports.
     tags:
       - Misconfiguration Failure
@@ -824,7 +824,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where sidecar containers have port conflicts with the main container in the frontend service of the hotel reservation application.
-      The fault manifests as pod startup failures or port binding errors due to conflicting port assignments.
+      The deployment `frontend` has a sidecar container that binds to the same port as the main container, causing port conflicts and preventing the service from starting properly.
       Inject the fault by configuring sidecar containers with ports that conflict with the main application container ports.
     tags:
       - Misconfiguration Failure
@@ -840,7 +840,7 @@ tasks:
     description: |
       The problem runs on social-network.
       Simulate a fault where sidecar containers have port conflicts with the main container in the user-service of the social network application.
-      The fault manifests as pod startup failures or port binding errors due to conflicting port assignments.
+      The deployment `user-service` has a sidecar container that binds to the same port as the main container, causing port conflicts and preventing the service from starting properly.
       Inject the fault by configuring sidecar containers with ports that conflict with the main application container ports.
     tags:
       - Misconfiguration Failure
@@ -856,7 +856,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where CoreDNS configuration becomes stale in the astronomy shop application.
-      The fault manifests as DNS resolution failures or incorrect DNS responses due to outdated CoreDNS configuration.
+      CoreDNS is configured with a stale NXDOMAIN template for all .svc.cluster.local domains, causing DNS resolution to fail for all cluster-internal services.
       Inject the fault by preventing CoreDNS from updating its configuration or by introducing stale DNS records.
     tags:
       - Network Failure
@@ -872,7 +872,7 @@ tasks:
     description: |
       The problem runs on social-network.
       Simulate a fault where CoreDNS configuration becomes stale in the social network application.
-      The fault manifests as DNS resolution failures or incorrect DNS responses due to outdated CoreDNS configuration.
+      CoreDNS is configured with a stale NXDOMAIN template for all .svc.cluster.local domains, causing DNS resolution to fail for all cluster-internal services.
       Inject the fault by preventing CoreDNS from updating its configuration or by introducing stale DNS records.
     tags:
       - Network Failure
@@ -888,7 +888,7 @@ tasks:
     description: |
       The problem runs on social-network.
       Simulate a fault where nodes are tainted but pods lack corresponding tolerations in the social network application.
-      The fault manifests as pods unable to be scheduled on tainted nodes, causing service unavailability.
+      Worker nodes are tainted with sre-fault=blocked:NoSchedule, but the deployment `user-service` has a toleration for a different key (dummy-key), causing pods to be unschedulable and remain in Pending state.
       Inject the fault by adding taints to nodes without configuring corresponding tolerations in pod specifications.
     tags:
       - Cloud Management System Failure
@@ -904,7 +904,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where the wrong binary or executable is used in a container.
-      The fault manifests as application startup failures or incorrect behavior due to executing the wrong binary.
+      The deployment `profile` is configured to use the wrong binary (geo instead of profile), causing the service to malfunction.
       Inject the fault by modifying the container command or entrypoint to use an incorrect binary path.
     tags:
       - System/Application Software Failure
@@ -920,7 +920,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the DNS policy is incorrectly configured for the frontend service in the astronomy shop application.
-      The fault manifests as DNS resolution failures or incorrect DNS behavior due to wrong DNS policy settings.
+      The deployment `frontend` has a misconfigured DNS policy (set to None with external nameserver 8.8.8.8), causing DNS resolution failures for cluster-internal services.
       Inject the fault by setting an incorrect dnsPolicy (e.g., Default instead of ClusterFirst) for the frontend service pods.
     tags:
       - Network Failure
@@ -936,7 +936,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where the DNS policy is incorrectly configured for the profile service in the hotel reservation application.
-      The fault manifests as DNS resolution failures or incorrect DNS behavior due to wrong DNS policy settings.
+      The deployment `profile` has a misconfigured DNS policy (set to None with external nameserver 8.8.8.8), causing DNS resolution failures for cluster-internal services.
       Inject the fault by setting an incorrect dnsPolicy (e.g., Default instead of ClusterFirst) for the profile service pods.
     tags:
       - Network Failure
@@ -952,7 +952,7 @@ tasks:
     description: |
       The problem runs on social-network.
       Simulate a fault where the DNS policy is incorrectly configured for the user-service in the social network application.
-      The fault manifests as DNS resolution failures or incorrect DNS behavior due to wrong DNS policy settings.
+      The deployment `user-service` has a misconfigured DNS policy (set to None with external nameserver 8.8.8.8), causing DNS resolution failures for cluster-internal services.
       Inject the fault by setting an incorrect dnsPolicy (e.g., Default instead of ClusterFirst) for the user-service pods.
     tags:
       - Network Failure
@@ -968,7 +968,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the service selector is incorrectly configured for the frontend service in the astronomy shop application.
-      The fault manifests as service endpoints being empty or incorrect, causing service connectivity failures.
+      The service `frontend` has a misconfigured selector that includes an additional incorrect label, preventing it from matching the intended pods.
       Inject the fault by configuring the Kubernetes service with selector labels that don't match the pod labels.
     tags:
       - Misconfiguration Failure
@@ -984,7 +984,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where the service selector is incorrectly configured for the frontend service in the hotel reservation application.
-      The fault manifests as service endpoints being empty or incorrect, causing service connectivity failures.
+      The service `frontend` has a misconfigured selector that includes an additional incorrect label, preventing it from matching the intended pods.
       Inject the fault by configuring the Kubernetes service with selector labels that don't match the pod labels.
     tags:
       - Misconfiguration Failure
@@ -1000,7 +1000,7 @@ tasks:
     description: |
       The problem runs on social-network.
       Simulate a fault where the service selector is incorrectly configured for the user-service in the social network application.
-      The fault manifests as service endpoints being empty or incorrect, causing service connectivity failures.
+      The service `user-service` has a misconfigured selector that includes an additional incorrect label, preventing it from matching the intended pods.
       Inject the fault by configuring the Kubernetes service with selector labels that don't match the pod labels.
     tags:
       - Misconfiguration Failure
@@ -1017,7 +1017,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the ad service fails in the astronomy shop application using OpenTelemetry fault injection.
-      The fault manifests as the ad service returning errors or becoming unavailable, affecting the user experience.
+      The `ad` service has a feature flag enabled that causes it to fail, resulting in service unavailability.
       Inject the fault by enabling the adFailure feature flag in the OpenTelemetry demo application.
     tags:
       - System/Application Software Failure
@@ -1033,7 +1033,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the ad service experiences high CPU usage in the astronomy shop application.
-      The fault manifests as performance degradation in the ad service due to excessive CPU consumption.
+      The `ad` service has a feature flag enabled that causes high CPU usage, resulting in performance degradation.
       Inject the fault by enabling the adHighCpu feature flag in the OpenTelemetry demo application.
     tags:
       - System/Application Software Failure
@@ -1049,7 +1049,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where manual garbage collection is triggered for the ad service in the astronomy shop application.
-      The fault manifests as service pauses or performance degradation due to manual GC triggering.
+      The `ad` service has a feature flag enabled that triggers manual garbage collection, causing performance degradation and potential service interruptions.
       Inject the fault by enabling manual GC feature flag in the OpenTelemetry demo application for the ad service.
     tags:
       - System/Application Software Failure
@@ -1065,7 +1065,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the cart service fails in the astronomy shop application using OpenTelemetry fault injection.
-      The fault manifests as the cart service returning errors or becoming unavailable, preventing users from managing their shopping cart.
+      The `cart` service has a feature flag enabled that causes it to fail, resulting in service unavailability.
       Inject the fault by enabling the cart service failure feature flag in the OpenTelemetry demo application.
     tags:
       - System/Application Software Failure
@@ -1081,7 +1081,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the ad service experiences slow image loading in the astronomy shop application.
-      The fault manifests as slow loading times for advertisement images, affecting user experience.
+      The `frontend` service has a feature flag enabled that causes slow image loading, resulting in degraded user experience and performance issues.
       Inject the fault by enabling slow image loading feature flag in the OpenTelemetry demo application for the ad service.
     tags:
       - System/Application Software Failure
@@ -1097,7 +1097,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the payment service fails in the astronomy shop application using OpenTelemetry fault injection.
-      The fault manifests as the payment service returning errors or becoming unavailable, preventing users from completing purchases.
+      The `payment` service has a feature flag enabled that causes it to fail, resulting in service unavailability.
       Inject the fault by enabling the paymentFailure feature flag in the OpenTelemetry demo application.
     tags:
       - System/Application Software Failure
@@ -1113,7 +1113,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the payment service becomes unreachable in the astronomy shop application.
-      The fault manifests as network connectivity failures when trying to reach the payment service.
+      The `checkout` service has a feature flag enabled that makes the payment service unreachable, causing checkout failures.
       Inject the fault by enabling the payment service unreachable feature flag in the OpenTelemetry demo application.
     tags:
       - System/Application Software Failure
@@ -1129,7 +1129,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the product catalog service fails in the astronomy shop application using OpenTelemetry fault injection.
-      The fault manifests as the product catalog service returning errors, preventing users from viewing products.
+      The `product-catalog` service has a feature flag enabled that causes it to fail, resulting in service unavailability.
       Inject the fault by enabling the product catalog service failure feature flag in the OpenTelemetry demo application.
     tags:
       - System/Application Software Failure
@@ -1145,7 +1145,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the recommendation service cache fails in the astronomy shop application.
-      The fault manifests as cache failures in the recommendation service, causing performance degradation or incorrect recommendations.
+      The `recommendation` service has a feature flag enabled that causes cache failures, resulting in degraded service performance.
       Inject the fault by enabling the recommendation cache failure feature flag in the OpenTelemetry demo application.
     tags:
       - System/Application Software Failure
@@ -1161,7 +1161,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where Kafka queue problems occur in the hotel reservation application.
-      The fault manifests as message queue failures, causing message processing delays or failures.
+      The `kafka` service has a feature flag enabled that causes queue problems, resulting in message processing failures.
       Inject the fault by enabling kafkaQueueProblems feature flag in the OpenTelemetry demo application for the memcached-rate service.
     tags:
       - System/Application Software Failure
@@ -1177,7 +1177,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the load generator floods the homepage with excessive requests.
-      The fault manifests as overwhelming traffic to the homepage, potentially causing service degradation or failures.
+      The load generator has a feature flag enabled that causes it to flood the homepage with excessive requests, overwhelming the frontend service.
       Inject the fault by configuring the load generator to flood the homepage endpoint with excessive requests.
     tags:
       - System/Application Software Failure
@@ -1194,7 +1194,7 @@ tasks:
     description: |
       The problem runs on train-ticket.
       Simulate a fault where a nested SQL SELECT clause error occurs in the ts-voucher-service of the train ticket application.
-      The fault manifests as SQL query errors due to incorrect nested SELECT clause syntax, causing database operation failures.
+      The deployment `ts-voucher-service` has a nested SQL SELECT clause error in its database queries, causing database operation failures.
       Inject the fault by modifying SQL queries in the ts-voucher-service to include incorrect nested SELECT clause syntax.
     tags:
       - System/Application Software Failure
@@ -1210,7 +1210,7 @@ tasks:
     description: |
       The problem runs on train-ticket.
       Simulate a fault where a SQL column name mismatch error occurs in the ts-contacts-service of the train ticket application.
-      The fault manifests as SQL query errors due to referencing non-existent column names, causing database operation failures.
+      The deployment `ts-contacts-service` has a SQL column name mismatch error in its database queries, causing database operation failures.
       Inject the fault by modifying SQL queries in the ts-contacts-service to reference incorrect column names.
     tags:
       - System/Application Software Failure
@@ -1227,7 +1227,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a hardware fault where read errors occur in storage devices.
-      The fault manifests as I/O read failures when accessing storage, causing application errors or data access failures.
+      System call-level EIO (-5) failures are injected into `read()` operations for all pods on a target node, causing I/O errors and service failures.
       Inject the fault by introducing hardware-level read errors in storage devices.
     tags:
       - Hardware Component Failure
@@ -1244,7 +1244,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where Ingress routing is misconfigured in the hotel reservation application.
-      The fault manifests as HTTP requests to /api being routed to the wrong backend service (recommendation-service instead of frontend-service).
+      The ingress `hotel-reservation-ingress` has a misconfigured routing rule for path `/api`, routing traffic to the wrong service (`recommendation-service` instead of `frontend-service`).
       Inject the fault by modifying the Ingress resource to route /api path to the incorrect backend service.
     tags:
       - Network Failure
@@ -1260,7 +1260,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where NetworkPolicy blocks all traffic to the payment-service in the hotel reservation application.
-      The fault manifests as complete network isolation of the payment-service, preventing any ingress or egress traffic.
+      A NetworkPolicy `deny-all-payment-service` is configured to block all ingress and egress traffic to/from pods labeled with `app=payment-service`, causing complete network isolation and service unavailability.
       Inject the fault by creating a NetworkPolicy that blocks all traffic (empty ingress and egress rules) for the payment-service pods.
     tags:
       - Network Failure
@@ -1296,7 +1296,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the kubelet daemon crashes on nodes in the cluster.
-      The fault manifests as nodes becoming unresponsive, pods unable to be scheduled or restarted, and service unavailability.
+      The kubelet daemon on a node has crashed, preventing pod scheduling, updates, and management on that node, causing services to become unavailable or stuck.
       Inject the fault by crashing the kubelet daemon process on cluster nodes, then triggering pod rollouts to expose the failure.
     tags:
       - Correlated Failure
@@ -1312,7 +1312,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where workload is imbalanced across pods or nodes in the cluster.
-      The fault manifests as uneven distribution of load, causing some pods to be overloaded while others are underutilized.
+      The kube-proxy daemonset is using a buggy image version, and the frontend deployment is scaled to 5 replicas with a high workload surge, causing workload imbalance across pods.
       Inject the fault by configuring improper load balancing or resource distribution mechanisms.
     tags:
       - System/Application Software Failure
@@ -1329,7 +1329,7 @@ tasks:
     description: |
       The problem runs on fleet-cast.
       Simulate a fault where a Kubernetes operator misconfigures replicas to an extremely high number (overload) in the TiDB cluster.
-      The fault manifests as the operator requesting an excessive number of replicas (e.g., 100,000), causing cluster unhealthiness and only a few pods to be created successfully.
+      The TiDBCluster custom resource is configured with an excessive number of replicas (100,000), overwhelming the cluster and causing only a few pods to be created successfully.
       Inject the fault by modifying the operator configuration to set replica count to an unreasonably high value.
     tags:
       - Cloud Management System Failure
@@ -1345,7 +1345,7 @@ tasks:
     description: |
       The problem runs on fleet-cast.
       Simulate a fault where a Kubernetes operator references non-existent storage resources.
-      The fault manifests as pods unable to start or mount volumes due to referencing storage that doesn't exist.
+      The TiDBCluster custom resource specifies a non-existent StorageClass, causing PVC creation to fail and pods to remain in Pending state.
       Inject the fault by configuring the operator to reference non-existent storage classes or persistent volumes.
     tags:
       - Cloud Management System Failure
@@ -1361,7 +1361,7 @@ tasks:
     description: |
       The problem runs on fleet-cast.
       Simulate a fault where a Kubernetes operator configures invalid affinity or toleration rules.
-      The fault manifests as pods unable to be scheduled due to conflicting or invalid affinity/toleration constraints.
+      The TiDBCluster custom resource specifies an invalid toleration effect, causing pods to be unschedulable and remain in Pending state.
       Inject the fault by configuring the operator with invalid pod affinity or toleration settings.
     tags:
       - Misconfiguration Failure
@@ -1377,7 +1377,7 @@ tasks:
     description: |
       The problem runs on fleet-cast.
       Simulate a fault where a Kubernetes operator misconfigures security context settings.
-      The fault manifests as pods unable to start or having incorrect security permissions due to misconfigured security contexts.
+      The TiDBCluster custom resource specifies an invalid runAsUser value in the security context, causing pods to fail to start or be rejected by the security policy.
       Inject the fault by configuring the operator with incorrect security context settings (e.g., wrong user IDs, capabilities, or permissions).
     tags:
       - Security Failure
@@ -1393,7 +1393,7 @@ tasks:
     description: |
       The problem runs on fleet-cast.
       Simulate a fault where a Kubernetes operator uses the wrong update strategy for deployments.
-      The fault manifests as deployment updates failing, service disruptions, or inability to roll back due to incorrect update strategy configuration.
+      The TiDBCluster custom resource specifies an invalid update strategy, causing deployment updates to fail or get stuck.
       Inject the fault by configuring the operator to use an inappropriate update strategy for the application workload.
     tags:
       - Misconfiguration Failure
