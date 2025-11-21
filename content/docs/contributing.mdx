@@ -186,8 +186,7 @@ To add a new problem:
 1. **Create problem file** in `sregym/conductor/problems/<problem-name>.py`:
    ```python
    from sregym.service.apps.myapp import MyApp
-   from sregym.conductor.oracles.detection import DetectionOracle
-   from sregym.conductor.oracles.localization import LocalizationOracle
+   from sregym.conductor.oracles.llm_as_a_judge.llm_as_a_judge_oracle import LLMAsAJudgeOracle
    from sregym.conductor.oracles.mitigation import MitigationOracle
    from sregym.conductor.problems.base import Problem
    from sregym.utils.decorators import mark_fault_injected
@@ -196,11 +195,12 @@ To add a new problem:
        def __init__(self):
            self.app = MyApp()
            self.faulty_service = ["service-name"]
+           self.root_cause = "root cause description in natural language"
 
            # Attach evaluation oracles
-           self.localization_oracle = LocalizationOracle(
+           self.diagnosis_oracle = LLMAsAJudgeOracle(
                problem=self,
-               expected=self.faulty_service
+               expected=self.root_cause
            )
            self.mitigation_oracle = MitigationOracle(problem=self)
 
@@ -220,8 +220,7 @@ To add a new problem:
 3. **(Optional) Configure tasks** in `sregym/conductor/tasklist.yml`:
    ```yaml
    my-problem-id:
-     - detection
-     - localization
+     - diagnosis
      - mitigation
    ```
 
