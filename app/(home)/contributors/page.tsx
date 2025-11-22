@@ -8,7 +8,6 @@ const CONTRIBUTORS = [
   { name: "Jiaqi Huang", link: "https://777lefty.github.io/", role: "Core Team" },
   { name: "Lily Gniedziejko", link: "https://lilygniedz.me/", role: "Core Team" },
   { name: "Yinfang Chen", link: "https://yinfangchen.github.io/", role: "Advisor" },
-  { name: "Tianyin Xu", link: "https://tianyin.github.io/", role: "Advisor" },
   { name: "Brighten Godfrey", link: "https://pbg.cs.illinois.edu/", role: "Advisor" },
   { name: "Many more...", link: "https://github.com/SREGym/SREGym/graphs/contributors" },
 ];
