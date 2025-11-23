@@ -1236,6 +1236,22 @@ tasks:
     file_id: read_error.py
     include_in_launch: true
 
+  - id: latent_sector_error
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
+    category: Hardware Component Failure
+    description: |
+      The problem runs on hotel-reservation.
+      Simulate a hardware fault where Latent Sector Errors (LSE) occur in storage devices.
+      Specific sectors containing MongoDB data files (WiredTiger.wt) are marked as bad using the `dm-dust` kernel module, and page caches are dropped to force disk reads.
+      Inject the fault by adding bad blocks to the underlying storage of the mongodb-geo service, causing I/O errors and pod crashes.
+    tags:
+      - Hardware Component Failure
+      - hotel-reservation
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: latent_sector_error.py
+    include_in_launch: true
+
   # ==================== DIRECT K8S API ====================
   - id: ingress_misroute
     author_email: rmughees1@gmail.com
