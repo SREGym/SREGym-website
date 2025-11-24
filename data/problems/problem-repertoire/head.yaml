@@ -290,8 +290,8 @@ tasks:
     include_in_launch: true
 
   - id: configmap_drift_hotel_reservation
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Misconfiguration Failure
     description: |
       The problem runs on hotel-reservation.
@@ -306,8 +306,8 @@ tasks:
     include_in_launch: true
 
   - id: duplicate_pvc_mounts_astronomy_shop
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Cloud Management System Failure
     description: |
       The problem runs on astronomy-shop.
@@ -322,8 +322,8 @@ tasks:
     include_in_launch: true
 
   - id: duplicate_pvc_mounts_hotel_reservation
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Cloud Management System Failure
     description: |
       The problem runs on hotel-reservation.
@@ -338,8 +338,8 @@ tasks:
     include_in_launch: true
 
   - id: duplicate_pvc_mounts_social_network
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Cloud Management System Failure
     description: |
       The problem runs on social-network.
@@ -354,8 +354,8 @@ tasks:
     include_in_launch: true
 
   - id: env_variable_shadowing_astronomy_shop
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Misconfiguration Failure
     description: |
       The problem runs on astronomy-shop.
@@ -386,8 +386,8 @@ tasks:
     include_in_launch: true
 
   - id: liveness_probe_misconfiguration_astronomy_shop
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Misconfiguration Failure
     description: |
       The problem runs on astronomy-shop.
@@ -402,8 +402,8 @@ tasks:
     include_in_launch: true
 
   - id: liveness_probe_misconfiguration_hotel_reservation
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Misconfiguration Failure
     description: |
       The problem runs on hotel-reservation.
@@ -418,8 +418,8 @@ tasks:
     include_in_launch: true
 
   - id: liveness_probe_misconfiguration_social_network
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Misconfiguration Failure
     description: |
       The problem runs on social-network.
@@ -434,8 +434,8 @@ tasks:
     include_in_launch: true
 
   - id: liveness_probe_too_aggressive_astronomy_shop
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Cloud Management System Failure
     description: |
       The problem runs on astronomy-shop.
@@ -450,8 +450,8 @@ tasks:
     include_in_launch: true
 
   - id: liveness_probe_too_aggressive_hotel_reservation
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Cloud Management System Failure
     description: |
       The problem runs on hotel-reservation.
@@ -466,8 +466,8 @@ tasks:
     include_in_launch: true
 
   - id: liveness_probe_too_aggressive_social_network
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Cloud Management System Failure
     description: |
       The problem runs on social-network.
@@ -626,8 +626,8 @@ tasks:
     include_in_launch: true
 
   - id: rbac_misconfiguration
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Misconfiguration Failure
     description: |
       The problem runs on astronomy-shop.
@@ -642,8 +642,8 @@ tasks:
     include_in_launch: true
 
   - id: readiness_probe_misconfiguration_astronomy_shop
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Misconfiguration Failure
     description: |
       The problem runs on astronomy-shop.
@@ -658,8 +658,8 @@ tasks:
     include_in_launch: true
 
   - id: readiness_probe_misconfiguration_hotel_reservation
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Misconfiguration Failure
     description: |
       The problem runs on hotel-reservation.
@@ -674,8 +674,8 @@ tasks:
     include_in_launch: true
 
   - id: readiness_probe_misconfiguration_social_network
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Misconfiguration Failure
     description: |
       The problem runs on social-network.
@@ -770,8 +770,8 @@ tasks:
     include_in_launch: true
 
   - id: service_dns_resolution_failure_astronomy_shop
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Network Failure
     description: |
       The problem runs on astronomy-shop.
@@ -786,8 +786,8 @@ tasks:
     include_in_launch: true
 
   - id: service_dns_resolution_failure_social_network
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Network Failure
     description: |
       The problem runs on social-network.
@@ -802,8 +802,8 @@ tasks:
     include_in_launch: true
 
   - id: sidecar_port_conflict_astronomy_shop
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Misconfiguration Failure
     description: |
       The problem runs on astronomy-shop.
@@ -818,8 +818,8 @@ tasks:
     include_in_launch: true
 
   - id: sidecar_port_conflict_hotel_reservation
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Misconfiguration Failure
     description: |
       The problem runs on hotel-reservation.
@@ -834,8 +834,8 @@ tasks:
     include_in_launch: true
 
   - id: sidecar_port_conflict_social_network
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Misconfiguration Failure
     description: |
       The problem runs on social-network.
@@ -850,8 +850,8 @@ tasks:
     include_in_launch: true
 
   - id: stale_coredns_config_astronomy_shop
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Network Failure
     description: |
       The problem runs on astronomy-shop.
@@ -866,8 +866,8 @@ tasks:
     include_in_launch: true
 
   - id: stale_coredns_config_social_network
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Network Failure
     description: |
       The problem runs on social-network.
@@ -914,8 +914,8 @@ tasks:
     include_in_launch: true
 
   - id: wrong_dns_policy_astronomy_shop
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Network Failure
     description: |
       The problem runs on astronomy-shop.
@@ -930,8 +930,8 @@ tasks:
     include_in_launch: true
 
   - id: wrong_dns_policy_hotel_reservation
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Network Failure
     description: |
       The problem runs on hotel-reservation.
@@ -946,8 +946,8 @@ tasks:
     include_in_launch: true
 
   - id: wrong_dns_policy_social_network
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Network Failure
     description: |
       The problem runs on social-network.
@@ -962,8 +962,8 @@ tasks:
     include_in_launch: true
 
   - id: wrong_service_selector_astronomy_shop
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Misconfiguration Failure
     description: |
       The problem runs on astronomy-shop.
@@ -978,8 +978,8 @@ tasks:
     include_in_launch: true
 
   - id: wrong_service_selector_hotel_reservation
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Misconfiguration Failure
     description: |
       The problem runs on hotel-reservation.
@@ -994,8 +994,8 @@ tasks:
     include_in_launch: true
 
   - id: wrong_service_selector_social_network
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: Misconfiguration Failure
     description: |
       The problem runs on social-network.
@@ -1188,8 +1188,8 @@ tasks:
 
   # ==================== TRAIN TICKET FAULT INJECTOR ====================
   - id: trainticket_f17_nested_sql_select_clause_error
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: System/Application Software Failure
     description: |
       The problem runs on train-ticket.
@@ -1204,8 +1204,8 @@ tasks:
     include_in_launch: true
 
   - id: trainticket_f22_sql_column_name_mismatch_error
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
     category: System/Application Software Failure
     description: |
       The problem runs on train-ticket.
@@ -1234,6 +1234,22 @@ tasks:
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
     file_id: read_error.py
+    include_in_launch: true
+
+  - id: latent_sector_error
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
+    category: Hardware Component Failure
+    description: |
+      The problem runs on hotel-reservation.
+      Simulate a hardware fault where Latent Sector Errors (LSE) occur in storage devices.
+      Specific sectors containing MongoDB data files (WiredTiger.wt) are marked as bad using the `dm-dust` kernel module, and page caches are dropped to force disk reads.
+      Inject the fault by adding bad blocks to the underlying storage of the mongodb-geo service, causing I/O errors and pod crashes.
+    tags:
+      - Hardware Component Failure
+      - hotel-reservation
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: latent_sector_error.py
     include_in_launch: true
 
   # ==================== DIRECT K8S API ====================
