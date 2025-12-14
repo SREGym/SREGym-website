@@ -1,0 +1,49 @@
+---
+title: LLM Backend
+description: How to configure your own LLM backend for SREGym.
+---
+
+SREGym uses LiteLLM as the LLM backend.
+
+### Add new LLM backend configurations
+
+To add a new LLM backend configuration, you can add a new entry to the `llm_backends/configs.yaml` file, as follows:
+
+
+```yaml
+
+"<model_id>":
+  provider: "litellm"/"openai"/"watsonx"/"bedrock"
+  model_name: ...
+  ...
+
+```
+
+
+#### Set/Override the parameters for a model
+
+You can add the following parameters to the entry above to override the default values.
+
+For the applicable parameters and the default values of the providers, please refer to the table below:
+
+| param \ provider | litellm                                   | watsonx                           | openai (native, default setting)                                                 |
+|------------------|-------------------------------------------|-----------------------------------|----------------------------------------------------------------------------------|
+| model_name       | openai/gpt-4o                             | meta-llama/llama-3-3-70b-instruct | openai/gpt-4o                                                                    |
+| url              | \<not set\>                                 | https://us-south.ml.cloud.ibm.com | ✗                                                                                |
+| api_key          | $OPENAI_API_KEY                           | $WATSONX_API_KEY                  | $OPENAI_API_KEY                                                                  |
+| seed             | x                                         | \<not set\>                         | \<not set\>                                                                        |
+| top_p            | 0.95                                      | 0.95                              | 0.95 Reasoning models (o1, o3) and newer models (gpt-5) don't support top_p      |
+| temperature      | 0.0                                       | 0.0                               | 0.0 Reasoning models (o1, o3) and newer models (gpt-5) don't support temperature |
+| max_tokens       | \<not set\>                                 | \<not set\>                         | \<not set\>                                                                        |
+| project_id       | x                                         | $WX_PROJECT_ID                    | x                                                                                |
+| azure_version    | $AZURE_API_VERSION Only for Azure backend | x                                 | x                                                                                |
+
+- x means the provider backend does not support the param.                                                                                                   
+- \<not set\> means the param is not set and passed into the backend by default.                                                                               
+- Other values mean the default values if you don't overwrite below.                                                                                         
+
+### Utilize the LLM backend in your agent
+
+If you want bring your own agent, we highly recommend using the our backend (`/llm_backend`) as the LLM backend. If so, you can still use the CLI parameter `--model` to specify the model you want to use for your own agent.
+
+You can refer to `clients/stratus` for an example of how to use LiteLLM as the LLM backend.

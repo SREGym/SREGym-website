@@ -29,6 +29,62 @@ cp .env.example .env
 python main.py
 ```
 
+
+### Model Selection
+
+SREGym supports multiple LLM providers. Specify your model using the `--model` flag:
+
+```bash
+python main.py --model <model-id>
+```
+
+#### Available Models
+
+| Model ID | Provider | Model Name | Required Environment Variables |
+|----------|----------|------------|-------------------------------|
+| `gpt-4o` | OpenAI | GPT-4o | `OPENAI_API_KEY` |
+| `gemini-2.5-pro` | Google | Gemini 2.5 Pro | `GEMINI_API_KEY` |
+| `claude-sonnet-4` | Anthropic | Claude Sonnet 4 | `ANTHROPIC_API_KEY` |
+| `bedrock-claude-sonnet-4.5` | AWS Bedrock | Claude Sonnet 4.5 | `AWS_PROFILE`, `AWS_DEFAULT_REGION` |
+| `moonshot` | Moonshot | Moonshot | `MOONSHOT_API_KEY` |
+| `watsonx-llama` | IBM watsonx | Llama 3.3 70B | `WATSONX_API_KEY`, `WX_PROJECT_ID` |
+| `glm-4` | GLM | GLM-4 | `GLM_API_KEY` |
+| `azure-openai-gpt-4o` | Azure OpenAI | GPT-4o | `AZURE_API_KEY`, `AZURE_API_BASE` |
+
+**Default:** If no model is specified, `gpt-4o` is used by default.
+
+#### Examples
+
+**OpenAI:**
+```bash
+# In .env file
+OPENAI_API_KEY="sk-proj-..."
+
+# Run with GPT-4o
+python main.py --model gpt-4o
+```
+
+**Anthropic:**
+```bash
+# In .env file
+ANTHROPIC_API_KEY="sk-ant-api03-..."
+
+# Run with Claude Sonnet 4
+python main.py --model claude-sonnet-4
+```
+
+**AWS Bedrock:**
+```bash
+# In .env file
+AWS_PROFILE="bedrock"
+AWS_DEFAULT_REGION=us-east-2
+
+# Run with Claude Sonnet 4.5 on Bedrock
+python main.py --model bedrock-claude-sonnet-4.5
+```
+
+**Note:** For AWS Bedrock, ensure your AWS credentials are configured via `~/.aws/credentials` and your profile has permissions to access Bedrock.
+
 ### Monitoring with Dashboard
 
 SREGym provides a dashboard to monitor the status of your evaluation. The dashboard runs automatically when you start the benchmark with `python main.py` and can be accessed at `http://localhost:11451` in your web browser.
