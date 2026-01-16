@@ -849,6 +849,54 @@ tasks:
     file_id: sidecar_port_conflict.py
     include_in_launch: true
 
+  - id: service_port_conflict_astronomy_shop
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
+    category: Misconfiguration Failure
+    description: |
+      The problem runs on astronomy-shop.
+      Simulate a fault where a service has a hostPort configured that conflicts with another service in a different namespace.
+      The deployment `ad` is configured with hostPort 9100, which conflicts with `prometheus-node-exporter` in the observe namespace, causing pods to fail scheduling with FailedScheduling error.
+      Inject the fault by configuring a hostPort that conflicts with an existing service in another namespace.
+    tags:
+      - Misconfiguration Failure
+      - astronomy-shop
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: service_port_conflict.py
+    include_in_launch: true
+
+  - id: service_port_conflict_hotel_reservation
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
+    category: Misconfiguration Failure
+    description: |
+      The problem runs on hotel-reservation.
+      Simulate a fault where a service has a hostPort configured that conflicts with another service in a different namespace.
+      The deployment `recommendation` is configured with hostPort 9100, which conflicts with `prometheus-node-exporter` in the observe namespace, causing pods to fail scheduling with FailedScheduling error.
+      Inject the fault by configuring a hostPort that conflicts with an existing service in another namespace.
+    tags:
+      - Misconfiguration Failure
+      - hotel-reservation
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: service_port_conflict.py
+    include_in_launch: true
+
+  - id: service_port_conflict_social_network
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
+    category: Misconfiguration Failure
+    description: |
+      The problem runs on social-network.
+      Simulate a fault where a service has a hostPort configured that conflicts with another service in a different namespace.
+      The deployment `media-service` is configured with hostPort 9100, which conflicts with `prometheus-node-exporter` in the observe namespace, causing pods to fail scheduling with FailedScheduling error.
+      Inject the fault by configuring a hostPort that conflicts with an existing service in another namespace.
+    tags:
+      - Misconfiguration Failure
+      - social-network
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: service_port_conflict.py
+    include_in_launch: true
+
   - id: stale_coredns_config_astronomy_shop
     author_email: saadmrp@gmail.com
     author_name: Saad Mohammad Rafid Pial
