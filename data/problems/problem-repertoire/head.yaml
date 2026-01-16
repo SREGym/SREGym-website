@@ -1300,6 +1300,22 @@ tasks:
     file_id: latent_sector_error.py
     include_in_launch: true
 
+  - id: silent_data_corruption
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
+    category: Hardware Component Failure
+    description: |
+      The problem runs on hotel-reservation.
+      Simulate a hardware fault where silent data corruption occurs in storage devices.
+      The `dm-flakey` kernel module is used with `random_read_corrupt` and `random_write_corrupt` options to corrupt data written to or read from disk with a configurable probability. When MongoDB reads the corrupted WiredTiger data files from disk, it crashes with exit code 14.
+      Inject the fault by introducing silent data corruption in storage devices using `dm-flakey`.
+    tags:
+      - Hardware Component Failure
+      - hotel-reservation
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: silent_data_corruption.py
+    include_in_launch: true
+
   # ==================== DIRECT K8S API ====================
   - id: ingress_misroute
     author_email: rmughees1@gmail.com
