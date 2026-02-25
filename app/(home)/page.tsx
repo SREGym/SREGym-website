@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Callout } from "./components/callout";
 import { LeaderboardChart } from "./components/leaderboard-chart";
 import { TaskGrid } from "@/app/(home)/problems/components/task-grid";
+import { TerminalHero } from "./components/terminal-hero";
 
 export default async function Tasks() {
   const allTasks = await getDefaultTasks();
@@ -23,33 +24,7 @@ export default async function Tasks() {
     <div className="flex flex-1 flex-col items-center px-4 py-6">
       <div className="flex w-full max-w-6xl flex-1 flex-col items-center">
         <div className="flex flex-col justify-center gap-16 sm:pt-24 sm:pb-0 w-full">
-          <div className="space-y-8">
-            <div className="flex items-center justify-center gap-4 sm:gap-6 pl-2 sm:pl-16">
-              <div className="h-[83px] w-[83px] flex-shrink-0 overflow-hidden shadow-lg sm:h-[125px] sm:w-[125px]" style={{ borderRadius: '16px' }}>
-                <img
-                  src="/logov2.jpg"
-                  alt="SREGym Logo"
-                  className="h-full w-full object-cover block dark:hidden"
-                />
-                <img
-                  src="/logov4.png"
-                  alt="SREGym Logo"
-                  className="h-full w-full object-cover hidden dark:block"
-                />
-              </div>
-              <div className="h-[83px] sm:h-[125px] flex flex-col justify-center">
-                <h2 className="font-mono text-5xl font-medium tracking-tighter whitespace-nowrap sm:text-8xl">
-                  SREGym
-                </h2>
-                <p className="font-mono text-xl tracking-tight text-balance sm:text-2xl">
-                    An AI-Native Platform for Benchmarking SRE Agents
-                </p>
-              </div>
-            </div>
-          </div>
-          <p className="text-fd-muted-foreground font-mono tracking-tight sm:text-xl/relaxed mt-[40px] mb-12 sm:mb-8 w-full text-center">
-            SREGym is an AI-native platform to enable the design, development, and evaluation of AI agents for Site Reliability Engineering (SRE). The core idea is to create live system environments for SRE agents to solve real-world SRE problems. SREGym provides a comprehensive SRE benchmark suite with a wide variety of problems for evaluating SRE agents and also for training next-generation AI agents.
-          </p>
+          <TerminalHero taskCount={allTasks.length} />
           <div className="mx-auto flex flex-col sm:flex-row gap-4 sm:gap-2 justify-center items-center mb-12 sm:mb-9">
             <Link
               href="https://github.com/SREGym/SREGym"
@@ -89,11 +64,6 @@ export default async function Tasks() {
               href="/news/registry-and-adapters"
               icon={Terminal}
             />
-          </div>
-          <div className="mx-auto flex max-w-xl flex-col justify-center gap-4">
-            <p className="text-center font-mono text-sm sm:text-base">
-            University of Illinois at Urbana-Champaign
-            </p>
           </div>
         </div>
         <div className="hidden w-full flex-col items-center py-12">
