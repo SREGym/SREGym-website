@@ -10,10 +10,10 @@ import "./global.css";
 
 export const metadata: Metadata = {
   title: "SREGym",
-  metadataBase: new URL("https://www.sregym.ai"),
+  metadataBase: new URL("https://www.sregym.com"),
   description: "An AI-Native Platform for Benchmarking SRE Agents",
   icons: {
-    icon: "/logov2.jpg",
+    icon: "/i.png",
   },
   openGraph: {
     title: "SREGym",
