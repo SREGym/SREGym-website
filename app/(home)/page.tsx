@@ -24,7 +24,7 @@ export default async function Tasks() {
     <div className="flex flex-1 flex-col items-center px-4 py-6">
       <div className="flex w-full max-w-6xl flex-1 flex-col items-center">
         <div className="flex flex-col justify-center gap-16 sm:pt-24 sm:pb-0 w-full">
-          <TerminalHero taskCount={allTasks.length} />
+          <TerminalHero />
           <div className="mx-auto flex flex-col sm:flex-row gap-4 sm:gap-2 justify-center items-center mb-12 sm:mb-9">
             <Link
               href="https://github.com/SREGym/SREGym"
