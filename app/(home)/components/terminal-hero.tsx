@@ -9,16 +9,18 @@ const ASCII_ART = ` ____  ____  _____ ____
 |____/|_| \\_\\_____\\____|\\__, |_| |_| |_|
                         |___/`;
 
+const ASCII_SECTION = 1;
+
 function buildContent(taskCount: number): { text: string; speed: number }[] {
   return [
-    { text: "$ sregym --info\n", speed: 40 },
-    { text: "\n" + ASCII_ART + "\n", speed: 8 },
-    { text: "\nCan AI agents resolve production issues?\n", speed: 25 },
-    { text: `\n> ${taskCount} real-world SRE problems\n`, speed: 25 },
-    { text: "> 10 failure categories\n", speed: 25 },
-    { text: "> Live system environments\n", speed: 25 },
-    { text: "> University of Illinois at Urbana-Champaign\n", speed: 25 },
-    { text: "\n$ ", speed: 40 },
+    { text: "$ sregym --info\n", speed: 18 },
+    { text: "\n" + ASCII_ART + "\n", speed: 2 },
+    { text: "\nCan AI agents resolve production issues?\n", speed: 14 },
+    { text: `\n> ${taskCount} real-world SRE problems\n`, speed: 14 },
+    { text: "> 10 failure categories\n", speed: 14 },
+    { text: "> Live system environments\n", speed: 14 },
+    { text: "> University of Illinois at Urbana-Champaign\n", speed: 14 },
+    { text: "\n$ ", speed: 18 },
   ];
 }
 
@@ -28,10 +30,30 @@ function getFullText(taskCount: number): string {
     .join("");
 }
 
+function sliceSections(
+  sections: { text: string }[],
+  charIndex: number,
+): string[] {
+  const result: string[] = [];
+  let remaining = charIndex;
+  for (const section of sections) {
+    if (remaining <= 0) {
+      result.push("");
+    } else if (remaining >= section.text.length) {
+      result.push(section.text);
+      remaining -= section.text.length;
+    } else {
+      result.push(section.text.slice(0, remaining));
+      remaining = 0;
+    }
+  }
+  return result;
+}
+
 export function TerminalHero({ taskCount }: { taskCount: number }) {
   const sections = buildContent(taskCount);
-  const fullText = getFullText(taskCount);
-  const [displayed, setDisplayed] = useState("");
+  const totalLength = sections.reduce((sum, s) => sum + s.text.length, 0);
+  const [charIndex, setCharIndex] = useState(0);
   const [done, setDone] = useState(false);
   const prefersReducedMotion = useRef(false);
 
@@ -39,12 +61,12 @@ export function TerminalHero({ taskCount }: { taskCount: number }) {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (mq.matches) {
       prefersReducedMotion.current = true;
-      setDisplayed(fullText);
+      setCharIndex(totalLength);
       setDone(true);
       return;
     }
 
-    let charIndex = 0;
+    let idx = 0;
     let sectionIndex = 0;
     let sectionCharIndex = 0;
     let cancelled = false;
@@ -58,9 +80,9 @@ export function TerminalHero({ taskCount }: { taskCount: number }) {
 
       const section = sections[sectionIndex];
       sectionCharIndex++;
-      charIndex++;
+      idx++;
 
-      setDisplayed(fullText.slice(0, charIndex));
+      setCharIndex(idx);
 
       if (sectionCharIndex >= section.text.length) {
         sectionIndex++;
@@ -82,6 +104,8 @@ export function TerminalHero({ taskCount }: { taskCount: number }) {
       clearTimeout(initial);
     };
   }, []);
+
+  const displayedSections = sliceSections(sections, charIndex);
 
   return (
     <div className="w-full max-w-2xl mx-auto">
@@ -111,7 +135,16 @@ export function TerminalHero({ taskCount }: { taskCount: number }) {
         {/* Terminal content */}
         <div className="p-4 overflow-x-auto">
           <pre className="font-mono text-xs sm:text-sm text-foreground whitespace-pre leading-snug">
-            {displayed}
+            {displayedSections.map((text, i) =>
+              text ? (
+                <span
+                  key={i}
+                  className={i === ASCII_SECTION ? "text-green-500" : undefined}
+                >
+                  {text}
+                </span>
+              ) : null,
+            )}
             {!done && (
               <span className="animate-blink">&#x2588;</span>
             )}
