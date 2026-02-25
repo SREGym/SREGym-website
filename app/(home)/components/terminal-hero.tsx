@@ -139,7 +139,7 @@ export function TerminalHero({ taskCount }: { taskCount: number }) {
               text ? (
                 <span
                   key={i}
-                  className={i === ASCII_SECTION ? "text-green-500" : undefined}
+                  className={i === ASCII_SECTION ? "text-green-700 dark:text-green-500" : undefined}
                 >
                   {text}
                 </span>
