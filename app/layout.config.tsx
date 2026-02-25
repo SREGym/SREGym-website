@@ -18,30 +18,9 @@ export const baseOptions: BaseLayoutProps = {
       </div>
     ),
   },
-  links: [
-    {
-      text: "Docs",
-      url: "/docs",
-      active: "nested-url",
-    },
-    {
-      text: "Problems",
-      url: "/problems",
-      active: "nested-url",
-    },
-    {
-      text: "Contributors",
-      url: "/contributors",
-      active: "nested-url",
-    },
-    {
-      text: "Slack",
-      url: "https://join.slack.com/t/SREGym/shared_invite/zt-3gvqxpkpc-RvCUcyBEMvzvXaQS9KtS_w",
-      external: true,
-    },
-  ],
+  links: [],
   themeSwitch: {
-    enabled: false,
+    enabled: true,
     mode: "light-dark-system",
   },
 };

@@ -1,11 +1,12 @@
 import { buttonVariants } from "@/components/ui/button";
 import { getDefaultTasks } from "@/lib/problems-data";
 import { cn } from "@/lib/utils";
-import { ChevronDown, Terminal } from "lucide-react";
+import { ChevronDown, Github, Terminal } from "lucide-react";
 import Link from "next/link";
 import { Callout } from "./components/callout";
 import { LeaderboardChart } from "./components/leaderboard-chart";
 import { TaskGrid } from "@/app/(home)/problems/components/task-grid";
+import { TerminalHero } from "./components/terminal-hero";
 
 export default async function Tasks() {
   const allTasks = await getDefaultTasks();
@@ -23,45 +24,20 @@ export default async function Tasks() {
     <div className="flex flex-1 flex-col items-center px-4 py-6">
       <div className="flex w-full max-w-6xl flex-1 flex-col items-center">
         <div className="flex flex-col justify-center gap-16 sm:pt-24 sm:pb-0 w-full">
-          <div className="space-y-8">
-            <div className="flex items-center justify-center gap-4 sm:gap-6 pl-2 sm:pl-16">
-              <div className="h-[83px] w-[83px] flex-shrink-0 overflow-hidden shadow-lg sm:h-[125px] sm:w-[125px]" style={{ borderRadius: '16px' }}>
-                <img
-                  src="/logov2.jpg"
-                  alt="SREGym Logo"
-                  className="h-full w-full object-cover block dark:hidden"
-                />
-                <img
-                  src="/logov4.png"
-                  alt="SREGym Logo"
-                  className="h-full w-full object-cover hidden dark:block"
-                />
-              </div>
-              <div className="h-[83px] sm:h-[125px] flex flex-col justify-center">
-                <h2 className="font-mono text-5xl font-medium tracking-tighter whitespace-nowrap sm:text-8xl">
-                  SREGym
-                </h2>
-                <p className="font-mono text-xl tracking-tight text-balance sm:text-2xl">
-                    An AI-Native Platform for Benchmarking SRE Agents
-                </p>
-              </div>
-            </div>
-          </div>
-          <p className="text-fd-muted-foreground font-mono tracking-tight sm:text-xl/relaxed mt-[40px] mb-12 sm:mb-8 w-full text-center">
-            SREGym is an AI-native platform to enable the design, development, and evaluation of AI agents for Site Reliability Engineering (SRE). The core idea is to create live system environments for SRE agents to solve real-world SRE problems. SREGym provides a comprehensive SRE benchmark suite with a wide variety of problems for evaluating SRE agents and also for training next-generation AI agents.
-          </p>
+          <TerminalHero />
           <div className="mx-auto flex flex-col sm:flex-row gap-4 sm:gap-2 justify-center items-center mb-12 sm:mb-9">
             <Link
               href="https://github.com/SREGym/SREGym"
               className={cn(
                 "font-mono text-xl py-8 px-10 whitespace-nowrap w-full sm:w-auto sm:min-w-[350px]",
-                buttonVariants({ size: "xl", className: "rounded-none !text-xl" }),
+                buttonVariants({ size: "xl", className: "rounded-none inline-flex items-center gap-2 !text-xl" }),
               )}
             >
-              Quick  Start!  💪
+              <Github className="size-6" />
+              GitHub
             </Link>
             <Link
-              href="/problems"
+              href="https://join.slack.com/t/SREGym/shared_invite/zt-3gvqxpkpc-RvCUcyBEMvzvXaQS9KtS_w"
               className={cn(
                 "font-mono text-xl py-8 px-10 whitespace-nowrap w-full sm:w-auto sm:min-w-[350px]",
                 buttonVariants({
@@ -71,7 +47,8 @@ export default async function Tasks() {
                 }),
               )}
             >
-              Problem Set 👀
+              <svg className="size-6" viewBox="0 0 24 24" fill="currentColor"><path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zm1.271 0a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zm0 1.271a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zm10.124 2.521a2.528 2.528 0 0 1 2.52-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.52V8.834zm-1.271 0a2.528 2.528 0 0 1-2.521 2.521 2.528 2.528 0 0 1-2.521-2.521V2.522A2.528 2.528 0 0 1 15.165 0a2.528 2.528 0 0 1 2.522 2.522v6.312zm-2.522 10.124a2.528 2.528 0 0 1 2.522 2.52A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.521-2.522v-2.52h2.521zm0-1.271a2.527 2.527 0 0 1-2.521-2.521 2.528 2.528 0 0 1 2.521-2.521h6.313A2.528 2.528 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.522h-6.313z"/></svg>
+              Slack
             </Link>
           </div>
           <div className="mx-auto flex max-w-3xl flex-col gap-4 md:flex-row md:gap-2 hidden">
@@ -89,11 +66,6 @@ export default async function Tasks() {
               href="/news/registry-and-adapters"
               icon={Terminal}
             />
-          </div>
-          <div className="mx-auto flex max-w-xl flex-col justify-center gap-4">
-            <p className="text-center font-mono text-sm sm:text-base">
-            University of Illinois at Urbana-Champaign
-            </p>
           </div>
         </div>
         <div className="hidden w-full flex-col items-center py-12">
