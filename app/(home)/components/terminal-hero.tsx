@@ -367,7 +367,7 @@ export function TerminalHero() {
   const displayedSections = sliceSections(sections, charIndex);
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
+    <div className="w-full max-w-4xl mx-auto">
       {/* Screen reader text */}
       <span className="sr-only">
         SREGym: Can AI agents resolve production issues? Real-world SRE
@@ -399,7 +399,7 @@ export function TerminalHero() {
         {/* Terminal content */}
         <div
           ref={contentRef}
-          className="p-4 overflow-x-auto max-h-[400px] overflow-y-auto"
+          className="p-4 overflow-x-auto max-h-[500px] overflow-y-auto"
         >
           <pre className="font-mono text-xs sm:text-sm text-foreground whitespace-pre leading-snug">
             {/* Initial animation content */}
