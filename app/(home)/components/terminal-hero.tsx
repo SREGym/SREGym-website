@@ -145,9 +145,7 @@ export function TerminalHero({ taskCount }: { taskCount: number }) {
                 </span>
               ) : null,
             )}
-            {!done && (
-              <span className="animate-blink">&#x2588;</span>
-            )}
+            <span className="animate-blink">&#x2588;</span>
           </pre>
         </div>
       </div>
