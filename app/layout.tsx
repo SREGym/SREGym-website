@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "SREGym",
     description: "An AI-Native Platform for Benchmarking SRE Agents",
-    url: "https://www.sregym.ai",
+    url: "https://www.sregym.com",
     siteName: "SREGym",
     locale: "en_US",
     type: "website",
