@@ -7,6 +7,7 @@ import { Metadata } from "next/types";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import Script from "next/script";
 import type { ReactNode } from "react";
+import ogImage from "@/public/sregym-og.png";
 import "./global.css";
 
 export const metadata: Metadata = {
@@ -22,15 +23,24 @@ export const metadata: Metadata = {
   openGraph: {
     title: "SREGym",
     description: "An AI-Native Platform for Benchmarking SRE Agents",
-    url: "https://www.sregym.ai",
+    url: "https://www.sregym.com",
     siteName: "SREGym",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: ogImage.src,
+        width: ogImage.width,
+        height: ogImage.height,
+        alt: "SREGym - An AI-Native Platform for Benchmarking SRE Agents",
+      },
+    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "SREGym",
     description: "An AI-Native Platform for Benchmarking SRE Agents",
+    images: [ogImage.src],
   },
 };
 

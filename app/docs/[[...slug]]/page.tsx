@@ -8,6 +8,7 @@ import {
   DocsTitle,
 } from "fumadocs-ui/page";
 import { notFound } from "next/navigation";
+import ogImage from "@/public/sregym-og.png";
 
 export default async function Page(props: {
   params: Promise<{ slug?: string[] }>;
@@ -48,15 +49,15 @@ export async function generateMetadata(props: {
   return {
     title: page.data.title,
     description: page.data.description,
-    metadataBase: new URL("https://www.sregym.ai"),
+    metadataBase: new URL("https://www.sregym.com"),
     icons: {
-      icon: "/logov2.jpg",
+      icon: "/i.png",
     },
     openGraph: {
       title: page.data.title,
       description: page.data.description,
-      images: "/og/ascii-logo-dark-1200x630.png",
-      url: "https://www.sregym.ai",
+      images: ogImage.src,
+      url: "https://www.sregym.com",
       siteName: "SREGym",
       locale: "en_US",
       type: "website",
@@ -65,13 +66,7 @@ export async function generateMetadata(props: {
       card: "summary_large_image",
       title: page.data.title,
       description: page.data.description,
-      images: [
-        {
-          url: "/og/ascii-logo-dark-1200x630.png",
-          width: 1200,
-          height: 630,
-        },
-      ],
+      images: [ogImage.src],
     },
   };
 }
