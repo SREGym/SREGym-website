@@ -6,6 +6,7 @@ import { JetBrains_Mono } from "next/font/google";
 import { Metadata } from "next/types";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import type { ReactNode } from "react";
+import ogImage from "@/public/sregym-og.png";
 import "./global.css";
 
 export const metadata: Metadata = {
@@ -22,11 +23,20 @@ export const metadata: Metadata = {
     siteName: "SREGym",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: ogImage.src,
+        width: ogImage.width,
+        height: ogImage.height,
+        alt: "SREGym - An AI-Native Platform for Benchmarking SRE Agents",
+      },
+    ],
   },
   twitter: {
     card: "summary",
     title: "SREGym",
     description: "An AI-Native Platform for Benchmarking SRE Agents",
+    images: [ogImage.src],
   },
 };
 
