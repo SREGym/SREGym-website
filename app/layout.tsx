@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "SREGym",
     description: "An AI-Native Platform for Benchmarking SRE Agents",
     images: [ogImage.src],
