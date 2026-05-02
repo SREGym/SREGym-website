@@ -3,6 +3,11 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import {
   Table,
   TableBody,
   TableCell,
@@ -29,7 +34,17 @@ export function LeaderboardPreview() {
               <TableHead className="w-16 py-3 text-center">Rank</TableHead>
               <TableHead className="py-3">Agent</TableHead>
               <TableHead className="py-3">Model</TableHead>
-              <TableHead className="py-3 text-right">E2E (%)</TableHead>
+              <TableHead className="py-3 text-right">
+                <HoverCard openDelay={0} closeDelay={0}>
+                  <HoverCardTrigger asChild>
+                    <span className="cursor-help">E2E (%)</span>
+                  </HoverCardTrigger>
+                  <HoverCardContent className="animate-none font-mono text-sm/relaxed">
+                    End-to-end success: requires both correct diagnosis and
+                    correct mitigation on the same run.
+                  </HoverCardContent>
+                </HoverCard>
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
