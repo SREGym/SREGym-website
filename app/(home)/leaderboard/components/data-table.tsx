@@ -24,14 +24,18 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   className?: string;
+  initialSort?: { id: string; desc: boolean };
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   className,
+  initialSort,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [sorting, setSorting] = React.useState<SortingState>(
+    initialSort ? [initialSort] : [],
+  );
 
   const table = useReactTable({
     data,
@@ -44,15 +48,16 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className={cn("bg-card border-y font-mono md:border-x", className)}>
-      <Table className="[&_tr>td:first-child]:pl-6 [&_tr>td:last-child]:pr-6 [&_tr>th:first-child]:pl-6 [&_tr>th:last-child]:pr-6">
-        <TableHeader>
+      <div className="overflow-x-auto">
+        <Table className="min-w-[800px] [&_tr>td:first-child]:pl-6 [&_tr>td:last-child]:pr-6 [&_tr>th:first-child]:pl-6 [&_tr>th:last-child]:pr-6">
+          <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow
               key={headerGroup.id}
               className="px-6 hover:bg-transparent"
             >
               {headerGroup.headers.map((header) => (
-                <TableHead key={header.id} className="py-4 text-base">
+                <TableHead key={header.id} className="bg-card sticky top-0 z-10 py-4 text-base">
                   {header.isPlaceholder
                     ? null
                     : flexRender(
@@ -87,7 +92,18 @@ export function DataTable<TData, TValue>({
             </TableRow>
           )}
         </TableBody>
-      </Table>
+        </Table>
+      </div>
+      <div className="text-muted-foreground border-t px-6 py-4 text-xs leading-relaxed">
+        <p>
+          <span className="text-foreground">Diag.</span> Diagnosis success rate ·{" "}
+          <span className="text-foreground">Mit.</span> Mitigation success rate ·{" "}
+          <span className="text-foreground">E2E</span> End-to-end (both diagnosis and mitigation correct) ·{" "}
+          <span className="text-foreground">TTD</span> Time-to-diagnose (seconds) ·{" "}
+          <span className="text-foreground">TTM</span> Time-to-mitigate (seconds) ·{" "}
+          <span className="text-foreground">Tokens</span> Mean token usage per run
+        </p>
+      </div>
     </div>
   );
 }

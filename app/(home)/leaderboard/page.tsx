@@ -1,11 +1,7 @@
 import { runLeaderboardData } from "./data";
-import { RunLeaderboard } from "./components/run-leaderboard";
+import { LeaderboardClient } from "./components/leaderboard-client";
 
-export default async function LeaderboardPage() {
-  const sorted = [...runLeaderboardData].sort(
-    (a, b) => b.e2ePct - a.e2ePct,
-  );
-
+export default function LeaderboardPage() {
   return (
     <div className="flex flex-1 flex-col items-center px-4 py-6 sm:pt-12">
       <div className="flex w-full max-w-7xl flex-col gap-6">
@@ -18,7 +14,7 @@ export default async function LeaderboardPage() {
             incident resolution.
           </p>
         </div>
-        <RunLeaderboard rows={sorted} />
+        <LeaderboardClient data={runLeaderboardData} />
       </div>
     </div>
   );

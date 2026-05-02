@@ -10,6 +10,10 @@ export type RunEntry = {
   tokens: string;
 };
 
+export type RankedRunEntry = RunEntry & {
+  rank: number;
+};
+
 export const runLeaderboardData: RunEntry[] = [
   {
     agent: "Stratus",

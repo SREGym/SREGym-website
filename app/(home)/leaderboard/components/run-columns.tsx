@@ -7,10 +7,17 @@ import {
 } from "@/components/ui/hover-card";
 import { ColumnDef, Column } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
-import { RunEntry } from "../data";
+import { RankedRunEntry } from "../data";
 
 function BestInColumn({ value, isBest }: { value: string; isBest: boolean }) {
-  return <span className={isBest ? "font-bold" : ""}>{value}</span>;
+  if (isBest) {
+    return (
+      <span className="font-bold underline decoration-2 underline-offset-4">
+        {value}
+      </span>
+    );
+  }
+  return <span>{value}</span>;
 }
 
 function SortableHeader({
@@ -18,7 +25,7 @@ function SortableHeader({
   label,
   tooltip,
 }: {
-  column: Column<RunEntry, unknown>;
+  column: Column<RankedRunEntry, unknown>;
   label: string;
   tooltip?: string;
 }) {
@@ -34,7 +41,7 @@ function SortableHeader({
 
   const button = (
     <button
-      className="cursor-pointer select-none whitespace-nowrap"
+      className="cursor-pointer select-none whitespace-nowrap opacity-80 hover:opacity-100 transition-opacity"
       onClick={() => column.toggleSorting(sorted === "asc")}
     >
       {label}
@@ -45,16 +52,49 @@ function SortableHeader({
   if (!tooltip) return button;
 
   return (
-    <HoverCard openDelay={0}>
+    <HoverCard openDelay={0} closeDelay={0}>
       <HoverCardTrigger asChild>{button}</HoverCardTrigger>
-      <HoverCardContent className="font-mono text-sm/relaxed">
+      <HoverCardContent className="animate-none font-mono text-sm/relaxed">
         {tooltip}
       </HoverCardContent>
     </HoverCard>
   );
 }
 
-export const runColumns: ColumnDef<RunEntry>[] = [
+const RANK_COLORS = [
+  "#D6AF36", // gold
+  "#A7A7AD", // silver
+  "#A77044", // bronze
+];
+
+export const runColumns: ColumnDef<RankedRunEntry>[] = [
+  {
+    id: "rank",
+    accessorKey: "rank",
+    header: ({ column }) => (
+      <SortableHeader
+        column={column}
+        label="Rank"
+        tooltip="Rank based on end-to-end (E2E) success rate within the current filter."
+      />
+    ),
+    cell: ({ row }) => {
+      const rank = row.original.rank;
+      if (rank <= 3) {
+        return (
+          <div className="flex justify-center">
+            <span
+              className="inline-flex size-7 items-center justify-center rounded-full text-sm font-bold text-white"
+              style={{ backgroundColor: RANK_COLORS[rank - 1] }}
+            >
+              {rank}
+            </span>
+          </div>
+        );
+      }
+      return <div className="text-muted-foreground text-center">{rank}</div>;
+    },
+  },
   {
     accessorKey: "agent",
     header: ({ column }) => <SortableHeader column={column} label="Agent" />,
@@ -65,8 +105,20 @@ export const runColumns: ColumnDef<RunEntry>[] = [
   },
   {
     accessorKey: "noise",
-    header: "Noise",
-    cell: ({ row }) => (row.original.noise ? "✓" : "✗"),
+    header: () => (
+      <HoverCard openDelay={0} closeDelay={0}>
+        <HoverCardTrigger asChild>
+          <span className="cursor-help opacity-80 hover:opacity-100 transition-opacity">
+            Noise
+          </span>
+        </HoverCardTrigger>
+        <HoverCardContent className="animate-none font-mono text-sm/relaxed">
+          Whether transient disturbances (e.g., a pod crashing and
+          self-recovering) were injected alongside the target fault.
+        </HoverCardContent>
+      </HoverCard>
+    ),
+    cell: ({ row }) => (row.original.noise ? "Yes" : "No"),
   },
   {
     id: "diagPct",
