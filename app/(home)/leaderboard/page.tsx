@@ -9,9 +9,11 @@ export default function LeaderboardPage() {
           <h2 className="font-mono text-4xl tracking-tighter">
             SREGym Leaderboard
           </h2>
-          <p className="text-muted-foreground mt-2 font-mono text-sm sm:text-base">
-            Evaluating SRE agents on diagnosis, mitigation, and end-to-end
-            incident resolution.
+          <p className="text-muted-foreground mt-2 font-mono text-sm sm:text-base max-w-3xl">
+            Comparing SRE agents across diagnosis,
+            mitigation, and end-to-end incident resolution on SREGym. Ranked by
+            E2E success rate, requiring both correct root-cause diagnosis and
+            successful mitigation on the same run.
           </p>
         </div>
         <LeaderboardClient data={runLeaderboardData} />

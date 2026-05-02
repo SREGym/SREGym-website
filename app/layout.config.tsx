@@ -18,7 +18,9 @@ export const baseOptions: BaseLayoutProps = {
       </div>
     ),
   },
-  links: [],
+  links: [
+    { text: "Leaderboard", url: "/leaderboard" },
+  ],
   themeSwitch: {
     enabled: true,
     mode: "light-dark-system",
