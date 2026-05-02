@@ -64,7 +64,7 @@ export function LeaderboardPreview() {
                 </TableCell>
                 <TableCell>{entry.agent}</TableCell>
                 <TableCell>{entry.model}</TableCell>
-                <TableCell className="text-right font-bold">
+                <TableCell className="text-right">
                   {entry.e2ePct}
                 </TableCell>
               </TableRow>
