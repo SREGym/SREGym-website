@@ -3,7 +3,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 import { BarChart3, TableIcon } from "lucide-react";
-import { RunEntry, RankedRunEntry } from "../data";
+import { RunEntry, RankedRunEntry } from "@/lib/leaderboard-data";
 import { runColumns } from "./run-columns";
 import { DataTable } from "./data-table";
 import { LeaderboardChart } from "./leaderboard-chart";

@@ -10,7 +10,7 @@ import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import Claude from "@lobehub/icons/es/Claude";
 import OpenAI from "@lobehub/icons/es/OpenAI";
 import Kimi from "@lobehub/icons/es/Kimi";
-import { RankedRunEntry } from "../data";
+import { RankedRunEntry } from "@/lib/leaderboard-data";
 
 function BestInColumn({ value, isBest }: { value: string; isBest: boolean }) {
   if (isBest) {
@@ -64,11 +64,7 @@ function SortableHeader({
   );
 }
 
-const RANK_COLORS = [
-  "#D6AF36", // gold
-  "#A7A7AD", // silver
-  "#A77044", // bronze
-];
+import { RANK_COLORS } from "@/lib/constants";
 
 function ModelIcon({ model }: { model: string }) {
   const lower = model.toLowerCase();

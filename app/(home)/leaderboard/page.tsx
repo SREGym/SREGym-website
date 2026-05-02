@@ -1,4 +1,4 @@
-import { runLeaderboardData } from "./data";
+import { runLeaderboardData } from "@/lib/leaderboard-data";
 import { LeaderboardClient } from "./components/leaderboard-client";
 
 export default function LeaderboardPage() {

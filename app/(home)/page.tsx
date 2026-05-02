@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Callout } from "./components/callout";
 import { TaskGrid } from "@/app/(home)/problems/components/task-grid";
 import { TerminalHero } from "./components/terminal-hero";
+import { LeaderboardPreview } from "./components/leaderboard-preview";
 
 export default async function Tasks() {
   const allTasks = await getDefaultTasks();
@@ -50,6 +51,7 @@ export default async function Tasks() {
               Slack
             </Link>
           </div>
+          <LeaderboardPreview />
           <div className="mx-auto flex max-w-3xl flex-col gap-4 md:flex-row md:gap-2 hidden">
             <Callout
               className="flex-1"

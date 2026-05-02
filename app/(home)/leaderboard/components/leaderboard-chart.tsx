@@ -3,7 +3,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 import { Bar, BarChart, XAxis, YAxis, LabelList, ResponsiveContainer } from "recharts";
-import { RankedRunEntry } from "../data";
+import { RankedRunEntry } from "@/lib/leaderboard-data";
 
 const metricTabs = [
   { key: "e2ePct", label: "E2E (%)", suffix: "%" },
