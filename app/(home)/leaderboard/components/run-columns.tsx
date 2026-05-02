@@ -7,6 +7,9 @@ import {
 } from "@/components/ui/hover-card";
 import { ColumnDef, Column } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
+import Claude from "@lobehub/icons/es/Claude";
+import OpenAI from "@lobehub/icons/es/OpenAI";
+import Kimi from "@lobehub/icons/es/Kimi";
 import { RankedRunEntry } from "../data";
 
 function BestInColumn({ value, isBest }: { value: string; isBest: boolean }) {
@@ -67,6 +70,17 @@ const RANK_COLORS = [
   "#A77044", // bronze
 ];
 
+function ModelIcon({ model }: { model: string }) {
+  const lower = model.toLowerCase();
+  if (lower.includes("claude") || lower.includes("sonnet"))
+    return <Claude.Avatar size={28} />;
+  if (lower.includes("gpt") || lower.includes("codex"))
+    return <OpenAI.Avatar size={28} background="#fff" color="#000" />;
+  if (lower.includes("kimi"))
+    return <Kimi.Avatar size={28} />;
+  return null;
+}
+
 export const runColumns: ColumnDef<RankedRunEntry>[] = [
   {
     id: "rank",
@@ -102,6 +116,14 @@ export const runColumns: ColumnDef<RankedRunEntry>[] = [
   {
     accessorKey: "model",
     header: ({ column }) => <SortableHeader column={column} label="Model" />,
+    cell: ({ row }) => (
+      <div className="flex items-center gap-2">
+        <div className="bg-white rounded-full border">
+        <ModelIcon model={row.original.model} />
+        </div>
+        <span>{row.original.model}</span>
+      </div>
+    ),
   },
   {
     accessorKey: "noise",
