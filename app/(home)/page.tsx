@@ -4,9 +4,9 @@ import { cn } from "@/lib/utils";
 import { ChevronDown, Github, Terminal } from "lucide-react";
 import Link from "next/link";
 import { Callout } from "./components/callout";
-import { LeaderboardChart } from "./components/leaderboard-chart";
 import { TaskGrid } from "@/app/(home)/problems/components/task-grid";
 import { TerminalHero } from "./components/terminal-hero";
+import { LeaderboardPreview } from "./components/leaderboard-preview";
 
 export default async function Tasks() {
   const allTasks = await getDefaultTasks();
@@ -51,6 +51,7 @@ export default async function Tasks() {
               Slack
             </Link>
           </div>
+          <LeaderboardPreview />
           <div className="mx-auto flex max-w-3xl flex-col gap-4 md:flex-row md:gap-2 hidden">
             <Callout
               className="flex-1"
@@ -67,26 +68,6 @@ export default async function Tasks() {
               icon={Terminal}
             />
           </div>
-        </div>
-        <div className="hidden w-full flex-col items-center py-12">
-          <div className="mb-6 flex flex-col items-center gap-2">
-            <p className="font-mono text-sm">view agent performance</p>
-            <ChevronDown className="animate-float size-4" />
-          </div>
-          <LeaderboardChart className="-mx-4 mb-16 self-stretch" />
-          <Link
-            href="/leaderboard"
-            className={cn(
-              "font-mono",
-              buttonVariants({
-                variant: "secondary",
-                size: "xl",
-                className: "rounded-none",
-              }),
-            )}
-          >
-            view the full leaderboard ↗
-          </Link>
         </div>
         <div className="hidden min-h-[90vh] flex-col justify-center py-12 sm:pb-16">
           <div className="mb-4 flex flex-col items-center gap-2">

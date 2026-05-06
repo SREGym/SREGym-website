@@ -1,9 +1,12 @@
 "use client";
 
+import React from "react";
 import {
   ColumnDef,
+  SortingState,
   flexRender,
   getCoreRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -16,48 +19,53 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  onRowClick?: (row: TData) => void;
   className?: string;
+  initialSort?: { id: string; desc: boolean };
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  onRowClick,
   className,
+  initialSort,
 }: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = React.useState<SortingState>(
+    initialSort ? [initialSort] : [],
+  );
+
   const table = useReactTable({
     data,
     columns,
+    state: { sorting },
+    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
   });
 
   return (
     <div className={cn("bg-card border-y font-mono md:border-x", className)}>
-      <Table className="[&_tr>td:first-child]:pl-6 [&_tr>td:last-child]:pr-6 [&_tr>th:first-child]:pl-6 [&_tr>th:last-child]:pr-6">
-        <TableHeader>
+      <div className="overflow-x-auto">
+        <Table className="min-w-[800px] [&_tr>td:first-child]:pl-6 [&_tr>td:last-child]:pr-6 [&_tr>th:first-child]:pl-6 [&_tr>th:last-child]:pr-6">
+          <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow
               key={headerGroup.id}
               className="px-6 hover:bg-transparent"
             >
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead key={header.id} className="py-4 text-base">
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                  </TableHead>
-                );
-              })}
+              {headerGroup.headers.map((header) => (
+                <TableHead key={header.id} className="bg-card sticky top-0 z-10 py-4 text-base">
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext(),
+                      )}
+                </TableHead>
+              ))}
             </TableRow>
           ))}
         </TableHeader>
@@ -68,9 +76,6 @@ export function DataTable<TData, TValue>({
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
                 className="px-6"
-                onClick={() => {
-                  onRowClick?.(row.original);
-                }}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id} className="py-4 text-base">
@@ -87,46 +92,17 @@ export function DataTable<TData, TValue>({
             </TableRow>
           )}
         </TableBody>
-      </Table>
-      <div className="text-muted-foreground space-y-2 border-t px-6 py-4 text-center text-sm">
+        </Table>
+      </div>
+      <div className="text-muted-foreground border-t px-6 py-4 text-xs leading-relaxed">
         <p>
-          Results in this leaderboard correspond to{" "}
-          <Link
-            href="/problems"
-            className="text-foreground underline underline-offset-4"
-          >
-            Problems
-          </Link>
-          .
+          <span className="text-foreground">Diag.</span> Diagnosis success rate ·{" "}
+          <span className="text-foreground">Mit.</span> Mitigation success rate ·{" "}
+          <span className="text-foreground">E2E</span> End-to-end (both diagnosis and mitigation correct) ·{" "}
+          <span className="text-foreground">TTD</span> Time-to-diagnose (seconds) ·{" "}
+          <span className="text-foreground">TTM</span> Time-to-mitigate (seconds) ·{" "}
+          <span className="text-foreground">Tokens</span> Mean token usage per run
         </p>
-        <p>
-          Follow our{" "}
-          <Link
-            href="/docs/submitting-to-leaderboard"
-            className="text-foreground underline underline-offset-4"
-          >
-            submission guide
-          </Link>{" "}
-          to add your agent or model to the leaderboard.
-        </p>
-        <div className="mx-auto flex flex-row items-center justify-center gap-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            className="fill-foreground size-4"
-          >
-            <path
-              fillRule="evenodd"
-              d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
-              clipRule="evenodd"
-            />
-          </svg>
-
-          <p>
-            A SREGym team member ran the evaluation and verified the
-            results.
-          </p>
-        </div>
       </div>
     </div>
   );
