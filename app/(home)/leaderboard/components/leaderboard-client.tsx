@@ -13,8 +13,8 @@ type View = "table" | "chart";
 
 const filterOptions: { value: NoiseFilter; label: string }[] = [
   { value: "all", label: "All" },
-  { value: "clean", label: "Clean" },
-  { value: "noisy", label: "Noisy" },
+  { value: "clean", label: "w/o noise injection" },
+  { value: "noisy", label: "w/ noise injection" },
 ];
 
 function rankByE2E(entries: RunEntry[]): RankedRunEntry[] {
@@ -39,7 +39,6 @@ export function LeaderboardClient({ data }: { data: RunEntry[] }) {
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 font-mono text-sm">
-          <span className="text-muted-foreground">Noise:</span>
           {filterOptions.map((opt) => (
             <button
               key={opt.value}
