@@ -92,8 +92,8 @@ export function LeaderboardPreview() {
         top agent performance
       </p>
       <div className="grid w-full max-w-5xl grid-cols-1 gap-6 md:grid-cols-2">
-        <LeaderboardTable entries={clean} label="w/o noise injection" />
-        <LeaderboardTable entries={noisy} label="w/ noise injection" />
+        <LeaderboardTable entries={clean} label="clean" />
+        <LeaderboardTable entries={noisy} label="with noises" />
       </div>
       <Link
         href="/leaderboard"

@@ -13,8 +13,8 @@ type View = "table" | "chart";
 
 const filterOptions: { value: NoiseFilter; label: string }[] = [
   { value: "all", label: "All" },
-  { value: "clean", label: "w/o noise injection" },
-  { value: "noisy", label: "w/ noise injection" },
+  { value: "clean", label: "clean" },
+  { value: "noisy", label: "with noises" },
 ];
 
 function rankByE2E(entries: RunEntry[]): RankedRunEntry[] {
