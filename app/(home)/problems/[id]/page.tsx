@@ -63,11 +63,11 @@ export default async function Task({ params }: PageProps) {
           encrypted={task.registry.is_encrypted}
         />
         <TaskTags tags={task.tags} />
-        {task.author_name !== "unknown" && task.author_name !== "anonymous" && (
+        {/* {task.author_name !== "unknown" && task.author_name !== "anonymous" && (
           <p className="text-muted-foreground font-mono text-sm">
             Created by {task.author_name}
           </p>
-        )}
+        )} */}
       </div>
     </div>
   );

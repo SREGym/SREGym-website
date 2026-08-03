@@ -98,12 +98,12 @@ export function TaskCard({ task, behavior }: TaskCardProps) {
                 </Fragment>
               ))}
             </p>
-            {task.author_name !== "unknown" &&
+            {/* {task.author_name !== "unknown" &&
               task.author_name !== "anonymous" && (
                 <p className="text-muted-foreground font-mono text-sm sm:text-xs">
                   Created by {task.author_name}
                 </p>
-              )}
+              )} */}
           </div>
         </CardContent>
       </div>
