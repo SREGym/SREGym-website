@@ -172,10 +172,20 @@ export const runLeaderboardData: RunEntry[] = [
   },
 ];
 
-// Archived SREGym-Lite cohort: 20 faults with three attempts per fault.
-// Rates and time means use all 60 runs per model. Token means use runs with
-// recorded input-token usage (Sol: 58, Luna: 38, Terra: 53).
+// Results use the exact archived 20-fault cohort. Time and token means use
+// rows with recorded values. Timeouts count as failures in all success rates.
 export const liteLeaderboardData: RunEntry[] = [
+  {
+    agent: "GitHub Copilot",
+    model: "GPT-5.6 Sol (max)",
+    noise: false,
+    diagPct: 95.0,
+    mitPct: 75.0,
+    e2ePct: 70.0,
+    ttdSeconds: 209.5,
+    ttmSeconds: 554.7,
+    tokens: "2.24M",
+  },
   {
     agent: "GitHub Copilot",
     model: "GPT-5.6 Sol (medium)",
@@ -208,6 +218,17 @@ export const liteLeaderboardData: RunEntry[] = [
     ttdSeconds: 71.2,
     ttmSeconds: 355.3,
     tokens: "1.11M",
+  },
+  {
+    agent: "OpenCode",
+    model: "GLM-5.2 (max)",
+    noise: false,
+    diagPct: 75.0,
+    mitPct: 70.0,
+    e2ePct: 65.0,
+    ttdSeconds: 408.2,
+    ttmSeconds: 693.3,
+    tokens: "33.6K",
   },
 ];
 
