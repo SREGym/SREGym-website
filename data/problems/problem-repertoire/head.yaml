@@ -36,7 +36,7 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a correlated fault where multiple MongoDB services are updated to an incompatible version.
-      The MongoDB deployments (mongodb-geo, mongodb-profile, mongodb-rate, and mongodb-recommendation) are updated to use an incompatible image version 'mongo:8.0.14-rc0'.
+      The MongoDB deployments (mongodb-geo, mongodb-profile, mongodb-rate, mongodb-recommendation, mongodb-reservation, and mongodb-user) are updated to use an incompatible image version 'mongo:8.0.14-rc0'.
       Inject the fault by modifying the deployment images for all affected MongoDB services to the incompatible version.
     tags:
       - Correlated Failure
@@ -73,6 +73,22 @@ tasks:
       Inject the fault by modifying the environment variable in the deployment to point to the wrong port.
     tags:
       - Misconfiguration Failure
+      - astronomy-shop
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: incorrect_port_assignment.py
+    include_in_launch: true
+
+  - id: unschedulable_incorrect_port_assignment
+    author_email: yiming34@illinois.edu
+    author_name: Yiming Su
+    category: Multiple Independent Failures
+    description: |
+      The problem runs on astronomy-shop.
+      Simulate two simultaneous faults in the checkout service: an incorrect product-catalog port and assignment to a non-existent node.
+      The deployment `checkout` has `PRODUCT_CATALOG_ADDR` configured with port `8082` instead of `8080` and a nodeSelector that points to a non-existent node, causing both connection failures and unschedulable pods.
+      Inject the faults by modifying the environment variable and pinning the deployment to a node that does not exist.
+    tags:
+      - Multiple Independent Failures
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
     file_id: incorrect_port_assignment.py
@@ -197,7 +213,7 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where memory is disrupted for Valkey services in the astronomy shop application.
-      A job is flooding the valkey-cart store with large payloads (10MB each), causing it to enter an out-of-memory (OOM) state.
+      A job uses 10 concurrent workers to flood the valkey-cart store with approximately 1MB payloads, causing it to enter an out-of-memory (OOM) state.
       Inject the fault by disrupting memory allocation or management for Valkey services.
     tags:
       - Database Failure
@@ -231,29 +247,13 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a metastable failure where garbage collection causes capacity degradation in the application.
-      All deployments have the GOGC environment variable set to 10 (instead of the default 100), causing aggressive garbage collection that degrades service capacity and performance. This is a metastable failure.
+      All deployments have the GOGC environment variable set to 1 (instead of the default 100) under an injected memory constraint, causing aggressive garbage collection that degrades service capacity and performance. This is a metastable failure.
       Inject the fault by triggering aggressive garbage collection that causes capacity degradation.
     tags:
       - Metastable Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
     file_id: gc_capacity_degradation.py
-    include_in_launch: true
-
-  - id: load_spike_rpc_retry_storm
-    author_email: jqhuang0510@outlook.com
-    author_name: Jiaqi Huang
-    category: Metastable Failure
-    description: |
-      The problem runs on hotel-reservation.
-      Simulate a metastable failure where RPC retry storms occur due to load spikes in the application.
-      The ConfigMap `rpc` has misconfigured RPC timeout (50ms) and retry settings (30 retries), combined with a load spike, causing an RPC retry storm that overwhelms the service.
-      Inject the fault by introducing load spikes and configuring RPC timeout/retry policies that trigger retry storms.
-    tags:
-      - Metastable Failure
-      - hotel-reservation
-    github_url: https://github.com/SREGym/SREGym.git
-    file_id: load_spike_rpc_retry_storm.py
     include_in_launch: true
 
   # --- REGULAR VIRTUALIZATION PROBLEMS ---
@@ -361,7 +361,7 @@ tasks:
       The problem runs on astronomy-shop.
       Simulate a fault where environment variable shadowing occurs in the frontend-proxy service of the astronomy shop application.
       The deployment `frontend-proxy` has environment variables (e.g., FRONTEND_HOST) that shadow expected values, causing incorrect service configuration.
-      Inject the fault by configuring environment variables in init containers that shadow variables used by the main container.
+      Inject the fault by appending a second `FRONTEND_HOST=localhost` definition to the frontend-proxy container, shadowing the intended `FRONTEND_HOST=frontend` value.
     tags:
       - Misconfiguration Failure
       - astronomy-shop
@@ -568,8 +568,8 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a fault where namespace-level memory limits are set too restrictively.
-      The namespace has a ResourceQuota with a memory limit (1Gi) that is too restrictive, preventing the deployment `search` from scheduling new pods or causing existing pods to be evicted.
-      Inject the fault by setting restrictive memory limits at the namespace ResourceQuota level.
+      The namespace has a ResourceQuota named `memory-limit-quota` with a 1Gi memory quota. Because the deployment `search` does not declare memory resources, admission rejects its replacement pod with `must specify memory` after its active ReplicaSet is deleted.
+      Inject the fault by creating the ResourceQuota and deleting the active search ReplicaSet to force pod recreation under the quota.
     tags:
       - Cloud Management System Failure
       - hotel-reservation
@@ -615,9 +615,9 @@ tasks:
     category: Cloud Management System Failure
     description: |
       The problem runs on hotel-reservation.
-      Simulate a fault where PersistentVolumeClaim and PersistentVolume specifications do not match.
+      Simulate a fault where MongoDB deployments reference PersistentVolumeClaims that do not exist.
       Multiple MongoDB deployments are configured with PVC claim names that do not exist (claimName-broken), causing pods to remain in Pending state.
-      Inject the fault by creating PVCs with storage class, access mode, or size requirements that don't match available PVs.
+      Inject the fault by changing the MongoDB deployments to reference non-existent PVC claim names ending in `-broken`.
     tags:
       - Cloud Management System Failure
       - hotel-reservation
@@ -1065,8 +1065,8 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the ad service fails in the astronomy shop application using OpenTelemetry fault injection.
-      The `ad` service has a feature flag enabled that causes it to fail, resulting in service unavailability.
-      Inject the fault by enabling the adFailure feature flag in the OpenTelemetry demo application.
+      The `adFailure` feature flag makes the ad service's `GetAds` gRPC handler return intermittent errors on a fraction of requests, causing missing or delayed ad content.
+      Inject the fault by setting the `adFailure` feature flag's default variant to `on`.
     tags:
       - System/Application Software Failure
       - astronomy-shop
@@ -1081,8 +1081,8 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the ad service experiences high CPU usage in the astronomy shop application.
-      The `ad` service has a feature flag enabled that causes high CPU usage, resulting in performance degradation.
-      Inject the fault by enabling the adHighCpu feature flag in the OpenTelemetry demo application.
+      The `adHighCpu` feature flag elevates CPU usage while the ad container is restricted to a 100m CPU limit, causing throttling, elevated latency, and intermittent timeouts.
+      Inject the fault by setting the `adHighCpu` feature flag's default variant to `on` and applying the 100m CPU limit.
     tags:
       - System/Application Software Failure
       - astronomy-shop
@@ -1113,8 +1113,8 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the cart service fails in the astronomy shop application using OpenTelemetry fault injection.
-      The `cart` service has a feature flag enabled that causes it to fail, resulting in service unavailability.
-      Inject the fault by enabling the cart service failure feature flag in the OpenTelemetry demo application.
+      The `cartFailure` feature flag makes the cart service return an error whenever its `EmptyCart` gRPC handler is called, disrupting cart and checkout operations.
+      Inject the fault by setting the `cartFailure` feature flag's default variant to `on`.
     tags:
       - System/Application Software Failure
       - astronomy-shop
@@ -1128,9 +1128,9 @@ tasks:
     category: System/Application Software Failure
     description: |
       The problem runs on astronomy-shop.
-      Simulate a fault where the ad service experiences slow image loading in the astronomy shop application.
-      The `frontend` service has a feature flag enabled that causes slow image loading, resulting in degraded user experience and performance issues.
-      Inject the fault by enabling slow image loading feature flag in the OpenTelemetry demo application for the ad service.
+      Simulate a fault where product images load slowly through the frontend service in the astronomy shop application.
+      The `imageSlowLoad` feature flag activates an Envoy fault-injection path that adds a 10-second delay to product-image responses served through the frontend.
+      Inject the fault by setting the `imageSlowLoad` feature flag's default variant to `10sec`.
     tags:
       - System/Application Software Failure
       - astronomy-shop
@@ -1145,8 +1145,8 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the payment service fails in the astronomy shop application using OpenTelemetry fault injection.
-      The `payment` service has a feature flag enabled that causes it to fail, resulting in service unavailability.
-      Inject the fault by enabling the paymentFailure feature flag in the OpenTelemetry demo application.
+      The `paymentFailure` feature flag makes the payment service's `Charge` gRPC handler fail 100% of charge requests, preventing checkout from completing purchases.
+      Inject the fault by setting the `paymentFailure` feature flag's default variant to `100%`.
     tags:
       - System/Application Software Failure
       - astronomy-shop
@@ -1177,8 +1177,8 @@ tasks:
     description: |
       The problem runs on astronomy-shop.
       Simulate a fault where the product catalog service fails in the astronomy shop application using OpenTelemetry fault injection.
-      The `product-catalog` service has a feature flag enabled that causes it to fail, resulting in service unavailability.
-      Inject the fault by enabling the product catalog service failure feature flag in the OpenTelemetry demo application.
+      The `productCatalogFailure` feature flag makes the product-catalog service's `GetProduct` gRPC handler return an error for a specific product, disrupting the affected product page and dependent flows.
+      Inject the fault by setting the `productCatalogFailure` feature flag's default variant to `on`.
     tags:
       - System/Application Software Failure
       - astronomy-shop
@@ -1186,20 +1186,20 @@ tasks:
     file_id: product_catalog_failure.py
     include_in_launch: true
 
-  - id: astronomy_shop_recommendation_service_cache_failure
-    author_email: yinfang3@illinois.edu
-    author_name: Yinfang Chen
+  - id: astronomy_shop_failed_readiness_probe
+    author_email: jclark58@illinois.edu
+    author_name: Jackson Clark
     category: System/Application Software Failure
     description: |
       The problem runs on astronomy-shop.
-      Simulate a fault where the recommendation service cache fails in the astronomy shop application.
-      The `recommendation` service has a feature flag enabled that causes cache failures, resulting in degraded service performance.
-      Inject the fault by enabling the recommendation cache failure feature flag in the OpenTelemetry demo application.
+      Simulate a fault where the cart service's readiness probe fails in the astronomy shop application.
+      The `failedReadinessProbe` feature flag makes the cart service's gRPC health endpoint report `NOT_SERVING`, so Kubernetes marks the cart pods NotReady and removes them from service endpoints.
+      Inject the fault by enabling the failed-readiness-probe feature flag and adding the corresponding gRPC readiness probe to the cart deployment.
     tags:
       - System/Application Software Failure
       - astronomy-shop
     github_url: https://github.com/SREGym/SREGym.git
-    file_id: recommendation_service_cache_failure.py
+    file_id: failed_readiness_probe.py
     include_in_launch: true
 
   - id: kafka_queue_problems
@@ -1208,9 +1208,9 @@ tasks:
     category: System/Application Software Failure
     description: |
       The problem runs on astronomy-shop.
-      Simulate a fault where Kafka queue problems occur in the hotel reservation application.
-      The `kafka` service has a feature flag enabled that causes queue problems, resulting in message processing failures.
-      Inject the fault by enabling kafkaQueueProblems feature flag in the OpenTelemetry demo application for the memcached-rate service.
+      Simulate a fault where Kafka queue processing becomes unstable in the astronomy shop application.
+      The `kafkaQueueProblems` feature flag overloads the Kafka queue and introduces consumer-side processing delay, causing backlog growth, consumer lag, and delayed event-driven operations.
+      Inject the fault by setting the `kafkaQueueProblems` feature flag's default variant to `on`.
     tags:
       - System/Application Software Failure
       - astronomy-shop
@@ -1268,22 +1268,6 @@ tasks:
     include_in_launch: true
 
   # ==================== HARDWARE FAULT INJECTOR ====================
-  - id: read_error
-    author_email: jclark58@illinois.edu
-    author_name: Jackson Clark
-    category: Hardware Component Failure
-    description: |
-      The problem runs on hotel-reservation.
-      Simulate a hardware fault where read errors occur in storage devices.
-      System call-level EIO (-5) failures are injected into `read()` operations for all pods on a target node, causing I/O errors and service failures.
-      Inject the fault by introducing hardware-level read errors in storage devices.
-    tags:
-      - Hardware Component Failure
-      - hotel-reservation
-    github_url: https://github.com/SREGym/SREGym.git
-    file_id: read_error.py
-    include_in_launch: true
-
   - id: latent_sector_error
     author_email: saadmrp@gmail.com
     author_name: Saad Mohammad Rafid Pial
@@ -1291,13 +1275,13 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a hardware fault where Latent Sector Errors (LSE) occur in storage devices.
-      Specific sectors containing MongoDB data files (WiredTiger.wt) are marked as bad using the `dm-dust` kernel module, and page caches are dropped to force disk reads.
-      Inject the fault by adding bad blocks to the underlying storage of the mongodb-geo service, causing I/O errors and pod crashes.
+      Disk read and write operations on pods running on the selected node encounter latent sector errors at a 30% failure rate, causing I/O failures on affected storage regions.
+      Inject the fault with Khaos eBPF probes and drop page caches so subsequent disk reads pass through the injected probes.
     tags:
       - Hardware Component Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
-    file_id: latent_sector_error.py
+    file_id: khaos_faults.py
     include_in_launch: true
 
   - id: silent_data_corruption
@@ -1307,8 +1291,8 @@ tasks:
     description: |
       The problem runs on hotel-reservation.
       Simulate a hardware fault where silent data corruption occurs in storage devices.
-      The `dm-flakey` kernel module is used with `random_read_corrupt` and `random_write_corrupt` options to corrupt data written to or read from disk with a configurable probability. When MongoDB reads the corrupted WiredTiger data files from disk, it crashes with exit code 14.
-      Inject the fault by introducing silent data corruption in storage devices using `dm-flakey`.
+      The `dm-flakey` device is configured with `random_read_corrupt` and `random_write_corrupt` at 100% probability for the mongodb-geo workload, silently corrupting reads and writes without returning hard I/O errors.
+      Inject the fault by redeploying the application onto dm-flakey-backed storage and triggering MongoDB reads and writes, which can produce inconsistent query results or corrupted records.
     tags:
       - Hardware Component Failure
       - hotel-reservation
@@ -1339,33 +1323,14 @@ tasks:
     category: Network Failure
     description: |
       The problem runs on hotel-reservation.
-      Simulate a fault where NetworkPolicy blocks all traffic to the payment-service in the hotel reservation application.
-      A NetworkPolicy `deny-all-payment-service` is configured to block all ingress and egress traffic to/from pods labeled with `app=payment-service`, causing complete network isolation and service unavailability.
-      Inject the fault by creating a NetworkPolicy that blocks all traffic (empty ingress and egress rules) for the payment-service pods.
+      Simulate a fault where NetworkPolicy blocks all traffic to the recommendation service in the hotel reservation application.
+      A NetworkPolicy `deny-all-recommendation` blocks all ingress and egress traffic to and from pods labeled with `io.kompose.service=recommendation`, causing complete network isolation.
+      Inject the fault by creating a NetworkPolicy with empty ingress and egress rules for the recommendation pods.
     tags:
       - Network Failure
       - hotel-reservation
     github_url: https://github.com/SREGym/SREGym.git
     file_id: network_policy_block.py
-    include_in_launch: true
-
-  # ==================== MULTIPLE INDEPENDENT FAILURES ====================
-  - id: social_net_hotel_res_astro_shop_concurrent_failures
-    author_email: yiming34@illinois.edu
-    author_name: Yiming Su
-    category: Multiple Independent Failures
-    description: |
-      The problem runs on astronomy-shop, hotel-reservation, social-network.
-      Simulate multiple concurrent independent failures across different applications.
-      The fault manifests as three simultaneous failures: (1) K8S target port misconfiguration in user-service of social network, (2) MongoDB auth revocation in mongodb-geo of hotel reservation, and (3) wrong service selector in astronomy shop.
-      Inject the fault by simultaneously applying all three fault configurations across the different applications.
-    tags:
-      - Multiple Independent Failures
-      - astronomy-shop
-      - hotel-reservation
-      - social-network
-    github_url: https://github.com/SREGym/SREGym.git
-    file_id: multiple_failures.py
     include_in_launch: true
 
   # ==================== AD HOC PROBLEMS ====================
@@ -1482,3 +1447,163 @@ tasks:
     file_id: wrong_update_strategy.py
     include_in_launch: true
 
+  - id: operator_wrong_operator_image
+    author_email: yiming34@illinois.edu
+    author_name: Yiming Su
+    category: System/Application Software Failure
+    description: |
+      The problem runs on fleet-cast.
+      Simulate a fault where the TiDB operator controller is deployed with an incorrect container image.
+      The deployment `tidb-operator-controller-manager` is rolled to an incorrect image, breaking reconciliation and leaving managed TiDB resources unhealthy or stale.
+      Inject the fault by changing the TiDB operator controller image to an invalid image.
+    tags:
+      - System/Application Software Failure
+      - fleet-cast
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: wrong_operator_image.py
+    include_in_launch: true
+
+  # ==================== SREGYM-LITE COHORT ADDITIONS ====================
+  - id: admission_webhook_outage_hotel_reservation
+    author_email: 98742866+samiamjidkhan@users.noreply.github.com
+    author_name: Sami Khan
+    category: Misconfiguration Failure
+    description: |
+      The problem runs on hotel-reservation.
+      Simulate an admission outage where a ValidatingWebhookConfiguration intercepts pod creation but points to a missing backend service.
+      The webhook uses failurePolicy Fail, so the Kubernetes API server rejects replacement pods and leaves the recommendation deployment under-replicated even though its deployment specification is valid.
+      Inject the fault by installing the broken webhook and deleting the current recommendation pod to trigger a blocked replacement.
+    tags:
+      - Misconfiguration Failure
+      - hotel-reservation
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: admission_webhook_outage.py
+    include_in_launch: true
+
+  - id: cronjob_sidecar_blocks_completion_hotel_reservation
+    author_email: 59266402+selen0phile@users.noreply.github.com
+    author_name: Jaber Ahmed Deedar
+    category: Misconfiguration Failure
+    description: |
+      The problem runs on hotel-reservation.
+      Simulate a CronJob whose primary container finishes but whose regular sidecar container never exits.
+      Because every container must terminate before a Job completes, each scheduled audit-log-archiver Job remains active and the unfinished Jobs accumulate.
+      Inject the fault by creating the CronJob with a non-terminating fluent-bit sidecar configured as a regular container instead of a native sidecar.
+    tags:
+      - Misconfiguration Failure
+      - hotel-reservation
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: cronjob_sidecar_blocks_completion.py
+    include_in_launch: true
+
+  - id: edge_request_filter_cpu_saturation
+    author_email: 58245255+RedwanulKarim612@users.noreply.github.com
+    author_name: Md. Redwanul Karim
+    category: System/Application Software Failure
+    description: |
+      The problem runs on astronomy-shop.
+      Simulate an edge request-filter failure where a vulnerable regular expression causes catastrophic backtracking.
+      Crafted requests drive the frontend-proxy to its CPU limit and cause HTTP timeouts for otherwise healthy traffic.
+      Inject the fault by replacing the proxy command with the vulnerable filter and sending crafted requests from the load generator.
+    tags:
+      - System/Application Software Failure
+      - astronomy-shop
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: edge_request_filter_cpu_saturation.py
+    include_in_launch: true
+
+  - id: finalizer_deadlock_controller_hotel_reservation
+    author_email: 61350760+ermias19@users.noreply.github.com
+    author_name: Ermias Mulugeta
+    category: Security Failure
+    description: |
+      The problem runs on hotel-reservation.
+      Simulate a controller that cannot complete finalizer cleanup after losing its required Kubernetes permissions.
+      A ConfigMap remains in the Terminating state while the cleanup controller logs Forbidden errors because its ClusterRole no longer permits updates to ConfigMaps and their finalizers.
+      Inject the fault by removing the required RBAC permissions and deleting the finalized ConfigMap.
+    tags:
+      - Security Failure
+      - hotel-reservation
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: finalizer_deadlock_controller.py
+    include_in_launch: true
+
+  - id: internal_traffic_policy_local_astronomy_shop
+    author_email: sharyash81@gmail.com
+    author_name: Arya Shahsavar
+    category: Network Failure
+    description: |
+      The problem runs on astronomy-shop.
+      Simulate a network fault where the recommendation service uses internalTrafficPolicy Local while its only pod and the frontend caller run on different nodes.
+      The service has no local endpoint on the frontend node, so recommendation calls time out even though all pods remain Running and Ready.
+      Inject the fault by enabling the Local traffic policy and pinning the recommendation and frontend deployments to different worker nodes.
+    tags:
+      - Network Failure
+      - astronomy-shop
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: internal_traffic_policy_local.py
+    include_in_launch: true
+
+  - id: kafka_poison_pill_hol_block
+    author_email: sakibbuet2k19@gmail.com
+    author_name: Nazmus Sakib
+    category: System/Application Software Failure
+    description: |
+      The problem runs on astronomy-shop.
+      Simulate a Kafka poison-pill failure where one malformed record blocks a consumer at a fixed offset.
+      The consumer cannot deserialize or commit past the bad record, so valid records accumulate behind it while the producer, consumer, and broker pods remain Running and Ready.
+      Inject the fault by seeding valid records followed by malformed data into the orders-fulfillment topic and starting the blocked consumer pipeline.
+    tags:
+      - System/Application Software Failure
+      - astronomy-shop
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: kafka_poison_pill_hol_block.py
+    include_in_launch: true
+
+  - id: mutating_webhook_resource_limits_social_network
+    author_email: blldr001@gmail.com
+    author_name: Kerem Akcalioglu
+    category: Misconfiguration Failure
+    description: |
+      The problem runs on social-network.
+      Simulate a mutating admission webhook that silently overwrites the memory request and limit of every newly created pod to 16Mi.
+      The nginx-thrift deployment retains its correct resource values, but replacement pods receive the mutated limit and repeatedly fail with OOMKilled and CrashLoopBackOff.
+      Inject the fault by installing the webhook and recreating an nginx-thrift pod under the faulty admission configuration.
+    tags:
+      - Misconfiguration Failure
+      - social-network
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: mutating_webhook_resource_limits.py
+    include_in_launch: true
+
+  - id: secret_rotation_stale_env_credentials_astronomy_shop
+    author_email: 73434154+Ipetr14@users.noreply.github.com
+    author_name: Petr Myagkov
+    category: Security Failure
+    description: |
+      The problem runs on astronomy-shop.
+      Simulate a credential rotation where PostgreSQL and the Kubernetes Secret use a new password but the running product-catalog pod retains the old connection string from container startup.
+      After existing database sessions are terminated, product-catalog remains Running and Ready but cannot reconnect to PostgreSQL or serve product data.
+      Inject the fault by rotating the database credential without recreating the product-catalog pod.
+    tags:
+      - Security Failure
+      - astronomy-shop
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: secret_rotation_stale_env_credentials.py
+    include_in_launch: true
+
+  - id: service_wrong_pod_selection_hotel_reservation
+    author_email: 164968702+jackj6441@users.noreply.github.com
+    author_name: jackj6441
+    category: Misconfiguration Failure
+    description: |
+      The problem runs on hotel-reservation.
+      Simulate a Service selector that matches both the intended frontend pods and an unintended search pod.
+      The frontend Service keeps non-empty but polluted endpoints, causing intermittent failures when traffic reaches the search pod on the wrong target port.
+      Inject the fault by adding a shared route label to both deployments and replacing the frontend Service selector with that label.
+    tags:
+      - Misconfiguration Failure
+      - hotel-reservation
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: service_wrong_pod_selection_hotel_reservation.py
+    include_in_launch: true

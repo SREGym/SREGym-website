@@ -227,7 +227,7 @@ function processCommand(input: string): string {
         "",
         "University of Illinois at Urbana-Champaign",
         "",
-        "Want to join? See /docs/contributing",
+        "Want to join? Join the SREGym Slack workspace.",
       ].join("\n");
 
     case "sregym --about":

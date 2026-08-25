@@ -4,6 +4,7 @@ import React from "react";
 import {
   ColumnDef,
   SortingState,
+  VisibilityState,
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
@@ -25,6 +26,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
   className?: string;
   initialSort?: { id: string; desc: boolean };
+  columnVisibility?: VisibilityState;
 }
 
 export function DataTable<TData, TValue>({
@@ -32,6 +34,7 @@ export function DataTable<TData, TValue>({
   data,
   className,
   initialSort,
+  columnVisibility = {},
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>(
     initialSort ? [initialSort] : [],
@@ -40,7 +43,7 @@ export function DataTable<TData, TValue>({
   const table = useReactTable({
     data,
     columns,
-    state: { sorting },
+    state: { sorting, columnVisibility },
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -51,57 +54,69 @@ export function DataTable<TData, TValue>({
       <div className="overflow-x-auto">
         <Table className="min-w-[800px] [&_tr>td:first-child]:pl-6 [&_tr>td:last-child]:pr-6 [&_tr>th:first-child]:pl-6 [&_tr>th:last-child]:pr-6">
           <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow
-              key={headerGroup.id}
-              className="px-6 hover:bg-transparent"
-            >
-              {headerGroup.headers.map((header) => (
-                <TableHead key={header.id} className="bg-card sticky top-0 z-10 py-4 text-base">
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
-                </TableHead>
-              ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
+            {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-                className="px-6"
+                key={headerGroup.id}
+                className="px-6 hover:bg-transparent"
               >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id} className="py-4 text-base">
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
+                {headerGroup.headers.map((header) => (
+                  <TableHead
+                    key={header.id}
+                    className="bg-card sticky top-0 z-10 py-4 text-base"
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                  </TableHead>
                 ))}
               </TableRow>
-            ))
-          ) : (
-            <TableRow className="px-6">
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                  className="px-6"
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id} className="py-4 text-base">
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow className="px-6">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
         </Table>
       </div>
       <div className="text-muted-foreground border-t px-6 py-4 text-xs leading-relaxed">
         <p>
-          <span className="text-foreground">Diag.</span> Diagnosis success rate ·{" "}
-          <span className="text-foreground">Mit.</span> Mitigation success rate ·{" "}
-          <span className="text-foreground">E2E</span> End-to-end (both diagnosis and mitigation correct) ·{" "}
-          <span className="text-foreground">TTD</span> Time-to-diagnose (seconds) ·{" "}
-          <span className="text-foreground">TTM</span> Time-to-mitigate (seconds) ·{" "}
-          <span className="text-foreground">Tokens</span> Mean token usage per run
+          <span className="text-foreground">Diag.</span> Diagnosis success rate
+          · <span className="text-foreground">Mit.</span> Mitigation success
+          rate · <span className="text-foreground">E2E</span> End-to-end (both
+          diagnosis and mitigation correct) ·{" "}
+          <span className="text-foreground">TTD</span> Time-to-diagnose
+          (seconds) · <span className="text-foreground">TTM</span>{" "}
+          Time-to-mitigate (seconds) ·{" "}
+          <span className="text-foreground">Tokens</span> Mean token usage per
+          run
         </p>
       </div>
     </div>

@@ -1,25 +1,12 @@
 import { buttonVariants } from "@/components/ui/button";
-import { getDefaultTasks } from "@/lib/problems-data";
 import { cn } from "@/lib/utils";
-import { ChevronDown, Github, Terminal } from "lucide-react";
+import { Github, Terminal } from "lucide-react";
 import Link from "next/link";
 import { Callout } from "./components/callout";
-import { TaskGrid } from "@/app/(home)/problems/components/task-grid";
 import { TerminalHero } from "./components/terminal-hero";
 import { LeaderboardPreview } from "./components/leaderboard-preview";
 
-export default async function Tasks() {
-  const allTasks = await getDefaultTasks();
-  const taskIds = [
-    "configure-git-webserver",
-    "openssl-selfsigned-cert",
-    "build-linux-kernel-qemu",
-    "reshard-c4-data",
-    "crack-7z-hash",
-    "train-fasttext",
-  ];
-  const tasks = allTasks.filter((task) => taskIds.includes(task.id));
-
+export default function Home() {
   return (
     <div className="flex flex-1 flex-col items-center px-4 py-6">
       <div className="flex w-full max-w-6xl flex-1 flex-col items-center">
@@ -84,31 +71,6 @@ export default async function Tasks() {
               icon={Terminal}
             />
           </div>
-        </div>
-        <div className="hidden min-h-[90vh] flex-col justify-center py-12 sm:pb-16">
-          <div className="mb-4 flex flex-col items-center gap-2">
-            <p className="font-mono text-sm">
-              view sregym task examples
-            </p>
-            <ChevronDown className="animate-float size-4" />
-          </div>
-          {tasks && (
-            <div className="-mx-4 flex flex-col gap-12 sm:mx-0 sm:gap-16">
-              <TaskGrid tasks={tasks} behavior="navigate" />
-              <Link
-                href="/problems"
-                className={cn(
-                  buttonVariants({
-                    variant: "secondary",
-                    size: "xl",
-                    className: "mx-auto rounded-none font-mono",
-                  }),
-                )}
-              >
-                view all problems ↗
-              </Link>
-            </div>
-          )}
         </div>
       </div>
     </div>

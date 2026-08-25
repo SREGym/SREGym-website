@@ -67,7 +67,7 @@ function LeaderboardTable({
               <TableCell>{entry.agent}</TableCell>
               <TableCell>{entry.model}</TableCell>
               <TableCell className="text-right">
-                {entry.e2ePct}
+                {entry.e2ePct.toFixed(1)}
               </TableCell>
             </TableRow>
           ))}
@@ -80,11 +80,13 @@ function LeaderboardTable({
 export function LeaderboardPreview() {
   const clean = [...runLeaderboardData]
     .filter((e) => !e.noise)
-    .sort((a, b) => b.e2ePct - a.e2ePct);
+    .sort((a, b) => b.e2ePct - a.e2ePct)
+    .slice(0, 3);
 
   const noisy = [...runLeaderboardData]
     .filter((e) => e.noise)
-    .sort((a, b) => b.e2ePct - a.e2ePct);
+    .sort((a, b) => b.e2ePct - a.e2ePct)
+    .slice(0, 3);
 
   return (
     <div className="flex w-full flex-col items-center gap-6">
@@ -92,8 +94,8 @@ export function LeaderboardPreview() {
         top agent performance
       </p>
       <div className="grid w-full max-w-5xl grid-cols-1 gap-6 md:grid-cols-2">
-        <LeaderboardTable entries={clean} label="w/o noise injection" />
-        <LeaderboardTable entries={noisy} label="w/ noise injection" />
+        <LeaderboardTable entries={clean} label="clean · top 3" />
+        <LeaderboardTable entries={noisy} label="with noises · top 3" />
       </div>
       <Link
         href="/leaderboard"

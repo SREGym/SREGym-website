@@ -8,6 +8,7 @@ import {
 import { ColumnDef, Column } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import Claude from "@lobehub/icons/es/Claude";
+import ZAI from "@lobehub/icons/es/ZAI";
 import OpenAI from "@lobehub/icons/es/OpenAI";
 import Kimi from "@lobehub/icons/es/Kimi";
 import { RankedRunEntry } from "@/lib/leaderboard-data";
@@ -74,6 +75,8 @@ function ModelIcon({ model }: { model: string }) {
     return <OpenAI.Avatar size={28} background="#fff" color="#000" />;
   if (lower.includes("kimi"))
     return <Kimi.Avatar size={28} />;
+  if (lower.includes("glm"))
+    return <ZAI.Avatar size={28} />;
   return null;
 }
 
