@@ -1462,3 +1462,148 @@ tasks:
     github_url: https://github.com/SREGym/SREGym.git
     file_id: wrong_operator_image.py
     include_in_launch: true
+
+  # ==================== SREGYM-LITE COHORT ADDITIONS ====================
+  - id: admission_webhook_outage_hotel_reservation
+    author_email: 98742866+samiamjidkhan@users.noreply.github.com
+    author_name: Sami Khan
+    category: Misconfiguration Failure
+    description: |
+      The problem runs on hotel-reservation.
+      Simulate an admission outage where a ValidatingWebhookConfiguration intercepts pod creation but points to a missing backend service.
+      The webhook uses failurePolicy Fail, so the Kubernetes API server rejects replacement pods and leaves the recommendation deployment under-replicated even though its deployment specification is valid.
+      Inject the fault by installing the broken webhook and deleting the current recommendation pod to trigger a blocked replacement.
+    tags:
+      - Misconfiguration Failure
+      - hotel-reservation
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: admission_webhook_outage.py
+    include_in_launch: true
+
+  - id: cronjob_sidecar_blocks_completion_hotel_reservation
+    author_email: 59266402+selen0phile@users.noreply.github.com
+    author_name: Jaber Ahmed Deedar
+    category: Misconfiguration Failure
+    description: |
+      The problem runs on hotel-reservation.
+      Simulate a CronJob whose primary container finishes but whose regular sidecar container never exits.
+      Because every container must terminate before a Job completes, each scheduled audit-log-archiver Job remains active and the unfinished Jobs accumulate.
+      Inject the fault by creating the CronJob with a non-terminating fluent-bit sidecar configured as a regular container instead of a native sidecar.
+    tags:
+      - Misconfiguration Failure
+      - hotel-reservation
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: cronjob_sidecar_blocks_completion.py
+    include_in_launch: true
+
+  - id: edge_request_filter_cpu_saturation
+    author_email: 58245255+RedwanulKarim612@users.noreply.github.com
+    author_name: Md. Redwanul Karim
+    category: System/Application Software Failure
+    description: |
+      The problem runs on astronomy-shop.
+      Simulate an edge request-filter failure where a vulnerable regular expression causes catastrophic backtracking.
+      Crafted requests drive the frontend-proxy to its CPU limit and cause HTTP timeouts for otherwise healthy traffic.
+      Inject the fault by replacing the proxy command with the vulnerable filter and sending crafted requests from the load generator.
+    tags:
+      - System/Application Software Failure
+      - astronomy-shop
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: edge_request_filter_cpu_saturation.py
+    include_in_launch: true
+
+  - id: finalizer_deadlock_controller_hotel_reservation
+    author_email: 61350760+ermias19@users.noreply.github.com
+    author_name: Ermias Mulugeta
+    category: Security Failure
+    description: |
+      The problem runs on hotel-reservation.
+      Simulate a controller that cannot complete finalizer cleanup after losing its required Kubernetes permissions.
+      A ConfigMap remains in the Terminating state while the cleanup controller logs Forbidden errors because its ClusterRole no longer permits updates to ConfigMaps and their finalizers.
+      Inject the fault by removing the required RBAC permissions and deleting the finalized ConfigMap.
+    tags:
+      - Security Failure
+      - hotel-reservation
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: finalizer_deadlock_controller.py
+    include_in_launch: true
+
+  - id: internal_traffic_policy_local_astronomy_shop
+    author_email: sharyash81@gmail.com
+    author_name: Arya Shahsavar
+    category: Network Failure
+    description: |
+      The problem runs on astronomy-shop.
+      Simulate a network fault where the recommendation service uses internalTrafficPolicy Local while its only pod and the frontend caller run on different nodes.
+      The service has no local endpoint on the frontend node, so recommendation calls time out even though all pods remain Running and Ready.
+      Inject the fault by enabling the Local traffic policy and pinning the recommendation and frontend deployments to different worker nodes.
+    tags:
+      - Network Failure
+      - astronomy-shop
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: internal_traffic_policy_local.py
+    include_in_launch: true
+
+  - id: kafka_poison_pill_hol_block
+    author_email: sakibbuet2k19@gmail.com
+    author_name: Nazmus Sakib
+    category: System/Application Software Failure
+    description: |
+      The problem runs on astronomy-shop.
+      Simulate a Kafka poison-pill failure where one malformed record blocks a consumer at a fixed offset.
+      The consumer cannot deserialize or commit past the bad record, so valid records accumulate behind it while the producer, consumer, and broker pods remain Running and Ready.
+      Inject the fault by seeding valid records followed by malformed data into the orders-fulfillment topic and starting the blocked consumer pipeline.
+    tags:
+      - System/Application Software Failure
+      - astronomy-shop
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: kafka_poison_pill_hol_block.py
+    include_in_launch: true
+
+  - id: mutating_webhook_resource_limits_social_network
+    author_email: blldr001@gmail.com
+    author_name: Kerem Akcalioglu
+    category: Misconfiguration Failure
+    description: |
+      The problem runs on social-network.
+      Simulate a mutating admission webhook that silently overwrites the memory request and limit of every newly created pod to 16Mi.
+      The nginx-thrift deployment retains its correct resource values, but replacement pods receive the mutated limit and repeatedly fail with OOMKilled and CrashLoopBackOff.
+      Inject the fault by installing the webhook and recreating an nginx-thrift pod under the faulty admission configuration.
+    tags:
+      - Misconfiguration Failure
+      - social-network
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: mutating_webhook_resource_limits.py
+    include_in_launch: true
+
+  - id: secret_rotation_stale_env_credentials_astronomy_shop
+    author_email: 73434154+Ipetr14@users.noreply.github.com
+    author_name: Petr Myagkov
+    category: Security Failure
+    description: |
+      The problem runs on astronomy-shop.
+      Simulate a credential rotation where PostgreSQL and the Kubernetes Secret use a new password but the running product-catalog pod retains the old connection string from container startup.
+      After existing database sessions are terminated, product-catalog remains Running and Ready but cannot reconnect to PostgreSQL or serve product data.
+      Inject the fault by rotating the database credential without recreating the product-catalog pod.
+    tags:
+      - Security Failure
+      - astronomy-shop
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: secret_rotation_stale_env_credentials.py
+    include_in_launch: true
+
+  - id: service_wrong_pod_selection_hotel_reservation
+    author_email: 164968702+jackj6441@users.noreply.github.com
+    author_name: jackj6441
+    category: Misconfiguration Failure
+    description: |
+      The problem runs on hotel-reservation.
+      Simulate a Service selector that matches both the intended frontend pods and an unintended search pod.
+      The frontend Service keeps non-empty but polluted endpoints, causing intermittent failures when traffic reaches the search pod on the wrong target port.
+      Inject the fault by adding a shared route label to both deployments and replacing the frontend Service selector with that label.
+    tags:
+      - Misconfiguration Failure
+      - hotel-reservation
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: service_wrong_pod_selection_hotel_reservation.py
+    include_in_launch: true

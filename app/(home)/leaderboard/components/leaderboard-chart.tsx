@@ -2,7 +2,14 @@
 
 import React from "react";
 import { cn } from "@/lib/utils";
-import { Bar, BarChart, XAxis, YAxis, LabelList, ResponsiveContainer } from "recharts";
+import {
+  Bar,
+  BarChart,
+  XAxis,
+  YAxis,
+  LabelList,
+  ResponsiveContainer,
+} from "recharts";
 import { RankedRunEntry } from "@/lib/leaderboard-data";
 
 const metricTabs = [
@@ -17,12 +24,18 @@ const metricTabs = [
 type MetricKey = (typeof metricTabs)[number]["key"];
 
 function parseTokens(t: string): number {
-  return (
-    parseFloat(t.replace(/[KM]/g, "")) * (t.includes("M") ? 1000 : 1)
-  );
+  return parseFloat(t.replace(/[KM]/g, "")) * (t.includes("M") ? 1000 : 1);
 }
 
-function CustomTick({ x, y, payload }: { x: number; y: number; payload: { value: string } }) {
+function CustomTick({
+  x,
+  y,
+  payload,
+}: {
+  x: number;
+  y: number;
+  payload: { value: string };
+}) {
   const [agent, model] = payload.value.split("\n");
   return (
     <g transform={`translate(${x},${y})`}>
@@ -53,6 +66,7 @@ function CustomTick({ x, y, payload }: { x: number; y: number; payload: { value:
 export function LeaderboardChart({ data }: { data: RankedRunEntry[] }) {
   const [metric, setMetric] = React.useState<MetricKey>("e2ePct");
   const tab = metricTabs.find((t) => t.key === metric)!;
+  const hasNoisyRuns = data.some((entry) => entry.noise);
 
   const chartData = [...data]
     .sort((a, b) => a.rank - b.rank)
@@ -76,9 +90,9 @@ export function LeaderboardChart({ data }: { data: RankedRunEntry[] }) {
             key={t.key}
             onClick={() => setMetric(t.key)}
             className={cn(
-              "whitespace-nowrap px-3 py-2 text-xs transition-colors",
+              "px-3 py-2 text-xs whitespace-nowrap transition-colors",
               metric === t.key
-                ? "border-b-2 border-foreground text-foreground"
+                ? "border-foreground text-foreground border-b-2"
                 : "text-muted-foreground hover:text-foreground",
             )}
           >
@@ -121,9 +135,11 @@ export function LeaderboardChart({ data }: { data: RankedRunEntry[] }) {
           </ResponsiveContainer>
         </div>
       </div>
-      <div className="text-muted-foreground border-t px-6 py-3 text-xs">
-        ✱ = noisy environment
-      </div>
+      {hasNoisyRuns && (
+        <div className="text-muted-foreground border-t px-6 py-3 text-xs">
+          ✱ = noisy environment
+        </div>
+      )}
     </div>
   );
 }

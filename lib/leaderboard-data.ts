@@ -14,6 +14,15 @@ export type RankedRunEntry = RunEntry & {
   rank: number;
 };
 
+export type LeaderboardBenchmark = {
+  id: string;
+  label: string;
+  summary: string;
+  supportsNoise: boolean;
+  cohortHref?: string;
+  entries: RunEntry[];
+};
+
 export const runLeaderboardData: RunEntry[] = [
   {
     agent: "Stratus",
@@ -160,5 +169,63 @@ export const runLeaderboardData: RunEntry[] = [
     ttdSeconds: 241.6,
     ttmSeconds: 419.5,
     tokens: "4.01M",
+  },
+];
+
+// Archived SREGym-Lite cohort: 20 faults with three attempts per fault.
+// Rates and time means use all 60 runs per model. Token means use runs with
+// recorded input-token usage (Sol: 58, Luna: 38, Terra: 53).
+export const liteLeaderboardData: RunEntry[] = [
+  {
+    agent: "GitHub Copilot",
+    model: "GPT-5.6 Sol (medium)",
+    noise: false,
+    diagPct: 80.0,
+    mitPct: 76.7,
+    e2ePct: 65.0,
+    ttdSeconds: 115.9,
+    ttmSeconds: 424.3,
+    tokens: "1.28M",
+  },
+  {
+    agent: "GitHub Copilot",
+    model: "GPT-5.6 Luna (medium)",
+    noise: false,
+    diagPct: 56.7,
+    mitPct: 45.0,
+    e2ePct: 40.0,
+    ttdSeconds: 73.7,
+    ttmSeconds: 263.0,
+    tokens: "1.10M",
+  },
+  {
+    agent: "GitHub Copilot",
+    model: "GPT-5.6 Terra (medium)",
+    noise: false,
+    diagPct: 53.3,
+    mitPct: 48.3,
+    e2ePct: 36.7,
+    ttdSeconds: 71.2,
+    ttmSeconds: 355.3,
+    tokens: "1.11M",
+  },
+];
+
+export const leaderboardBenchmarks: LeaderboardBenchmark[] = [
+  {
+    id: "sregym-0508",
+    label: "SREGym",
+    summary: "SREGym-0508 · 90 faults",
+    supportsNoise: true,
+    cohortHref: "/problems/cohorts/sregym-0508",
+    entries: runLeaderboardData,
+  },
+  {
+    id: "sregym-lite-0720",
+    label: "SREGym-Lite",
+    summary: "SREGym-Lite-0720 · 20 faults",
+    supportsNoise: false,
+    cohortHref: "/problems/cohorts/sregym-lite-0720",
+    entries: liteLeaderboardData,
   },
 ];
