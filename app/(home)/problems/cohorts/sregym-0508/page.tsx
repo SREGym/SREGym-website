@@ -41,7 +41,7 @@ export default async function Sregym0508CohortPage() {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/problems">Problems</BreadcrumbLink>
+              <BreadcrumbLink href="/leaderboard">Leaderboard</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>

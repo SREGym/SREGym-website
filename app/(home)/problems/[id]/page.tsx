@@ -38,10 +38,6 @@ export default async function Task({ params }: PageProps) {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/problems">Problems</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
               <BreadcrumbPage>{id}</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>

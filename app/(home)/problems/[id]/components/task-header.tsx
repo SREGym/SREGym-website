@@ -39,32 +39,12 @@ export function TaskHeader({
         </Link>
       </div>
       <div className="flex gap-2">
-        <Link
-          href={{
-            pathname: "/problems",
-            query: { categories: [category] },
-          }}
+        <Badge
+          variant="secondary"
+          className="font-mono"
         >
-          <Badge
-            variant="secondary"
-            className="hover:bg-muted-foreground/15 font-mono transition-colors duration-200"
-          >
-            {category}
-          </Badge>
-        </Link>
-        {/* <Link
-          href={{
-            pathname: "/problems",
-            query: { difficulties: [difficulty] },
-          }}
-        >
-          <Badge
-            variant="secondary"
-            className="hover:bg-muted-foreground/15 font-mono transition-colors duration-200"
-          >
-            {difficulty}
-          </Badge>
-        </Link> */}
+          {category}
+        </Badge>
       </div>
     </div>
   );

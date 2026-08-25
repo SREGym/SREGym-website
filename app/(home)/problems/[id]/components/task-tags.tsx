@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { Fragment } from "react";
 import { Section } from "./section";
 
 interface TaskTagsProps {
@@ -12,20 +10,7 @@ export function TaskTags({ tags }: TaskTagsProps) {
   return (
     <Section title="Tags">
       <p className="text-muted-foreground font-mono lowercase sm:text-sm">
-        {tags.map((tag, index) => (
-          <Fragment key={tag}>
-            <Link
-              href={{
-                pathname: "/problems",
-                query: { tags: [tag] },
-              }}
-              className="hover:underline"
-            >
-              {tag}
-            </Link>
-            {index < tags.length - 1 && ", "}
-          </Fragment>
-        ))}
+        {tags.join(", ")}
       </p>
     </Section>
   );

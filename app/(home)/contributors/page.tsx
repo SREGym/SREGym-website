@@ -20,13 +20,13 @@ export default function TeamPage() {
           Contributors
         </h2>
         <p className="text-muted-foreground mb-12 font-mono text-base/relaxed sm:text-base/relaxed">
-          We're looking for more contributors! If you are interested in
-          collaborating please see our{" "}
+          We're looking for more contributors. If you are interested in
+          collaborating, join our{" "}
           <Link
-            href="/docs/contributing"
+            href="https://join.slack.com/t/SREGym/shared_invite/zt-3gvqxpkpc-RvCUcyBEMvzvXaQS9KtS_w"
             className="text-foreground underline underline-offset-4"
           >
-            contributing page
+            Slack workspace
           </Link>
           .
         </p>
