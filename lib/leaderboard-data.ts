@@ -172,9 +172,32 @@ export const runLeaderboardData: RunEntry[] = [
   },
 ];
 
-// Results use the exact archived 20-fault cohort. Time and token means use
-// rows with recorded values. Timeouts count as failures in all success rates.
+// Results use the exact 20 problem IDs in the archived cohort. The Claude
+// campaigns also ran one newer fault, which is excluded from their success,
+// time, and token calculations here. Timeouts count as failures.
 export const liteLeaderboardData: RunEntry[] = [
+  {
+    agent: "Claude Code",
+    model: "Claude Opus 5",
+    noise: false,
+    diagPct: 91.7,
+    mitPct: 95.0,
+    e2ePct: 88.3,
+    ttdSeconds: 222.6,
+    ttmSeconds: 442.6,
+    tokens: "1.58M",
+  },
+  {
+    agent: "Claude Code",
+    model: "Claude Sonnet 5",
+    noise: false,
+    diagPct: 66.7,
+    mitPct: 73.3,
+    e2ePct: 58.3,
+    ttdSeconds: 276.0,
+    ttmSeconds: 449.5,
+    tokens: "2.99M",
+  },
   {
     agent: "GitHub Copilot",
     model: "GPT-5.6 Sol (max)",
