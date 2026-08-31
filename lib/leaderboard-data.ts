@@ -174,7 +174,8 @@ export const runLeaderboardData: RunEntry[] = [
 
 // Results use the exact 20 problem IDs in the archived cohort. The Claude
 // campaigns also ran one newer fault, which is excluded from their success,
-// time, and token calculations here. Timeouts count as failures.
+// time, and token calculations here. Missing attempts and timeouts count as
+// failures; time means use runs with recorded values.
 export const liteLeaderboardData: RunEntry[] = [
   {
     agent: "Claude Code",
@@ -186,6 +187,17 @@ export const liteLeaderboardData: RunEntry[] = [
     ttdSeconds: 222.6,
     ttmSeconds: 442.6,
     tokens: "1.58M",
+  },
+  {
+    agent: "Claude Code",
+    model: "Claude Opus 4.8",
+    noise: false,
+    diagPct: 68.3,
+    mitPct: 66.7,
+    e2ePct: 55.0,
+    ttdSeconds: 328.8,
+    ttmSeconds: 503.8,
+    tokens: "1.67M",
   },
   {
     agent: "Claude Code",
