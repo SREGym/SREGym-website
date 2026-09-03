@@ -89,7 +89,7 @@ export function LeaderboardPreview() {
           SREGym-Lite results
         </h2>
         <p className="text-muted-foreground text-sm">
-          Top end-to-end results on the 20-fault cohort.
+          Top end-to-end results on curated 20-fault cohort.
         </p>
       </div>
       <div className="w-full max-w-4xl">
