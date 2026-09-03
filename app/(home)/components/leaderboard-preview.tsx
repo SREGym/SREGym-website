@@ -1,4 +1,4 @@
-import { runLeaderboardData } from "@/lib/leaderboard-data";
+import { liteLeaderboardData } from "@/lib/leaderboard-data";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
@@ -22,13 +22,13 @@ function LeaderboardTable({
   entries,
   label,
 }: {
-  entries: typeof runLeaderboardData;
+  entries: typeof liteLeaderboardData;
   label: string;
 }) {
   return (
     <div className="bg-card w-full border font-mono">
       <div className="border-b px-4 py-2">
-        <span className="text-xs text-muted-foreground">{label}</span>
+        <span className="text-muted-foreground text-xs">{label}</span>
       </div>
       <Table>
         <TableHeader>
@@ -78,24 +78,25 @@ function LeaderboardTable({
 }
 
 export function LeaderboardPreview() {
-  const clean = [...runLeaderboardData]
-    .filter((e) => !e.noise)
-    .sort((a, b) => b.e2ePct - a.e2ePct)
-    .slice(0, 3);
-
-  const noisy = [...runLeaderboardData]
-    .filter((e) => e.noise)
+  const topResults = [...liteLeaderboardData]
     .sort((a, b) => b.e2ePct - a.e2ePct)
     .slice(0, 3);
 
   return (
     <div className="flex w-full flex-col items-center gap-6">
-      <p className="font-mono text-sm text-muted-foreground">
-        top agent performance
-      </p>
-      <div className="grid w-full max-w-5xl grid-cols-1 gap-6 md:grid-cols-2">
-        <LeaderboardTable entries={clean} label="clean · top 3" />
-        <LeaderboardTable entries={noisy} label="with noises · top 3" />
+      <div className="space-y-1 text-center font-mono">
+        <h2 className="text-xl font-semibold tracking-tight">
+          SREGym-Lite results
+        </h2>
+        <p className="text-muted-foreground text-sm">
+          Top end-to-end results on curated 20-fault cohort.
+        </p>
+      </div>
+      <div className="w-full max-w-4xl">
+        <LeaderboardTable
+          entries={topResults}
+          label="SREGym-Lite-0720 · top 3"
+        />
       </div>
       <Link
         href="/leaderboard"
@@ -108,7 +109,7 @@ export function LeaderboardPreview() {
           }),
         )}
       >
-        view full leaderboard ↗
+        view all results ↗
       </Link>
     </div>
   );

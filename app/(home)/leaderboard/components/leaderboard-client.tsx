@@ -13,12 +13,11 @@ import { runColumns } from "./run-columns";
 import { DataTable } from "./data-table";
 import { LeaderboardChart } from "./leaderboard-chart";
 
-type NoiseFilter = "all" | "clean" | "noisy";
+type NoiseFilter = "clean" | "noisy";
 type View = "table" | "chart";
 
 const filterOptions: { value: NoiseFilter; label: string }[] = [
-  { value: "all", label: "All" },
-  { value: "clean", label: "clean" },
+  { value: "clean", label: "without noises" },
   { value: "noisy", label: "with noises" },
 ];
 
@@ -34,7 +33,7 @@ export function LeaderboardClient({
   benchmarks: LeaderboardBenchmark[];
 }) {
   const [benchmarkId, setBenchmarkId] = React.useState(benchmarks[0]?.id ?? "");
-  const [noiseFilter, setNoiseFilter] = React.useState<NoiseFilter>("all");
+  const [noiseFilter, setNoiseFilter] = React.useState<NoiseFilter>("clean");
   const [view, setView] = React.useState<View>("table");
 
   const benchmark =
@@ -46,10 +45,8 @@ export function LeaderboardClient({
     let filtered: RunEntry[];
     if (!benchmark.supportsNoise || noiseFilter === "clean") {
       filtered = benchmark.entries.filter((r) => !r.noise);
-    } else if (noiseFilter === "noisy") {
-      filtered = benchmark.entries.filter((r) => r.noise);
     } else {
-      filtered = benchmark.entries;
+      filtered = benchmark.entries.filter((r) => r.noise);
     }
     return rankByE2E(filtered);
   }, [benchmark, noiseFilter]);
@@ -59,38 +56,57 @@ export function LeaderboardClient({
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-col gap-3 font-mono text-sm">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-          <span className="text-muted-foreground w-24 shrink-0 text-xs tracking-wide uppercase">
-            Variant
-          </span>
-          <div
-            className="flex max-w-full gap-2 overflow-x-auto pb-1"
-            role="group"
-            aria-label="Variant"
-          >
-            {benchmarks.map((entry) => (
-              <button
-                key={entry.id}
-                type="button"
-                aria-pressed={benchmark.id === entry.id}
-                onClick={() => {
-                  setBenchmarkId(entry.id);
-                  setNoiseFilter("all");
-                }}
-                className={cn(
-                  "shrink-0 rounded-none border px-3 py-1.5 transition-colors",
-                  benchmark.id === entry.id
-                    ? "bg-foreground text-background border-foreground"
-                    : "border-border text-muted-foreground hover:text-foreground",
-                )}
-              >
-                {entry.label}
-              </button>
-            ))}
+        <div className="flex items-start justify-between gap-3 sm:items-center">
+          <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center">
+            <span className="text-muted-foreground w-24 shrink-0 text-xs tracking-wide uppercase">
+              Benchmark
+            </span>
+            <div
+              className="flex max-w-full gap-2 overflow-x-auto pb-1"
+              role="group"
+              aria-label="Benchmark"
+            >
+              {benchmarks.map((entry) => (
+                <button
+                  key={entry.id}
+                  type="button"
+                  aria-pressed={benchmark.id === entry.id}
+                  onClick={() => {
+                    setBenchmarkId(entry.id);
+                    setNoiseFilter("clean");
+                  }}
+                  className={cn(
+                    "min-h-10 shrink-0 rounded-none border px-3 py-1.5 transition-colors",
+                    benchmark.id === entry.id
+                      ? "bg-foreground text-background border-foreground"
+                      : "border-border text-muted-foreground hover:text-foreground",
+                  )}
+                >
+                  {entry.label}
+                </button>
+              ))}
+            </div>
           </div>
+
+          <button
+            type="button"
+            onClick={() => setView(view === "table" ? "chart" : "table")}
+            className={cn(
+              "size-10 shrink-0 border transition-colors",
+              "border-border text-muted-foreground hover:text-foreground",
+            )}
+            title={view === "table" ? "Show chart" : "Show table"}
+            aria-label={view === "table" ? "Show chart" : "Show table"}
+          >
+            {view === "table" ? (
+              <BarChart3 className="mx-auto size-4" />
+            ) : (
+              <TableIcon className="mx-auto size-4" />
+            )}
+          </button>
         </div>
 
-        <div className="flex items-center justify-between gap-4">
+        {benchmark.supportsNoise && (
           <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center">
             <span className="text-muted-foreground w-24 shrink-0 text-xs tracking-wide uppercase">
               Environment
@@ -100,48 +116,25 @@ export function LeaderboardClient({
               role="group"
               aria-label="Environment"
             >
-              {benchmark.supportsNoise ? (
-                filterOptions.map((opt) => (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    aria-pressed={noiseFilter === opt.value}
-                    onClick={() => setNoiseFilter(opt.value)}
-                    className={cn(
-                      "rounded-none border px-3 py-1 transition-colors",
-                      noiseFilter === opt.value
-                        ? "bg-foreground text-background border-foreground"
-                        : "border-border text-muted-foreground hover:text-foreground",
-                    )}
-                  >
-                    {opt.label}
-                  </button>
-                ))
-              ) : (
-                <span className="bg-foreground text-background border-foreground border px-3 py-1">
-                  clean
-                </span>
-              )}
+              {filterOptions.map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  aria-pressed={noiseFilter === opt.value}
+                  onClick={() => setNoiseFilter(opt.value)}
+                  className={cn(
+                    "min-h-10 rounded-none border px-3 py-1 transition-colors",
+                    noiseFilter === opt.value
+                      ? "bg-foreground text-background border-foreground"
+                      : "border-border text-muted-foreground hover:text-foreground",
+                  )}
+                >
+                  {opt.label}
+                </button>
+              ))}
             </div>
           </div>
-
-          <button
-            type="button"
-            onClick={() => setView(view === "table" ? "chart" : "table")}
-            className={cn(
-              "border p-2 transition-colors",
-              "border-border text-muted-foreground hover:text-foreground",
-            )}
-            title={view === "table" ? "Show chart" : "Show table"}
-            aria-label={view === "table" ? "Show chart" : "Show table"}
-          >
-            {view === "table" ? (
-              <BarChart3 className="size-4" />
-            ) : (
-              <TableIcon className="size-4" />
-            )}
-          </button>
-        </div>
+        )}
 
         <div className="text-muted-foreground flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
           <span>{benchmark.summary}</span>

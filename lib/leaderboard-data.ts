@@ -269,19 +269,19 @@ export const liteLeaderboardData: RunEntry[] = [
 
 export const leaderboardBenchmarks: LeaderboardBenchmark[] = [
   {
-    id: "sregym-0508",
-    label: "SREGym",
-    summary: "SREGym-0508 · 90 faults",
-    supportsNoise: true,
-    cohortHref: "/problems/cohorts/sregym-0508",
-    entries: runLeaderboardData,
-  },
-  {
     id: "sregym-lite-0720",
     label: "SREGym-Lite",
     summary: "SREGym-Lite-0720 · 20 faults",
     supportsNoise: false,
     cohortHref: "/problems/cohorts/sregym-lite-0720",
     entries: liteLeaderboardData,
+  },
+  {
+    id: "sregym-0508",
+    label: "SREGym",
+    summary: "SREGym-0508 · 90 faults",
+    supportsNoise: true,
+    cohortHref: "/problems/cohorts/sregym-0508",
+    entries: runLeaderboardData,
   },
 ];
