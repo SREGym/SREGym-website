@@ -769,6 +769,22 @@ tasks:
     file_id: scale_pod.py
     include_in_launch: true
 
+  - id: search_rate_retry_collapse_hotel_reservation
+    author_email: saadmrp@gmail.com
+    author_name: Saad Mohammad Rafid Pial
+    category: Metastable Failure
+    description: |
+      The problem runs on hotel-reservation.
+      Simulate a metastable failure where a temporary search-traffic burst fills the rate-service queue.
+      Search requests time out and retry, sustaining overload after external traffic returns to normal.
+      Inject the fault by triggering a bounded burst against a vulnerable timeout, retry, and queue configuration.
+    tags:
+      - Metastable Failure
+      - hotel-reservation
+    github_url: https://github.com/SREGym/SREGym.git
+    file_id: search_rate_retry_collapse.py
+    include_in_launch: true
+
   - id: service_dns_resolution_failure_astronomy_shop
     author_email: saadmrp@gmail.com
     author_name: Saad Mohammad Rafid Pial
