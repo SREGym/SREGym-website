@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { getSregymLite0720Problems } from "@/lib/cohort-data";
+import { getSregymLite0904Problems } from "@/lib/cohort-data";
 import { getDefaultTasks } from "@/lib/problems-data";
 import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
@@ -16,14 +16,13 @@ import Link from "next/link";
 import { LiteCohortProblemList } from "../components/lite-cohort-problem-list";
 
 export const metadata: Metadata = {
-  title: "SREGym-Lite-0720 Cohort (Archived)",
-  description:
-    "The archived 20-fault cohort used for SREGym-Lite-0720 leaderboard results.",
+  title: "SREGym-Lite-0904 Cohort",
+  description: "The current 21-fault cohort used for SREGym-Lite-0904 results.",
 };
 
-export default async function SregymLite0720CohortPage() {
+export default async function SregymLiteCohortPage() {
   const [cohortProblems, catalogTasks] = await Promise.all([
-    getSregymLite0720Problems(),
+    getSregymLite0904Problems(),
     getDefaultTasks(),
   ]);
   const catalogProblemIds = new Set(catalogTasks.map((task) => task.id));
@@ -46,7 +45,7 @@ export default async function SregymLite0720CohortPage() {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>SREGym-Lite-0720</BreadcrumbPage>
+              <BreadcrumbPage>SREGym-Lite-0904</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -55,17 +54,14 @@ export default async function SregymLite0720CohortPage() {
           <div className="space-y-3">
             <div className="flex flex-wrap items-center gap-2">
               <h1 className="font-mono text-4xl tracking-tighter">
-                SREGym-Lite-0720 Cohort
+                SREGym-Lite-0904 Cohort
               </h1>
               <Badge variant="secondary" className="font-mono">
-                20 faults
-              </Badge>
-              <Badge variant="outline" className="font-mono">
-                Archived
+                21 faults
               </Badge>
             </div>
             <p className="text-muted-foreground max-w-2xl font-mono text-sm sm:text-base">
-              The previous fault cohort used for archived SREGym-Lite-0720
+              The current fault cohort used for SREGym-Lite-0904 leaderboard
               results.
             </p>
           </div>
@@ -73,7 +69,7 @@ export default async function SregymLite0720CohortPage() {
           <Button asChild variant="outline" className="rounded-none font-mono">
             <Link href="/leaderboard">
               <ArrowLeft />
-              Current leaderboard
+              Leaderboard
             </Link>
           </Button>
         </div>

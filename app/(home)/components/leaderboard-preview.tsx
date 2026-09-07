@@ -20,7 +20,7 @@ export function LeaderboardPreview() {
           SREGym-Lite results
         </h2>
         <p className="text-muted-foreground text-sm">
-          Top results on curated 20-fault cohort.
+          Top results on curated 21-fault cohort.
         </p>
       </div>
       <div className="w-full max-w-6xl">

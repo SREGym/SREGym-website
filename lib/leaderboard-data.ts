@@ -172,21 +172,102 @@ export const runLeaderboardData: RunEntry[] = [
   },
 ];
 
-// Results use the exact 20 problem IDs in the archived cohort. The Claude
-// campaigns also ran one newer fault, which is excluded from their success,
-// time, and token calculations here. Missing attempts and timeouts count as
-// failures; time means use runs with recorded values.
+// Results use all 21 SREGym-Lite faults and three attempts per fault. Missing
+// attempts and timeouts count as failures; time means use runs with recorded
+// values.
 export const liteLeaderboardData: RunEntry[] = [
   {
     agent: "Claude Code",
     model: "Claude Opus 5",
     noise: false,
+    diagPct: 92.1,
+    mitPct: 82.5,
+    e2ePct: 76.2,
+    ttdSeconds: 210.1,
+    ttmSeconds: 419.8,
+    tokens: "1.64M",
+  },
+  {
+    agent: "Claude Code",
+    model: "Claude Opus 4.8",
+    noise: false,
+    diagPct: 66.7,
+    mitPct: 63.5,
+    e2ePct: 52.4,
+    ttdSeconds: 324.4,
+    ttmSeconds: 503.1,
+    tokens: "1.66M",
+  },
+  {
+    agent: "Claude Code",
+    model: "Claude Sonnet 5",
+    noise: false,
+    diagPct: 63.5,
+    mitPct: 69.8,
+    e2ePct: 55.6,
+    ttdSeconds: 271.5,
+    ttmSeconds: 450.2,
+    tokens: "2.95M",
+  },
+  {
+    agent: "Codex",
+    model: "GPT-5.6 Sol (max)",
+    noise: false,
+    diagPct: 95.2,
+    mitPct: 85.7,
+    e2ePct: 81.0,
+    ttdSeconds: 211.0,
+    ttmSeconds: 397.0,
+    tokens: "1.42M",
+  },
+  {
+    agent: "Codex",
+    model: "GPT-5.6 Sol (medium)",
+    noise: false,
+    diagPct: 77.8,
+    mitPct: 71.4,
+    e2ePct: 58.7,
+    ttdSeconds: 108.2,
+    ttmSeconds: 270.6,
+    tokens: "0.77M",
+  },
+  {
+    agent: "Codex",
+    model: "GPT-5.6 Luna (max)",
+    noise: false,
+    diagPct: 87.3,
+    mitPct: 79.4,
+    e2ePct: 68.3,
+    ttdSeconds: 284.0,
+    ttmSeconds: 492.9,
+    tokens: "2.74M",
+  },
+  {
+    agent: "Codex",
+    model: "GPT-5.6 Terra (max)",
+    noise: false,
+    diagPct: 85.7,
+    mitPct: 79.4,
+    e2ePct: 69.8,
+    ttdSeconds: 214.7,
+    ttmSeconds: 415.8,
+    tokens: "1.68M",
+  },
+];
+
+// Retained as an internal historical record and intentionally not exposed on
+// the site. These results use the previous 20-fault SREGym-Lite-0720 cohort.
+export const lite0720LeaderboardData: RunEntry[] = [
+  {
+    agent: "Claude Code",
+    model: "Claude Opus 5",
+    noise: false,
     diagPct: 91.7,
-    mitPct: 95.0,
-    e2ePct: 88.3,
-    ttdSeconds: 222.6,
-    ttmSeconds: 442.6,
-    tokens: "1.58M",
+    mitPct: 86.7,
+    e2ePct: 80.0,
+    ttdSeconds: 213.2,
+    ttmSeconds: 418.6,
+    tokens: "1.63M",
   },
   {
     agent: "Claude Code",
@@ -211,15 +292,37 @@ export const liteLeaderboardData: RunEntry[] = [
     tokens: "2.99M",
   },
   {
-    agent: "GitHub Copilot",
+    agent: "Codex",
     model: "GPT-5.6 Sol (max)",
     noise: false,
-    diagPct: 95.0,
-    mitPct: 75.0,
+    diagPct: 96.7,
+    mitPct: 85.0,
+    e2ePct: 81.7,
+    ttdSeconds: 207.7,
+    ttmSeconds: 390.5,
+    tokens: "1.34M",
+  },
+  {
+    agent: "Codex",
+    model: "GPT-5.6 Luna (max)",
+    noise: false,
+    diagPct: 88.3,
+    mitPct: 80.0,
+    e2ePct: 68.3,
+    ttdSeconds: 287.4,
+    ttmSeconds: 490.6,
+    tokens: "2.69M",
+  },
+  {
+    agent: "Codex",
+    model: "GPT-5.6 Terra (max)",
+    noise: false,
+    diagPct: 86.7,
+    mitPct: 80.0,
     e2ePct: 70.0,
-    ttdSeconds: 209.5,
-    ttmSeconds: 554.7,
-    tokens: "2.24M",
+    ttdSeconds: 219.6,
+    ttmSeconds: 416.3,
+    tokens: "1.66M",
   },
   {
     agent: "GitHub Copilot",
@@ -269,11 +372,11 @@ export const liteLeaderboardData: RunEntry[] = [
 
 export const leaderboardBenchmarks: LeaderboardBenchmark[] = [
   {
-    id: "sregym-lite-0720",
+    id: "sregym-lite-0904",
     label: "SREGym-Lite",
-    summary: "SREGym-Lite-0720 · 20 faults",
+    summary: "SREGym-Lite-0904 · 21 faults",
     supportsNoise: false,
-    cohortHref: "/problems/cohorts/sregym-lite-0720",
+    cohortHref: "/problems/cohorts/sregym-lite",
     entries: liteLeaderboardData,
   },
   {
