@@ -1,0 +1,56 @@
+{
+  "attempts_per_problem": 5,
+  "jev_integration": "V14",
+  "results": [
+    {
+      "problem": "edge_request_filter_cpu_saturation",
+      "without_jev": 2,
+      "with_jev": 4
+    },
+    {
+      "problem": "namespace_memory_limit",
+      "without_jev": 0,
+      "with_jev": 0
+    },
+    {
+      "problem": "service_wrong_pod_selection_hotel_reservation",
+      "without_jev": 3,
+      "with_jev": 1
+    },
+    {
+      "problem": "internal_traffic_policy_local_astronomy_shop",
+      "without_jev": 0,
+      "with_jev": 3
+    },
+    {
+      "problem": "network_policy_block",
+      "without_jev": 1,
+      "with_jev": 2
+    },
+    {
+      "problem": "duplicate_pvc_mounts_social_network",
+      "without_jev": 4,
+      "with_jev": 3
+    },
+    {
+      "problem": "rolling_update_misconfigured_social_network",
+      "without_jev": 0,
+      "with_jev": 0
+    },
+    {
+      "problem": "secret_rotation_stale_env_credentials_astronomy_shop",
+      "without_jev": 2,
+      "with_jev": 2
+    },
+    {
+      "problem": "wrong_dns_policy_astronomy_shop",
+      "without_jev": 3,
+      "with_jev": 4
+    },
+    {
+      "problem": "valkey_auth_disruption",
+      "without_jev": 5,
+      "with_jev": 5
+    }
+  ]
+}

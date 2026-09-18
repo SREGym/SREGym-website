@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="547.2pt" height="360pt" viewBox="0 0 547.2 360" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <title>The agent investigates and repairs; Jev ranks and reviews. Pass rate: 40% without Jev, 48% with Jev.</title>
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title>The agent investigates and repairs; Jev ranks and reviews. Pass rate: 40% without Jev, 48% with Jev.</dc:title>
+    <dc:description>The agent investigates and repairs; Jev ranks and reviews. Pass rate: 40% without Jev, 48% with Jev.</dc:description>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.4, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --figure-paper: #1c1f24;
+      --figure-ink: #d2d0cb;
+      --figure-muted: #b7bec8;
+      --figure-rule: #353e4b;
+      --figure-blue: #8db5e2;
+      --figure-orange: #e7ad70;
+      --figure-green: #91c7ac;
+      --figure-blue-bg: #242f3e;
+      --figure-orange-bg: #393126;
+      --figure-green-bg: #24372f;
+      --figure-panel-border: #657182;
+      --figure-row-rule: #252d38;
+      --figure-grid: #303946;
+      --figure-outline: #7f8b99;
+    }
+  }
+</style>
+
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 360
+L 547.2 360
+L 547.2 0
+L 0 0
+z
+" style="fill: #ffffff; fill: var(--figure-paper, #ffffff)"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 30.96 92.16
+L 192.24 92.16
+Q 194.4 92.16 194.4 94.32
+L 194.4 237.6
+Q 194.4 239.76 192.24 239.76
+L 30.96 239.76
+Q 28.8 239.76 28.8 237.6
+L 28.8 94.32
+Q 28.8 92.16 30.96 92.16
+z
+" clip-path="url(#p85683513a5)" style="fill: #edf3f9; fill: var(--figure-blue-bg, #edf3f9); stroke: #252b33; stroke: var(--figure-outline, #252b33); stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 354.96 92.16
+L 516.24 92.16
+Q 518.4 92.16 518.4 94.32
+L 518.4 237.6
+Q 518.4 239.76 516.24 239.76
+L 354.96 239.76
+Q 352.8 239.76 352.8 237.6
+L 352.8 94.32
+Q 352.8 92.16 354.96 92.16
+z
+" clip-path="url(#p85683513a5)" style="fill: #fff3da; fill: var(--figure-orange-bg, #fff3da); stroke: #252b33; stroke: var(--figure-outline, #252b33); stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 47.88 113.94
+L 77.4 113.94
+Q 78.84 113.94 78.84 115.38
+L 78.84 135.18
+Q 78.84 136.62 77.4 136.62
+L 47.88 136.62
+Q 46.44 136.62 46.44 135.18
+L 46.44 115.38
+Q 46.44 113.94 47.88 113.94
+L 47.88 113.94
+z
+" clip-path="url(#p85683513a5)" style="fill: none; stroke: #4f749b; stroke: var(--figure-blue, #4f749b); stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 377.064 114.264
+L 396.216 114.264
+Q 397.656 114.264 397.656 115.704
+L 397.656 134.856
+Q 397.656 136.296 396.216 136.296
+L 377.064 136.296
+Q 375.624 136.296 375.624 134.856
+L 375.624 115.704
+Q 375.624 114.264 377.064 114.264
+L 377.064 114.264
+z
+" clip-path="url(#p85683513a5)" style="fill: none; stroke: #b77432; stroke: var(--figure-orange, #b77432); stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 28.8 64.08
+L 518.4 64.08
+" clip-path="url(#p85683513a5)" style="fill: none; stroke: #dde2e7; stroke: var(--figure-rule, #dde2e7); stroke-width: 0.9; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 52.272 120.744
+L 58.104 125.28
+L 52.272 129.816
+" clip-path="url(#p85683513a5)" style="fill: none; stroke: #4f749b; stroke: var(--figure-blue, #4f749b); stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 62.64 129.816
+L 72.36 129.816
+" clip-path="url(#p85683513a5)" style="fill: none; stroke: #4f749b; stroke: var(--figure-blue, #4f749b); stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 375.624 119.448
+L 370.44 119.448
+" clip-path="url(#p85683513a5)" style="fill: none; stroke: #b77432; stroke: var(--figure-orange, #b77432); stroke-linecap: round"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 380.808 114.264
+L 380.808 109.08
+" clip-path="url(#p85683513a5)" style="fill: none; stroke: #b77432; stroke: var(--figure-orange, #b77432); stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 397.656 119.448
+L 402.84 119.448
+" clip-path="url(#p85683513a5)" style="fill: none; stroke: #b77432; stroke: var(--figure-orange, #b77432); stroke-linecap: round"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 380.808 136.296
+L 380.808 141.48
+" clip-path="url(#p85683513a5)" style="fill: none; stroke: #b77432; stroke: var(--figure-orange, #b77432); stroke-linecap: round"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 375.624 131.112
+L 370.44 131.112
+" clip-path="url(#p85683513a5)" style="fill: none; stroke: #b77432; stroke: var(--figure-orange, #b77432); stroke-linecap: round"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 392.472 114.264
+L 392.472 109.08
+" clip-path="url(#p85683513a5)" style="fill: none; stroke: #b77432; stroke: var(--figure-orange, #b77432); stroke-linecap: round"/>
+   </g>
+   <g id="line2d_10">
+    <path d="M 397.656 131.112
+L 402.84 131.112
+" clip-path="url(#p85683513a5)" style="fill: none; stroke: #b77432; stroke: var(--figure-orange, #b77432); stroke-linecap: round"/>
+   </g>
+   <g id="line2d_11">
+    <path d="M 392.472 136.296
+L 392.472 141.48
+" clip-path="url(#p85683513a5)" style="fill: none; stroke: #b77432; stroke: var(--figure-orange, #b77432); stroke-linecap: round"/>
+   </g>
+   <g id="line2d_12">
+    <path d="M 381.132 125.28
+L 385.344 129.492
+L 393.12 120.42
+" clip-path="url(#p85683513a5)" style="fill: none; stroke: #b77432; stroke: var(--figure-orange, #b77432); stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_13">
+    <path d="M 28.8 266.4
+L 518.4 266.4
+" clip-path="url(#p85683513a5)" style="fill: none; stroke: #252b33; stroke: var(--figure-outline, #252b33); stroke-width: 0.9; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #252b33; fill: var(--figure-ink, #252b33); font: 700 30.24px 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="28.8" y="43.118775" transform="rotate(-0 28.8 43.118775)">Jev for SRE</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #252b33; fill: var(--figure-ink, #252b33); font: 700 22.32px 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="45.36" y="174.9753" transform="rotate(-0 45.36 174.9753)">SRE agent</text>
+   </g>
+   <g id="text_3">
+    <text style="fill: #626b75; fill: var(--figure-muted, #626b75); font: 14.4px 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="45.36" y="204.51825" transform="rotate(-0 45.36 204.51825)">Investigate · repair</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #252b33; fill: var(--figure-ink, #252b33); font: 700 22.32px 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="369.36" y="174.985762" transform="rotate(-0 369.36 174.985762)">Jev</text>
+   </g>
+   <g id="text_5">
+    <text style="fill: #626b75; fill: var(--figure-muted, #626b75); font: 14.4px 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="369.36" y="204.602625" transform="rotate(-0 369.36 204.602625)">Rank · review</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #4f749b; fill: var(--figure-blue, #4f749b); font: 12.96px 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="273.6" y="116.390362" transform="rotate(-0 273.6 116.390362)">Tests + evidence</text>
+   </g>
+   <g id="patch_6">
+    <path d="M 205.759204 130.32
+Q 273.601702 130.32 339.767149 130.32
+" clip-path="url(#p85683513a5)" style="fill: none; stroke: #252b33; stroke: var(--figure-outline, #252b33); stroke-width: 1.5; stroke-linecap: round"/>
+    <path d="M 334.567149 127.72
+L 339.767149 130.32
+L 334.567149 132.92
+z
+" clip-path="url(#p85683513a5)" style="fill: #252b33; fill: var(--figure-ink, #252b33); stroke: #252b33; stroke: var(--figure-outline, #252b33); stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 341.440796 182.16
+Q 273.598298 182.16 207.432851 182.16
+" clip-path="url(#p85683513a5)" style="fill: none; stroke: #252b33; stroke: var(--figure-outline, #252b33); stroke-width: 1.5; stroke-linecap: round"/>
+    <path d="M 212.632851 184.76
+L 207.432851 182.16
+L 212.632851 179.56
+z
+" clip-path="url(#p85683513a5)" style="fill: #252b33; fill: var(--figure-ink, #252b33); stroke: #252b33; stroke: var(--figure-outline, #252b33); stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="text_7">
+    <text style="fill: #b77432; fill: var(--figure-orange, #b77432); font: 12.96px 'Arial', 'DejaVu Sans', sans-serif; text-anchor: middle" x="273.6" y="205.594425" transform="rotate(-0 273.6 205.594425)">Rankings + reviews</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #252b33; fill: var(--figure-ink, #252b33); font: 700 16.56px 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="28.8" y="316.772662" transform="rotate(-0 28.8 316.772662)">Pass rate</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #4f749b; fill: var(--figure-blue, #4f749b); font: 12.96px 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="196.56" y="296.390362" transform="rotate(-0 196.56 296.390362)">Without Jev</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #4f749b; fill: var(--figure-blue, #4f749b); font: 700 27.36px 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="196.56" y="331.812225" transform="rotate(-0 196.56 331.812225)">40%</text>
+   </g>
+   <g id="patch_8">
+    <path d="M 297.198589 320.4
+Q 321.47788 320.4 344.08012 320.4
+" clip-path="url(#p85683513a5)" style="fill: none; stroke: #252b33; stroke: var(--figure-outline, #252b33); stroke-width: 1.5; stroke-linecap: round"/>
+    <path d="M 338.88012 317.8
+L 344.08012 320.4
+L 338.88012 323
+z
+" clip-path="url(#p85683513a5)" style="fill: #252b33; fill: var(--figure-ink, #252b33); stroke: #252b33; stroke: var(--figure-outline, #252b33); stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="text_11">
+    <text style="fill: #b77432; fill: var(--figure-orange, #b77432); font: 12.96px 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="380.88" y="296.390362" transform="rotate(-0 380.88 296.390362)">With Jev</text>
+   </g>
+   <g id="text_12">
+    <text style="fill: #b77432; fill: var(--figure-orange, #b77432); font: 700 27.36px 'Arial', 'DejaVu Sans', sans-serif; text-anchor: start" x="380.88" y="331.812225" transform="rotate(-0 380.88 331.812225)">48%</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p85683513a5">
+   <rect x="0" y="0" width="547.2" height="360"/>
+  </clipPath>
+ </defs>
+</svg>

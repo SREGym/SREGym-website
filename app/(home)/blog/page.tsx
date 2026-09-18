@@ -36,6 +36,7 @@ export default async function BlogPage() {
             description={post.data.description}
             authors={post.data.authors}
             highlight={post.data.highlight}
+            cover={post.data.cover}
             featured={index === 0}
           />
         ))}

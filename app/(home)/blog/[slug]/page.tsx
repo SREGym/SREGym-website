@@ -81,8 +81,20 @@ export default async function BlogPostPage({ params }: PageProps) {
         className={`blog-article-grid ${sections.length ? "" : "blog-article-grid-no-toc"}`}
       >
         <div className="min-w-0">
-          {page.data.highlight && (
-            <ResearchHighlight data={page.data.highlight} />
+          {page.data.cover ? (
+            <div className="blog-article-cover">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={page.data.cover.src}
+                alt={page.data.cover.alt}
+                width={page.data.cover.width}
+                height={page.data.cover.height}
+              />
+            </div>
+          ) : (
+            page.data.highlight && (
+              <ResearchHighlight data={page.data.highlight} />
+            )
           )}
           {sections.length > 0 && (
             <details className="blog-mobile-contents">
