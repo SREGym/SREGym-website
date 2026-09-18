@@ -20,18 +20,22 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   return (
     <div className="flex flex-1 flex-col items-center px-4">
-      <div className="flex w-full max-w-4xl flex-1 flex-col">
+      <div className="flex w-full max-w-4xl flex-1 flex-col font-sans">
         <div className="flex-1 pt-6 sm:pt-12">
           <div className="mb-6 flex items-center justify-between gap-2">
             <p className="text-fd-muted-foreground font-mono text-sm">
-              {new Date(page.data.date).toDateString()} • {page.data.category}
+              {new Date(page.data.date).toLocaleDateString("en-US", {
+                dateStyle: "medium",
+                timeZone: "UTC",
+              })}{" "}
+              • {page.data.category}
             </p>
             <Share />
           </div>
-          <h1 className="mb-8 font-mono text-4xl/normal font-medium tracking-tight">
+          <h1 className="mb-8 text-4xl/normal font-medium tracking-tight">
             {page.data.title}
           </h1>
-          <p className="text-fd-muted-foreground font-mono">
+          <p className="text-fd-muted-foreground leading-relaxed">
             {page.data.description}
           </p>
           {!page.data.hideToc && (
@@ -39,7 +43,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           )}
         </div>
         <article className="flex w-full flex-col py-8">
-          <div className="prose min-w-0">
+          <div className="prose min-w-0 font-sans text-base/relaxed">
             <Mdx components={getMDXComponents()} />
           </div>
           <div className="mt-12 flex flex-col gap-4 text-sm">
@@ -47,7 +51,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               <p className="text-fd-muted-foreground mb-1 font-mono">
                 Written by
               </p>
-              <p className="font-mono">
+              <p>
                 {page.data.authors.map((author, index) => (
                   <span key={author.name}>
                     <a

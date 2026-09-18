@@ -33,16 +33,19 @@ export function NewsCard({
           <CardHeader>
             <div className="mb-2 flex items-center justify-between gap-2">
               <Badge variant="secondary" className="font-mono text-xs">
-                {new Date(date).toDateString()}
+                {new Date(date).toLocaleDateString("en-US", {
+                  dateStyle: "medium",
+                  timeZone: "UTC",
+                })}
               </Badge>
               <Badge className="font-mono text-xs">{category}</Badge>
             </div>
             <div className="flex flex-col gap-4">
-              <CardTitle className="font-mono text-xl font-medium">
+              <CardTitle className="text-xl font-medium tracking-tight">
                 {title}
               </CardTitle>
               {description && (
-                <CardDescription className="font-mono">
+                <CardDescription className="leading-relaxed">
                   {description}
                 </CardDescription>
               )}

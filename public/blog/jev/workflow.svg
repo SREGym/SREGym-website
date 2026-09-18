@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Jev decision-support workflow</title>
+  <desc id="desc">A three-row workflow showing Luna gathering evidence and testing hypotheses, Jev ranking tests and reviewing submissions, and the Conductor accepting and grading them.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto">
+      <path d="M0,0 L10,6 L0,12 Z" fill="#8b877d"/>
+    </marker>
+  </defs>
+  <rect width="1600" height="900" fill="#0e0d0c"/>
+  <rect x="44" y="44" width="1512" height="812" rx="28" fill="#161514" stroke="#34312d" stroke-width="2"/>
+
+  <text x="100" y="120" fill="#f0eeea" font-family="Geist, Inter, Arial, sans-serif" font-size="52" font-weight="600">How Jev fits into the SRE loop</text>
+  <text x="100" y="165" fill="#8b877d" font-family="Geist, Inter, Arial, sans-serif" font-size="25">Luna operates through the Codex harness. Jev provides decision support.</text>
+
+  <path d="M500 275 H575" stroke="#8b877d" stroke-width="4" marker-end="url(#arrow)"/>
+  <path d="M1025 275 H1100" stroke="#8b877d" stroke-width="4" marker-end="url(#arrow)"/>
+  <path d="M1310 340 V405" stroke="#8b877d" stroke-width="4" marker-end="url(#arrow)"/>
+  <path d="M1100 480 H1025" stroke="#8b877d" stroke-width="4" marker-end="url(#arrow)"/>
+  <path d="M575 480 H500" stroke="#8b877d" stroke-width="4" marker-end="url(#arrow)"/>
+  <path d="M290 545 V610" stroke="#8b877d" stroke-width="4" marker-end="url(#arrow)"/>
+  <path d="M500 685 H575" stroke="#8b877d" stroke-width="4" marker-end="url(#arrow)"/>
+  <path d="M1025 685 H1100" stroke="#8b877d" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <g font-family="Geist, Inter, Arial, sans-serif" text-anchor="middle">
+    <rect x="80" y="210" width="420" height="130" rx="18" fill="#1b2028" stroke="#60a5fa" stroke-width="3"/>
+    <text x="290" y="266" fill="#93c5fd" font-size="20" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" letter-spacing="2">LUNA</text>
+    <text x="290" y="308" fill="#f0eeea" font-size="27">Collect initial evidence</text>
+
+    <rect x="605" y="210" width="420" height="130" rx="18" fill="#1b2028" stroke="#60a5fa" stroke-width="3"/>
+    <text x="815" y="266" fill="#93c5fd" font-size="20" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" letter-spacing="2">LUNA</text>
+    <text x="815" y="304" fill="#f0eeea" font-size="26">Propose explanations + tests</text>
+
+    <rect x="1130" y="210" width="360" height="130" rx="18" fill="#2a1d15" stroke="#f97316" stroke-width="3"/>
+    <text x="1310" y="266" fill="#fb923c" font-size="20" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" letter-spacing="2">JEV</text>
+    <text x="1310" y="308" fill="#f0eeea" font-size="27">Rank tests</text>
+
+    <rect x="1130" y="415" width="360" height="130" rx="18" fill="#1b2028" stroke="#60a5fa" stroke-width="3"/>
+    <text x="1310" y="471" fill="#93c5fd" font-size="20" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" letter-spacing="2">LUNA</text>
+    <text x="1310" y="513" fill="#f0eeea" font-size="27">Run selected tests</text>
+
+    <rect x="605" y="415" width="420" height="130" rx="18" fill="#2a1d15" stroke="#f97316" stroke-width="3"/>
+    <text x="815" y="471" fill="#fb923c" font-size="20" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" letter-spacing="2">JEV</text>
+    <text x="815" y="513" fill="#f0eeea" font-size="27">Review diagnosis evidence</text>
+
+    <rect x="80" y="415" width="420" height="130" rx="18" fill="#22211f" stroke="#8b877d" stroke-width="3"/>
+    <text x="290" y="471" fill="#b1ada2" font-size="20" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" letter-spacing="2">CONDUCTOR</text>
+    <text x="290" y="513" fill="#f0eeea" font-size="27">Accept diagnosis</text>
+
+    <rect x="80" y="620" width="420" height="130" rx="18" fill="#1b2028" stroke="#60a5fa" stroke-width="3"/>
+    <text x="290" y="676" fill="#93c5fd" font-size="20" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" letter-spacing="2">LUNA</text>
+    <text x="290" y="718" fill="#f0eeea" font-size="27">Repair + check behavior</text>
+
+    <rect x="605" y="620" width="420" height="130" rx="18" fill="#2a1d15" stroke="#f97316" stroke-width="3"/>
+    <text x="815" y="676" fill="#fb923c" font-size="20" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" letter-spacing="2">JEV</text>
+    <text x="815" y="718" fill="#f0eeea" font-size="27">Review repair evidence</text>
+
+    <rect x="1130" y="620" width="360" height="130" rx="18" fill="#22211f" stroke="#8b877d" stroke-width="3"/>
+    <text x="1310" y="676" fill="#b1ada2" font-size="20" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" letter-spacing="2">CONDUCTOR</text>
+    <text x="1310" y="718" fill="#f0eeea" font-size="27">Grade mitigation</text>
+  </g>
+
+  <circle cx="1130" cy="814" r="7" fill="#60a5fa"/>
+  <text x="1148" y="821" fill="#8b877d" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="19">Luna</text>
+  <circle cx="1245" cy="814" r="7" fill="#f97316"/>
+  <text x="1263" y="821" fill="#8b877d" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="19">Jev</text>
+  <circle cx="1340" cy="814" r="7" fill="#8b877d"/>
+  <text x="1358" y="821" fill="#8b877d" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="19">Conductor</text>
+</svg>

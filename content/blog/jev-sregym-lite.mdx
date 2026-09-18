@@ -1,0 +1,93 @@
+---
+title: "Can Jev Make SRE Agents More Reliable?"
+description: "We tested TypeSafe AI's Jev as a decision layer for SRE agents across ten SREGym-Lite faults."
+authors:
+  - name: "Jackson Clark"
+    url: "https://hacksonclark.github.io/"
+  - name: "Saad Mohammad Rafid Pial"
+    url: "https://saadmrp1038.github.io/"
+  - name: "Yiming Su"
+    url: "https://yimingsu01.github.io/"
+  - name: "Tianyin Xu"
+    url: "https://tianyin.github.io/"
+date: 2026-09-17
+category: "Research"
+hideToc: true
+---
+
+[Jev has been getting a lot of attention](https://typesafe.ai/blog/introducing-system-one-models-and-jev) for its speed and strong performance on structured decision tasks. It is TypeSafe AI's first System One Model, a small decision model built to make fast, focused judgments over supplied context. Instead of asking a large model to reason through everything from scratch, Jev can quickly compare choices, score evidence, or answer targeted questions.
+
+We immediately wondered what that could do for SRE. Incident response is a long sequence of small decisions: what to inspect next, which evidence to trust, which explanation best fits, and when it is safe to act. Live systems also produce plenty of plausible distractions (noise), from stale errors to noisy telemetry. A lightweight classifier could help an agent choose more informative diagnostic actions and behave more consistently without replacing the agent or operating the cluster itself.
+
+We integrated Jev into SREGym through the Codex harness, making it available to Luna as a decision-support tool during an incident. We then evaluated the setup across ten SREGym-Lite faults. Our main question was reliability. If an agent solves an incident three times out of five, can Jev help it get closer to five?
+
+The Jev-assisted agent passed **24/50 attempts**, compared with **20/50** without Jev, improving from 40% to 48%. The trajectories show both where Jev improved reliability and where the current design still fell short. This experiment measured pass rate rather than time-to-diagnosis, so faster diagnosis remains a hypothesis for future evaluation.
+
+## What the integration did
+
+Our SREGym integration exposed two Jev tools to Luna:
+
+- `jev_plan` took three to five competing hypotheses and a read-only test for each. The tool added a fresh, bounded snapshot of the namespace, then used Jev Choice and Score questions to rank the proposed tests. It did not run those tests or reveal the benchmark answer; the agent still had to execute them and interpret the output.
+- `jev_submit` reviewed the evidence before submitting a diagnosis or mitigation to the grader. A diagnosis needed evidence for the causal mechanism and a current application failure. A mitigation needed evidence that the applied repair addressed the cause, restored functionality, and appeared durable.
+
+The submission gate asked Jev to vote twice per attempt: once before diagnosis and once before mitigation. **Every required question had to reach a probability of `0.70`.** If a review rejected a submission, Luna had to call `jev_plan` again and gather new evidence rather than merely rewording the same claim.
+
+![Workflow showing how Luna, Jev, and the Conductor interact](/blog/jev/workflow.png)
+
+## Results
+
+We ran five attempts per fault in each condition, for 100 trajectories total. Both conditions used `gpt-5.6-luna` with the `codex` harness.
+
+| Fault                                                  | Without Jev | With Jev V14 | Change in passes |
+| ------------------------------------------------------ | ----------: | -----------: | ---------------: |
+| `edge_request_filter_cpu_saturation`                   |         2/5 |          4/5 |               +2 |
+| `namespace_memory_limit`                               |         0/5 |          0/5 |                — |
+| `service_wrong_pod_selection_hotel_reservation`        |         3/5 |          1/5 |               −2 |
+| `internal_traffic_policy_local_astronomy_shop`         |         0/5 |          3/5 |               +3 |
+| `network_policy_block`                                 |         1/5 |          2/5 |               +1 |
+| `duplicate_pvc_mounts_social_network`                  |         4/5 |          3/5 |               −1 |
+| `rolling_update_misconfigured_social_network`          |         0/5 |          0/5 |                — |
+| `secret_rotation_stale_env_credentials_astronomy_shop` |         2/5 |          2/5 |                — |
+| `wrong_dns_policy_astronomy_shop`                      |         3/5 |          4/5 |               +1 |
+| `valkey_auth_disruption`                               |         5/5 |          5/5 |                — |
+| **Total**                                              |   **20/50** |    **24/50** |           **+4** |
+
+These results are encouraging for a first experiment. Jev improved three faults that already passed intermittently: the request-filter fault rose from 2/5 to 4/5, network policy from 1/5 to 2/5, and DNS policy from 3/5 to 4/5. It also turned the internal-traffic-policy fault from 0/5 into 3/5.
+
+Five attempts per fault are not enough to claim a general eight-point improvement, and two faults did regress. But the current integration asks Jev for help at only a few fixed points and does not yet use repeated voting, continuous action guidance, or prospective safety checks. We believe those extensions could increase these scores substantially and make the gains more consistent across incidents.
+
+## Where Jev helped
+
+The largest gain came from `internal_traffic_policy_local_astronomy_shop`, which improved from 0/5 to 3/5. The fault set `internalTrafficPolicy: Local` on the `recommendation` Service while its only endpoint and the frontend pod ran on different nodes. Both pods appeared Ready, but the frontend could not reach recommendation through the Service.
+
+Baseline agents repeatedly followed nearby distractions, including OpenTelemetry errors and unrelated workloads. In one Jev-assisted trajectory, the agent first blamed the frontend listener. The review agreed that an active failure existed but rejected the causal explanation. Further testing connected frontend timeouts to the Service's traffic policy and the cross-node endpoint placement. The agent then changed `Local` to `Cluster` and restored the request path.
+
+Jev helped for the same reason on `edge_request_filter_cpu_saturation`, which improved from 2/5 to 4/5: more runs connected the adversarial request, CPU saturation, and the catastrophic-backtracking regex before editing the filter. In both faults, the main challenge was distinguishing a causal mechanism from believable noise.
+
+## Where the review still failed
+
+The unchanged and regressed faults exposed four recurring failure modes.
+
+**A healthy workload is not always a complete repair.** On `namespace_memory_limit`, every Jev-assisted run added memory declarations to the first rejected workload. Search recovered, but the namespace-wide quota remained, so another unconfigured pod would still fail admission. The benchmark expected the agent to remove the faulty quota and test fresh admission instead of only repairing its first victim.
+
+**Steady-state health can hide an unsafe transition.** On `rolling_update_misconfigured_social_network`, agents removed a hanging init container and restored three Ready replicas. They left `maxUnavailable: 100%` and `maxSurge: 0`, however, so the next slow rollout could still reduce availability to zero. A few successful requests could not prove rollout safety.
+
+**Jev can rank only the hypotheses it receives.** On `service_wrong_pod_selection_hotel_reservation`, the real fault made the frontend Service select a search pod on the wrong port. Several Jev-assisted runs instead investigated MongoDB startup or tracing configuration. Those were coherent stories backed by real observations, but they never tested the faulty selector. A similar pattern caused two misses on `duplicate_pvc_mounts_social_network`: the runs pursued telemetry or application data instead of the conflict among multiple replicas, a ReadWriteOnce volume, and cross-node placement.
+
+**Functional recovery does not prove the intended state.** In `secret_rotation_stale_env_credentials_astronomy_shop`, the correct repair was to replace the stale application pod while preserving the newly rotated credential. Some trajectories instead changed the database role or rewrote the Secret until the components agreed. That can restore requests while undoing the rotation. The evaluator correctly required the old credential to remain invalid and the new one to work everywhere.
+
+There was also an integration-level failure mode: a few correct-looking repairs ended as `not_submitted` because the review or Conductor stage had not advanced. A decision gate needs explicit, recoverable stage handling so that it does not become a new source of benchmark failure.
+
+## Future Work
+
+Our current design uses Jev at a few explicit gates. A more ambitious integration would move it earlier and more continuously into the action space: ask Jev three to five times and aggregate the votes, or ask after each tool call which diagnostic action would be most informative next. That could test whether action classification actually shortens diagnosis, rather than only improving the final answer.
+
+We also want to evaluate Jev as a **prospective safety reviewer for mitigation actions**. Before Luna changes a workload, Jev could assess likely blast radius, reversibility, and threatened invariants. We did not run that experiment here; the current mitigation review judged evidence after a repair was applied. A safety experiment would need explicit unsafe-action labels and controlled measurements, not an inference from these pass rates.
+
+Agent capability is another useful axis. This experiment paired Jev with a lower-cost model. We would like to compare the same integration with a frontier model, a medium model, and a weaker model to learn whether Jev mainly lifts less capable agents or improves consistency across the board.
+
+We propose a more radical experiment: collect every safely available view of cluster state, evaluate those views in parallel with classifiers for incident and root-cause labels, and use the ranked outputs to guide the investigation. This would require strict bounds on secrets, context size, and stale evidence, but it could reveal whether broad parallel classification outperforms the current sequential loop. Given Jev's speed, we believe we could increase diagnosis speeds by an order of magnitude.
+
+Jev improved this SREGym-Lite slice because it added useful friction before premature diagnosis and repair. But it is a decision aid, not an oracle. The strongest design pairs its fast evidence review with executable checks that encode the system invariant the recovery must preserve.
+
+We are excited to see how incorporating Jev throughout the stack can improve the speed, safety, and reliability of SRE agents. More to come soon!

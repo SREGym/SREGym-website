@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
 export default function AboutPage() {
-  redirect("/news/announcement");
+  redirect("/blog/announcement");
 }

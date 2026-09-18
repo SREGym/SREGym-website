@@ -6,12 +6,12 @@ export default async function BlogPage() {
 
   return (
     <div className="flex flex-1 flex-col items-center px-4">
-      <div className="flex w-full max-w-4xl flex-1 flex-col">
+      <div className="flex w-full max-w-4xl flex-1 flex-col font-sans">
         <div className="pt-6 sm:pt-12">
-          <h1 className="mb-8 font-mono text-4xl font-medium tracking-tight">
-            News
+          <h1 className="mb-8 text-4xl font-medium tracking-tight">
+            Blog
           </h1>
-          <p className="text-fd-muted-foreground mb-8 font-mono">
+          <p className="text-fd-muted-foreground mb-8 leading-relaxed">
             Latest updates and announcements from the SREGym team.
           </p>
         </div>
