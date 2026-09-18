@@ -2,6 +2,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import { RootProvider } from "fumadocs-ui/provider";
 import { GeistMono } from "geist/font/mono";
+import { GeistSans } from "geist/font/sans";
 import { JetBrains_Mono } from "next/font/google";
 import { Metadata } from "next/types";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
@@ -53,7 +54,12 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="en"
-      className={cn(jetbrainsMono.variable, jetbrainsMono.className, GeistMono.variable)}
+      className={cn(
+        jetbrainsMono.variable,
+        jetbrainsMono.className,
+        GeistMono.variable,
+        GeistSans.variable,
+      )}
       suppressHydrationWarning
     >
       <head>

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">SREGym-Lite results with and without Jev</title>
+  <desc id="desc">Without Jev, Codex passed 20 of 50 attempts. With Jev, Codex passed 24 of 50 attempts, an increase of four passes.</desc>
+  <rect width="1600" height="900" fill="#0e0d0c"/>
+  <rect x="44" y="44" width="1512" height="812" rx="28" fill="#161514" stroke="#34312d" stroke-width="2"/>
+
+  <text x="100" y="125" fill="#8b877d" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="24" letter-spacing="4">SREGYM-LITE · 100 TRAJECTORIES</text>
+  <text x="100" y="205" fill="#f0eeea" font-family="Geist, Inter, Arial, sans-serif" font-size="58" font-weight="600">Can Jev make agents more reliable?</text>
+
+  <text x="100" y="340" fill="#d2cfc7" font-family="Geist, Inter, Arial, sans-serif" font-size="30">Without Jev</text>
+  <rect x="390" y="298" width="840" height="66" rx="12" fill="#24221f"/>
+  <rect x="390" y="298" width="420" height="66" rx="12" fill="#6b6861"/>
+  <text x="1265" y="345" fill="#f0eeea" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="40" font-weight="700">20/50</text>
+
+  <text x="100" y="485" fill="#d2cfc7" font-family="Geist, Inter, Arial, sans-serif" font-size="30">With Jev</text>
+  <rect x="390" y="443" width="840" height="66" rx="12" fill="#24221f"/>
+  <rect x="390" y="443" width="504" height="66" rx="12" fill="#f97316"/>
+  <text x="1265" y="490" fill="#f0eeea" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="40" font-weight="700">24/50</text>
+
+  <rect x="100" y="600" width="420" height="142" rx="18" fill="#201f1c" stroke="#34312d"/>
+  <text x="132" y="654" fill="#8b877d" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="20" letter-spacing="2">CHANGE</text>
+  <text x="132" y="710" fill="#f97316" font-family="Geist, Inter, Arial, sans-serif" font-size="48" font-weight="650">+4 passes</text>
+
+  <rect x="550" y="600" width="420" height="142" rx="18" fill="#201f1c" stroke="#34312d"/>
+  <text x="582" y="654" fill="#8b877d" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="20" letter-spacing="2">FAULTS</text>
+  <text x="582" y="710" fill="#f0eeea" font-family="Geist, Inter, Arial, sans-serif" font-size="36" font-weight="600">4 ↑  ·  2 ↓  ·  4 =</text>
+
+  <rect x="1000" y="600" width="456" height="142" rx="18" fill="#201f1c" stroke="#34312d"/>
+  <text x="1032" y="654" fill="#8b877d" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="20" letter-spacing="2">TAKEAWAY</text>
+  <text x="1032" y="702" fill="#f0eeea" font-family="Geist, Inter, Arial, sans-serif" font-size="27">Promising, but not uniform</text>
+
+  <text x="100" y="808" fill="#8b877d" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="21">10 faults · 5 attempts per fault and condition · gpt-5.6-luna · Codex harness</text>
+</svg>

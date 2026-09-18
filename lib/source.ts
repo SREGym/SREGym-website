@@ -10,6 +10,6 @@ export const source = loader({
 });
 
 export const blog = loader({
-  baseUrl: "/news",
+  baseUrl: "/blog",
   source: createMDXSource(blogPosts),
 });

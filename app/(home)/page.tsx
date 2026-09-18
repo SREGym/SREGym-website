@@ -60,14 +60,14 @@ export default function Home() {
               className="flex-1"
               title="introducing sregym"
               description="read our launch announcement ↗"
-              href="/news/announcement"
+              href="/blog/announcement"
               icon={Terminal}
             />
             <Callout
               className="flex-1"
               title="sregym dataset registry"
               description="easily evaluate your agent on standard third-party benchmarks ↗"
-              href="/news/registry-and-adapters"
+              href="/blog/registry-and-adapters"
               icon={Terminal}
             />
           </div>
