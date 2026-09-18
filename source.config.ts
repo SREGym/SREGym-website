@@ -24,6 +24,23 @@ export const blog = defineCollections({
     date: z.string().date().or(z.date()),
     category: z.string().optional().default("Release"),
     hideToc: z.boolean().optional().default(false),
+    highlight: z
+      .object({
+        study: z.string(),
+        baseline: z.object({
+          label: z.string(),
+          passed: z.number(),
+          total: z.number().positive(),
+        }),
+        comparison: z.object({
+          label: z.string(),
+          passed: z.number(),
+          total: z.number().positive(),
+        }),
+        sample: z.string(),
+        caveat: z.string(),
+      })
+      .optional(),
   }),
 });
 

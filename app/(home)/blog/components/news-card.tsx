@@ -1,22 +1,19 @@
-import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
-
-interface Author {
-  name: string;
-}
+import {
+  ResearchHighlight,
+  type ResearchHighlightData,
+} from "./research-highlight";
 
 interface NewsCardProps {
   url: string;
   date: string | Date;
-  category: string | undefined;
+  category?: string;
   title: string;
   description?: string;
+  authors: { name: string }[];
+  highlight?: ResearchHighlightData;
+  featured?: boolean;
 }
 
 export function NewsCard({
@@ -25,34 +22,45 @@ export function NewsCard({
   category,
   title,
   description,
+  authors,
+  highlight,
+  featured,
 }: NewsCardProps) {
   return (
-    <Card className="hover:bg-sidebar dark:hover:bg-accent -mb-px rounded-none border-x-0 py-0 shadow-none transition-all duration-200 sm:border-x">
-      <Link href={url} className="block">
-        <div className="space-y-6 py-6">
-          <CardHeader>
-            <div className="mb-2 flex items-center justify-between gap-2">
-              <Badge variant="secondary" className="font-mono text-xs">
-                {new Date(date).toLocaleDateString("en-US", {
-                  dateStyle: "medium",
-                  timeZone: "UTC",
-                })}
-              </Badge>
-              <Badge className="font-mono text-xs">{category}</Badge>
-            </div>
-            <div className="flex flex-col gap-4">
-              <CardTitle className="text-xl font-medium tracking-tight">
-                {title}
-              </CardTitle>
-              {description && (
-                <CardDescription className="leading-relaxed">
-                  {description}
-                </CardDescription>
-              )}
-            </div>
-          </CardHeader>
+    <Link
+      href={url}
+      className={`blog-story group ${featured && highlight ? "blog-story-featured" : ""}`}
+    >
+      <div className="blog-story-copy">
+        <div className="mb-6 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs">
+          <span className="blog-accent">{category}</span>
+          <time className="blog-muted" dateTime={new Date(date).toISOString()}>
+            {new Date(date).toLocaleDateString("en-US", {
+              dateStyle: "medium",
+              timeZone: "UTC",
+            })}
+          </time>
         </div>
-      </Link>
-    </Card>
+        <h2 className="text-3xl leading-tight font-medium tracking-tight sm:text-4xl">
+          {title}
+        </h2>
+        {description && (
+          <p className="blog-muted mt-5 text-base leading-relaxed">
+            {description}
+          </p>
+        )}
+        <p className="blog-muted mt-5 text-xs leading-relaxed">
+          {authors.map((author) => author.name).join(" · ")}
+        </p>
+        <span className="mt-8 flex items-center gap-2 text-sm font-medium">
+          Read article{" "}
+          <ArrowUpRight
+            aria-hidden="true"
+            className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transition-none"
+          />
+        </span>
+      </div>
+      {featured && highlight && <ResearchHighlight data={highlight} compact />}
+    </Link>
   );
 }
