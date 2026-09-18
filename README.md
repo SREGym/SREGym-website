@@ -29,6 +29,8 @@ The site will be available at [http://localhost:3000](http://localhost:3000).
 - `npm run typecheck` - Check TypeScript
 - `npm run test:blog` - Check blog metadata, sharing images, and accessible results
   against a running server (default `http://localhost:3000`; override with `BLOG_TEST_URL`)
+- `npm run test:seo` - Check sitemap and crawler discovery against a running server
+  (default `http://localhost:3000`; override with `SEO_TEST_URL`)
 
 ## Adding Content
 
@@ -52,3 +54,16 @@ Blog metadata and 1200×630 sharing images are generated from article frontmatte
 `seoDescription` optionally overrides the search/social description without
 changing the visible article subtitle. Results tables remain screen-reader
 accessible without adding another visible results section.
+
+## Search discovery
+
+`app/sitemap.ts` generates `/sitemap.xml` with public landing pages, all blog
+articles, and the current problem catalog. Blog and catalog entries update
+automatically on deployment. Cohort and contributor pages, redirects, disabled
+documentation, image endpoints, and utility pages are excluded. Individual
+problem pages remain included. No artificial modification dates are emitted.
+
+`app/robots.ts` serves `/robots.txt`, allows public pages to be crawled, excludes
+the API routes, and advertises the sitemap. After deploying, submit
+`https://www.sregym.com/sitemap.xml` in the existing Google Search Console property.
+The sitemap aids discovery; it does not guarantee indexing or rankings.

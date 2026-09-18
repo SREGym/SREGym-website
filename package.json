@@ -8,6 +8,7 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "test:blog": "node --test scripts/blog/smoke.test.mjs",
+    "test:seo": "node --test scripts/seo/smoke.test.mjs",
     "postinstall": "fumadocs-mdx"
   },
   "dependencies": {
