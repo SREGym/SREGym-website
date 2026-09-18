@@ -1,5 +1,16 @@
 import { blog } from "@/lib/source";
+import {
+  blogDescription,
+  blogTitle,
+  createBlogMetadata,
+} from "@/lib/blog-metadata";
 import { NewsCard } from "./components/news-card";
+
+export const metadata = createBlogMetadata({
+  title: blogTitle,
+  description: blogDescription,
+  path: "/blog",
+});
 
 export default async function BlogPage() {
   const posts = blog

@@ -24,6 +24,7 @@ export const blog = defineCollections({
     date: z.string().date().or(z.date()),
     category: z.string().optional().default("Release"),
     hideToc: z.boolean().optional().default(false),
+    seoDescription: z.string().optional(),
     cover: z
       .object({
         src: z.string(),

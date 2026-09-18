@@ -1,4 +1,5 @@
 import { Share } from "@/components/share";
+import { createBlogMetadata, siteUrl } from "@/lib/blog-metadata";
 import { blog } from "@/lib/source";
 import { getMDXComponents } from "@/mdx-components";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
@@ -22,6 +23,26 @@ export default async function BlogPostPage({ params }: PageProps) {
   const sections = page.data.hideToc
     ? []
     : page.data.toc.filter((item) => item.depth === 2);
+  const url = new URL(page.url, siteUrl).href;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": `${url}#article`,
+    headline: page.data.title,
+    description: page.data.seoDescription ?? page.data.description,
+    url,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    image: `${url}/share-image`,
+    datePublished: new Date(page.data.date).toISOString(),
+    author: page.data.authors.map((author) => ({
+      "@type": "Person",
+      name: author.name,
+      url: author.url,
+    })),
+    publisher: { "@type": "Organization", name: "SREGym", url: siteUrl },
+    articleSection: page.data.category,
+    inLanguage: "en-US",
+  };
 
   const contents = (
     <ol className="blog-contents-list">
@@ -38,6 +59,12 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   return (
     <div className="blog-shell pb-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
       <header className="pt-7 sm:pt-10">
         <div className="mb-9 flex items-center justify-between">
           <Link href="/blog" className="blog-back">
@@ -137,5 +164,12 @@ export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
   const page = blog.getPage([slug]);
   if (!page) return {};
-  return { title: page.data.title, description: page.data.description };
+  return createBlogMetadata({
+    title: `${page.data.title} | SREGym Blog`,
+    description: page.data.seoDescription ?? page.data.description,
+    path: page.url,
+    date: page.data.date,
+    authors: page.data.authors,
+    category: page.data.category,
+  });
 }
