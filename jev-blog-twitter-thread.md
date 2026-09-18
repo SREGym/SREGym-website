@@ -2,63 +2,72 @@
 
 Draft copy for the SREGym account. Text beneath each heading is the post; images are upload notes and are not part of the character count.
 
-## Post 1/7
+## Post 1/8
 
-Can a small, fast decision model make SRE agents more reliable? 🤔
+Jev from @typesafeai has drawn attention for its speed and performance on structured decisions. We explored what that capability could do for SRE.
 
-We gave Luna access to Jev through the Codex harness and tested the setup across 100 SREGym-Lite trajectories.
-
-Three findings stood out. More details in the thread. 🧵
+We built tools that make Jev available to the agent, then benchmarked Codex with gpt-5.6-luna on 10 SREGym-Lite problems. 🧵
 
 ![Results summary comparing SREGym-Lite passes without and with Jev](./public/blog/jev/results-summary.png)
 
 
-## Post 2/7
+## Post 2/8
 
-Jev is a System One Model built for fast, structured decisions.
+Jev is TypeSafe AI's first System One Model, built for fast, focused judgments.
 
-Jev did not diagnose incidents itself. Luna could call it through the Codex harness to rank diagnostic tests and review evidence before diagnosis and mitigation submissions.
+Our tools:
+• jev_plan ranks proposed tests
+• jev_submit reviews evidence before diagnosis or mitigation
+
+Each question needed ≥0.70. The agent still ran the tests and acted.
 
 ![Workflow showing how Luna, Jev, and the Conductor interact](./public/blog/jev/workflow.png)
 
 
-## Post 3/7
+## Post 3/8
 
-Finding 1: Jev improved overall reliability, but not uniformly.
+We ran five attempts per problem in each condition.
 
-Without Jev: 20/50 passes
-With Jev: 24/50 passes
+Without Jev: 20/50 passes (40%)
+With Jev: 24/50 passes (48%)
 
-Four faults improved, two regressed, and four were unchanged. This is promising evidence, not a claim of a universal 8-point gain.
-
-
-## Post 4/7
-
-The biggest gain came from an internal traffic policy fault: 0/5 → 3/5.
-
-Baseline agents chased plausible telemetry noise. Jev rejected a weak causal explanation and helped steer later investigation toward the Service policy and cross-node endpoint placement.
+Four problems improved, two regressed, and four were unchanged. Encouraging, but not enough to claim a general eight-point improvement.
 
 
-## Post 5/7
+## Post 4/8
 
-Finding 2: Healthy now does not mean reliably repaired.
+Where Jev helped most: the internal-traffic-policy problem improved from 0/5 → 3/5.
 
-Agents restored a workload but left a faulty namespace quota in place. They also restored 3 Ready replicas while leaving an unsafe rollout strategy.
-
-The missing evidence was counterfactual: what happens next?
+Baseline agents chased telemetry noise. Jev rejected a weak causal explanation, prompting tests that connected frontend timeouts to the Service policy and cross-node endpoint placement.
 
 
-## Post 6/7
+## Post 5/8
 
-Finding 3: Jev can only rank the hypotheses it receives.
+Where Jev failed: recovery was mistaken for a durable repair.
 
-When Luna proposed the wrong set of explanations, Jev could approve a coherent but incomplete story. Every required review question had a 0.70 threshold, but a high score cannot compensate for missing evidence.
+Agents restored current functionality while leaving a namespace quota, unsafe rollout settings, or a reverted credential rotation. Jev did not fully test the invariants needed for the repair to remain correct.
 
 
-## Post 7/7
+## Post 6/8
 
-Next, we want to use Jev earlier in the action loop, compare repeated votes, and test it with agents at different capability levels.
+Jev also could not rescue a missing hypothesis.
 
-We are also interested in prospective mitigation-safety review, but we have not tested that yet.
+Some runs never tested the faulty Service selector or PVC placement conflict. If the correct explanation and test never enter the candidate set, ranking the available options cannot recover them.
 
-Read the post: [BLOG LINK]
+
+## Post 7/8
+
+Next, we want to move Jev earlier into the action loop: aggregate 3–5 votes, ask which action is most informative after each tool call, and compare results across model capability levels.
+
+We also want to test mitigation-safety review. We have not run that experiment.
+
+
+## Post 8/8
+
+Radical idea: safely collect broad views of cluster state, classify incident and root-cause labels in parallel, then use ranked outputs to guide the investigation.
+
+Jev is a decision aid, not an oracle. We are excited to test it across SRE.
+
+What more experiments would you like to see?
+
+Read: [BLOG LINK]
