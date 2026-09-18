@@ -61,7 +61,10 @@ test("sitemap contains every listed blog article and only public destinations", 
   assert.equal(blogResponse.status, 200);
   const html = await blogResponse.text();
   const articles = new Set(
-    [...html.matchAll(/href="(\/blog\/[^"?#]+)"/g)].map(([, path]) => path),
+    // Only navigation links, not production image-preload <link> elements.
+    [...html.matchAll(/<a\b[^>]*\bhref="(\/blog\/[^"?#]+)"/g)].map(
+      ([, path]) => path,
+    ),
   );
   assert.ok(articles.size > 0);
   for (const article of articles) {

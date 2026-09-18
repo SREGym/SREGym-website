@@ -4,20 +4,6 @@ import { join } from "node:path";
 import { siteUrl } from "@/lib/site";
 import { blogImageSize } from "./config";
 
-// Use the site's existing font package, without a network request at render time.
-const regularFont = readFile(
-  join(
-    process.cwd(),
-    "node_modules/geist/dist/fonts/geist-sans/Geist-Regular.ttf",
-  ),
-);
-const boldFont = readFile(
-  join(
-    process.cwd(),
-    "node_modules/geist/dist/fonts/geist-sans/Geist-Bold.ttf",
-  ),
-);
-
 export async function createBlogSocialImage({
   title,
   description,
@@ -27,7 +13,22 @@ export async function createBlogSocialImage({
   description?: string;
   category?: string;
 }) {
-  const [regular, bold] = await Promise.all([regularFont, boldFont]);
+  // Load only when rendering so missing assets reject the request, rather than
+  // creating unhandled rejections as soon as the route module is imported.
+  const [regular, bold] = await Promise.all([
+    readFile(
+      join(
+        process.cwd(),
+        "node_modules/geist/dist/fonts/geist-sans/Geist-Regular.ttf",
+      ),
+    ),
+    readFile(
+      join(
+        process.cwd(),
+        "node_modules/geist/dist/fonts/geist-sans/Geist-Bold.ttf",
+      ),
+    ),
+  ]);
 
   return new ImageResponse(
     <div

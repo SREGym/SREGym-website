@@ -29,6 +29,8 @@ The site will be available at [http://localhost:3000](http://localhost:3000).
 - `npm run typecheck` - Check TypeScript
 - `npm run test:blog` - Check blog metadata, sharing images, and accessible results
   against a running server (default `http://localhost:3000`; override with `BLOG_TEST_URL`)
+- `npm run test:blog:build` - After a production build, check that the standalone
+  deployment contains the sharing-image fonts and prerendered PNGs
 - `npm run test:seo` - Check sitemap and crawler discovery against a running server
   (default `http://localhost:3000`; override with `SEO_TEST_URL`)
 
@@ -54,6 +56,11 @@ Blog metadata and 1200×630 sharing images are generated from article frontmatte
 `seoDescription` optionally overrides the search/social description without
 changing the visible article subtitle. Results tables remain screen-reader
 accessible without adding another visible results section.
+
+Article sharing images are prerendered during the build. The renderer's Geist
+font files are explicitly included in deployment traces in `next.config.mjs`.
+Use `npm run build && npm run test:blog:build` to catch missing deployment assets;
+a development server or `next start` with full dependencies can hide these errors.
 
 ## Search discovery
 

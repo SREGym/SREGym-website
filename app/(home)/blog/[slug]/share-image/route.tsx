@@ -3,6 +3,11 @@ import { blog } from "@/lib/source";
 
 export const dynamic = "force-static";
 
+// Render known articles during the build, not on the first crawler request.
+export function generateStaticParams() {
+  return blog.getPages().map((page) => ({ slug: page.slugs[0] }));
+}
+
 export async function GET(
   _request: Request,
   { params }: { params: Promise<{ slug: string }> },
