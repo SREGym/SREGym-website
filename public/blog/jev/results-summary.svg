@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
   <title id="title">SREGym-Lite results with and without Jev</title>
-  <desc id="desc">Without Jev, Luna passed 20 of 50 attempts. With Jev, Luna passed 24 of 50 attempts, an increase of four passes.</desc>
+  <desc id="desc">Without Jev, Codex passed 20 of 50 attempts. With Jev, Codex passed 24 of 50 attempts, an increase of four passes.</desc>
   <rect width="1600" height="900" fill="#0e0d0c"/>
   <rect x="44" y="44" width="1512" height="812" rx="28" fill="#161514" stroke="#34312d" stroke-width="2"/>
 

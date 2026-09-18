@@ -59,7 +59,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           <span className="blog-muted">{readingMinutes} min read</span>
         </div>
         <h1 className="blog-post-title">{page.data.title}</h1>
-        <p className="blog-muted mt-6 max-w-3xl text-lg leading-relaxed sm:text-xl">
+        <p className="blog-muted mt-6 max-w-3xl text-lg leading-relaxed font-semibold sm:text-xl">
           {page.data.description}
         </p>
         <p className="blog-byline">

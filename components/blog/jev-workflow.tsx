@@ -2,15 +2,15 @@ const phases = [
   {
     title: "Investigate",
     steps: [
-      { actor: "Luna", action: "Collect initial evidence" },
-      { actor: "Luna", action: "Propose explanations and tests" },
+      { actor: "Agent", action: "Collect initial evidence" },
+      { actor: "Agent", action: "Propose explanations and tests" },
       { actor: "Jev", action: "Rank the proposed tests" },
     ],
   },
   {
     title: "Validate",
     steps: [
-      { actor: "Luna", action: "Run the selected tests" },
+      { actor: "Agent", action: "Run the selected tests" },
       { actor: "Jev", action: "Review diagnosis evidence" },
       { actor: "Conductor", action: "Accept the diagnosis" },
     ],
@@ -18,7 +18,7 @@ const phases = [
   {
     title: "Recover",
     steps: [
-      { actor: "Luna", action: "Repair and check behavior" },
+      { actor: "Agent", action: "Repair and check behavior" },
       { actor: "Jev", action: "Review repair evidence" },
       { actor: "Conductor", action: "Grade the mitigation" },
     ],
@@ -34,7 +34,7 @@ export function JevWorkflow() {
       <figcaption id="workflow-caption">
         <span className="blog-eyebrow blog-muted">The decision loop</span>
         <p className="mt-2 text-xl font-medium tracking-tight">
-          Luna acts. Jev reviews.
+          The agent acts. Jev reviews.
         </p>
       </figcaption>
       <ol className="workflow-phases">
@@ -64,8 +64,8 @@ export function JevWorkflow() {
         ))}
       </ol>
       <p className="blog-muted mt-5 border-t pt-4 text-xs leading-relaxed">
-        If a review rejects a submission, Luna returns to planning and gathers
-        new evidence.
+        If a review rejects a submission, the agent returns to planning and
+        gathers new evidence.
       </p>
     </figure>
   );

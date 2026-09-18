@@ -21,7 +21,7 @@ Our tools:
 
 Each question needed ≥0.70. The agent still ran the tests and acted.
 
-![Workflow showing how Luna, Jev, and the Conductor interact](./public/blog/jev/workflow.png)
+![Workflow showing how the agent, Jev, and the Conductor interact](./public/blog/jev/workflow.png)
 
 
 ## Post 3/8

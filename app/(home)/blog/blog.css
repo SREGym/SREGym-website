@@ -259,6 +259,25 @@
   gap: 16px;
   margin-top: 24px;
 }
+.workflow-phases > li {
+  position: relative;
+  min-width: 0;
+}
+.workflow-phases > li:not(:last-child)::after,
+.workflow-step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 10px;
+  background: var(--blog-muted);
+  clip-path: polygon(0 40%, 62% 40%, 62% 0, 100% 50%, 62% 100%, 62% 60%, 0 60%);
+  opacity: 0.8;
+  pointer-events: none;
+}
+.workflow-phases > li:not(:last-child)::after {
+  top: 5px;
+  right: -15px;
+}
 .workflow-phase-title {
   display: flex;
   align-items: center;
@@ -280,15 +299,21 @@
 }
 .workflow-steps {
   display: grid;
-  gap: 8px;
+  gap: 16px;
 }
 .workflow-step {
+  position: relative;
   display: flex;
   gap: 8px;
   min-height: 99px;
   padding: 12px 10px;
   border: 1px solid var(--blog-rule);
   background: var(--background);
+}
+.workflow-step:not(:last-child)::after {
+  top: calc(100% + 3px);
+  left: 50%;
+  transform: translateX(-50%) rotate(90deg);
 }
 .workflow-step-number {
   flex-shrink: 0;
@@ -405,7 +430,14 @@
   }
   .workflow-phases {
     grid-template-columns: minmax(0, 1fr);
-    gap: 24px;
+    gap: 32px;
+  }
+  .workflow-phases > li:not(:last-child)::after {
+    top: auto;
+    right: auto;
+    bottom: -21px;
+    left: 50%;
+    transform: translateX(-50%) rotate(90deg);
   }
   .workflow-step {
     min-height: 0;
