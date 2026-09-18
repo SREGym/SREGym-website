@@ -1,6 +1,7 @@
 "use client";
 
 import { Maximize2 } from "lucide-react";
+import type { ReactNode } from "react";
 import {
   Dialog,
   DialogContent,
@@ -19,6 +20,8 @@ type ResearchFigureProps = {
   mobileHeight: number;
   alt: string;
   caption: string;
+  /** Complete text equivalent for charts, available without duplicating visible UI. */
+  children?: ReactNode;
 };
 
 export function ResearchFigure({
@@ -31,6 +34,7 @@ export function ResearchFigure({
   mobileHeight,
   alt,
   caption,
+  children,
 }: ResearchFigureProps) {
   return (
     <figure
@@ -69,7 +73,7 @@ export function ResearchFigure({
           </button>
         </DialogTrigger>
         <DialogContent
-          className="research-figure-dialog gap-3 p-4 sm:max-w-6xl sm:p-6"
+          className="research-figure-dialog gap-3 p-4 font-sans sm:max-w-6xl sm:p-6"
           aria-describedby={undefined}
         >
           <DialogHeader className="pr-7 text-left">
@@ -85,6 +89,7 @@ export function ResearchFigure({
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={src} alt={alt} width={1200} height={height} />
+            {children && <div className="sr-only">{children}</div>}
           </div>
         </DialogContent>
       </Dialog>
@@ -93,6 +98,7 @@ export function ResearchFigure({
           <strong>Figure {number}.</strong> {caption}
         </p>
       </figcaption>
+      {children && <div className="sr-only">{children}</div>}
     </figure>
   );
 }

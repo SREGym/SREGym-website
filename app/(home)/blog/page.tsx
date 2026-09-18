@@ -1,9 +1,6 @@
 import { blog } from "@/lib/source";
-import {
-  blogDescription,
-  blogTitle,
-  createBlogMetadata,
-} from "@/lib/blog-metadata";
+import { blogDescription, blogTitle } from "@/lib/blog/config";
+import { createBlogMetadata } from "@/lib/blog/metadata";
 import { NewsCard } from "./components/news-card";
 
 export const metadata = createBlogMetadata({

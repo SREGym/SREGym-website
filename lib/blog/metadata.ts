@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
-
-export const siteUrl = "https://www.sregym.com";
-export const blogTitle = "SREGym Blog: Research on Reliable SRE Agents";
-export const blogDescription =
-  "Experiments, benchmarks, and field notes on AI agents for site reliability engineering, incident diagnosis, and recovery.";
+import { siteUrl } from "@/lib/site";
+import { blogImageSize } from "./config";
 
 type BlogMetadataOptions = {
   title: string;
@@ -25,8 +22,7 @@ export function createBlogMetadata({
   const url = new URL(path, siteUrl).href;
   const image = {
     url: `${url}/share-image`,
-    width: 1200,
-    height: 630,
+    ...blogImageSize,
     alt: title,
     type: "image/png",
   };

@@ -1,6 +1,5 @@
-import { createBlogSocialImage } from "@/lib/blog-social-image";
+import { createBlogSocialImage } from "@/lib/blog/social-image";
 import { blog } from "@/lib/source";
-import { notFound } from "next/navigation";
 
 export const dynamic = "force-static";
 
@@ -10,7 +9,7 @@ export async function GET(
 ) {
   const { slug } = await params;
   const page = blog.getPage([slug]);
-  if (!page) notFound();
+  if (!page) return new Response("Article not found", { status: 404 });
 
   return createBlogSocialImage({
     title: page.data.title,

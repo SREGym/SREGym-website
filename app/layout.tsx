@@ -1,5 +1,6 @@
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
+import { siteUrl } from "@/lib/site";
 import { RootProvider } from "fumadocs-ui/provider";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
@@ -13,7 +14,7 @@ import "./global.css";
 
 export const metadata: Metadata = {
   title: "SREGym",
-  metadataBase: new URL("https://www.sregym.com"),
+  metadataBase: new URL(siteUrl),
   verification: {
     google: "s-wA7Z2Xp-iHI8AzPkUpXnVukm9SNKGT4y4HUqQ8eOg",
   },
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "SREGym",
     description: "An AI-Native Platform for Benchmarking SRE Agents",
-    url: "https://www.sregym.com",
+    url: siteUrl,
     siteName: "SREGym",
     locale: "en_US",
     type: "website",

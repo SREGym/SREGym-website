@@ -1,5 +1,6 @@
 import { Share } from "@/components/share";
-import { createBlogMetadata, siteUrl } from "@/lib/blog-metadata";
+import { createBlogMetadata } from "@/lib/blog/metadata";
+import { siteUrl } from "@/lib/site";
 import { blog } from "@/lib/source";
 import { getMDXComponents } from "@/mdx-components";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";

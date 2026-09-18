@@ -1,14 +1,16 @@
-"""Render the Jev article's SVG/PNG figures. Requires matplotlib==3.9.4.
+"""Render the Jev article's SVG figures. See the adjacent README for setup.
 
-Run: python scripts/render-blog-figures.py
-The results chart reads data/jev-results.json so its data stays reproducible.
-SVGs adapt to the embedding page's color scheme; PNG exports stay light.
+Run: python scripts/blog/jev/render_figures.py [--check]
+The chart and accessible HTML table share content/blog/_data/jev-results.json.
+SVGs adapt to the embedding page's color scheme.
 """
 
 from pathlib import Path
 from io import StringIO
 import json
 import re
+import argparse
+import tempfile
 
 import matplotlib
 
@@ -16,7 +18,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle, FancyArrowPatch, FancyBboxPatch
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[3]
 OUT = ROOT / "public/blog/jev"
 PAPER, INK, MUTED, RULE = "#FFFFFF", "#252B33", "#626B75", "#DDE2E7"
 BLUE, ORANGE, GREEN = "#4F749B", "#B77432", "#47765E"
@@ -135,15 +137,13 @@ def themed_svg(svg):
     return svg.replace("<defs>", f"<defs>\n  {stylesheet}", 1)
 
 
-def save(fig, name, description, png=True):
+def save(fig, name, description):
     OUT.mkdir(parents=True, exist_ok=True)
     svg = StringIO()
     fig.savefig(svg, format="svg", metadata={"Date": None, "Title": description, "Description": description})
     (OUT / f"{name}.svg").write_text(
         "\n".join(line.rstrip() for line in themed_svg(svg.getvalue()).splitlines()) + "\n"
     )
-    if png:
-        fig.savefig(OUT / f"{name}.png", dpi=200, metadata={"Description": description})
     plt.close(fig)
 
 
@@ -263,34 +263,18 @@ def workflow_mobile():
             arrow(ax, (178, end + 3), (178, next_top - 4))
             transition = "Ready to diagnose" if i == 0 else "Diagnosis received"
             text(ax, 201, end + 35, transition, 17, MUTED)
-    save(fig, "decision-loop-mobile", WORKFLOW_DESCRIPTION, png=False)
-
-
-# Keep exact benchmark IDs in the article while using readable chart labels.
-FAULT_LABELS = {
-    "edge_request_filter_cpu_saturation": "Request-filter CPU saturation",
-    "namespace_memory_limit": "Namespace memory limit",
-    "service_wrong_pod_selection_hotel_reservation": "Wrong pod selection",
-    "internal_traffic_policy_local_astronomy_shop": "Local traffic policy",
-    "network_policy_block": "Network policy block",
-    "duplicate_pvc_mounts_social_network": "Duplicate PVC mounts",
-    "rolling_update_misconfigured_social_network": "Misconfigured rolling update",
-    "secret_rotation_stale_env_credentials_astronomy_shop": "Stale rotated credentials",
-    "wrong_dns_policy_astronomy_shop": "Wrong DNS policy",
-    "valkey_auth_disruption": "Valkey authentication",
-}
+    save(fig, "decision-loop-mobile", WORKFLOW_DESCRIPTION)
 
 
 def load_results():
-    data = json.loads((ROOT / "scripts/data/jev-results.json").read_text())
+    data = json.loads((ROOT / "content/blog/_data/jev-results.json").read_text())
     assert data["attempts_per_problem"] == 5
     rows = []
     for entry in data["results"]:
-        fault = entry["problem"]
-        assert fault in FAULT_LABELS, f"Add a chart label for {fault}"
+        assert entry["problem"] and entry["label"], "Each problem needs an ID and chart label"
         baseline, assisted = entry["without_jev"], entry["with_jev"]
         assert all(type(value) is int and 0 <= value <= 5 for value in (baseline, assisted))
-        rows.append((FAULT_LABELS[fault], baseline, assisted))
+        rows.append((entry["label"], baseline, assisted))
     assert len(rows) == 10 and len({entry["problem"] for entry in data["results"]}) == 10
     total = (sum(r[1] for r in rows), sum(r[2] for r in rows))
     gains = sorted([r for r in rows if r[2] > r[1]], key=lambda r: r[1] - r[2])
@@ -364,7 +348,7 @@ def results_mobile(rows, total):
             line(ax, [24, 416], [y + 64, y + 64], RULE, .6)
     line(ax, [24, 416], [1000, 1000], INK, .9)
     text(ax, 24, 1035, f"Total passes: {total[0]}/50 → {total[1]}/50", 23, INK, "bold")
-    save(fig, "fault-results-mobile", "Paired bars compare successful attempts per SRE problem without Jev and with Jev, out of five.", png=False)
+    save(fig, "fault-results-mobile", "Paired bars compare successful attempts per SRE problem without Jev and with Jev, out of five.")
 
 
 def cover(total):
@@ -394,7 +378,7 @@ def cover(total):
     save(fig, "cover", "The agent investigates and repairs; Jev ranks and reviews. Pass rate: 40% without Jev, 48% with Jev.")
 
 
-if __name__ == "__main__":
+def render_all():
     rows, total = load_results()
     workflow_desktop()
     workflow_mobile()
@@ -402,3 +386,24 @@ if __name__ == "__main__":
     results_mobile(rows, total)
     cover(total)
     print(f"Rendered responsive figures and blog cover in {OUT}. Verified totals: {total}.")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--check", action="store_true", help="Verify committed SVGs without overwriting them")
+    args = parser.parse_args()
+    if args.check:
+        committed = OUT
+        with tempfile.TemporaryDirectory(prefix="sregym-jev-check-") as temporary:
+            OUT = Path(temporary)
+            render_all()
+            mismatches = [
+                path.name for path in OUT.glob("*.svg")
+                if not (committed / path.name).exists()
+                or path.read_bytes() != (committed / path.name).read_bytes()
+            ]
+        if mismatches:
+            raise SystemExit("Figures need regeneration: " + ", ".join(sorted(mismatches)))
+        print("All five committed SVGs match the generator.")
+    else:
+        render_all()

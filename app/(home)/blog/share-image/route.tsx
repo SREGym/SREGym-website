@@ -1,5 +1,5 @@
-import { blogDescription } from "@/lib/blog-metadata";
-import { createBlogSocialImage } from "@/lib/blog-social-image";
+import { blogDescription } from "@/lib/blog/config";
+import { createBlogSocialImage } from "@/lib/blog/social-image";
 
 export const dynamic = "force-static";
 

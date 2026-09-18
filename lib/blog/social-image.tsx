@@ -1,8 +1,8 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-
-export const blogImageSize = { width: 1200, height: 630 };
+import { siteUrl } from "@/lib/site";
+import { blogImageSize } from "./config";
 
 // Use the site's existing font package, without a network request at render time.
 const regularFont = readFile(
@@ -118,7 +118,9 @@ export async function createBlogSocialImage({
         }}
       >
         <span>Research on reliable SRE agents</span>
-        <span style={{ color: "#8E4F2F" }}>sregym.com/blog</span>
+        <span style={{ color: "#8E4F2F" }}>
+          {new URL(siteUrl).hostname.replace(/^www\./, "")}/blog
+        </span>
       </div>
     </div>,
     {
