@@ -94,20 +94,22 @@ nav {
 }
 
 .dark {
+  /* Soften near-white text while preserving the original dark surfaces. */
   --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
+  --foreground: #d2d0cb;
+  --heading-foreground: #e1dfd9;
   --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
+  --card-foreground: var(--foreground);
   --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
+  --popover-foreground: var(--foreground);
   --primary: oklch(0.922 0 0);
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
+  --secondary-foreground: var(--foreground);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
   --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  --accent-foreground: var(--foreground);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(0.3 0.00 0);
   --input: oklch(1 0 0 / 15%);
@@ -118,15 +120,27 @@ nav {
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
   --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-foreground: var(--foreground);
   --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary-foreground: var(--heading-foreground);
   --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-accent-foreground: var(--foreground);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
   /* Override fumadocs secondary color for code blocks */
   --color-fd-secondary: var(--muted);
+}
+
+@layer components {
+  /* Utilities can still override deliberately colored headings. */
+  .dark :where(h1, h2, h3, h4, h5, h6) {
+    color: var(--heading-foreground);
+  }
+}
+
+/* Override the typography plugin's heading token without changing light mode. */
+.dark .prose {
+  --tw-prose-headings: var(--heading-foreground);
 }
 
 @layer base {

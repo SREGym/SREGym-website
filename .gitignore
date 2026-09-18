@@ -31,3 +31,7 @@ next-env.d.ts
 .env
 pnpm-lock.yaml
 .notes
+
+# Local figure-rendering environment
+/scripts/blog/jev/.venv/
+__pycache__/

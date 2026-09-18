@@ -1,5 +1,4 @@
 import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
 import { Database } from "./database.types";
 
 // When env vars are not provided, return a minimal stub that avoids runtime crashes
@@ -14,7 +13,7 @@ export async function createClient(): Promise<any> {
         getAll() {
           return [];
         },
-        setAll(cookiesToSet) {},
+        setAll() {},
       },
     });
   }

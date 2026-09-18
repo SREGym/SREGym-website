@@ -13,6 +13,7 @@ interface NewsCardProps {
   description?: string;
   authors: { name: string }[];
   highlight?: ResearchHighlightData;
+  cover?: { src: string; alt: string; width: number; height: number };
   featured?: boolean;
 }
 
@@ -24,12 +25,13 @@ export function NewsCard({
   description,
   authors,
   highlight,
+  cover,
   featured,
 }: NewsCardProps) {
   return (
     <Link
       href={url}
-      className={`blog-story group ${featured && highlight ? "blog-story-featured" : ""}`}
+      className={`blog-story group ${cover || (featured && highlight) ? "blog-story-featured" : ""}`}
     >
       <div className="blog-story-copy">
         <div className="mb-6 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs">
@@ -60,7 +62,20 @@ export function NewsCard({
           />
         </span>
       </div>
-      {featured && highlight && <ResearchHighlight data={highlight} compact />}
+      {cover ? (
+        <div className="blog-story-cover">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={cover.src}
+            alt={cover.alt}
+            width={cover.width}
+            height={cover.height}
+            loading={featured ? "eager" : "lazy"}
+          />
+        </div>
+      ) : (
+        featured && highlight && <ResearchHighlight data={highlight} compact />
+      )}
     </Link>
   );
 }

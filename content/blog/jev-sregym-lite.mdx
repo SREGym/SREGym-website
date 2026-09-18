@@ -1,6 +1,7 @@
 ---
 title: "Can Jev Make SRE Agents More Reliable?"
 description: "We tested TypeSafe AI's Jev as a decision layer for SRE agents."
+seoDescription: "Can Jev improve SRE agent reliability? Our SREGym-Lite experiment tests decision support for incident diagnosis and recovery across 10 problems and 100 runs."
 authors:
   - name: "Jackson Clark"
     url: "https://hacksonclark.github.io/"
@@ -12,6 +13,11 @@ authors:
     url: "https://tianyin.github.io/"
 date: 2026-09-17
 category: "Research"
+cover:
+  src: "/blog/jev/cover.svg"
+  alt: "The agent investigates and repairs; Jev ranks and reviews. Pass rate: 40% without Jev, 48% with Jev."
+  width: 760
+  height: 500
 highlight:
   study: "SREGym-Lite experiment"
   baseline:
@@ -27,6 +33,7 @@ highlight:
 ---
 
 import { JevWorkflow } from "@/components/blog/jev-workflow";
+import { JevResults } from "@/components/blog/jev-results";
 
 [Jev has been getting a lot of attention](https://typesafe.ai/blog/introducing-system-one-models-and-jev) for its speed and strong performance on structured decision tasks. It is TypeSafe AI's first System One Model, a small decision model built to make fast, focused judgments over supplied context. Instead of asking a large model to reason through everything from scratch, Jev can quickly compare choices, score evidence, or answer targeted questions.
 
@@ -38,12 +45,13 @@ We integrated Jev into [SREGym](https://github.com/SREGym/SREGym) (our SOTA SRE 
 
 ## How we integrated Jev
 
-Our SREGym integration exposed two Jev tools to the agent:
+Jev helps the agent choose tests and review its conclusions. The agent still runs the tests and makes repairs. We exposed two tools:
 
-- `jev_plan` takes three to five competing hypotheses and a read-only test for each. The tool adds a fresh, bounded snapshot of the namespace, then uses Jev Choice and Score questions to rank the proposed tests. It did not run those tests or reveal the benchmark answer; the agent still has to execute them and interpret the output.
-- `jev_submit` reviews the evidence before submitting a diagnosis or mitigation result to the grader. A diagnosis needs evidence for the causal mechanism and a current application failure. A mitigation needs evidence that the applied repair addresses the cause, restored functionality, and appeared durable.
+- **`jev_plan` — choose tests.** The agent proposes three to five competing hypotheses and a read-only test for each. The tool adds a fresh, bounded snapshot of the namespace, then uses Jev Choice and Score questions to rank the proposed tests. It did not run those tests or reveal the benchmark answer; the agent still has to execute them and interpret the output.
+- **`jev_submit` — review results.** Jev reviews the evidence before submitting a diagnosis or mitigation result to the grader. A diagnosis needs evidence for the causal mechanism and a current application failure. A mitigation needs evidence that the applied repair addresses the cause, restored functionality, and appeared durable.
 
-The submission gate asks Jev to vote twice per attempt: once before diagnosis and once before mitigation. **Every required question has to reach a probability of `0.70`.** If a review rejects a submission, the agent has to call `jev_plan` again and gather new evidence rather than merely rewording the same claim.
+The submission gate asks Jev to vote twice per attempt: once before diagnosis and once before mitigation. **Every required question has to reach a probability of `0.70`**. If a review rejects a submission, the agent has to call jev_plan again and gather new evidence rather than merely rewording the same claim.
+
 
 <JevWorkflow />
 
@@ -51,21 +59,7 @@ The submission gate asks Jev to vote twice per attempt: once before diagnosis an
 
 We ran five attempts per problem in each condition. Both conditions used `gpt-5.6-luna` with the Codex harness.
 
-| SRE Problem                                            | Without Jev | With Jev V14 | Change in passes |
-| ------------------------------------------------------ | ----------: | -----------: | ---------------: |
-| `edge_request_filter_cpu_saturation`                   |         2/5 |          4/5 |               +2 |
-| `namespace_memory_limit`                               |         0/5 |          0/5 |                — |
-| `service_wrong_pod_selection_hotel_reservation`        |         3/5 |          1/5 |               −2 |
-| `internal_traffic_policy_local_astronomy_shop`         |         0/5 |          3/5 |               +3 |
-| `network_policy_block`                                 |         1/5 |          2/5 |               +1 |
-| `duplicate_pvc_mounts_social_network`                  |         4/5 |          3/5 |               −1 |
-| `rolling_update_misconfigured_social_network`          |         0/5 |          0/5 |                — |
-| `secret_rotation_stale_env_credentials_astronomy_shop` |         2/5 |          2/5 |                — |
-| `wrong_dns_policy_astronomy_shop`                      |         3/5 |          4/5 |               +1 |
-| `valkey_auth_disruption`                               |         5/5 |          5/5 |                — |
-| **Total**                                              |   **20/50** |    **24/50** |           **+4** |
-
-_Passes out of five attempts per problem. The Jev condition used integration V14._
+<JevResults />
 
 **These results are encouraging for a first experiment.** Jev improved SRE agents in three problems that passed intermittently: the request-filter problem rose from 2/5 to 4/5, network-policy from 1/5 to 2/5, and DNS-policy from 3/5 to 4/5. It also turned the internal-traffic-policy problem from 0/5 into 3/5.
 
