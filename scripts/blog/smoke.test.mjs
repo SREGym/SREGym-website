@@ -17,7 +17,13 @@ async function get(path) {
   });
 }
 
-for (const path of ["/blog", "/blog/jev-sregym-lite"]) {
+const pages = [
+  { path: "/blog" },
+  { path: "/blog/jev-sregym-lite", authors: 4 },
+  { path: "/blog/postmortems-to-sre-benchmarks", authors: 10 },
+];
+
+for (const { path, authors } of pages) {
   test(`${path}: crawler metadata and sharing image`, async () => {
     const response = await get(path);
     assert.equal(response.status, 200);
@@ -56,7 +62,10 @@ for (const path of ["/blog", "/blog/jev-sregym-lite"]) {
       assert.equal(schema.url, canonical);
       assert.equal(schema.image, meta("og:image")[0]);
       assert.equal(schema.datePublished, meta("article:published_time")[0]);
-      assert.equal(schema.author.length, 4);
+      assert.equal(schema.author.length, authors);
+    }
+
+    if (path === "/blog/jev-sregym-lite") {
       assert.ok(html.includes('src="/blog/jev/cover.svg"'));
       const table = html.match(/<table\b[^>]*>(.*?)<\/table>/s)?.[1];
       assert.ok(table, "The results need a text-accessible table");
@@ -88,6 +97,31 @@ for (const path of ["/blog", "/blog/jev-sregym-lite"]) {
     assert.ok(png.length < 5 * 1024 * 1024);
   });
 }
+
+test("postmortem article preserves its reference tables and omits draft placeholders", async () => {
+  const response = await get("/blog/postmortems-to-sre-benchmarks");
+  const html = await response.text();
+  const article = html.match(/<article\b[^>]*>(.*?)<\/article>/s)?.[1];
+  assert.ok(article, "Missing article content");
+  assert.ok(!article.includes("[[FIGURE]]"));
+  assert.ok(!article.includes("postmodern"));
+  const tables = [...article.matchAll(/<table\b[^>]*>(.*?)<\/table>/gs)];
+  assert.equal(tables.length, 2);
+  // The source has 31 populated problem entries and 29 contributors.
+  assert.equal([...tables[0][1].matchAll(/<tr\b/g)].length, 32);
+  assert.equal([...tables[1][1].matchAll(/<tr\b/g)].length, 30);
+  assert.ok(article.includes("https://github.com/SREGym/SREGym/issues/779"));
+  assert.ok(article.includes("https://uiuc-srse.github.io/"));
+  assert.ok(html.includes('src="/blog/postmortems/overview.svg"'));
+  const image = await get("/blog/postmortems/overview.svg");
+  assert.equal(image.status, 200);
+  assert.match(image.headers.get("content-type"), /image\/svg\+xml/);
+  const svg = await image.text();
+  assert.ok(svg.includes('viewBox="0 0 800 500"'));
+  assert.ok(svg.includes("prefers-color-scheme: dark"));
+  assert.ok(svg.includes("Postmortem reports"));
+  assert.ok(svg.includes("SREGym problems"));
+});
 
 test("missing articles and sharing images return 404", async () => {
   for (const path of [
