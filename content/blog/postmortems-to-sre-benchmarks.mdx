@@ -32,7 +32,7 @@ cover:
   height: 500
 ---
 
-One fundamental challenge of creating an effective SRE benchmark is to make the benchmark problems **realistic** and **challenging**. Realism is important to reflect the true ability of SRE agents in practice, while benchmarks that cannot challenge frontier AI are less relevant. In our experience, the two quality metrics are **strongly correlated** – a high-fidelity problem that mimics real-world failure characteristics, system complexity, and environment noise tends to be much more challenging to AI than a simple problem that injects a fault into a clean environment. The [SREGym paper](https://arxiv.org/pdf/2605.07161) provides quantitative evidence (see Table 4 in the paper).
+One fundamental challenge of creating an effective SRE benchmark is to make the benchmark problems **realistic** and **challenging**. Realism is important to reflect the true ability of SRE agents in practice, while benchmarks that cannot challenge frontier AI are less relevant. In our experience, the two quality metrics are **strongly correlated** – a high-fidelity problem that mimics real-world failure characteristics, system complexity, and environment noise tends to be more challenging to AI than a simple problem that injects a fault into a clean environment. The [SREGym paper](https://arxiv.org/pdf/2605.07161) gives quantitative evidence (see Table 4 in the paper).
 
 To support the curation of high-quality problems, the design and implementation of [SREGym](https://github.com/SREGym/SREGym) treats usability and extensibility as first-class design principles. We assert that a benchmark that is hard to program and extend cannot sustain rapid advances of frontier AI.
 
@@ -50,7 +50,7 @@ In the spirit of throwing the hardest problems to students, we ask students from
 
 5. Improve the quality of the problem (e.g., increasing environment fidelity).
 
-Over the summer, we received 47 RFCs and 58 PRs – **31 of the PRs** have been accepted as a part of the SREGym benchmark suite. Pial put up a heroic effort leading the review of RFCs and tests of PRs. Several students lent a hand: Munim, Sukanya, Sumaiya, and Ermias all helped review/test PRs. Pial later designed a semi-automatic pipeline to automate the testing and Jackson made a GitHub action to give quick feedback on the challenge level to AI.
+Over the summer, we received [47 RFCs and 58 PRs](https://github.com/SREGym/SREGym/issues/779) – **31 PRs** have been accepted as a part of the SREGym benchmark suite. Pial put up a heroic effort leading the review of RFCs and tests of PRs. Several students lent a hand: Munim, Sukanya, Sumaiya, and Ermias all helped review/test PRs. Pial later designed a semi-automatic pipeline to automate the testing and Jackson made a GitHub action to give quick feedback on the challenge level to AI.
 
 **Our experience shows that creating a high-quality SRE problem is very challenging.** The cycle of implementing, testing, and polishing a problem could take as long as a month. Many students are very persistent and went through many rounds of iterations to achieve a high-quality problem. (If you are looking for graduate students and employees, they are great candidates!)
 
@@ -58,7 +58,7 @@ In this blog, we **share the experience of curating SRE benchmark problems from 
 
 ## Problem Curation
 
-We gave students freedom to choose postmortem reports based on their interests and prior experience. In the PR, they describe the failure and the methodology of simulating it on SREGym. Interestingly, some students chose reported issues by mining software repositories (e.g., Kubernetes) and by reading software documents, which we also accepted. Two contributors wrote the problems based on their own experience of operating real-world systems.
+We gave students freedom to choose postmortem reports based on their interests and prior experience. In the PR, they describe the failure and the methodology of simulating it on SREGym. Some students chose reported issues by mining software repositories (e.g., Kubernetes) and by reading software documents, which we also accepted. Two contributors wrote the problems based on their own experience of operating real-world systems.
 
 The following table lists problems contributed by students.
 
@@ -103,11 +103,11 @@ The following table lists problems contributed by students.
 
 We observe a few common practices used by students as recipes for creating high-quality SRE benchmark problems.
 
-**Understanding and simulating root-cause faults.** The first step is typically to understand the root causes of the real-world failure and to find a way to simulate the faults in SREGym. In fact, as SREGym uses a Kubernetes-based cloud-native stack built atop open-source projects, most faults can be simulated or emulated effectively. A key design of the SREGym framework is to support custom fault injectors and their orchestration with existing fault injectors.
+**Understanding and simulating root-cause faults.** The first step is to understand the root causes of the real-world failure and to find a way to simulate the faults in SREGym. In fact, as SREGym uses a Kubernetes-based cloud-native stack built atop open-source projects, most faults can be simulated or emulated effectively. A key design of the SREGym framework is to support custom fault injectors and their orchestration with existing fault injectors.
 
 **Triggering injected fault(s) to cause failure manifestation.** Given that SREGym is a small benchmark environment rather than a hyperscale system, a key challenge is to project the original failure manifestation to a corresponding one in SREGym. This is particularly challenging for noncrashing failures such as resource exhaustion and overloads. In such cases, students cleverly reduce the original resource limit of the system (e.g., using smaller caps on connections and file descriptors) to reliably trigger the failure without excessive resources. In some cases, they deploy additional services (e.g., using [Calico](https://kubernetes.io/docs/tasks/administer-cluster/network-policy-provider/calico-network-policy/) to limit the size of IP-address pools).
 
-**Making problems difficult.** Students invented multiple ways to challenge AI agents. For example, we observe that adding noise (irrelevant failure events) can distract AI from resolving the target failure. Resource-related failures that are accumulated over progressing workloads are harder to diagnose, compared with a sudden traffic surge. Partial failures with normal health metrics are harder to solve than complete outages. Students increase the difficulty level iteratively by experimenting with SREGym’s built-in SRE agents (called Stratus).
+**Making problems difficult.** Students invented multiple ways to challenge AI agents. For example, we observe that adding noise (irrelevant failure events) can distract AI from resolving the target failure. Resource-related failures accumulated over progressing workloads are harder to diagnose, compared with a sudden traffic surge. Partial failures with normal health metrics are harder to solve than complete outages. Students increase the difficulty level iteratively by experimenting with SREGym’s built-in SRE agents (called Stratus).
 
 **Preventing reward hacking as a first principle.** Reward hacking refers to the case where SRE agents did not truly understand the problem but reverse-engineered the fault injection. We have spent significant effort in preventing reward hacking of SRE agents at the framework level through different isolation mechanisms. However, the problem must also keep reward-hacking prevention in mind. The SREGym paper discussed a few such patterns in detail such as misuse of chaos-engineering tools (see Appendix B in the paper). Any artificial clues that cannot happen in real production systems should not be exposed to the agents under test.
 
@@ -129,7 +129,7 @@ Looking back, we did not proactively anticipate the rapid advancement of frontie
 
 ## Future Endeavour
 
-Our experience shows that curating a high-quality SRE benchmark is challenging and expensive. Each problem requires deep understanding of the target failure, creativity to project the failure onto the SREGym environment, and perseverance to interact with AI and iteratively increase the difficulty level of the problems. On the other hand, we believe much of the manual effort could be automated, as demonstrated by several recent auto-research and auto-benchmark research. Our summer exercise has helped us understand the process and one next step is to prompt AI agents to read postmortems and write new benchmark problems.
+Our experience shows that curating a high-quality SRE benchmark is challenging and expensive. Each problem requires deep understanding of the target failure, creativity to project the failure onto SREGym, and perseverance to interact with AI and iteratively increase the difficulty level of the problems. On the other hand, we believe much of the manual effort could be automated, as demonstrated by several recent auto-research and auto-benchmark research. Our summer exercise has helped us understand the process and one next step is to prompt AI agents to read postmortems and write new benchmark problems.
 
 If you have a hard SRE problem and want to challenge frontier AI, give it a try on SREGym!
 
@@ -146,7 +146,7 @@ The following students contributed to the 31 problems merged to SREGym. You can 
 | Arya Shahsavar                | TAPSI                                                        |
 | Ermias Mulugeta Teklehaimanot | AIGOT                                                        |
 | George Angelov                | University of Illinois Urbana Champaign                      |
-| Haaniah Ismail                | National University of Computer and Emerging Sciences (FAST) |
+| Haaniah Ismail                | National University of Computer and Emerging Sciences        |
 | Jaber Ahmed Deedar            | Bangladesh University of Engineering and Technology          |
 | Jack Jiang                    | University of Illinois Urbana Champaign                      |
 | James Weng                    | University of Illinois Urbana Champaign                      |
