@@ -299,6 +299,49 @@
 .blog-prose thead {
   background: var(--blog-panel);
 }
+/* Reference tables need room for prose, not the numeric result-table widths. */
+.blog-reference-table {
+  margin-block: 24px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+.blog-reference-table > div {
+  margin: 0;
+  overflow: visible;
+}
+.blog-prose .blog-reference-table :where(th, td) {
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  font-variant-numeric: normal;
+}
+.blog-reference-table tbody tr:last-child {
+  background: transparent;
+}
+.blog-source-table table {
+  min-width: 640px;
+}
+.blog-prose .blog-source-table :where(th, td):nth-child(1) {
+  width: 38%;
+}
+.blog-prose .blog-source-table :where(th, td):nth-child(2) {
+  width: 22%;
+}
+.blog-prose .blog-source-table :where(th, td):nth-child(3) {
+  width: 40%;
+}
+.blog-contributor-table table {
+  min-width: 440px;
+}
+.blog-prose .blog-contributor-table :where(th, td):nth-child(1) {
+  width: 40%;
+}
+.blog-prose .blog-contributor-table :where(th, td):nth-child(2) {
+  width: 60%;
+}
+.blog-reference-table:focus-visible {
+  outline: 2px solid var(--blog-accent);
+  outline-offset: 4px;
+}
 .research-figure {
   margin-block: 36px;
   scroll-margin-top: 88px;

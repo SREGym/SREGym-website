@@ -1,0 +1,167 @@
+---
+title: "Turning Failure Postmortems into SRE-Benchmark Problems"
+description: "Students from UIUC++ SRSE created 30+ problems in SREGym from postmortem reports of noteworthy system failures."
+seoDescription: "How UIUC++ SRSE students turned real-world failure postmortems into SREGym benchmark problems, with lessons on fault fidelity, mitigation oracles, and quality control."
+authors:
+  - name: "Tianyin Xu"
+    url: "https://tianyin.github.io/"
+  - name: "Saad Mohammad Rafid Pial"
+    url: "https://saadmrp1038.github.io/"
+  - name: "Munim Thahmid"
+  - name: "Mohammad Elsharqawy"
+  - name: "Mahdiya Rahman Sukanya"
+  - name: "Sai Hari Krishnan"
+  - name: "Sumaiya Islam"
+  - name: "Tanzim Hossain Romel"
+  - name: "Abdallah Adel"
+  - name: "Jackson Clark"
+    url: "https://hacksonclark.github.io/"
+date: 2026-09-24
+category: "Research"
+cover:
+  src: "/blog/postmortems/overview.svg"
+  alt: "From postmortems to SREGym problems: reports of real incidents and their causes become reproducible faults for testing SRE agents."
+  width: 800
+  height: 500
+---
+
+One fundamental challenge of creating an effective SRE benchmark is to make the benchmark problems **realistic** and **challenging**. Realism is important to reflect the true ability of SRE agents in practice, while benchmarks that cannot challenge frontier AI are less relevant. In our experience, the two quality metrics are **strongly correlated** – a high-fidelity problem that mimics real-world failure characteristics, system complexity, and environment noise tends to be much more challenging to AI than a simple problem that injects a fault into a clean environment. The [SREGym paper](https://arxiv.org/pdf/2605.07161) provides quantitative evidence (see Table 4 in the paper).
+
+To support the curation of high-quality problems, the design and implementation of [SREGym](https://github.com/SREGym/SREGym) treats usability and extensibility as first-class design principles. We assert that a benchmark that is hard to program and extend cannot sustain rapid advances of frontier AI.
+
+However, usability and extensibility of the SREGym framework do not directly address problem curation – how can we create a rich set of realistic, challenging SRE problems?
+
+In the spirit of throwing the hardest problems to students, we ask students from the [UIUC++ Summer Research in Software Engineering (SRSE)](https://uiuc-srse.github.io/) to each create an SRE problem based on a postmortem report of a real-world incident. The process is as follows:
+
+1. Find a postmortem report of a production service with sufficient details;
+
+2. Understand the incident from root causes to the failure manifestation;
+
+3. Simulate the failure on the environment of SREGym;
+
+4. Test it with an SRE agent to understand the quality of the problem (e.g., in terms of whether and how it challenges AI);
+
+5. Improve the quality of the problem (e.g., increasing environment fidelity).
+
+Over the summer, we received 47 RFCs and 58 PRs – **31 of the PRs** have been accepted as a part of the SREGym benchmark suite. Pial put up a heroic effort leading the review of RFCs and tests of PRs. Several students lent a hand: Munim, Sukanya, Sumaiya, and Ermias all helped review/test PRs. Pial later designed a semi-automatic pipeline to automate the testing and Jackson made a GitHub action to give quick feedback on the challenge level to AI.
+
+**Our experience shows that creating a high-quality SRE problem is very challenging.** The cycle of implementing, testing, and polishing a problem could take as long as a month. Many students are very persistent and went through many rounds of iterations to achieve a high-quality problem. (If you are looking for graduate students and employees, they are great candidates!)
+
+In this blog, we **share the experience of curating SRE benchmark problems from real-world postmortem reports** and discuss some lessons we learned that shed light on the **next round of data curation effort** for the SREGym benchmark.
+
+## Problem Curation
+
+We gave students freedom to choose postmortem reports based on their interests and prior experience. In the PR, they describe the failure and the methodology of simulating it on SREGym. Interestingly, some students chose reported issues by mining software repositories (e.g., Kubernetes) and by reading software documents, which we also accepted. Two contributors wrote the problems based on their own experience of operating real-world systems.
+
+The following table lists problems contributed by students.
+
+<div className="blog-reference-table blog-source-table" role="region" aria-label="Failures, original services, and source reports" tabIndex={0}>
+
+| Failure                                                                | Original Service                  | Source                                                                                                                                                                                                         |
+| ---------------------------------------------------------------------- | --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Cloud outage due to WAF rule misconfigurations                         | Cloudflare                        | [Cloudflare outage: July 2, 2019](https://blog.cloudflare.com/details-of-the-cloudflare-outage-on-july-2-2019/)                                                                                                |
+| Pi-day outage due to CNI routing policy misconfiguration               | Reddit                            | [You broke Reddit: The Pi-Day outage](https://www.reddit.com/r/RedditEng/comments/11xx5o0/you_broke_reddit_the_piday_outage/)                                                                                  |
+| Configuration change activates a dormant application bug               | Fastly                            | [Summary of the June 8 outage](https://www.fastly.com/blog/summary-of-june-8-outage)                                                                                                                           |
+| Expired TLS certificate breaks HTTPS access                            | Spotify                           | [Impacts of an expired TLS certificate](https://www.thousandeyes.com/blog/impacts-expired-tls-certificate)                                                                                                     |
+| Kafka producer leak exhausts broker memory                             | PagerDuty                         | [August 28 Kafka Outages – What Happened and How We’re Improving](https://www.pagerduty.com/eng/august-28-kafka-outages-what-happened-and-how-were-improving/)                                                 |
+| Pod IP exhaustion prevents new workloads from starting                 | GKE                               | [When GKE ran out of IP addresses](https://deploy.live/blog/when-gke-ran-out-of-ip-addresses/)                                                                                                                 |
+| Service selector routes requests to wrong pods                         | Emburse                           | [Intermittent Connection Refused Errors After New Service Deployment in Kubernetes](https://medium.com/emburse/intermittent-connection-refused-errors-after-new-service-deployment-in-kubernetes-22dd5feae1ad) |
+| Unavailable admission webhook blocks pod creation                      | Rancher                           | [OPA Gatekeeper during a cluster restore](https://wyssmann.com/blog/2022/12/opa-gatekeeper-and-issue-while-doing-a-cluster-restore/)                                                                           |
+| Init container waits indefinitely for a missing dependency             | CubeAPM                           | [Pods stuck in init containers](https://cubeapm.com/blog/kubernetes-pod-stuck-in-init-container/)                                                                                                              |
+| Connection-tracking exhaustion disrupts service traffic                | Unnamed                           | [Exhausting conntrack table space crippled our k8s cluster](https://www.markbetz.net/2023/12/12/exhausting-conntrack-table-space-crippled-our-k8s-cluster/)                                                    |
+| Malformed Kafka record blocks consumer progress                        | Unnamed                           | [Handling poison pills](https://www.conduktor.io/blog/dead-letter-topics-handling-poison-pills)                                                                                                                |
+| Missing CPU requests prevent autoscaling                               | Amazon EKS                        | [EKS metrics - failed to get cpu utilization](https://repost.aws/questions/QUXy4-A8bmQN-6aoiWpX4tcA/eks-metrics-failed-to-get-cpu-utilization)                                                                 |
+| Shared-memory exhaustion crashes containers despite free disk space    | OSSO                              | [PostgreSQL: No space left on device](https://www.osso.nl/blog/2021/postgresql-inside-kubernetes-no-space-left-on-device/)                                                                                     |
+| Pod priorities trigger a preemption cascade                            | Grafana Labs                      | [Production outage caused by pod priorities](https://grafana.com/blog/how-a-production-outage-was-caused-using-kubernetes-pod-priorities/)                                                                     |
+| Ephemeral port exhaustion breaks outbound connections                  | Unknown                           | [Ephemeral port exhaustion: The Node That 'Goes Bad'](https://www.michal-drozd.com/en/blog/ephemeral-port-exhaustion-kubernetes/)                                                                              |
+| File descriptor exhaustion prevents new connections                    | OnGres                            | [Millions of open file descriptors for /usr/bin causing downtime](https://gitlab.com/ongresinc/stackgres/-/work_items/3023)                                                                                    |
+| Secret rotation leaves processes with stale credentials                | Laravel                           | [After performing a horizon:terminate, new config is not picked up](https://github.com/laravel/horizon/issues/213)                                                                                             |
+| Restricted security policy blocks replacement pods                     | Unknown                           | [Pod Security Admission](https://kubernetes.io/docs/concepts/security/pod-security-admission/)                                                                                                                 |
+| CPU throttling causes latency despite low reported CPU usage           | Omio                              | [CPU limits and aggressive throttling](https://medium.com/omio-engineering/cpu-limits-and-aggressive-throttling-in-kubernetes-c5b20bd8a718)                                                                    |
+| Database lock contention blocks application queries                    | GoCardless                        | [Zero-downtime migrations: The hard parts](https://gocardless.com/blog/zero-downtime-postgres-migrations-the-hard-parts)                                                                                       |
+| Controller failure leaves resources stuck in deletion                  | Kubernetes issue #60807           | [deleting namespace stuck at "Terminating" state](https://github.com/kubernetes/kubernetes/issues/60807)                                                                                                       |
+| Long-running sidecar prevents job completion                           | Kubernetes issue #64056           | [CronJob successfulJobsHistoryLimit and failedJobsHistoryLimit not working](https://github.com/kubernetes/kubernetes/issues/64056)                                                                             |
+| Node clock drift causes TLS validation failures                        | Kubernetes issue #76714           | [PKI creation using now.UTC breaks after system clock drift corrections](https://github.com/kubernetes/kubernetes/issues/76714)                                                                                |
+| Cumulative webhook timeouts block admission despite fail-open settings | Kubernetes issue #128162          | [Pod admission can fail due to webhooks + context deadline exceeded, even when all webhooks are set to failurePolicy = Ignore](https://github.com/kubernetes/kubernetes/issues/128162)                         |
+| Webhook certificate mismatch blocks pod creation                       | OPA cert-controller issue #13     | [CA and Server certificate potentially get updated before ValidatingWebhookConfiguration](https://github.com/open-policy-agent/cert-controller/issues/13)                                                      |
+| Mutating webhook applies incorrect memory limits                       | Kubernetes autoscaler issue #8401 | [VPA: Pod memory limit exceeds recommendation and namespace quotas](https://github.com/kubernetes/autoscaler/issues/8401)                                                                                      |
+| Stale host mappings override service DNS resolution                    | Kubernetes doc                    | [Adding entries to Pod /etc/hosts with HostAlias](https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/)                                                     |
+| Integer identity sequence exhaustion blocks new database writes        | PostgreSQL doc                    | [Numeric types and integer limits](https://www.postgresql.org/docs/current/datatype-numeric.html)                                                                                                              |
+| Scheduled resource rebalancing repeatedly causes OOM failures          | Unnamed                           | [Contributor’s own experience](https://github.com/SREGym/SREGym/issues/862)                                                                                                                                    |
+| Local traffic policy makes services unreachable from some nodes        | Unnamed                           | [Contributor's own experience](https://github.com/SREGym/SREGym/issues/803)                                                                                                                                    |
+
+</div>
+
+## Common Practices and Recipes
+
+We observe a few common practices used by students as recipes for creating high-quality SRE benchmark problems.
+
+**Understanding and simulating root-cause faults.** The first step is typically to understand the root causes of the real-world failure and to find a way to simulate the faults in SREGym. In fact, as SREGym uses a Kubernetes-based cloud-native stack built atop open-source projects, most faults can be simulated or emulated effectively. A key design of the SREGym framework is to support custom fault injectors and their orchestration with existing fault injectors.
+
+**Triggering injected fault(s) to cause failure manifestation.** Given that SREGym is a small benchmark environment rather than a hyperscale system, a key challenge is to project the original failure manifestation to a corresponding one in SREGym. This is particularly challenging for noncrashing failures such as resource exhaustion and overloads. In such cases, students cleverly reduce the original resource limit of the system (e.g., using smaller caps on connections and file descriptors) to reliably trigger the failure without excessive resources. In some cases, they deploy additional services (e.g., using [Calico](https://kubernetes.io/docs/tasks/administer-cluster/network-policy-provider/calico-network-policy/) to limit the size of IP-address pools).
+
+**Making problems difficult.** Students invented multiple ways to challenge AI agents. For example, we observe that adding noise (irrelevant failure events) can distract AI from resolving the target failure. Resource-related failures that are accumulated over progressing workloads are harder to diagnose, compared with a sudden traffic surge. Partial failures with normal health metrics are harder to solve than complete outages. Students increase the difficulty level iteratively by experimenting with SREGym’s built-in SRE agents (called Stratus).
+
+**Preventing reward hacking as a first principle.** Reward hacking refers to the case where SRE agents did not truly understand the problem but reverse-engineered the fault injection. We have spent significant effort in preventing reward hacking of SRE agents at the framework level through different isolation mechanisms. However, the problem must also keep reward-hacking prevention in mind. The SREGym paper discussed a few such patterns in detail such as misuse of chaos-engineering tools (see Appendix B in the paper). Any artificial clues that cannot happen in real production systems should not be exposed to the agents under test.
+
+**Defining mitigation oracles with an adversarial mindset.** Given that AI could cheat with reward-hacking, students found that the mitigation oracle – which checks if the SRE agents truly resolve the failure – must be sound and comprehensive. Oftentimes, they must hold an adversarial mindset to emulate different cases that agents solve the failure only partially or temporarily and think through what a sound and complete oracle should be.
+
+## Quality Control
+
+We suggested students write an RFC if they need early feedback. We received 47 RFCs in total and provided early feedback. For PRs, we review if the implementation effectively simulates the fault described in the postmortem report. We manually tested all the contributed problems to understand the implementation and the manifestation of the injected faults and noises.
+
+One challenge is to evaluate the mitigation oracle – the mitigation oracle is expected to check system states, not the mitigation actions. In principle, the oracle should (1) fail without mitigation, (2) pass on any correct mitigations, and (3) fail on any incomplete or unsafe mitigation. However, manually checking (1)–(3) is costly and time-consuming.
+
+We hence developed semi-automated testing which instructs Claude Code or Codex to run the fault, inspect its behavior, and explore edge cases. Claude Code and Codex reveal edge cases that are missed by the implemented oracle, including both unsafe mitigation that incorrectly passed the oracle and correct mitigations that unexpectedly failed. We review those findings and improve the oracle (and, when necessary, the problem).
+
+## When AI Frontier Shifts
+
+The SRSE program was held in the summer of 2026, from May to August. In July, OpenAI released GPT-5.6 Sol and Anthropic released Claude Fable 5 (it was originally launched in June but temporarily cut off due to export control), both of which significantly shifted the AI frontier beyond Claude Opus and GPT-5.5. A few contributed problems were no longer challenging in front of Fable and Sol; we recently started to retire problems that are saturated by SOTA agents.
+
+Looking back, we did not proactively anticipate the rapid advancement of frontier AI, and did not have an effective plan to help students evolve the challenge level of their SREGym problems. Today, we are experimenting with ways to automatically evolve problems through automated mechanisms such as increasing the noise levels and enlarging system scale.
+
+## Future Endeavour
+
+Our experience shows that curating a high-quality SRE benchmark is challenging and expensive. Each problem requires deep understanding of the target failure, creativity to project the failure onto the SREGym environment, and perseverance to interact with AI and iteratively increase the difficulty level of the problems. On the other hand, we believe much of the manual effort could be automated, as demonstrated by several recent auto-research and auto-benchmark research. Our summer exercise has helped us understand the process and one next step is to prompt AI agents to read postmortems and write new benchmark problems.
+
+If you have a hard SRE problem and want to challenge frontier AI, give it a try on SREGym!
+
+## Student Contributors
+
+The following students contributed to the 31 problems merged to SREGym. You can find their great work at [this link (issue #779 of SREGym)](https://github.com/SREGym/SREGym/issues/779).
+
+<div className="blog-reference-table blog-contributor-table" role="region" aria-label="Student contributors and affiliations" tabIndex={0}>
+
+| Name                          | Affiliation                                                  |
+| ----------------------------- | ------------------------------------------------------------ |
+| Abdallah Adel                 | Egypt-Japan University of Science and Technology             |
+| Alexander Levin               | University of Amsterdam                                      |
+| Arya Shahsavar                | TAPSI                                                        |
+| Ermias Mulugeta Teklehaimanot | AIGOT                                                        |
+| George Angelov                | University of Illinois Urbana Champaign                      |
+| Haaniah Ismail                | National University of Computer and Emerging Sciences (FAST) |
+| Jaber Ahmed Deedar            | Bangladesh University of Engineering and Technology          |
+| Jack Jiang                    | University of Illinois Urbana Champaign                      |
+| James Weng                    | University of Illinois Urbana Champaign                      |
+| Kerem Akcalioglu              | Middle East Technical University                             |
+| Mahdiya Rahman Sukanya        | University of Dhaka                                          |
+| Mohamad El Harake             | American University of Beirut                                |
+| Mohammad Elsharqawy           | Tanta University                                             |
+| Mohammad Tamimul Ehsan        | Nanyang Technological University                             |
+| Muhammad Abdullah             | Lahore University of Management Sciences                     |
+| Munim Thahmid                 | Bangladesh University of Engineering and Technology          |
+| Nazmus Sakib                  | BRAC University                                              |
+| Omar Faruqe Riyad             | Shahjalal University of Science and Technology               |
+| Partho Kunda                  | Enosis Solutions                                             |
+| Petr Myagkov                  | University of Illinois Urbana Champaign                      |
+| Redwanul Karim                | Bangladesh University of Engineering and Technology          |
+| Sai Hari Krishnan             | University of Maryland                                       |
+| Sami Khan                     | EXO Labs                                                     |
+| Srivishnu Vusirikala          | University of Illinois Urbana Champaign                      |
+| Sumaiya Islam                 | University of Dhaka                                          |
+| Talha Asif                    | University of Lahore                                         |
+| Tanzim Hossain Romel          | University of Alberta                                        |
+| Tejas Shukla                  | National Institute of Technology Silchar                     |
+| Varuni HK                     | Independent Contributor                                      |
+
+</div>

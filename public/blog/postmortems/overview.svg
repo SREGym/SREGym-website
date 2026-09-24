@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500" role="img" aria-labelledby="title description">
+  <title id="title">From postmortems to SREGym problems</title>
+  <desc id="description">Postmortem reports of real incidents and their causes become reproducible faults in SREGym for testing SRE agents.</desc>
+  <style>
+    :root {
+      --paper: #ffffff;
+      --ink: #252b33;
+      --muted: #626b75;
+      --rule: #dde2e7;
+      --blue: #4f749b;
+      --blue-bg: #edf3f9;
+      --orange: #b77432;
+      --orange-bg: #fff3da;
+    }
+    /* Embedded SVGs follow the host image's color-scheme, including the site toggle. */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --paper: #1c1f24;
+        --ink: #d2d0cb;
+        --muted: #b7bec8;
+        --rule: #353e4b;
+        --blue: #8db5e2;
+        --blue-bg: #242f3e;
+        --orange: #e7ad70;
+        --orange-bg: #393126;
+      }
+    }
+    text { font-family: Arial, Helvetica, sans-serif; }
+    .heading { fill: var(--ink); font-size: 36px; font-weight: 700; }
+    .label { fill: var(--ink); font-size: 28px; font-weight: 700; text-anchor: middle; }
+    .detail { fill: var(--muted); font-size: 20px; text-anchor: middle; }
+    .icon { fill: none; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
+  </style>
+
+  <path fill="var(--paper)" d="M0 0h800v500H0z"/>
+  <text class="heading" x="35" y="61">From postmortems to SREGym problems</text>
+  <path stroke="var(--rule)" stroke-width="1.5" d="M35 96h730"/>
+
+  <rect x="35" y="146" width="330" height="309" rx="12" fill="var(--blue-bg)" stroke="var(--blue)" stroke-width="2"/>
+  <g class="icon" stroke="var(--blue)">
+    <path d="M171 202h37l21 21v59h-58z"/>
+    <path d="M208 202v21h21M184 241h30M184 254h30M184 267h21"/>
+  </g>
+  <text class="label" x="200" y="345">Postmortem reports</text>
+  <text class="detail" x="200" y="391">Real incidents</text>
+  <text class="detail" x="200" y="417">and their causes</text>
+
+  <path class="icon" stroke="var(--muted)" d="M376 300h48m-13-13 13 13-13 13"/>
+
+  <rect x="435" y="146" width="330" height="309" rx="12" fill="var(--orange-bg)" stroke="var(--orange)" stroke-width="2"/>
+  <g class="icon" stroke="var(--orange)">
+    <rect x="560" y="213" width="80" height="62" rx="6"/>
+    <path d="m576 230 14 14-14 14m28 0h18"/>
+  </g>
+  <text class="label" x="600" y="345">SREGym problems</text>
+  <text class="detail" x="600" y="391">Reproducible faults</text>
+  <text class="detail" x="600" y="417">to test SRE agents</text>
+</svg>
