@@ -254,8 +254,19 @@
   overflow-wrap: anywhere;
   color: var(--foreground);
 }
+.dark .blog-prose {
+  color: #bdbbb6;
+  --tw-prose-body: #bdbbb6;
+}
 .blog-prose :where(p, li) {
   color: inherit;
+}
+.blog-prose strong {
+  font-weight: 600;
+}
+.dark .blog-prose strong {
+  color: var(--heading-foreground);
+  font-weight: 700;
 }
 .blog-prose :where(h2, h3) {
   scroll-margin-top: 96px;
