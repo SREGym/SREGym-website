@@ -107,8 +107,8 @@ test("postmortem article preserves its reference tables and omits draft placehol
   assert.ok(!article.includes("postmodern"));
   const tables = [...article.matchAll(/<table\b[^>]*>(.*?)<\/table>/gs)];
   assert.equal(tables.length, 2);
-  // The source has 30 populated problem entries and 29 contributors.
-  assert.equal([...tables[0][1].matchAll(/<tr\b/g)].length, 31);
+  // The source has 31 populated problem entries and 29 contributors.
+  assert.equal([...tables[0][1].matchAll(/<tr\b/g)].length, 32);
   assert.equal([...tables[1][1].matchAll(/<tr\b/g)].length, 30);
   assert.ok(article.includes("https://github.com/SREGym/SREGym/issues/779"));
   assert.ok(article.includes("https://uiuc-srse.github.io/"));

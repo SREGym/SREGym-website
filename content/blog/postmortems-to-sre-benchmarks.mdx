@@ -58,7 +58,7 @@ In this blog, we **share the experience of curating SRE benchmark problems from 
 
 ## Problem Curation
 
-We gave students freedom to choose postmortem reports based on their interests and prior experience. In the PR, they describe the failure and the methodology of simulating it on SREGym. Some students chose reported issues by mining software repositories (e.g., Kubernetes) and by reading software documents, which we also accepted. Two contributors wrote the problems based on their own experience of operating real-world systems.
+We gave students freedom to choose postmortem reports based on their interests and prior experience. In the PR, they describe the failure and the methodology of simulating it on SREGym. Some students chose reported issues by mining software repositories (e.g., Kubernetes) and by reading software documents, which we also accepted. Three contributors wrote the problems based on their own experience of operating real-world systems.
 
 The following table lists problems contributed by students.
 
@@ -86,6 +86,7 @@ The following table lists problems contributed by students.
 | Restricted security policy blocks replacement pods                     | Unknown                           | [Pod Security Admission](https://kubernetes.io/docs/concepts/security/pod-security-admission/)                                                                                                                 |
 | CPU throttling causes latency despite low reported CPU usage           | Omio                              | [CPU limits and aggressive throttling](https://medium.com/omio-engineering/cpu-limits-and-aggressive-throttling-in-kubernetes-c5b20bd8a718)                                                                    |
 | Database lock contention blocks application queries                    | GoCardless                        | [Zero-downtime migrations: The hard parts](https://gocardless.com/blog/zero-downtime-postgres-migrations-the-hard-parts)                                                                                       |
+| Misconfigured kubelet eviction threshold repeatedly evicts pods        | Unnamed                           | [Contributor's own experience](https://github.com/SREGym/SREGym/pull/800)                                                                                                                                      |
 | Controller failure leaves resources stuck in deletion                  | Kubernetes issue #60807           | [deleting namespace stuck at "Terminating" state](https://github.com/kubernetes/kubernetes/issues/60807)                                                                                                       |
 | Long-running sidecar prevents job completion                           | Kubernetes issue #64056           | [CronJob successfulJobsHistoryLimit and failedJobsHistoryLimit not working](https://github.com/kubernetes/kubernetes/issues/64056)                                                                             |
 | Node clock drift causes TLS validation failures                        | Kubernetes issue #76714           | [PKI creation using now.UTC breaks after system clock drift corrections](https://github.com/kubernetes/kubernetes/issues/76714)                                                                                |
@@ -139,36 +140,36 @@ The following students contributed to the 31 problems merged to SREGym. You can 
 
 <div className="blog-reference-table blog-contributor-table" role="region" aria-label="Student contributors and affiliations" tabIndex={0}>
 
-| Name                          | Affiliation                                                  |
-| ----------------------------- | ------------------------------------------------------------ |
-| Abdallah Adel                 | Egypt-Japan University of Science and Technology             |
-| Alexander Levin               | University of Amsterdam                                      |
-| Arya Shahsavar                | TAPSI                                                        |
-| Ermias Mulugeta Teklehaimanot | AIGOT                                                        |
-| George Angelov                | University of Illinois Urbana Champaign                      |
-| Haaniah Ismail                | National University of Computer and Emerging Sciences        |
-| Jaber Ahmed Deedar            | Bangladesh University of Engineering and Technology          |
-| Jack Jiang                    | University of Illinois Urbana Champaign                      |
-| James Weng                    | University of Illinois Urbana Champaign                      |
-| Kerem Akcalioglu              | Middle East Technical University                             |
-| Mahdiya Rahman Sukanya        | University of Dhaka                                          |
-| Mohamad El Harake             | American University of Beirut                                |
-| Mohammad Elsharqawy           | Tanta University                                             |
-| Mohammad Tamimul Ehsan        | Nanyang Technological University                             |
-| Muhammad Abdullah             | Lahore University of Management Sciences                     |
-| Munim Thahmid                 | Bangladesh University of Engineering and Technology          |
-| Nazmus Sakib                  | BRAC University                                              |
-| Omar Faruqe Riyad             | Shahjalal University of Science and Technology               |
-| Partho Kunda                  | Enosis Solutions                                             |
-| Petr Myagkov                  | University of Illinois Urbana Champaign                      |
-| Redwanul Karim                | Bangladesh University of Engineering and Technology          |
-| Sai Hari Krishnan             | University of Maryland                                       |
-| Sami Khan                     | EXO Labs                                                     |
-| Srivishnu Vusirikala          | University of Illinois Urbana Champaign                      |
-| Sumaiya Islam                 | University of Dhaka                                          |
-| Talha Asif                    | University of Lahore                                         |
-| Tanzim Hossain Romel          | University of Alberta                                        |
-| Tejas Shukla                  | National Institute of Technology Silchar                     |
-| Varuni HK                     | Couchbase                                                    |
+| Name                          | Affiliation                                           |
+| ----------------------------- | ----------------------------------------------------- |
+| Abdallah Adel                 | Egypt-Japan University of Science and Technology      |
+| Alexander Levin               | University of Amsterdam                               |
+| Arya Shahsavar                | TAPSI                                                 |
+| Ermias Mulugeta Teklehaimanot | AIGOT                                                 |
+| George Angelov                | University of Illinois Urbana Champaign               |
+| Haaniah Ismail                | National University of Computer and Emerging Sciences |
+| Jaber Ahmed Deedar            | Bangladesh University of Engineering and Technology   |
+| Jack Jiang                    | University of Illinois Urbana Champaign               |
+| James Weng                    | University of Illinois Urbana Champaign               |
+| Kerem Akcalioglu              | Middle East Technical University                      |
+| Mahdiya Rahman Sukanya        | University of Dhaka                                   |
+| Mohamad El Harake             | American University of Beirut                         |
+| Mohammad Elsharqawy           | Tanta University                                      |
+| Mohammad Tamimul Ehsan        | Nanyang Technological University                      |
+| Muhammad Abdullah             | Lahore University of Management Sciences              |
+| Munim Thahmid                 | Bangladesh University of Engineering and Technology   |
+| Nazmus Sakib                  | BRAC University                                       |
+| Omar Faruqe Riyad             | Shahjalal University of Science and Technology        |
+| Partho Kunda                  | Enosis Solutions                                      |
+| Petr Myagkov                  | University of Illinois Urbana Champaign               |
+| Redwanul Karim                | Bangladesh University of Engineering and Technology   |
+| Sai Hari Krishnan             | University of Maryland                                |
+| Sami Khan                     | EXO Labs                                              |
+| Srivishnu Vusirikala          | University of Illinois Urbana Champaign               |
+| Sumaiya Islam                 | University of Dhaka                                   |
+| Talha Asif                    | University of Lahore                                  |
+| Tanzim Hossain Romel          | University of Alberta                                 |
+| Tejas Shukla                  | National Institute of Technology Silchar              |
+| Varuni HK                     | Couchbase                                             |
 
 </div>
