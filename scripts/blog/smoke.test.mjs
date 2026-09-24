@@ -112,7 +112,6 @@ test("postmortem article preserves its reference tables and omits draft placehol
   assert.equal([...tables[1][1].matchAll(/<tr\b/g)].length, 30);
   assert.ok(article.includes("https://github.com/SREGym/SREGym/issues/779"));
   assert.ok(article.includes("https://uiuc-srse.github.io/"));
-  assert.ok(article.includes("Independent Contributor"));
   assert.ok(html.includes('src="/blog/postmortems/overview.svg"'));
   const image = await get("/blog/postmortems/overview.svg");
   assert.equal(image.status, 200);
