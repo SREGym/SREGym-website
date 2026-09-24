@@ -20,7 +20,7 @@ async function get(path) {
 const pages = [
   { path: "/blog" },
   { path: "/blog/jev-sregym-lite", authors: 4 },
-  { path: "/blog/postmortems-to-sre-benchmarks", authors: 10 },
+  { path: "/blog/postmortems-to-sre-benchmarks", authors: 11 },
 ];
 
 for (const { path, authors } of pages) {
