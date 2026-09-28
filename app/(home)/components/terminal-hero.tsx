@@ -317,12 +317,12 @@ export function TerminalHero() {
     };
   }, []);
 
-  // Auto-scroll to bottom
+  // Auto-scroll to bottom (not during intro, where the invisible remainder reserves space)
   useEffect(() => {
-    if (contentRef.current) {
+    if (done && contentRef.current) {
       contentRef.current.scrollTop = contentRef.current.scrollHeight;
     }
-  }, [history, inputBuffer, charIndex]);
+  }, [history, inputBuffer, done]);
 
   // Focus terminal when animation finishes
   useEffect(() => {
@@ -450,16 +450,23 @@ export function TerminalHero() {
 
             {/* Blinking cursor */}
             <span className="animate-blink">&#x2588;</span>
+
+            {/* Reserve the final height during the intro so content below doesn't shift */}
+            {!done && (
+              <span className="invisible">
+                {sections.map((s) => s.text).join("").slice(charIndex)}
+              </span>
+            )}
           </pre>
         </div>
       </div>
 
       {/* Mobile hint */}
-      {done && (
-        <p className="sm:hidden text-xs text-muted-foreground text-center mt-2 font-mono">
-          Interactive terminal available on desktop
-        </p>
-      )}
+      <p
+        className={`sm:hidden text-xs text-muted-foreground text-center mt-2 font-mono ${done ? "" : "invisible"}`}
+      >
+        Interactive terminal available on desktop
+      </p>
     </div>
   );
 }
