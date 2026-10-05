@@ -27,6 +27,7 @@ interface DataTableProps<TData, TValue> {
   className?: string;
   initialSort?: { id: string; desc: boolean };
   columnVisibility?: VisibilityState;
+  footnote?: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -35,6 +36,7 @@ export function DataTable<TData, TValue>({
   className,
   initialSort,
   columnVisibility = {},
+  footnote,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>(
     initialSort ? [initialSort] : [],
@@ -107,6 +109,7 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
       <div className="text-muted-foreground border-t px-6 py-4 text-xs leading-relaxed">
+        {footnote && <p className="mb-2">{footnote}</p>}
         <p>
           <span className="text-foreground">Diag.</span> Diagnosis success rate
           · <span className="text-foreground">Mit.</span> Mitigation success

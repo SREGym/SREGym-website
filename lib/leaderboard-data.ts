@@ -1,5 +1,8 @@
 export type RunEntry = {
   agent: string;
+  thirdParty?: {
+    website: string;
+  };
   model: string;
   noise: boolean;
   diagPct: number;
@@ -13,6 +16,25 @@ export type RunEntry = {
 export type RankedRunEntry = RunEntry & {
   rank: number;
 };
+
+export const THIRD_PARTY_SUBMISSION_NOTE =
+  "* Third-party submissions. Results verified by the SREGym team.";
+
+export function parseTokenCount(tokens: string): number {
+  const value = parseFloat(tokens.replace(/,/g, ""));
+  if (tokens.endsWith("M")) return value * 1_000_000;
+  if (tokens.endsWith("K")) return value * 1_000;
+  return value;
+}
+
+const tokenFormatter = new Intl.NumberFormat("en-US", {
+  notation: "compact",
+  maximumSignificantDigits: 3,
+});
+
+export function formatTokenCount(tokens: string): string {
+  return tokenFormatter.format(parseTokenCount(tokens));
+}
 
 export type LeaderboardBenchmark = {
   id: string;
@@ -172,86 +194,145 @@ export const runLeaderboardData: RunEntry[] = [
   },
 ];
 
-// Results use all 21 SREGym-Lite faults and three attempts per fault. Missing
+// Results use the 17 active SREGym-Lite-1004 faults and three attempts per fault.
+// The four deprecated faults from the 21-fault cohort are excluded. Missing
 // attempts and timeouts count as failures; time means use runs with recorded
 // values.
 export const liteLeaderboardData: RunEntry[] = [
   {
-    agent: "Claude Code",
-    model: "Claude Opus 5",
+    agent: "Codex",
+    model: "GPT-6 Astra (max)",
     noise: false,
-    diagPct: 92.1,
-    mitPct: 82.5,
-    e2ePct: 76.2,
-    ttdSeconds: 210.1,
-    ttmSeconds: 419.8,
-    tokens: "1.64M",
+    diagPct: 96.1,
+    mitPct: 100.0,
+    e2ePct: 96.1,
+    ttdSeconds: 173.1,
+    ttmSeconds: 287.6,
+    tokens: "719K",
   },
   {
-    agent: "Claude Code",
-    model: "Claude Opus 4.8",
+    agent: "Codex",
+    model: "GPT-6 Astra (medium)",
     noise: false,
-    diagPct: 66.7,
-    mitPct: 63.5,
-    e2ePct: 52.4,
-    ttdSeconds: 324.4,
-    ttmSeconds: 503.1,
-    tokens: "1.66M",
+    diagPct: 100.0,
+    mitPct: 90.2,
+    e2ePct: 90.2,
+    ttdSeconds: 92.0,
+    ttmSeconds: 138.4,
+    tokens: "377K",
   },
   {
-    agent: "Claude Code",
-    model: "Claude Sonnet 5",
+    agent: "Codex",
+    model: "GPT-6.1 Sol (max)",
     noise: false,
-    diagPct: 63.5,
-    mitPct: 69.8,
-    e2ePct: 55.6,
-    ttdSeconds: 271.5,
-    ttmSeconds: 450.2,
-    tokens: "2.95M",
+    diagPct: 98.0,
+    mitPct: 90.2,
+    e2ePct: 90.2,
+    ttdSeconds: 217.4,
+    ttmSeconds: 371.6,
+    tokens: "807K",
+  },
+  {
+    agent: "Codex",
+    model: "GPT-6.1 Sol (medium)",
+    noise: false,
+    diagPct: 98.0,
+    mitPct: 90.2,
+    e2ePct: 90.2,
+    ttdSeconds: 103.8,
+    ttmSeconds: 156.6,
+    tokens: "462K",
   },
   {
     agent: "Codex",
     model: "GPT-5.6 Sol (max)",
     noise: false,
-    diagPct: 95.2,
-    mitPct: 85.7,
-    e2ePct: 81.0,
-    ttdSeconds: 211.0,
-    ttmSeconds: 397.0,
-    tokens: "1.42M",
+    diagPct: 94.1,
+    mitPct: 82.4,
+    e2ePct: 76.5,
+    ttdSeconds: 225.1,
+    ttmSeconds: 409.7,
+    tokens: "1.54M",
   },
   {
-    agent: "Codex",
-    model: "GPT-5.6 Sol (medium)",
+    agent: "CloudThinker",
+    thirdParty: {
+      website: "https://cloudthinker.io/",
+    },
+    model: "Claude Opus 5",
     noise: false,
-    diagPct: 77.8,
-    mitPct: 71.4,
-    e2ePct: 58.7,
-    ttdSeconds: 108.2,
-    ttmSeconds: 270.6,
-    tokens: "0.77M",
+    diagPct: 94.1,
+    mitPct: 80.4,
+    e2ePct: 76.5,
+    ttdSeconds: 517.8,
+    ttmSeconds: 759.1,
+    tokens: "1.56M",
   },
   {
-    agent: "Codex",
-    model: "GPT-5.6 Luna (max)",
+    agent: "Claude Code",
+    model: "Claude Opus 5",
     noise: false,
-    diagPct: 87.3,
-    mitPct: 79.4,
-    e2ePct: 68.3,
-    ttdSeconds: 284.0,
-    ttmSeconds: 492.9,
-    tokens: "2.74M",
+    diagPct: 90.2,
+    mitPct: 78.4,
+    e2ePct: 70.6,
+    ttdSeconds: 241.8,
+    ttmSeconds: 466.2,
+    tokens: "1.86M",
   },
   {
     agent: "Codex",
     model: "GPT-5.6 Terra (max)",
     noise: false,
-    diagPct: 85.7,
-    mitPct: 79.4,
-    e2ePct: 69.8,
-    ttdSeconds: 214.7,
-    ttmSeconds: 415.8,
-    tokens: "1.68M",
+    diagPct: 82.4,
+    mitPct: 74.5,
+    e2ePct: 62.7,
+    ttdSeconds: 233.1,
+    ttmSeconds: 444.9,
+    tokens: "1.88M",
+  },
+  {
+    agent: "Codex",
+    model: "GPT-5.6 Luna (max)",
+    noise: false,
+    diagPct: 84.3,
+    mitPct: 74.5,
+    e2ePct: 60.8,
+    ttdSeconds: 306.0,
+    ttmSeconds: 517.7,
+    tokens: "2.97M",
+  },
+  {
+    agent: "Codex",
+    model: "GPT-5.6 Sol (medium)",
+    noise: false,
+    diagPct: 72.5,
+    mitPct: 64.7,
+    e2ePct: 49.0,
+    ttdSeconds: 117.6,
+    ttmSeconds: 295.0,
+    tokens: "868K",
+  },
+  {
+    agent: "Claude Code",
+    model: "Claude Sonnet 5",
+    noise: false,
+    diagPct: 54.9,
+    mitPct: 62.7,
+    e2ePct: 45.1,
+    ttdSeconds: 308.6,
+    ttmSeconds: 505.2,
+    tokens: "3.37M",
+  },
+  {
+    agent: "Claude Code",
+    model: "Claude Opus 4.8",
+    noise: false,
+    diagPct: 58.8,
+    mitPct: 54.9,
+    e2ePct: 41.2,
+    ttdSeconds: 360.2,
+    ttmSeconds: 553.7,
+    tokens: "1.85M",
   },
 ];
 
@@ -372,9 +453,9 @@ export const lite0720LeaderboardData: RunEntry[] = [
 
 export const leaderboardBenchmarks: LeaderboardBenchmark[] = [
   {
-    id: "sregym-lite-0904",
+    id: "sregym-lite-1004",
     label: "SREGym-Lite",
-    summary: "SREGym-Lite-0904 · 21 faults",
+    summary: "SREGym-Lite-1004 · 17 faults",
     supportsNoise: false,
     cohortHref: "/problems/cohorts/sregym-lite",
     entries: liteLeaderboardData,

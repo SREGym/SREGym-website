@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { getSregymLite0904Problems } from "@/lib/cohort-data";
+import { getSregymLite1004Problems } from "@/lib/cohort-data";
 import { getDefaultTasks } from "@/lib/problems-data";
 import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
@@ -16,13 +16,14 @@ import Link from "next/link";
 import { LiteCohortProblemList } from "../components/lite-cohort-problem-list";
 
 export const metadata: Metadata = {
-  title: "SREGym-Lite-0904 Cohort",
-  description: "The current 21-fault cohort used for SREGym-Lite-0904 results.",
+  title: "SREGym-Lite-1004 Cohort",
+  description:
+    "The 17 active faults used for SREGym-Lite-1004 results, excluding four deprecated faults from the previous cohort.",
 };
 
 export default async function SregymLiteCohortPage() {
   const [cohortProblems, catalogTasks] = await Promise.all([
-    getSregymLite0904Problems(),
+    getSregymLite1004Problems(),
     getDefaultTasks(),
   ]);
   const catalogProblemIds = new Set(catalogTasks.map((task) => task.id));
@@ -45,7 +46,7 @@ export default async function SregymLiteCohortPage() {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>SREGym-Lite-0904</BreadcrumbPage>
+              <BreadcrumbPage>SREGym-Lite-1004</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -54,15 +55,16 @@ export default async function SregymLiteCohortPage() {
           <div className="space-y-3">
             <div className="flex flex-wrap items-center gap-2">
               <h1 className="font-mono text-4xl tracking-tighter">
-                SREGym-Lite-0904 Cohort
+                SREGym-Lite-1004 Cohort
               </h1>
               <Badge variant="secondary" className="font-mono">
-                21 faults
+                {problems.length} faults
               </Badge>
             </div>
             <p className="text-muted-foreground max-w-2xl font-mono text-sm sm:text-base">
-              The current fault cohort used for SREGym-Lite-0904 leaderboard
-              results.
+              The 17 active faults used for SREGym-Lite-1004 leaderboard
+              results. Four deprecated faults from the previous 21-fault cohort
+              are excluded.
             </p>
           </div>
 

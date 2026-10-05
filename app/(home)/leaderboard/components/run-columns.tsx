@@ -11,7 +11,11 @@ import Claude from "@lobehub/icons/es/Claude";
 import ZAI from "@lobehub/icons/es/ZAI";
 import OpenAI from "@lobehub/icons/es/OpenAI";
 import Kimi from "@lobehub/icons/es/Kimi";
-import { RankedRunEntry } from "@/lib/leaderboard-data";
+import {
+  formatTokenCount,
+  parseTokenCount,
+  RankedRunEntry,
+} from "@/lib/leaderboard-data";
 
 function BestInColumn({ value, isBest }: { value: string; isBest: boolean }) {
   if (isBest) {
@@ -45,7 +49,7 @@ function SortableHeader({
 
   const button = (
     <button
-      className="cursor-pointer select-none whitespace-nowrap opacity-80 hover:opacity-100 transition-opacity"
+      className="cursor-pointer whitespace-nowrap opacity-80 transition-opacity select-none hover:opacity-100"
       onClick={() => column.toggleSorting(sorted === "asc")}
     >
       {label}
@@ -73,10 +77,8 @@ function ModelIcon({ model }: { model: string }) {
     return <Claude.Avatar size={28} />;
   if (lower.includes("gpt") || lower.includes("codex"))
     return <OpenAI.Avatar size={28} background="#fff" color="#000" />;
-  if (lower.includes("kimi"))
-    return <Kimi.Avatar size={28} />;
-  if (lower.includes("glm"))
-    return <ZAI.Avatar size={28} />;
+  if (lower.includes("kimi")) return <Kimi.Avatar size={28} />;
+  if (lower.includes("glm")) return <ZAI.Avatar size={28} />;
   return null;
 }
 
@@ -111,14 +113,37 @@ export const runColumns: ColumnDef<RankedRunEntry>[] = [
   {
     accessorKey: "agent",
     header: ({ column }) => <SortableHeader column={column} label="Agent" />,
+    cell: ({ row }) => {
+      const { agent, thirdParty } = row.original;
+      if (!thirdParty) return <span>{agent}</span>;
+
+      return (
+        <a
+          href={thirdParty.website}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group"
+        >
+          <span className="underline-offset-4 group-hover:underline group-focus-visible:underline">
+            {agent}
+          </span>
+          <sup
+            className="ml-0.5 text-xs"
+            aria-label="Third-party submission, verified by SREGym"
+          >
+            *
+          </sup>
+        </a>
+      );
+    },
   },
   {
     accessorKey: "model",
     header: ({ column }) => <SortableHeader column={column} label="Model" />,
     cell: ({ row }) => (
       <div className="flex items-center gap-2">
-        <div className="bg-white rounded-full border">
-        <ModelIcon model={row.original.model} />
+        <div className="rounded-full border bg-white">
+          <ModelIcon model={row.original.model} />
         </div>
         <span>{row.original.model}</span>
       </div>
@@ -129,7 +154,7 @@ export const runColumns: ColumnDef<RankedRunEntry>[] = [
     header: () => (
       <HoverCard openDelay={0} closeDelay={0}>
         <HoverCardTrigger asChild>
-          <span className="cursor-help opacity-80 hover:opacity-100 transition-opacity">
+          <span className="cursor-help opacity-80 transition-opacity hover:opacity-100">
             Noise
           </span>
         </HoverCardTrigger>
@@ -233,6 +258,15 @@ export const runColumns: ColumnDef<RankedRunEntry>[] = [
   },
   {
     accessorKey: "tokens",
+    sortingFn: (a, b) =>
+      parseTokenCount(a.original.tokens) - parseTokenCount(b.original.tokens),
+    cell: ({ row }) => (
+      <span
+        title={parseTokenCount(row.original.tokens).toLocaleString("en-US")}
+      >
+        {formatTokenCount(row.original.tokens)}
+      </span>
+    ),
     header: ({ column }) => (
       <SortableHeader
         column={column}
