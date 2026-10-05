@@ -10,7 +10,12 @@ import {
   LabelList,
   ResponsiveContainer,
 } from "recharts";
-import { RankedRunEntry } from "@/lib/leaderboard-data";
+import {
+  formatTokenCount,
+  parseTokenCount,
+  RankedRunEntry,
+  THIRD_PARTY_SUBMISSION_NOTE,
+} from "@/lib/leaderboard-data";
 
 const metricTabs = [
   { key: "e2ePct", label: "E2E (%)", suffix: "%" },
@@ -22,10 +27,6 @@ const metricTabs = [
 ] as const;
 
 type MetricKey = (typeof metricTabs)[number]["key"];
-
-function parseTokens(t: string): number {
-  return parseFloat(t.replace(/[KM]/g, "")) * (t.includes("M") ? 1000 : 1);
-}
 
 function CustomTick({
   x,
@@ -67,18 +68,19 @@ export function LeaderboardChart({ data }: { data: RankedRunEntry[] }) {
   const [metric, setMetric] = React.useState<MetricKey>("e2ePct");
   const tab = metricTabs.find((t) => t.key === metric)!;
   const hasNoisyRuns = data.some((entry) => entry.noise);
+  const hasThirdPartySubmissions = data.some((entry) => entry.thirdParty);
 
   const chartData = [...data]
     .sort((a, b) => a.rank - b.rank)
     .map((d) => ({
-      name: `${d.agent}${d.noise ? " ✱" : ""}\n${d.model}`,
+      name: `${d.agent}${d.thirdParty ? " *" : ""}${d.noise ? " ✱" : ""}\n${d.model}`,
       value:
         metric === "tokens"
-          ? parseTokens(d.tokens)
+          ? parseTokenCount(d.tokens)
           : (d[metric as keyof RankedRunEntry] as number),
       display:
         metric === "tokens"
-          ? d.tokens
+          ? formatTokenCount(d.tokens)
           : `${d[metric as keyof RankedRunEntry]}${tab.suffix}`,
     }));
 
@@ -135,9 +137,10 @@ export function LeaderboardChart({ data }: { data: RankedRunEntry[] }) {
           </ResponsiveContainer>
         </div>
       </div>
-      {hasNoisyRuns && (
-        <div className="text-muted-foreground border-t px-6 py-3 text-xs">
-          ✱ = noisy environment
+      {(hasNoisyRuns || hasThirdPartySubmissions) && (
+        <div className="text-muted-foreground space-y-2 border-t px-6 py-3 text-xs">
+          {hasThirdPartySubmissions && <p>{THIRD_PARTY_SUBMISSION_NOTE}</p>}
+          {hasNoisyRuns && <p>✱ = noisy environment</p>}
         </div>
       )}
     </div>

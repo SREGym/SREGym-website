@@ -7,6 +7,7 @@ import {
   LeaderboardBenchmark,
   RunEntry,
   RankedRunEntry,
+  THIRD_PARTY_SUBMISSION_NOTE,
 } from "@/lib/leaderboard-data";
 import Link from "next/link";
 import { runColumns } from "./run-columns";
@@ -156,6 +157,11 @@ export function LeaderboardClient({
           data={ranked}
           initialSort={{ id: "rank", desc: false }}
           columnVisibility={{ noise: benchmark.supportsNoise }}
+          footnote={
+            ranked.some((entry) => entry.thirdParty)
+              ? THIRD_PARTY_SUBMISSION_NOTE
+              : undefined
+          }
         />
       ) : (
         <LeaderboardChart data={ranked} />

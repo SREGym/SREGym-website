@@ -39,6 +39,14 @@ const SREGYM_LITE_0904_MANIFEST_PATH = path.join(
   "sregym-lite-0904-problems.csv",
 );
 
+// Matches the active Lite suite after SREGym/SREGym PR #999 (a90b43c).
+const SREGYM_LITE_1004_MANIFEST_PATH = path.join(
+  process.cwd(),
+  "public",
+  "data",
+  "sregym-lite-1004-problems.csv",
+);
+
 export function getSregym0508Problems(): CohortProblem[] {
   const [, ...rows] = fs
     .readFileSync(SREGYM_0508_MANIFEST_PATH, "utf-8")
@@ -101,6 +109,14 @@ export function getSregymLite0904Problems(): LiteCohortProblem[] {
     SREGYM_LITE_0904_MANIFEST_PATH,
     "SREGym-Lite-0904",
     21,
+  );
+}
+
+export function getSregymLite1004Problems(): LiteCohortProblem[] {
+  return getLiteCohortProblems(
+    SREGYM_LITE_1004_MANIFEST_PATH,
+    "SREGym-Lite-1004",
+    17,
   );
 }
 

@@ -1,6 +1,9 @@
 "use client";
 
-import { liteLeaderboardData } from "@/lib/leaderboard-data";
+import {
+  liteLeaderboardData,
+  THIRD_PARTY_SUBMISSION_NOTE,
+} from "@/lib/leaderboard-data";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
@@ -17,10 +20,10 @@ export function LeaderboardPreview() {
     <div className="flex w-full flex-col items-center gap-6">
       <div className="space-y-1 text-center font-mono">
         <h2 className="text-xl font-semibold tracking-tight">
-          SREGym-Lite results
+          SREGym-Lite-1004 results
         </h2>
         <p className="text-muted-foreground text-sm">
-          Top results on curated 21-fault cohort.
+          Top results on the curated 17-fault cohort.
         </p>
       </div>
       <div className="w-full max-w-6xl">
@@ -29,6 +32,11 @@ export function LeaderboardPreview() {
           data={topResults}
           initialSort={{ id: "rank", desc: false }}
           columnVisibility={{ noise: false }}
+          footnote={
+            topResults.some((entry) => entry.thirdParty)
+              ? THIRD_PARTY_SUBMISSION_NOTE
+              : undefined
+          }
         />
       </div>
       <Link
