@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
-import { Download } from "lucide-react";
 import data from "@/content/blog/_data/jev-diagnosis.json";
 import "./jev-diagnosis.css";
 
@@ -268,8 +267,6 @@ export function JevDiagnosisExplorer() {
     dismissTooltip();
   }
 
-  const download = `data:application/json;charset=utf-8,${encodeURIComponent(JSON.stringify({ updated: data.updated, ...data.comparison }, null, 2))}`;
-
   return (
     <figure
       className="jev-explorer not-prose"
@@ -285,14 +282,6 @@ export function JevDiagnosisExplorer() {
               Diagnosis performance vs. {axis === "time" ? "time" : "cost"}
             </h3>
           </div>
-          <a
-            className="jev-icon-button"
-            href={download}
-            download="jev-diagnosis-comparison.json"
-            aria-label="Download comparison data"
-          >
-            <Download size={17} />
-          </a>
         </div>
         <div className="jev-toolbar">
           <div

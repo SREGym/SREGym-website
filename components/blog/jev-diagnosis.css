@@ -53,20 +53,6 @@
   outline: 2px solid var(--blog-accent);
   outline-offset: 3px;
 }
-.jev-icon-button {
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  border: 1px solid var(--blog-rule);
-  border-radius: 6px;
-  color: var(--blog-muted);
-  flex-shrink: 0;
-}
-.jev-icon-button:hover {
-  background: var(--blog-panel);
-  color: var(--foreground);
-}
 .jev-toolbar {
   display: flex;
   flex-wrap: wrap;

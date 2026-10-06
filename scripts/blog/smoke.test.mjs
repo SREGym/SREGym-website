@@ -118,6 +118,7 @@ test("Jev-driven diagnosis article includes accessible measurements and the work
   );
   assert.ok(html.includes("mutating_webhook_resource_limits_social_network"));
   assert.ok(html.includes('aria-label="Search Jev faults"'));
+  assert.ok(!html.includes('aria-label="Download comparison data"'));
   assert.ok(html.includes("historical 21-fault cohort"));
   assert.ok(!html.includes('aria-label="Axis scale"'));
   assert.ok(!html.includes('class="jev-point-ring"'));
