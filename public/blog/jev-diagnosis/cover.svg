@@ -1,0 +1,250 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="1000"
+  height="630"
+  viewBox="0 0 1000 630"
+  role="img"
+  aria-labelledby="title description"
+>
+  <title id="title">Jev-driven investigation loop</title>
+  <desc id="description">
+    A programmatic collector summarizes the cluster and Jev selects a component.
+    The collector gathers focused evidence and Jev reviews it. A supported
+    origin is confirmed by the pipeline and submitted as a diagnosis result.
+    Otherwise, investigation repeats for another candidate or a linked
+    dependency, within the pipeline's step budget. The initial snapshot and
+    selection are outside this repeating loop.
+  </desc>
+  <defs>
+    <style>
+      :root {
+        --paper: #fff;
+        --ink: #252b33;
+        --muted: #626b75;
+        --blue: #4f749b;
+        --blue-bg: #edf3f9;
+        --orange: #b77432;
+        --orange-bg: #fff3da;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --paper: #1c1f24;
+          --ink: #d2d0cb;
+          --muted: #b7bec8;
+          --blue: #8db5e2;
+          --blue-bg: #242f3e;
+          --orange: #e7ad70;
+          --orange-bg: #393126;
+        }
+      }
+      text {
+        font-family: Arial, Helvetica, sans-serif;
+        fill: var(--ink);
+        text-anchor: middle;
+      }
+      .label {
+        font-size: 35px;
+        font-weight: 700;
+      }
+      .branch {
+        font-size: 28px;
+        fill: var(--muted);
+      }
+      .icon {
+        fill: none;
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .flow {
+        fill: none;
+        stroke: var(--muted);
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        marker-end: url(#arrow);
+      }
+    </style>
+    <marker
+      id="arrow"
+      viewBox="0 0 10 10"
+      refX="9"
+      refY="5"
+      markerWidth="7"
+      markerHeight="7"
+      orient="auto"
+    >
+      <path
+        d="m1 1 8 4-8 4"
+        fill="none"
+        stroke="var(--muted)"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </marker>
+    <marker
+      id="loop-arrow"
+      viewBox="0 0 10 10"
+      refX="9"
+      refY="5"
+      markerWidth="7"
+      markerHeight="7"
+      orient="auto"
+    >
+      <path
+        d="m1 1 8 4-8 4"
+        fill="none"
+        stroke="var(--blue)"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </marker>
+    <g id="jev-chip" class="icon" stroke="var(--orange)">
+      <rect x="-24" y="-24" width="48" height="48" rx="4" />
+      <path
+        d="M-13-24v-9m26 9v-9m-26 57v9m26-9v9m-37-46h-9m9 26h-9m57-26h9m-9 26h9m-47-13 9 9 17-19"
+      />
+    </g>
+  </defs>
+  <rect width="1000" height="630" fill="var(--paper)" />
+  <g transform="translate(0 -16)">
+    <rect
+      id="snapshot-box"
+      x="55"
+      y="60"
+      width="250"
+      height="196"
+      rx="12"
+      fill="var(--blue-bg)"
+      stroke="var(--blue)"
+      stroke-width="2"
+    />
+    <g class="icon" stroke="var(--blue)" transform="translate(-10 -17)">
+      <path d="M160 112h60m-30 0v27" />
+      <rect
+        x="145"
+        y="95"
+        width="29"
+        height="28"
+        rx="4"
+        fill="var(--blue-bg)"
+      />
+      <rect
+        x="206"
+        y="95"
+        width="29"
+        height="28"
+        rx="4"
+        fill="var(--blue-bg)"
+      />
+      <rect
+        x="176"
+        y="131"
+        width="29"
+        height="21"
+        rx="4"
+        fill="var(--blue-bg)"
+      />
+    </g>
+    <text x="180" y="183" class="label" data-box="snapshot-box">Cluster</text>
+    <text x="180" y="227" class="label" data-box="snapshot-box">snapshot</text>
+    <path d="M305 158h70" class="flow" />
+
+    <rect
+      id="selection-box"
+      x="375"
+      y="60"
+      width="250"
+      height="196"
+      rx="12"
+      fill="var(--orange-bg)"
+      stroke="var(--orange)"
+      stroke-width="2"
+    />
+    <use href="#jev-chip" transform="translate(500 106) scale(.85)" />
+    <text x="500" y="183" class="label" data-box="selection-box">
+      Jev selects
+    </text>
+    <text x="500" y="227" class="label" data-box="selection-box">
+      component
+    </text>
+    <path d="M500 256v16q0 13-13 13H193q-13 0-13 13v24" class="flow" />
+
+    <rect
+      id="collection-box"
+      x="55"
+      y="322"
+      width="250"
+      height="196"
+      rx="12"
+      fill="var(--blue-bg)"
+      stroke="var(--blue)"
+      stroke-width="2"
+    />
+    <g class="icon" stroke="var(--blue)" transform="translate(-10 -14)">
+      <rect x="151" y="357" width="78" height="48" rx="5" />
+      <path d="M151 370h78m-65 13h35m-35 11h51" />
+    </g>
+    <text x="180" y="445" class="label" data-box="collection-box">Collect</text>
+    <text x="180" y="489" class="label" data-box="collection-box">
+      evidence
+    </text>
+    <path d="M305 420h70" class="flow" />
+
+    <rect
+      id="review-box"
+      x="375"
+      y="322"
+      width="250"
+      height="196"
+      rx="12"
+      fill="var(--orange-bg)"
+      stroke="var(--orange)"
+      stroke-width="2"
+    />
+    <use href="#jev-chip" transform="translate(500 368) scale(.85)" />
+    <text x="500" y="445" class="label" data-box="review-box">Jev reviews</text>
+    <text x="500" y="489" class="label" data-box="review-box">evidence</text>
+    <text x="820" y="301" class="branch">Cause supported</text>
+    <path d="M625 420h70" class="flow" />
+
+    <rect
+      id="result-box"
+      x="695"
+      y="322"
+      width="250"
+      height="196"
+      rx="12"
+      fill="var(--blue-bg)"
+      stroke="var(--blue)"
+      stroke-width="2"
+    />
+    <g
+      class="icon"
+      stroke="var(--blue)"
+      transform="translate(820 368) scale(.93)"
+    >
+      <path
+        d="M-24-30h31l17 17v43h-48zM7-30v17h17m-35 14 7 7 15-17m-22 29h24"
+      />
+    </g>
+    <text x="820" y="445" class="label" data-box="result-box">Diagnosis</text>
+    <text x="820" y="489" class="label" data-box="result-box">result</text>
+
+    <path
+      d="M500 518v18q0 18-18 18H198q-18 0-18-18v-18"
+      fill="none"
+      stroke="var(--blue)"
+      stroke-width="3"
+      stroke-dasharray="8 7"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      marker-end="url(#loop-arrow)"
+    />
+    <text x="340" y="599" class="branch" style="fill: var(--blue)">
+      Otherwise: next component
+    </text>
+  </g>
+</svg>

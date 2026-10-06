@@ -1,0 +1,414 @@
+.jev-explorer {
+  --jev-green: #147d68;
+  --jev-codex: #8071ba;
+  --jev-claude: #b5783d;
+  margin: 36px 0;
+  color: var(--foreground);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.dark .jev-explorer {
+  --jev-green: #58bea3;
+  --jev-codex: #b0a3e1;
+  --jev-claude: #dea96f;
+}
+.jev-explorer-panel {
+  border: 1px solid var(--blog-rule);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--background);
+}
+.jev-explorer-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px 24px 18px;
+}
+.jev-explorer-kicker {
+  margin: 0 0 6px;
+  font-size: 11px;
+  color: var(--blog-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.blog-prose .jev-explorer h3 {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.025em;
+}
+.jev-explorer :where(button, input, select),
+.jev-attempts input {
+  font: inherit;
+}
+.jev-explorer :where(button, summary),
+.jev-attempts summary {
+  cursor: pointer;
+}
+.jev-explorer
+  :where(button, input, select, a, summary, [tabindex]):focus-visible,
+.jev-attempts :where(input, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--blog-accent);
+  outline-offset: 3px;
+}
+.jev-icon-button {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--blog-rule);
+  border-radius: 6px;
+  color: var(--blog-muted);
+  flex-shrink: 0;
+}
+.jev-icon-button:hover {
+  background: var(--blog-panel);
+  color: var(--foreground);
+}
+.jev-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 24px 16px;
+}
+.jev-axis-toggle {
+  display: flex;
+  gap: 2px;
+  border: 1px solid var(--blog-rule);
+  padding: 3px;
+  border-radius: 7px;
+}
+.jev-axis-toggle button {
+  padding: 7px 11px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--blog-muted);
+}
+.jev-axis-toggle button[aria-pressed="true"] {
+  background: var(--blog-panel);
+  color: var(--foreground);
+  font-weight: 600;
+  box-shadow: 0 1px 2px #0000000a;
+}
+.jev-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  padding: 0 24px 12px;
+  color: var(--blog-muted);
+  font-size: 12px;
+}
+.jev-legend > span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.jev-marker {
+  flex-shrink: 0;
+}
+.jev-series-jev {
+  fill: var(--jev-green);
+}
+.jev-series-codex {
+  fill: var(--jev-codex);
+}
+.jev-series-claude {
+  fill: var(--jev-claude);
+}
+.jev-chart {
+  margin: 0 15px 0 7px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+.jev-chart-hint {
+  display: none;
+}
+.jev-chart-surface {
+  position: relative;
+}
+.jev-chart-surface > svg {
+  width: 100%;
+  display: block;
+  font-family: inherit;
+  font-size: 11px;
+  overflow: visible;
+}
+.jev-chart-point {
+  transition: opacity 120ms ease;
+}
+.jev-chart-surface[data-inspecting="true"] .jev-chart-point {
+  opacity: 0.5;
+}
+.jev-chart-surface[data-inspecting="true"]
+  .jev-chart-point[data-inspected="true"] {
+  opacity: 1;
+}
+.jev-chart-tooltip {
+  position: absolute;
+  z-index: 2;
+  padding: 14px;
+  border: 1px solid var(--blog-rule);
+  border-radius: 8px;
+  background: var(--blog-panel);
+  color: var(--foreground);
+  box-shadow: 0 6px 24px #00000026;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.jev-tooltip-heading {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.jev-tooltip-heading strong {
+  font-size: 13px;
+  font-weight: 600;
+}
+.jev-explorer .jev-tooltip-meta {
+  margin: 4px 0 10px;
+  font-size: 10px;
+  color: var(--blog-muted);
+}
+.jev-chart-tooltip dl {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+.jev-chart-tooltip dl > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding-block: 3px;
+}
+.jev-chart-tooltip dt {
+  color: var(--blog-muted);
+}
+.jev-chart-tooltip dd {
+  margin: 0;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.jev-grid line {
+  stroke: var(--blog-rule);
+  stroke-width: 1;
+}
+.jev-grid text,
+.jev-axis-title {
+  fill: var(--blog-muted);
+}
+.jev-axis-title {
+  font-size: 12px;
+}
+.jev-chart-point {
+  cursor: pointer;
+  outline: none;
+}
+.jev-chart-point > :is(path, circle) {
+  stroke: var(--background);
+  stroke-width: 1.5;
+}
+.jev-chart-point:focus-visible > :is(path, circle) {
+  stroke: var(--foreground);
+  stroke-width: 3;
+}
+.jev-point-label {
+  fill: var(--foreground);
+  font-size: 11px;
+  font-weight: 400;
+  paint-order: stroke;
+  stroke: var(--background);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+.jev-chart-point[data-inspected="true"] .jev-point-label {
+  font-weight: 600;
+}
+.jev-point-label-jev {
+  fill: var(--jev-green);
+  font-weight: 600;
+}
+.jev-point-effort {
+  fill: var(--blog-muted);
+  font-size: 10px;
+  font-weight: 400;
+}
+.jev-cost-notice {
+  margin: 0 24px 16px;
+  padding: 12px 14px;
+  border-left: 2px solid var(--blog-accent);
+  background: var(--blog-panel);
+  color: var(--blog-muted);
+  font-size: 12px;
+}
+.jev-attempts > input {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--blog-rule);
+  border-radius: 5px;
+  padding: 9px 11px;
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 12px;
+}
+.jev-empty {
+  padding: 40px 20px;
+  color: var(--blog-muted);
+  font-size: 13px;
+}
+.jev-table-scroll {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+.blog-prose .jev-fault table {
+  width: 100%;
+  min-width: 540px;
+  table-layout: auto;
+  margin: 0;
+  font-size: 12px;
+  border-collapse: collapse;
+}
+.blog-prose .jev-fault :is(th, td) {
+  width: auto;
+  padding: 10px 15px;
+  text-align: right;
+  border-top: 1px solid var(--blog-rule);
+  font-variant-numeric: tabular-nums;
+}
+.blog-prose .jev-fault :is(th, td):first-child {
+  width: auto;
+  text-align: left;
+  padding-left: 24px;
+}
+.blog-prose .jev-fault tbody tr:last-child {
+  background: transparent;
+}
+.jev-explorer figcaption {
+  margin-top: 14px;
+  color: var(--blog-muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+.jev-explorer figcaption p {
+  margin: 0 0 9px;
+  font-size: inherit;
+}
+.jev-explorer figcaption strong {
+  color: var(--foreground);
+}
+.jev-explorer figcaption a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.jev-attempts {
+  border: 1px solid var(--blog-rule);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin: 24px 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.jev-attempts > summary {
+  font-weight: 500;
+}
+.jev-attempts > summary > span {
+  display: block;
+  margin-left: 16px;
+  color: var(--blog-muted);
+  font-size: 11px;
+  font-weight: 400;
+}
+.jev-attempts > input {
+  margin-block: 18px;
+}
+.jev-fault {
+  border-top: 1px solid var(--blog-rule);
+}
+.jev-fault > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 11px 0;
+  font-size: 12px;
+}
+.jev-fault > summary > span::before {
+  content: "+";
+  margin-right: 9px;
+  color: var(--blog-muted);
+}
+.jev-fault > summary > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.jev-fault[open] > summary > span::before {
+  content: "−";
+}
+.jev-fault > summary > strong {
+  flex-shrink: 0;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.jev-pass {
+  color: #147d68 !important;
+}
+.jev-fail {
+  color: var(--blog-accent) !important;
+}
+.dark .jev-pass {
+  color: #58bea3 !important;
+}
+.blog-prose .jev-study-results :is(th, td):first-child {
+  width: 60%;
+}
+.blog-prose .jev-study-results :is(th, td):last-child {
+  width: 40%;
+}
+.blog-prose .jev-study-results tbody tr:last-child {
+  background: transparent;
+}
+@media (prefers-reduced-motion: reduce) {
+  .jev-chart-point {
+    transition: none;
+  }
+}
+@media (max-width: 700px) {
+  .jev-chart-hint {
+    display: block;
+    margin: 0 16px 14px;
+    color: var(--blog-muted);
+    font-size: 11px;
+  }
+}
+@media (max-width: 500px) {
+  .jev-explorer-heading {
+    padding: 20px 16px 16px;
+  }
+  .blog-prose .jev-explorer h3 {
+    font-size: 19px;
+  }
+  .jev-toolbar {
+    padding: 0 16px 16px;
+    gap: 10px;
+  }
+  .jev-axis-toggle button {
+    padding: 7px 9px;
+    font-size: 11px;
+  }
+  .jev-legend {
+    padding: 0 16px 12px;
+    gap: 8px 12px;
+    font-size: 10px;
+  }
+  .jev-cost-notice {
+    margin: 0 16px 12px;
+  }
+  .jev-attempts {
+    padding: 15px;
+  }
+}

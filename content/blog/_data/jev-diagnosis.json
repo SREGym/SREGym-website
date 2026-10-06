@@ -1,0 +1,1166 @@
+{
+  "updated": "2026-10-06",
+  "study": {
+    "faults": 21,
+    "attempts": 105,
+    "passes": 80,
+    "medianDiagnosisSeconds": 14.642,
+    "inputTokens": 3478789,
+    "calls": 252,
+    "inferenceCostUsd": 0.146109138,
+    "judge": "gpt-6-astra (high)",
+    "passThreshold": 0.7,
+    "meanDiagnosisSeconds": 15.166628571428571
+  },
+  "comparison": {
+    "cohort": "SREGym-Lite-0904",
+    "faults": 21,
+    "faultIds": [
+      "admission_webhook_outage_hotel_reservation",
+      "cronjob_sidecar_blocks_completion_hotel_reservation",
+      "duplicate_pvc_mounts_social_network",
+      "edge_request_filter_cpu_saturation",
+      "env_variable_shadowing_astronomy_shop",
+      "finalizer_deadlock_controller_hotel_reservation",
+      "internal_traffic_policy_local_astronomy_shop",
+      "kafka_poison_pill_hol_block",
+      "mutating_webhook_resource_limits_social_network",
+      "namespace_memory_limit",
+      "network_policy_block",
+      "readiness_probe_misconfiguration_social_network",
+      "rolling_update_misconfigured_social_network",
+      "search_rate_retry_collapse_hotel_reservation",
+      "secret_rotation_stale_env_credentials_astronomy_shop",
+      "service_dns_resolution_failure_social_network",
+      "service_wrong_pod_selection_hotel_reservation",
+      "unschedulable_incorrect_port_assignment",
+      "valkey_auth_disruption",
+      "wrong_dns_policy_astronomy_shop",
+      "wrong_service_selector_social_network"
+    ],
+    "models": [
+      {
+        "id": "jev",
+        "agent": "Jev-driven pipeline",
+        "model": "jev-1.13.0",
+        "label": "Jev-driven pipeline",
+        "group": "jev",
+        "passRate": 76.19047619047619,
+        "meanDiagnosisSeconds": 15.166628571428571,
+        "diagnosisCostUsd": 0.0013915156,
+        "attempts": 105
+      },
+      {
+        "id": "published-1",
+        "agent": "Codex",
+        "model": "GPT-6 Astra (max)",
+        "label": "GPT-6 Astra (max)",
+        "group": "codex",
+        "passRate": 96.8,
+        "meanDiagnosisSeconds": 167.7,
+        "diagnosisCostUsd": 0.88,
+        "attempts": 63,
+        "sourceRun": "SREGym-lite-3runs-codex__gpt-6-astra_max"
+      },
+      {
+        "id": "published-2",
+        "agent": "Codex",
+        "model": "GPT-6 Astra (medium)",
+        "label": "GPT-6 Astra (medium)",
+        "group": "codex",
+        "passRate": 100,
+        "meanDiagnosisSeconds": 87.7,
+        "diagnosisCostUsd": 0.461,
+        "attempts": 63,
+        "sourceRun": "SREGym-lite-3runs-codex__gpt-6-astra_medium"
+      },
+      {
+        "id": "published-3",
+        "agent": "Codex",
+        "model": "GPT-6.1 Sol (max)",
+        "label": "GPT-6.1 Sol (max)",
+        "group": "codex",
+        "passRate": 98.4,
+        "meanDiagnosisSeconds": 204.9,
+        "diagnosisCostUsd": 0.179,
+        "attempts": 63,
+        "sourceRun": "SREGym-lite-3runs-codex__gpt-6.1-sol_max"
+      },
+      {
+        "id": "published-4",
+        "agent": "Codex",
+        "model": "GPT-6.1 Sol (medium)",
+        "label": "GPT-6.1 Sol (medium)",
+        "group": "codex",
+        "passRate": 98.4,
+        "meanDiagnosisSeconds": 100.1,
+        "diagnosisCostUsd": 0.097,
+        "attempts": 63,
+        "sourceRun": "SREGym-lite-3runs-codex__gpt-6.1-sol_medium"
+      },
+      {
+        "id": "published-5",
+        "agent": "Codex",
+        "model": "GPT-5.6 Sol (max)",
+        "label": "GPT-5.6 Sol (max)",
+        "group": "codex",
+        "passRate": 95.2,
+        "meanDiagnosisSeconds": 211,
+        "diagnosisCostUsd": 0.622,
+        "attempts": 63,
+        "sourceRun": "SREGym-lite-3runs__gpt-5.6-sol_max"
+      },
+      {
+        "id": "published-6",
+        "agent": "Claude Code",
+        "model": "Claude Opus 5",
+        "label": "Claude Opus 5",
+        "group": "claude",
+        "passRate": 92.1,
+        "meanDiagnosisSeconds": 210.1,
+        "diagnosisCostUsd": 0.933,
+        "attempts": 63,
+        "sourceRun": "SREGym-lite-3runs__claude-opus-5"
+      },
+      {
+        "id": "published-7",
+        "agent": "Codex",
+        "model": "GPT-5.6 Terra (max)",
+        "label": "GPT-5.6 Terra (max)",
+        "group": "codex",
+        "passRate": 85.7,
+        "meanDiagnosisSeconds": 214.7,
+        "diagnosisCostUsd": 0.356,
+        "attempts": 63,
+        "sourceRun": "SREGym-lite-3runs__gpt-5.6-terra_max"
+      },
+      {
+        "id": "published-8",
+        "agent": "Codex",
+        "model": "GPT-5.6 Luna (max)",
+        "label": "GPT-5.6 Luna (max)",
+        "group": "codex",
+        "passRate": 87.3,
+        "meanDiagnosisSeconds": 284,
+        "diagnosisCostUsd": 0.06,
+        "attempts": 63,
+        "sourceRun": "SREGym-lite-3runs__gpt-5.6-luna_max"
+      },
+      {
+        "id": "published-9",
+        "agent": "Codex",
+        "model": "GPT-5.6 Sol (medium)",
+        "label": "GPT-5.6 Sol (medium)",
+        "group": "codex",
+        "passRate": 77.8,
+        "meanDiagnosisSeconds": 108.2,
+        "diagnosisCostUsd": 0.28,
+        "attempts": 63,
+        "sourceRun": "SREGym-lite-3runs-codex__gpt-5.6-sol_medium"
+      },
+      {
+        "id": "published-10",
+        "agent": "Claude Code",
+        "model": "Claude Sonnet 5",
+        "label": "Claude Sonnet 5",
+        "group": "claude",
+        "passRate": 63.5,
+        "meanDiagnosisSeconds": 271.5,
+        "diagnosisCostUsd": 0.674,
+        "attempts": 63,
+        "sourceRun": "SREGym-lite-3runs__claude-sonnet-5"
+      },
+      {
+        "id": "published-11",
+        "agent": "Claude Code",
+        "model": "Claude Opus 4.8",
+        "label": "Claude Opus 4.8",
+        "group": "claude",
+        "passRate": 66.7,
+        "meanDiagnosisSeconds": 324.4,
+        "diagnosisCostUsd": 1.27,
+        "attempts": 63,
+        "sourceRun": "SREGym-lite-3runs__claude-opus-4-8"
+      }
+    ],
+    "sources": {
+      "leaderboard": "https://github.com/SREGym/SREGym-website/blob/a942f20/lib/leaderboard-data.ts",
+      "cohort": "/data/sregym-lite-0904-problems.csv",
+      "pricing": "https://docs.typesafe.ai/models",
+      "metrics": "Archived 21-fault runs, verified in the existing SREGym Lite source-data audit; all_runs.csv and per-configuration results.csv.",
+      "cost": "Diagnosis-only 21-fault cost table supplied by the user on 2026-10-06, calculated from archived per-step token usage."
+    },
+    "timingMethod": "Mean recorded diagnosis-stage duration minus the fixed 120-second benchmark observation delay; judge time excluded.",
+    "baselineTimingMethod": "Mean recorded time to diagnosis across the original 21-fault runs. Times use runs with recorded values; pass rates use all 63 attempts per configuration.",
+    "comparisonMethod": "Reference comparison across separate experiments; not a matched baseline.",
+    "costMethod": "API-equivalent inference through diagnosis submission, excluding subsequent repair, judges and infrastructure. Baselines use 63 attempts each, including failed diagnoses and recorded spend for one unfinished Opus 4.8 diagnosis. Cached-input discounts and cache-write charges are included. Jev uses all 105 attempts, at $0.042 per million input tokens with free outputs."
+  },
+  "faults": [
+    {
+      "id": "admission_webhook_outage_hotel_reservation",
+      "inComparison": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 11.961,
+          "inputTokens": 25249,
+          "calls": 3
+        },
+        {
+          "attempt": 2,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 11.992,
+          "inputTokens": 25529,
+          "calls": 3
+        },
+        {
+          "attempt": 3,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 12.59,
+          "inputTokens": 25438,
+          "calls": 3
+        },
+        {
+          "attempt": 4,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 12.208,
+          "inputTokens": 25380,
+          "calls": 3
+        },
+        {
+          "attempt": 5,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 12.322,
+          "inputTokens": 25299,
+          "calls": 3
+        }
+      ]
+    },
+    {
+      "id": "cronjob_sidecar_blocks_completion_hotel_reservation",
+      "inComparison": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 14.021,
+          "inputTokens": 32429,
+          "calls": 2
+        },
+        {
+          "attempt": 2,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 13.583,
+          "inputTokens": 30994,
+          "calls": 2
+        },
+        {
+          "attempt": 3,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 13.53,
+          "inputTokens": 31076,
+          "calls": 2
+        },
+        {
+          "attempt": 4,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 13.531,
+          "inputTokens": 31241,
+          "calls": 2
+        },
+        {
+          "attempt": 5,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 13.779,
+          "inputTokens": 31117,
+          "calls": 2
+        }
+      ]
+    },
+    {
+      "id": "duplicate_pvc_mounts_social_network",
+      "inComparison": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 14.642,
+          "inputTokens": 28674,
+          "calls": 2
+        },
+        {
+          "attempt": 2,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 14.404,
+          "inputTokens": 27751,
+          "calls": 2
+        },
+        {
+          "attempt": 3,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 14.478,
+          "inputTokens": 27891,
+          "calls": 2
+        },
+        {
+          "attempt": 4,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 14.452,
+          "inputTokens": 27976,
+          "calls": 2
+        },
+        {
+          "attempt": 5,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 14.467,
+          "inputTokens": 27117,
+          "calls": 2
+        }
+      ]
+    },
+    {
+      "id": "edge_request_filter_cpu_saturation",
+      "inComparison": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "passed": false,
+          "score": 0.67,
+          "diagnosisSeconds": 15.772,
+          "inputTokens": 33798,
+          "calls": 2
+        },
+        {
+          "attempt": 2,
+          "passed": false,
+          "score": 0.67,
+          "diagnosisSeconds": 15.82,
+          "inputTokens": 32346,
+          "calls": 2
+        },
+        {
+          "attempt": 3,
+          "passed": false,
+          "score": 0.67,
+          "diagnosisSeconds": 15.597,
+          "inputTokens": 33209,
+          "calls": 2
+        },
+        {
+          "attempt": 4,
+          "passed": false,
+          "score": 0.67,
+          "diagnosisSeconds": 15.697,
+          "inputTokens": 33214,
+          "calls": 2
+        },
+        {
+          "attempt": 5,
+          "passed": false,
+          "score": 0.67,
+          "diagnosisSeconds": 15.847,
+          "inputTokens": 34278,
+          "calls": 2
+        }
+      ]
+    },
+    {
+      "id": "env_variable_shadowing_astronomy_shop",
+      "inComparison": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "passed": true,
+          "score": 0.89,
+          "diagnosisSeconds": 15.722,
+          "inputTokens": 31608,
+          "calls": 2
+        },
+        {
+          "attempt": 2,
+          "passed": true,
+          "score": 0.89,
+          "diagnosisSeconds": 15.866,
+          "inputTokens": 33647,
+          "calls": 2
+        },
+        {
+          "attempt": 3,
+          "passed": true,
+          "score": 0.89,
+          "diagnosisSeconds": 15.453,
+          "inputTokens": 31389,
+          "calls": 2
+        },
+        {
+          "attempt": 4,
+          "passed": true,
+          "score": 0.89,
+          "diagnosisSeconds": 15.528,
+          "inputTokens": 32276,
+          "calls": 2
+        },
+        {
+          "attempt": 5,
+          "passed": true,
+          "score": 0.89,
+          "diagnosisSeconds": 15.796,
+          "inputTokens": 33385,
+          "calls": 2
+        }
+      ]
+    },
+    {
+      "id": "finalizer_deadlock_controller_hotel_reservation",
+      "inComparison": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 13.738,
+          "inputTokens": 27697,
+          "calls": 2
+        },
+        {
+          "attempt": 2,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 13.511,
+          "inputTokens": 28132,
+          "calls": 2
+        },
+        {
+          "attempt": 3,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 13.459,
+          "inputTokens": 28952,
+          "calls": 2
+        },
+        {
+          "attempt": 4,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 13.382,
+          "inputTokens": 28243,
+          "calls": 2
+        },
+        {
+          "attempt": 5,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 13.534,
+          "inputTokens": 29330,
+          "calls": 2
+        }
+      ]
+    },
+    {
+      "id": "internal_traffic_policy_local_astronomy_shop",
+      "inComparison": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "passed": true,
+          "score": 0.89,
+          "diagnosisSeconds": 15.64,
+          "inputTokens": 30511,
+          "calls": 2
+        },
+        {
+          "attempt": 2,
+          "passed": true,
+          "score": 0.89,
+          "diagnosisSeconds": 15.603,
+          "inputTokens": 31798,
+          "calls": 2
+        },
+        {
+          "attempt": 3,
+          "passed": true,
+          "score": 0.89,
+          "diagnosisSeconds": 15.821,
+          "inputTokens": 32868,
+          "calls": 2
+        },
+        {
+          "attempt": 4,
+          "passed": true,
+          "score": 0.89,
+          "diagnosisSeconds": 15.811,
+          "inputTokens": 30671,
+          "calls": 2
+        },
+        {
+          "attempt": 5,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 15.89,
+          "inputTokens": 31966,
+          "calls": 2
+        }
+      ]
+    },
+    {
+      "id": "kafka_poison_pill_hol_block",
+      "inComparison": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "passed": false,
+          "score": 0.67,
+          "diagnosisSeconds": 16.075,
+          "inputTokens": 33534,
+          "calls": 2
+        },
+        {
+          "attempt": 2,
+          "passed": false,
+          "score": 0.67,
+          "diagnosisSeconds": 21.986,
+          "inputTokens": 60420,
+          "calls": 5
+        },
+        {
+          "attempt": 3,
+          "passed": false,
+          "score": 0.67,
+          "diagnosisSeconds": 15.787,
+          "inputTokens": 32645,
+          "calls": 2
+        },
+        {
+          "attempt": 4,
+          "passed": false,
+          "score": 0.67,
+          "diagnosisSeconds": 24.498,
+          "inputTokens": 70750,
+          "calls": 6
+        },
+        {
+          "attempt": 5,
+          "passed": false,
+          "score": 0.67,
+          "diagnosisSeconds": 16.113,
+          "inputTokens": 32871,
+          "calls": 2
+        }
+      ]
+    },
+    {
+      "id": "mutating_webhook_resource_limits_social_network",
+      "inComparison": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "passed": true,
+          "score": 0.89,
+          "diagnosisSeconds": 14.9,
+          "inputTokens": 31987,
+          "calls": 2
+        },
+        {
+          "attempt": 2,
+          "passed": true,
+          "score": 0.89,
+          "diagnosisSeconds": 14.675,
+          "inputTokens": 32772,
+          "calls": 2
+        },
+        {
+          "attempt": 3,
+          "passed": true,
+          "score": 0.89,
+          "diagnosisSeconds": 14.682,
+          "inputTokens": 33177,
+          "calls": 2
+        },
+        {
+          "attempt": 4,
+          "passed": true,
+          "score": 0.89,
+          "diagnosisSeconds": 14.869,
+          "inputTokens": 32095,
+          "calls": 2
+        },
+        {
+          "attempt": 5,
+          "passed": true,
+          "score": 0.89,
+          "diagnosisSeconds": 14.548,
+          "inputTokens": 32148,
+          "calls": 2
+        }
+      ]
+    },
+    {
+      "id": "namespace_memory_limit",
+      "inComparison": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "passed": true,
+          "score": 0.89,
+          "diagnosisSeconds": 11.787,
+          "inputTokens": 25359,
+          "calls": 2
+        },
+        {
+          "attempt": 2,
+          "passed": true,
+          "score": 0.89,
+          "diagnosisSeconds": 11.336,
+          "inputTokens": 25670,
+          "calls": 2
+        },
+        {
+          "attempt": 3,
+          "passed": true,
+          "score": 0.89,
+          "diagnosisSeconds": 11.824,
+          "inputTokens": 25212,
+          "calls": 2
+        },
+        {
+          "attempt": 4,
+          "passed": true,
+          "score": 0.89,
+          "diagnosisSeconds": 11.809,
+          "inputTokens": 26321,
+          "calls": 2
+        },
+        {
+          "attempt": 5,
+          "passed": true,
+          "score": 0.89,
+          "diagnosisSeconds": 11.797,
+          "inputTokens": 25023,
+          "calls": 2
+        }
+      ]
+    },
+    {
+      "id": "network_policy_block",
+      "inComparison": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 12.484,
+          "inputTokens": 26115,
+          "calls": 2
+        },
+        {
+          "attempt": 2,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 12.389,
+          "inputTokens": 26262,
+          "calls": 2
+        },
+        {
+          "attempt": 3,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 12.464,
+          "inputTokens": 26773,
+          "calls": 2
+        },
+        {
+          "attempt": 4,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 12.44,
+          "inputTokens": 26160,
+          "calls": 2
+        },
+        {
+          "attempt": 5,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 12.372,
+          "inputTokens": 26490,
+          "calls": 2
+        }
+      ]
+    },
+    {
+      "id": "readiness_probe_misconfiguration_social_network",
+      "inComparison": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 13.921,
+          "inputTokens": 29301,
+          "calls": 2
+        },
+        {
+          "attempt": 2,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 13.992,
+          "inputTokens": 30211,
+          "calls": 2
+        },
+        {
+          "attempt": 3,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 14.026,
+          "inputTokens": 29097,
+          "calls": 2
+        },
+        {
+          "attempt": 4,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 14.124,
+          "inputTokens": 29654,
+          "calls": 2
+        },
+        {
+          "attempt": 5,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 14.269,
+          "inputTokens": 29758,
+          "calls": 2
+        }
+      ]
+    },
+    {
+      "id": "rolling_update_misconfigured_social_network",
+      "inComparison": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 14.915,
+          "inputTokens": 29250,
+          "calls": 2
+        },
+        {
+          "attempt": 2,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 14.918,
+          "inputTokens": 27218,
+          "calls": 2
+        },
+        {
+          "attempt": 3,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 14.93,
+          "inputTokens": 29312,
+          "calls": 2
+        },
+        {
+          "attempt": 4,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 14.955,
+          "inputTokens": 29016,
+          "calls": 2
+        },
+        {
+          "attempt": 5,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 14.908,
+          "inputTokens": 28962,
+          "calls": 2
+        }
+      ]
+    },
+    {
+      "id": "search_rate_retry_collapse_hotel_reservation",
+      "inComparison": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "passed": false,
+          "score": 0.34,
+          "diagnosisSeconds": 13.746,
+          "inputTokens": 32466,
+          "calls": 3
+        },
+        {
+          "attempt": 2,
+          "passed": false,
+          "score": 0.34,
+          "diagnosisSeconds": 13.585,
+          "inputTokens": 33071,
+          "calls": 3
+        },
+        {
+          "attempt": 3,
+          "passed": false,
+          "score": 0.34,
+          "diagnosisSeconds": 18.968,
+          "inputTokens": 33172,
+          "calls": 3
+        },
+        {
+          "attempt": 4,
+          "passed": false,
+          "score": 0.34,
+          "diagnosisSeconds": 20.833,
+          "inputTokens": 26119,
+          "calls": 2
+        },
+        {
+          "attempt": 5,
+          "passed": false,
+          "score": 0.34,
+          "diagnosisSeconds": 19.608,
+          "inputTokens": 33148,
+          "calls": 3
+        }
+      ]
+    },
+    {
+      "id": "secret_rotation_stale_env_credentials_astronomy_shop",
+      "inComparison": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 16.074,
+          "inputTokens": 33838,
+          "calls": 2
+        },
+        {
+          "attempt": 2,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 16.032,
+          "inputTokens": 35306,
+          "calls": 2
+        },
+        {
+          "attempt": 3,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 15.995,
+          "inputTokens": 33290,
+          "calls": 2
+        },
+        {
+          "attempt": 4,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 16.122,
+          "inputTokens": 34480,
+          "calls": 2
+        },
+        {
+          "attempt": 5,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 16.005,
+          "inputTokens": 35315,
+          "calls": 2
+        }
+      ]
+    },
+    {
+      "id": "service_dns_resolution_failure_social_network",
+      "inComparison": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "passed": false,
+          "score": 0.56,
+          "diagnosisSeconds": 14.223,
+          "inputTokens": 33725,
+          "calls": 3
+        },
+        {
+          "attempt": 2,
+          "passed": false,
+          "score": 0.56,
+          "diagnosisSeconds": 14.594,
+          "inputTokens": 31952,
+          "calls": 3
+        },
+        {
+          "attempt": 3,
+          "passed": false,
+          "score": 0.67,
+          "diagnosisSeconds": 14.333,
+          "inputTokens": 31140,
+          "calls": 3
+        },
+        {
+          "attempt": 4,
+          "passed": false,
+          "score": 0.56,
+          "diagnosisSeconds": 14.595,
+          "inputTokens": 31751,
+          "calls": 3
+        },
+        {
+          "attempt": 5,
+          "passed": false,
+          "score": 0.56,
+          "diagnosisSeconds": 14.427,
+          "inputTokens": 31445,
+          "calls": 3
+        }
+      ]
+    },
+    {
+      "id": "service_wrong_pod_selection_hotel_reservation",
+      "inComparison": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "passed": true,
+          "score": 0.89,
+          "diagnosisSeconds": 12.655,
+          "inputTokens": 26575,
+          "calls": 2
+        },
+        {
+          "attempt": 2,
+          "passed": true,
+          "score": 0.89,
+          "diagnosisSeconds": 12.573,
+          "inputTokens": 26645,
+          "calls": 2
+        },
+        {
+          "attempt": 3,
+          "passed": true,
+          "score": 0.89,
+          "diagnosisSeconds": 12.657,
+          "inputTokens": 26984,
+          "calls": 2
+        },
+        {
+          "attempt": 4,
+          "passed": true,
+          "score": 0.89,
+          "diagnosisSeconds": 12.489,
+          "inputTokens": 27630,
+          "calls": 2
+        },
+        {
+          "attempt": 5,
+          "passed": true,
+          "score": 0.89,
+          "diagnosisSeconds": 12.713,
+          "inputTokens": 27718,
+          "calls": 2
+        }
+      ]
+    },
+    {
+      "id": "unschedulable_incorrect_port_assignment",
+      "inComparison": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 16.262,
+          "inputTokens": 33943,
+          "calls": 2
+        },
+        {
+          "attempt": 2,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 16.231,
+          "inputTokens": 32850,
+          "calls": 2
+        },
+        {
+          "attempt": 3,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 16.003,
+          "inputTokens": 33591,
+          "calls": 2
+        },
+        {
+          "attempt": 4,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 16.106,
+          "inputTokens": 32685,
+          "calls": 2
+        },
+        {
+          "attempt": 5,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 16.236,
+          "inputTokens": 32654,
+          "calls": 2
+        }
+      ]
+    },
+    {
+      "id": "valkey_auth_disruption",
+      "inComparison": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "passed": false,
+          "score": 0.34,
+          "diagnosisSeconds": 21.002,
+          "inputTokens": 53727,
+          "calls": 4
+        },
+        {
+          "attempt": 2,
+          "passed": false,
+          "score": 0.34,
+          "diagnosisSeconds": 21.003,
+          "inputTokens": 53339,
+          "calls": 4
+        },
+        {
+          "attempt": 3,
+          "passed": false,
+          "score": 0.56,
+          "diagnosisSeconds": 25.073,
+          "inputTokens": 76101,
+          "calls": 7
+        },
+        {
+          "attempt": 4,
+          "passed": false,
+          "score": 0.45,
+          "diagnosisSeconds": 26.837,
+          "inputTokens": 89624,
+          "calls": 8
+        },
+        {
+          "attempt": 5,
+          "passed": false,
+          "score": 0.34,
+          "diagnosisSeconds": 27.251,
+          "inputTokens": 87463,
+          "calls": 8
+        }
+      ]
+    },
+    {
+      "id": "wrong_dns_policy_astronomy_shop",
+      "inComparison": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 15.937,
+          "inputTokens": 36812,
+          "calls": 2
+        },
+        {
+          "attempt": 2,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 15.855,
+          "inputTokens": 35939,
+          "calls": 2
+        },
+        {
+          "attempt": 3,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 15.756,
+          "inputTokens": 35168,
+          "calls": 2
+        },
+        {
+          "attempt": 4,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 16.137,
+          "inputTokens": 36044,
+          "calls": 2
+        },
+        {
+          "attempt": 5,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 15.911,
+          "inputTokens": 35671,
+          "calls": 2
+        }
+      ]
+    },
+    {
+      "id": "wrong_service_selector_social_network",
+      "inComparison": true,
+      "attempts": [
+        {
+          "attempt": 1,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 14.075,
+          "inputTokens": 32802,
+          "calls": 2
+        },
+        {
+          "attempt": 2,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 13.898,
+          "inputTokens": 28577,
+          "calls": 2
+        },
+        {
+          "attempt": 3,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 13.751,
+          "inputTokens": 32815,
+          "calls": 2
+        },
+        {
+          "attempt": 4,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 13.834,
+          "inputTokens": 28564,
+          "calls": 2
+        },
+        {
+          "attempt": 5,
+          "passed": true,
+          "score": 1.0,
+          "diagnosisSeconds": 13.871,
+          "inputTokens": 28608,
+          "calls": 2
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,163 @@
+---
+title: "Jev-Driven SRE Diagnosis: What Worked and What Failed"
+description: "A Jev-driven pipeline chooses where to investigate and which cluster evidence supports a diagnosis."
+seoDescription: "A Jev-driven SRE diagnosis pipeline passed 76.2% of 105 diagnoses. Explore its workflow, successful and failed traces, and interactive time and cost comparisons."
+authors:
+  - name: "Yiming Su"
+    url: "https://yimingsu01.github.io/"
+  - name: "Saad Mohammad Rafid Pial"
+    url: "https://saadmrp1038.github.io/"
+  - name: "Jackson Clark"
+    url: "https://hacksonclark.github.io/"
+  - name: "Tianyin Xu"
+    url: "https://tianyin.github.io/"
+date: 2026-10-06
+category: "Research"
+cover:
+  src: "/blog/jev-diagnosis/cover.svg"
+  alt: "Jev selects a component from a cluster snapshot, then reviews collected evidence. A supported cause produces a diagnosis result; otherwise, investigation continues with another component."
+  width: 1000
+  height: 630
+  showInArticle: false
+---
+
+import { JevDiagnosisWorkflow } from "@/components/blog/jev-diagnosis-workflow";
+import {
+  JevDiagnosisExplorer,
+  JevAttemptResults,
+} from "@/components/blog/jev-diagnosis-explorer";
+
+In our [first study](/blog/jev-sregym-lite), we experimented with Jev as a decision aid for an LLM agent. The agent diagnosed and repaired incidents; Jev helped rank the agent's proposed tests and reviewed the evidence before submission.
+
+That post ended with a more ambitious idea: giving Jev a broad view of the cluster and letting its fast, cheap judgments guide the investigation.
+
+In this post, we present a Jev-driven diagnosis pipeline **without any LLM agent**. The pipeline programmatically collects and organizes cluster evidence, then feeds it to Jev. Jev selects a likely root cause and supporting observations, and the pipeline uses them to assemble a diagnosis report.
+
+Across 21 SREGym-Lite faults, the Jev-driven pipeline passes **80 of 105 diagnoses (76.2%)**, with a median diagnosis time of **14.6 seconds**.
+
+## How does Jev drive the diagnosis?
+
+Jev answers questions by choosing from a supplied set of options. To use it for diagnosis, we need to provide both the evidence and the possible answers. We added a programmatic collector to turn cluster state into those inputs.
+
+First, the collector reads Kubernetes objects, events, recent pod logs, and resource usage. It groups the observations by component, such as a Deployment, and summarizes signs of failure. Jev receives these summaries and chooses a likely source to inspect.
+
+The collector then gathers more detail about that component and prepares numbered evidence items. Jev decides whether the component is the origin, a downstream victim, or unrelated, and selects the evidence that best supports its answer. The pipeline uses these choices to assemble and submit a diagnosis. If the evidence cannot support the hypothesis, it examines another candidate.
+
+This version investigates candidates one at a time. Jev chooses among supplied options throughout the process. It does not generate commands or write the final report. The [pipeline implementation](https://github.com/SREGym/SREGym/tree/1a668ee5aab5c5622ae748fe92c51d9f80458021/clients/jev_diag) is available on GitHub.
+
+<JevDiagnosisWorkflow />
+
+## The pipeline in action
+
+Let us look at SREGym-Lite's `mutating_webhook_resource_limits_social_network` fault in the Social Network application.
+
+In this fault, pods created for `nginx-thrift` kept running out of memory. Its Deployment template specified a 256Mi memory limit, but new Pods had only 16Mi. A mutating admission webhook was rewriting their limits as the Pods were created. Four other webhook configurations were also present, so finding a webhook by name alone would not identify the cause.
+
+The collector found 27 Deployments in `social-network` and summarized each one as a component. For `nginx-thrift`, it found the difference between the Pod and its template and identified a matching webhook. Here is an abridged version of the `nginx-thrift` summary Jev saw in its first call.
+
+```text
+Component: deployment/nginx-thrift
+Signals:
+  Pod was OOMKilled and restarted.
+  Live Pod memory limit: 16Mi (Deployment template: 256Mi).
+  Matching Pod-creation webhook: gatekeeper-mutating-webhook-configuration.
+```
+
+Jev then answered two choice questions using options supplied by the pipeline:
+
+```text
+Question: Which component is the likely origin?
+Jev:      deployment/nginx-thrift
+
+Question: What kind of object carries the fault?
+Jev:      admission_webhook
+```
+
+The mismatch and matching webhook in the summary supported the second choice.
+
+The pipeline then gathered more detail about `nginx-thrift` and gave Jev 26 evidence items, including these two:
+
+```text
+E6:  The nginx-thrift Pod was OOMKilled.
+E10: The Pod has a 16Mi memory limit, although its template says 256Mi.
+  gatekeeper-mutating-webhook-configuration matches this Pod.
+```
+
+Among the follow-up questions, Jev answered:
+
+```text
+Question: Is nginx-thrift the origin, a victim, or unrelated?
+Jev:      origin
+
+Question: What category names the cause?
+Jev:      admission_or_namespace_policy
+
+Question: Which evidence item best shows the mechanism?
+Jev:      E10
+```
+
+Jev selected E10 as key evidence. The pipeline inferred that the matching webhook caused the memory-limit change and named it in the submission. The collected evidence showed the memory mismatch and webhook match. The submitted diagnosis stated:
+
+```text
+Root cause object: MutatingWebhookConfiguration
+  gatekeeper-mutating-webhook-configuration, acting on Deployment nginx-thrift.
+Mechanism: the new Pod has a 16Mi memory limit instead of the template's 256Mi.
+        The matching webhook rewrites the Pod at admission.
+Observed: nginx-thrift was OOMKilled and restarted.
+```
+
+All five attempts on this fault passed the diagnosis rubric. The collector did substantial diagnostic work: it found the Pod-template difference and narrowed the webhook candidates. Jev chose the affected component and the evidence to submit.
+
+## Results across 105 diagnoses
+
+We ran the 21 fault scenarios in the September 4 SREGym-Lite cohort five times using `jev-1.13.0`. Each run submitted a diagnosis. We scored those diagnoses with `gpt-6-astra` at high reasoning effort, using SREGym's nine-question diagnosis rubric and 0.70 pass threshold. This is the historical 21-fault cohort, not the current leaderboard cohort.
+
+<div className="jev-study-results">
+
+| **Measure**                               | **Result**                                                                |
+| ----------------------------------------- | ------------------------------------------------------------------------- |
+| Judged diagnosis passes                   | **80/105 (76.2%)**                                                        |
+| Faults passed in all five attempts        | **16/21**                                                                 |
+| Faults failed in all five attempts        | **5/21**                                                                  |
+| Median diagnosis time                     | **14.6 s**                                                                |
+| Jev calls                                 | **252 total; 2.4 per attempt**                                            |
+| Median summed Jev API latency per attempt | **0.53 s**                                                                |
+| Jev input tokens                          | **3.48 million**                                                          |
+| Estimated Jev inference cost              | **$0.15** ([TypeSafe's published price](https://docs.typesafe.ai/models)) |
+
+</div>
+
+The results were unusually consistent. For every fault, either all five attempts passed or all five failed. In 18 of the 21 faults, all five attempts also received the same diagnosis score. These were separate runs, and receiving the same score does not mean Jev followed the same path each time.
+
+<JevAttemptResults />
+
+The pattern points to a central design question: what granularity of cluster state should the pipeline show Jev? A coarse summary can hide the detail that explains a fault, while passing every line of YAML can bury the useful signal. Choosing the right granularity may matter as much as the model's ability to judge the evidence it receives.
+
+Jev passed **76.2%** of diagnoses, close to GPT-5.6 Sol (medium)’s **77.8%**, while running about **7× faster** and costing about **200× less** per diagnosis.
+
+Jev is less flexible than an LLM agent as its diagnoses depend on the evidence and answer choices the pipeline provides. But its speed and low cost make it a promising first-line diagnostic tool, while an LLM agent could handle cases that need broader investigation.
+
+<JevDiagnosisExplorer />
+
+## Where the diagnoses went wrong
+
+By analyzing the failed runs, we found two distinct failure modes:
+
+1. **Jev chose the wrong clue.** In Astronomy Shop's `edge_request_filter_cpu_saturation` fault, crafted `waf` requests triggered an expensive regex in `frontend-proxy`, saturating its CPU and causing timeouts. The collector offered both the regex change and a new 100m CPU limit as evidence:
+
+   ```text
+   E7: WAF_RULE_REGEX added: ^([a-zA-Z]+)*$
+   E8: CPU limit changed: unset -> 100m
+   ```
+
+   Jev selected `frontend-proxy` and E8 in all five attempts. Each diagnosis scored 0.67: the judge accepted the location and affected scope, but not the explanation. The submissions blamed the limit rather than the filter rule.
+
+2. **The decisive evidence was missing.** In Hotel Reservation's `search_rate_retry_collapse_hotel_reservation` fault, a brief burst of search traffic filled `rate`'s queue. Search retried timed-out calls, keeping `rate` overloaded after incoming traffic returned to normal. Jev focused on `rate` and its 20-QPS backend limit in all five runs. The diagnoses described overload but missed the loop between the queue, deadlines, and retries. All five failed.
+
+   The broad snapshot named `search`'s retry settings, but did not show their values. The pipeline never inspected `search` in detail, and no Jev call included queue-depth or retry-attempt metrics. It also asked Jev to pick a single root-cause component, while this fault lived in the interaction between two services. The missing measurements and narrow answer choices made the correct explanation harder to reach.
+
+## Conclusion
+
+The pipeline passed 76.2% of diagnoses on SREGym-Lite. Both the collector and Jev are essential to that result. The collector decides what to gather and how much detail to show. Jev uses that view to choose where to investigate and which evidence supports the diagnosis. The failures show why both parts matter: Jev can favor the wrong clue, and the collector can omit signals needed to explain a fault.
+
+Next, we want to extend the pipeline to faults whose causes span services or evolve over time. That means collecting request-level signals and changing metrics, connecting them across components, and letting Jev consider explanations that involve more than one service. These failure modes are perfect candidates for smaller, specialized models such as GPT-6 Luna, to convert structured telemetry data into natural language that Jev can comfortably ingest. Ultimately, we believe that incorporating Jev-driven diagnosis into an SRE agent’s workflow is a significant step toward effectively combining System One and System Two models.
