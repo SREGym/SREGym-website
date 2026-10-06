@@ -547,12 +547,6 @@ export function JevDiagnosisExplorer() {
           SREGym-Lite faults. Jev ran five attempts per fault. Each LLM agent
           ran three.
         </p>
-        <p>
-          Time and cost use per-attempt means; the 14.6-second headline is
-          Jev&apos;s median. Costs are API-equivalent estimates for diagnosis
-          only, excluding repair, judging and infrastructure. Jev&apos;s timing
-          excludes the fixed 120-second observation delay and judging.
-        </p>
       </figcaption>
     </figure>
   );

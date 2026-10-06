@@ -127,9 +127,9 @@ The results were unusually consistent. For every fault, either all five attempts
 
 The pattern points to a central design question: what granularity of cluster state should the pipeline show Jev? A coarse summary can hide the detail that explains a fault, while passing every line of YAML can bury the useful signal. Choosing the right granularity may matter as much as the model's ability to judge the evidence it receives.
 
-By comparing Jev's results with those of LLM agents on the same 21 SREGym-Lite faults, we can see the trade-off between diagnosis accuracy, cost, and time.
+Jev passed **76.2%** of diagnoses, close to GPT-5.6 Sol (medium)’s **77.8%**, while running about **7× faster** and costing about **200× less** per diagnosis.
 
-These are separate experiments, not a controlled comparison that swaps only the decision-making model. Differences in the pipelines and judging may also affect the results.
+Jev is less flexible than an LLM agent as its diagnoses depend on the evidence and answer choices the pipeline provides. But its speed and low cost make it a promising first-line diagnostic tool, while an LLM agent could handle cases that need broader investigation.
 
 <JevDiagnosisExplorer />
 
