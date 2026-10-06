@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="630" viewBox="0 0 1000 630" role="img" aria-labelledby="title description">
+  <title id="title">Diagnosis pass rate versus cost</title>
+  <desc id="description">A thumbnail adaptation of Figure 2, retaining all twelve 21-fault configurations and their diagnosis-stage measurements. The cost axis is logarithmic. Jev is the green diamond; Codex models are purple circles and Claude Code models are amber triangles.</desc>
+  <style>
+    :root { --paper:#fff; --ink:#252b33; --muted:#626b75; --line:#dde2e7; --jev:#147d68; --codex:#8071ba; --claude:#b5783d; }
+    @media (prefers-color-scheme:dark) {
+      :root { --paper:#1c1f24; --ink:#d2d0cb; --muted:#b7bec8; --line:#353e4b; --jev:#58bea3; --codex:#b0a3e1; --claude:#dea96f; }
+    }
+    text { font-family:Arial,Helvetica,sans-serif; fill:var(--ink); }
+    .muted { fill:var(--muted); }
+    .grid line { stroke:var(--line); stroke-width:1.4; }
+    .grid text { fill:var(--muted); font-size:24px; }
+    .point { stroke:var(--paper); stroke-width:2.5; stroke-linejoin:round; }
+    .jev { fill:var(--jev); }
+    .codex { fill:var(--codex); }
+    .claude { fill:var(--claude); }
+    .annotation { font-weight:600; paint-order:stroke; stroke:var(--paper); stroke-width:4px; stroke-linejoin:round; }
+  </style>
+  <rect width="1000" height="630" fill="var(--paper)"/>
+  <text x="85" y="62" class="muted" font-size="28">Pass rate (%)</text>
+  <g class="point codex"><circle cx="595" cy="54" r="11"/></g><text x="619" y="63" class="muted" font-size="26">Codex</text>
+  <g class="point claude"><path d="M745 40 759 67 731 67Z"/></g><text x="771" y="63" class="muted" font-size="26">Claude Code</text>
+
+  <g class="grid"><line x1="85" x2="910" y1="510.000" y2="510.000"/><text x="65" y="516.000" text-anchor="end">50</text></g>
+  <g class="grid"><line x1="85" x2="910" y1="327.130" y2="327.130"/><text x="65" y="333.130" text-anchor="end">75</text></g>
+  <g class="grid"><line x1="85" x2="910" y1="144.259" y2="144.259"/><text x="65" y="150.259" text-anchor="end">100</text></g>
+  <g class="grid"><line x1="85.000" x2="85.000" y1="115" y2="510"/><text x="85.000" y="547" text-anchor="middle">$0.001</text></g>
+  <g class="grid"><line x1="334.922" x2="334.922" y1="115" y2="510"/><text x="334.922" y="547" text-anchor="middle">$0.01</text></g>
+  <g class="grid"><line x1="584.844" x2="584.844" y1="115" y2="510"/><text x="584.844" y="547" text-anchor="middle">$0.10</text></g>
+  <g class="grid"><line x1="834.766" x2="834.766" y1="115" y2="510"/><text x="834.766" y="547" text-anchor="middle">$1</text></g>
+  <g class="point jev" data-model-id="jev"><title>Jev-driven pipeline: 76.2% pass rate; $0.00139 per diagnosis attempt.</title><path d="M120.861 304.422 134.861 318.422 120.861 332.422 106.861 318.422Z"/></g>
+  <g class="point codex" data-model-id="published-1"><title>GPT-6 Astra (max): 96.8% pass rate; $0.88000 per diagnosis attempt.</title><circle cx="820.891" cy="167.667" r="9.5"/></g>
+  <g class="point codex" data-model-id="published-2"><title>GPT-6 Astra (medium): 100.0% pass rate; $0.46100 per diagnosis attempt.</title><circle cx="750.717" cy="144.259" r="9.5"/></g>
+  <g class="point codex" data-model-id="published-3"><title>GPT-6.1 Sol (max): 98.4% pass rate; $0.17900 per diagnosis attempt.</title><circle cx="648.038" cy="155.963" r="9.5"/></g>
+  <g class="point codex" data-model-id="published-4"><title>GPT-6.1 Sol (medium): 98.4% pass rate; $0.09700 per diagnosis attempt.</title><circle cx="581.538" cy="155.963" r="9.5"/></g>
+  <g class="point codex" data-model-id="published-5"><title>GPT-5.6 Sol (max): 95.2% pass rate; $0.62200 per diagnosis attempt.</title><circle cx="783.230" cy="179.370" r="9.5"/></g>
+  <g class="point claude" data-model-id="published-6"><title>Claude Opus 5: 92.1% pass rate; $0.93300 per diagnosis attempt.</title><path d="M827.239 190.046 839.239 213.046 815.239 213.046Z"/></g>
+  <g class="point codex" data-model-id="published-7"><title>GPT-5.6 Terra (max): 85.7% pass rate; $0.35600 per diagnosis attempt.</title><circle cx="722.663" cy="248.861" r="9.5"/></g>
+  <g class="point codex" data-model-id="published-8"><title>GPT-5.6 Luna (max): 87.3% pass rate; $0.06000 per diagnosis attempt.</title><circle cx="529.399" cy="237.157" r="9.5"/></g>
+  <g class="point codex" data-model-id="published-9"><title>GPT-5.6 Sol (medium): 77.8% pass rate; $0.28000 per diagnosis attempt.</title><circle cx="696.599" cy="306.648" r="9.5"/></g>
+  <g class="point claude" data-model-id="published-10"><title>Claude Sonnet 5: 63.5% pass rate; $0.67400 per diagnosis attempt.</title><path d="M791.944 399.250 803.944 422.250 779.944 422.250Z"/></g>
+  <g class="point claude" data-model-id="published-11"><title>Claude Opus 4.8: 66.7% pass rate; $1.27000 per diagnosis attempt.</title><path d="M860.709 375.843 872.709 398.843 848.709 398.843Z"/></g>
+
+  <text x="149" y="327" class="annotation" style="fill:var(--jev)" font-size="28">Jev</text>
+
+  <text x="497.5" y="598" text-anchor="middle" class="muted" font-size="28">Cost per diagnosis ($)</text>
+</svg>

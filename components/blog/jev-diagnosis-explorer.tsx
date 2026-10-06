@@ -94,9 +94,9 @@ function placeLabels(points: ChartPoint[], axis: Axis): ChartLabel[] {
       x:
         point.x +
         (position.side === "right"
-          ? 10
+          ? 12
           : position.side === "left"
-            ? -width - 10
+            ? -width - 12
             : -width / 2),
       y: point.y + position.dy,
       width,
@@ -440,10 +440,10 @@ export function JevDiagnosisExplorer() {
                       }}
                     >
                       <rect
-                        x={px - 10}
-                        y={py - 10}
-                        width={20}
-                        height={20}
+                        x={px - 12}
+                        y={py - 12}
+                        width={24}
+                        height={24}
                         fill="transparent"
                         stroke="none"
                       />
@@ -452,7 +452,7 @@ export function JevDiagnosisExplorer() {
                         x={px}
                         y={py}
                         size={
-                          (row.group === "jev" ? 6 : 4.5) + (inspected ? 1 : 0)
+                          (row.group === "jev" ? 8 : 6) + (inspected ? 1 : 0)
                         }
                       />
                       {label && (

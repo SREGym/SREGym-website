@@ -31,6 +31,7 @@ export const blog = defineCollections({
         alt: z.string(),
         width: z.number().positive(),
         height: z.number().positive(),
+        showInArticle: z.boolean().optional().default(true),
       })
       .optional(),
     highlight: z

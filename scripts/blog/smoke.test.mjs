@@ -55,6 +55,10 @@ for (const { path, authors } of pages) {
       path === "/blog" ? "website" : "article",
     ]);
 
+    if (path === "/blog") {
+      assert.ok(html.includes('src="/blog/jev-diagnosis/cover.svg"'));
+    }
+
     if (path !== "/blog") {
       const schema = JSON.parse(
         html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1],
@@ -134,6 +138,14 @@ test("Jev-driven diagnosis article includes accessible measurements and the work
   assert.ok(!html.includes("PIPELINE_FIGURE"));
   assert.ok(!html.includes("\u000b"));
   assert.ok(html.includes("/blog/jev-diagnosis/workflow-mobile.svg"));
+  assert.ok(!html.includes('src="/blog/jev-diagnosis/cover.svg"'));
+  const cover = await get("/blog/jev-diagnosis/cover.svg");
+  assert.equal(cover.status, 200);
+  assert.match(cover.headers.get("content-type"), /image\/svg\+xml/);
+  const coverSvg = await cover.text();
+  assert.ok(coverSvg.includes('viewBox="0 0 1000 630"'));
+  assert.match(coverSvg, /prefers-color-scheme:\s*dark/);
+  assert.equal([...coverSvg.matchAll(/data-model-id=/g)].length, 12);
   for (const file of ["workflow.svg", "workflow-mobile.svg"]) {
     const workflow = await get(`/blog/jev-diagnosis/${file}`);
     assert.equal(workflow.status, 200);
