@@ -43,11 +43,11 @@
         text-anchor: middle;
       }
       .label {
-        font-size: 38px;
+        font-size: 35px;
         font-weight: 700;
       }
       .branch {
-        font-size: 32px;
+        font-size: 28px;
         fill: var(--muted);
       }
       .icon {
