@@ -1,47 +1,250 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="630" viewBox="0 0 1000 630" role="img" aria-labelledby="title description">
-  <title id="title">Diagnosis pass rate versus cost</title>
-  <desc id="description">A thumbnail adaptation of Figure 2, retaining all twelve 21-fault configurations and their diagnosis-stage measurements. The cost axis is logarithmic. Jev is the green diamond; Codex models are purple circles and Claude Code models are amber triangles.</desc>
-  <style>
-    :root { --paper:#fff; --ink:#252b33; --muted:#626b75; --line:#dde2e7; --jev:#147d68; --codex:#8071ba; --claude:#b5783d; }
-    @media (prefers-color-scheme:dark) {
-      :root { --paper:#1c1f24; --ink:#d2d0cb; --muted:#b7bec8; --line:#353e4b; --jev:#58bea3; --codex:#b0a3e1; --claude:#dea96f; }
-    }
-    text { font-family:Arial,Helvetica,sans-serif; fill:var(--ink); }
-    .muted { fill:var(--muted); }
-    .grid line { stroke:var(--line); stroke-width:1.4; }
-    .grid text { fill:var(--muted); font-size:24px; }
-    .point { stroke:var(--paper); stroke-width:2.5; stroke-linejoin:round; }
-    .jev { fill:var(--jev); }
-    .codex { fill:var(--codex); }
-    .claude { fill:var(--claude); }
-    .annotation { font-weight:600; paint-order:stroke; stroke:var(--paper); stroke-width:4px; stroke-linejoin:round; }
-  </style>
-  <rect width="1000" height="630" fill="var(--paper)"/>
-  <text x="85" y="62" class="muted" font-size="28">Pass rate (%)</text>
-  <g class="point codex"><circle cx="595" cy="54" r="11"/></g><text x="619" y="63" class="muted" font-size="26">Codex</text>
-  <g class="point claude"><path d="M745 40 759 67 731 67Z"/></g><text x="771" y="63" class="muted" font-size="26">Claude Code</text>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="1000"
+  height="630"
+  viewBox="0 0 1000 630"
+  role="img"
+  aria-labelledby="title description"
+>
+  <title id="title">Jev-driven investigation loop</title>
+  <desc id="description">
+    A programmatic collector summarizes the cluster and Jev selects a component.
+    The collector gathers focused evidence and Jev reviews it. A supported
+    origin is confirmed by the pipeline and submitted as a diagnosis result.
+    Otherwise, investigation repeats for another candidate or a linked
+    dependency, within the pipeline's step budget. The initial snapshot and
+    selection are outside this repeating loop.
+  </desc>
+  <defs>
+    <style>
+      :root {
+        --paper: #fff;
+        --ink: #252b33;
+        --muted: #626b75;
+        --blue: #4f749b;
+        --blue-bg: #edf3f9;
+        --orange: #b77432;
+        --orange-bg: #fff3da;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --paper: #1c1f24;
+          --ink: #d2d0cb;
+          --muted: #b7bec8;
+          --blue: #8db5e2;
+          --blue-bg: #242f3e;
+          --orange: #e7ad70;
+          --orange-bg: #393126;
+        }
+      }
+      text {
+        font-family: Arial, Helvetica, sans-serif;
+        fill: var(--ink);
+        text-anchor: middle;
+      }
+      .label {
+        font-size: 38px;
+        font-weight: 700;
+      }
+      .branch {
+        font-size: 32px;
+        fill: var(--muted);
+      }
+      .icon {
+        fill: none;
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .flow {
+        fill: none;
+        stroke: var(--muted);
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        marker-end: url(#arrow);
+      }
+    </style>
+    <marker
+      id="arrow"
+      viewBox="0 0 10 10"
+      refX="9"
+      refY="5"
+      markerWidth="7"
+      markerHeight="7"
+      orient="auto"
+    >
+      <path
+        d="m1 1 8 4-8 4"
+        fill="none"
+        stroke="var(--muted)"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </marker>
+    <marker
+      id="loop-arrow"
+      viewBox="0 0 10 10"
+      refX="9"
+      refY="5"
+      markerWidth="7"
+      markerHeight="7"
+      orient="auto"
+    >
+      <path
+        d="m1 1 8 4-8 4"
+        fill="none"
+        stroke="var(--blue)"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </marker>
+    <g id="jev-chip" class="icon" stroke="var(--orange)">
+      <rect x="-24" y="-24" width="48" height="48" rx="4" />
+      <path
+        d="M-13-24v-9m26 9v-9m-26 57v9m26-9v9m-37-46h-9m9 26h-9m57-26h9m-9 26h9m-47-13 9 9 17-19"
+      />
+    </g>
+  </defs>
+  <rect width="1000" height="630" fill="var(--paper)" />
+  <g transform="translate(0 -16)">
+    <rect
+      id="snapshot-box"
+      x="55"
+      y="60"
+      width="250"
+      height="196"
+      rx="12"
+      fill="var(--blue-bg)"
+      stroke="var(--blue)"
+      stroke-width="2"
+    />
+    <g class="icon" stroke="var(--blue)" transform="translate(-10 -17)">
+      <path d="M160 112h60m-30 0v27" />
+      <rect
+        x="145"
+        y="95"
+        width="29"
+        height="28"
+        rx="4"
+        fill="var(--blue-bg)"
+      />
+      <rect
+        x="206"
+        y="95"
+        width="29"
+        height="28"
+        rx="4"
+        fill="var(--blue-bg)"
+      />
+      <rect
+        x="176"
+        y="131"
+        width="29"
+        height="21"
+        rx="4"
+        fill="var(--blue-bg)"
+      />
+    </g>
+    <text x="180" y="183" class="label" data-box="snapshot-box">Cluster</text>
+    <text x="180" y="227" class="label" data-box="snapshot-box">snapshot</text>
+    <path d="M305 158h70" class="flow" />
 
-  <g class="grid"><line x1="85" x2="910" y1="510.000" y2="510.000"/><text x="65" y="516.000" text-anchor="end">50</text></g>
-  <g class="grid"><line x1="85" x2="910" y1="327.130" y2="327.130"/><text x="65" y="333.130" text-anchor="end">75</text></g>
-  <g class="grid"><line x1="85" x2="910" y1="144.259" y2="144.259"/><text x="65" y="150.259" text-anchor="end">100</text></g>
-  <g class="grid"><line x1="85.000" x2="85.000" y1="115" y2="510"/><text x="85.000" y="547" text-anchor="middle">$0.001</text></g>
-  <g class="grid"><line x1="334.922" x2="334.922" y1="115" y2="510"/><text x="334.922" y="547" text-anchor="middle">$0.01</text></g>
-  <g class="grid"><line x1="584.844" x2="584.844" y1="115" y2="510"/><text x="584.844" y="547" text-anchor="middle">$0.10</text></g>
-  <g class="grid"><line x1="834.766" x2="834.766" y1="115" y2="510"/><text x="834.766" y="547" text-anchor="middle">$1</text></g>
-  <g class="point jev" data-model-id="jev"><title>Jev-driven pipeline: 76.2% pass rate; $0.00139 per diagnosis attempt.</title><path d="M120.861 304.422 134.861 318.422 120.861 332.422 106.861 318.422Z"/></g>
-  <g class="point codex" data-model-id="published-1"><title>GPT-6 Astra (max): 96.8% pass rate; $0.88000 per diagnosis attempt.</title><circle cx="820.891" cy="167.667" r="9.5"/></g>
-  <g class="point codex" data-model-id="published-2"><title>GPT-6 Astra (medium): 100.0% pass rate; $0.46100 per diagnosis attempt.</title><circle cx="750.717" cy="144.259" r="9.5"/></g>
-  <g class="point codex" data-model-id="published-3"><title>GPT-6.1 Sol (max): 98.4% pass rate; $0.17900 per diagnosis attempt.</title><circle cx="648.038" cy="155.963" r="9.5"/></g>
-  <g class="point codex" data-model-id="published-4"><title>GPT-6.1 Sol (medium): 98.4% pass rate; $0.09700 per diagnosis attempt.</title><circle cx="581.538" cy="155.963" r="9.5"/></g>
-  <g class="point codex" data-model-id="published-5"><title>GPT-5.6 Sol (max): 95.2% pass rate; $0.62200 per diagnosis attempt.</title><circle cx="783.230" cy="179.370" r="9.5"/></g>
-  <g class="point claude" data-model-id="published-6"><title>Claude Opus 5: 92.1% pass rate; $0.93300 per diagnosis attempt.</title><path d="M827.239 190.046 839.239 213.046 815.239 213.046Z"/></g>
-  <g class="point codex" data-model-id="published-7"><title>GPT-5.6 Terra (max): 85.7% pass rate; $0.35600 per diagnosis attempt.</title><circle cx="722.663" cy="248.861" r="9.5"/></g>
-  <g class="point codex" data-model-id="published-8"><title>GPT-5.6 Luna (max): 87.3% pass rate; $0.06000 per diagnosis attempt.</title><circle cx="529.399" cy="237.157" r="9.5"/></g>
-  <g class="point codex" data-model-id="published-9"><title>GPT-5.6 Sol (medium): 77.8% pass rate; $0.28000 per diagnosis attempt.</title><circle cx="696.599" cy="306.648" r="9.5"/></g>
-  <g class="point claude" data-model-id="published-10"><title>Claude Sonnet 5: 63.5% pass rate; $0.67400 per diagnosis attempt.</title><path d="M791.944 399.250 803.944 422.250 779.944 422.250Z"/></g>
-  <g class="point claude" data-model-id="published-11"><title>Claude Opus 4.8: 66.7% pass rate; $1.27000 per diagnosis attempt.</title><path d="M860.709 375.843 872.709 398.843 848.709 398.843Z"/></g>
+    <rect
+      id="selection-box"
+      x="375"
+      y="60"
+      width="250"
+      height="196"
+      rx="12"
+      fill="var(--orange-bg)"
+      stroke="var(--orange)"
+      stroke-width="2"
+    />
+    <use href="#jev-chip" transform="translate(500 106) scale(.85)" />
+    <text x="500" y="183" class="label" data-box="selection-box">
+      Jev selects
+    </text>
+    <text x="500" y="227" class="label" data-box="selection-box">
+      component
+    </text>
+    <path d="M500 256v16q0 13-13 13H193q-13 0-13 13v24" class="flow" />
 
-  <text x="149" y="327" class="annotation" style="fill:var(--jev)" font-size="28">Jev</text>
+    <rect
+      id="collection-box"
+      x="55"
+      y="322"
+      width="250"
+      height="196"
+      rx="12"
+      fill="var(--blue-bg)"
+      stroke="var(--blue)"
+      stroke-width="2"
+    />
+    <g class="icon" stroke="var(--blue)" transform="translate(-10 -14)">
+      <rect x="151" y="357" width="78" height="48" rx="5" />
+      <path d="M151 370h78m-65 13h35m-35 11h51" />
+    </g>
+    <text x="180" y="445" class="label" data-box="collection-box">Collect</text>
+    <text x="180" y="489" class="label" data-box="collection-box">
+      evidence
+    </text>
+    <path d="M305 420h70" class="flow" />
 
-  <text x="497.5" y="598" text-anchor="middle" class="muted" font-size="28">Cost per diagnosis ($)</text>
+    <rect
+      id="review-box"
+      x="375"
+      y="322"
+      width="250"
+      height="196"
+      rx="12"
+      fill="var(--orange-bg)"
+      stroke="var(--orange)"
+      stroke-width="2"
+    />
+    <use href="#jev-chip" transform="translate(500 368) scale(.85)" />
+    <text x="500" y="445" class="label" data-box="review-box">Jev reviews</text>
+    <text x="500" y="489" class="label" data-box="review-box">evidence</text>
+    <text x="820" y="301" class="branch">Cause supported</text>
+    <path d="M625 420h70" class="flow" />
+
+    <rect
+      id="result-box"
+      x="695"
+      y="322"
+      width="250"
+      height="196"
+      rx="12"
+      fill="var(--blue-bg)"
+      stroke="var(--blue)"
+      stroke-width="2"
+    />
+    <g
+      class="icon"
+      stroke="var(--blue)"
+      transform="translate(820 368) scale(.93)"
+    >
+      <path
+        d="M-24-30h31l17 17v43h-48zM7-30v17h17m-35 14 7 7 15-17m-22 29h24"
+      />
+    </g>
+    <text x="820" y="445" class="label" data-box="result-box">Diagnosis</text>
+    <text x="820" y="489" class="label" data-box="result-box">result</text>
+
+    <path
+      d="M500 518v18q0 18-18 18H198q-18 0-18-18v-18"
+      fill="none"
+      stroke="var(--blue)"
+      stroke-width="3"
+      stroke-dasharray="8 7"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      marker-end="url(#loop-arrow)"
+    />
+    <text x="340" y="599" class="branch" style="fill: var(--blue)">
+      Otherwise: next component
+    </text>
+  </g>
 </svg>

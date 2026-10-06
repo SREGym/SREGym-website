@@ -145,7 +145,9 @@ test("Jev-driven diagnosis article includes accessible measurements and the work
   const coverSvg = await cover.text();
   assert.ok(coverSvg.includes('viewBox="0 0 1000 630"'));
   assert.match(coverSvg, /prefers-color-scheme:\s*dark/);
-  assert.equal([...coverSvg.matchAll(/data-model-id=/g)].length, 12);
+  assert.ok(coverSvg.includes('id="review-box"'));
+  assert.ok(coverSvg.includes("Cause supported"));
+  assert.ok(coverSvg.includes("Otherwise: next component"));
   for (const file of ["workflow.svg", "workflow-mobile.svg"]) {
     const workflow = await get(`/blog/jev-diagnosis/${file}`);
     assert.equal(workflow.status, 200);
