@@ -20,6 +20,7 @@ async function get(path) {
 const pages = [
   { path: "/blog" },
   { path: "/blog/jev-sregym-lite", authors: 4 },
+  { path: "/blog/jev-driven-sre-diagnosis", authors: 4 },
   { path: "/blog/postmortems-to-sre-benchmarks", authors: 11 },
 ];
 
@@ -97,6 +98,56 @@ for (const { path, authors } of pages) {
     assert.ok(png.length < 5 * 1024 * 1024);
   });
 }
+
+test("Jev-driven diagnosis article includes accessible measurements and the workflow image", async () => {
+  const response = await get("/blog/jev-driven-sre-diagnosis");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.ok(html.includes("80/105 (76.2%)"));
+  assert.ok(html.includes("21 faults"));
+  assert.ok(!html.includes("17 shared faults"));
+  assert.ok(!html.includes("60/85"));
+  assert.ok(html.includes("$0.880"));
+  assert.ok(html.includes("$0.00139"));
+  assert.ok(
+    !html.includes("Only Jev has a verified diagnosis-stage inference cost"),
+  );
+  assert.ok(html.includes("mutating_webhook_resource_limits_social_network"));
+  assert.ok(html.includes('aria-label="Search Jev faults"'));
+  assert.ok(html.includes("historical 21-fault cohort"));
+  assert.ok(html.includes("API-equivalent estimates for diagnosis only"));
+  assert.ok(html.includes("not a controlled comparison"));
+  assert.ok(!html.includes('aria-label="Axis scale"'));
+  assert.ok(!html.includes('class="jev-point-ring"'));
+  assert.ok(!html.includes('class="jev-label-leader"'));
+  const labels = [
+    ...html.matchAll(
+      /<text\b[^>]*class="jev-point-label[^\"]*"[^>]*>(.*?)<\/text>/gs,
+    ),
+  ];
+  assert.equal(
+    labels.length,
+    12,
+    "Every plotted model should have a permanent label",
+  );
+  assert.ok(labels.some((label) => label[1].includes("Jev 1.13.0")));
+  assert.ok(labels.some((label) => label[1].includes("GPT-6 Astra")));
+  assert.ok(labels.some((label) => label[1].includes("Claude Opus 5")));
+  assert.ok(!html.includes("PIPELINE_FIGURE"));
+  assert.ok(!html.includes("\u000b"));
+  assert.ok(html.includes("/blog/jev-diagnosis/workflow-mobile.svg"));
+  for (const file of ["workflow.svg", "workflow-mobile.svg"]) {
+    const workflow = await get(`/blog/jev-diagnosis/${file}`);
+    assert.equal(workflow.status, 200);
+    assert.match(workflow.headers.get("content-type"), /image\/svg\+xml/);
+    const svg = await workflow.text();
+    assert.ok(svg.includes("prefers-color-scheme: dark"));
+    assert.ok(svg.includes("Origin supported"));
+    assert.ok(svg.includes("Victim"));
+    assert.ok(svg.includes("Repeat with the next candidate"));
+    assert.ok(svg.includes("Submit the diagnosis"));
+  }
+});
 
 test("postmortem article preserves its reference tables and omits draft placeholders", async () => {
   const response = await get("/blog/postmortems-to-sre-benchmarks");

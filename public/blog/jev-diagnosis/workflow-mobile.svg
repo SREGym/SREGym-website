@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="1260" viewBox="0 0 440 1260" role="img" aria-labelledby="title description">
+  <title id="title">The decisions in a Jev-driven diagnosis</title>
+  <desc id="description">A programmatic collector summarizes the cluster. Jev ranks candidates, then reviews focused evidence. A supported origin leads to confirmation and diagnosis submission. A victim leads to a linked dependency; unrelated or undetermined findings lead to another candidate. Both repeat focused investigation.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 Z" fill="var(--edge)"/></marker>
+    <style>
+      :root {
+        --paper: #ffffff;
+        --ink: #252b33;
+        --muted: #626b75;
+        --code-bg: #eef8f5;
+        --code-border: #82baa9;
+        --jev-bg: #f3effc;
+        --jev-border: #aa96d5;
+        --jev-tag: #70519e;
+        --edge: #697b8a;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --paper: #1c1f24;
+          --ink: #d2d0cb;
+          --muted: #b7bec8;
+          --code-bg: #20332e;
+          --code-border: #69a895;
+          --jev-bg: #2e283c;
+          --jev-border: #b0a3e1;
+          --jev-tag: #c3b0eb;
+          --edge: #98a6b3;
+        }
+      }
+      text { font-family: Helvetica, Arial, sans-serif; fill: var(--ink); text-anchor: middle; }
+      .title { font-size: 22px; font-weight: 700; }
+      .body { font-size: 18px; }
+      .small { font-size: 16px; fill: var(--muted); }
+      .tag { font-size: 12px; font-weight: 700; letter-spacing: .6px; fill: var(--jev-tag); }
+      .code { fill: var(--code-bg); stroke: var(--code-border); stroke-width: 1.6; }
+      .jev { fill: var(--jev-bg); stroke: var(--jev-border); stroke-width: 1.6; }
+      .edge { fill: none; stroke: var(--edge); stroke-width: 2; stroke-linejoin: round; marker-end: url(#arrow); }
+      .connector { fill: none; stroke: var(--edge); stroke-width: 2; stroke-linejoin: round; }
+    </style>
+  </defs>
+  <rect width="440" height="1260" fill="var(--paper)"/>
+  <rect x="46" y="26" width="14" height="14" rx="3" class="code"/>
+  <text x="70" y="39" class="small" style="text-anchor:start">Programmatic</text>
+  <rect x="287" y="26" width="14" height="14" rx="3" class="jev"/>
+  <text x="311" y="39" class="small" style="text-anchor:start">Jev</text>
+
+  <rect x="46" y="70" width="336" height="105" rx="11" class="code"/>
+  <text x="214" y="104" class="title">Read and summarize</text>
+  <text x="214" y="130" class="title">the cluster</text>
+  <text x="214" y="158" class="body">Objects, events, logs, resource state</text>
+  <path d="M 214 175 V 210" class="edge"/>
+
+  <rect x="46" y="210" width="336" height="130" rx="11" class="jev"/>
+  <text x="214" y="235" class="tag">JEV · FIRST CALL</text>
+  <text x="214" y="267" class="title">Where should we investigate?</text>
+  <text x="214" y="297" class="body">Rank components and choose</text>
+  <text x="214" y="320" class="body">a fault-object type</text>
+  <path d="M 214 340 V 375" class="edge"/>
+
+  <rect x="46" y="375" width="336" height="105" rx="11" class="code"/>
+  <text x="214" y="410" class="title">Collect focused evidence</text>
+  <text x="214" y="440" class="body">Component details →</text>
+  <text x="214" y="463" class="body">numbered observations</text>
+  <path d="M 214 480 V 515" class="edge"/>
+
+  <rect x="46" y="515" width="336" height="160" rx="11" class="jev"/>
+  <text x="214" y="540" class="tag">JEV · ONE CALL PER INVESTIGATION</text>
+  <text x="214" y="570" class="title">What explains this component?</text>
+  <text x="214" y="598" class="body">Origin, victim, unrelated</text>
+  <text x="214" y="621" class="body">or undetermined?</text>
+  <text x="214" y="649" class="small">Cause · key evidence · next component</text>
+
+  <!-- These are alternative outcomes, not sequential steps. -->
+  <path d="M 214 675 V 700 H 406 V 1185" class="connector"/>
+  <path d="M 406 785 H 382" class="edge"/>
+  <path d="M 406 1040 H 382" class="edge"/>
+  <path d="M 406 1185 H 382" class="edge"/>
+
+  <rect x="46" y="735" width="336" height="100" rx="11" class="code"/>
+  <text x="214" y="770" class="title">Origin supported</text>
+  <text x="214" y="800" class="body">Confirm the source and fault object</text>
+  <path d="M 214 835 V 865" class="edge"/>
+  <rect x="46" y="865" width="336" height="90" rx="11" class="code"/>
+  <text x="214" y="901" class="title">Submit the diagnosis</text>
+  <text x="214" y="931" class="body">Object + cause + evidence</text>
+
+  <rect x="46" y="990" width="336" height="100" rx="11" class="code"/>
+  <text x="214" y="1026" class="title">Victim</text>
+  <text x="214" y="1056" class="body">Prioritize a linked dependency</text>
+
+  <rect x="46" y="1130" width="336" height="110" rx="11" class="code"/>
+  <text x="214" y="1166" class="title">Unrelated or undetermined</text>
+  <text x="214" y="1199" class="body">Try another candidate</text>
+
+  <!-- Both non-origin outcomes return to focused evidence collection. -->
+  <path d="M 46 1185 H 20 V 427 H 46" class="edge"/>
+  <path d="M 46 1040 H 20" class="connector"/>
+  <text x="13" y="753" class="small" transform="rotate(-90 13 753)">Repeat with the next candidate</text>
+</svg>

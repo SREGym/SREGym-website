@@ -7,7 +7,7 @@
     "dev": "next dev --turbo",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "test:blog": "node --test scripts/blog/smoke.test.mjs",
+    "test:blog": "node --test scripts/blog/smoke.test.mjs scripts/blog/jev-diagnosis/data.test.mjs",
     "test:blog:build": "node --test scripts/blog/build.test.mjs",
     "test:seo": "node --test scripts/seo/smoke.test.mjs",
     "postinstall": "fumadocs-mdx"

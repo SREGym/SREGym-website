@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1040" viewBox="0 0 1000 1040" role="img" aria-labelledby="title description">
+  <title id="title">The decisions in a Jev-driven diagnosis</title>
+  <desc id="description">A simplified branching workflow. A programmatic collector summarizes cluster evidence. Jev ranks candidates. Focused collection prepares evidence for a second Jev call, which chooses a verdict, cause category, key evidence and next component. Programmatic rules confirm an origin and submit a report, follow a victim's dependency, or try another candidate. Investigation repeats within a step budget.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 Z" fill="var(--edge)"/></marker>
+    <style>
+      :root {
+        --paper: #ffffff;
+        --ink: #252b33;
+        --muted: #626b75;
+        --code-bg: #eef8f5;
+        --code-border: #82baa9;
+        --jev-bg: #f3effc;
+        --jev-border: #aa96d5;
+        --jev-tag: #70519e;
+        --edge: #697b8a;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --paper: #1c1f24;
+          --ink: #d2d0cb;
+          --muted: #b7bec8;
+          --code-bg: #20332e;
+          --code-border: #69a895;
+          --jev-bg: #2e283c;
+          --jev-border: #b0a3e1;
+          --jev-tag: #c3b0eb;
+          --edge: #98a6b3;
+        }
+      }
+      text { font-family: Helvetica, Arial, sans-serif; fill: var(--ink); }
+      .title { font-size: 25px; font-weight: 700; }
+      .body { font-size: 21px; }
+      .small { font-size: 18px; fill: var(--muted); }
+      .tag { font-size: 16px; font-weight: 700; letter-spacing: 1px; fill: var(--jev-tag); }
+      .code { fill: var(--code-bg); stroke: var(--code-border); stroke-width: 1.6; }
+      .jev { fill: var(--jev-bg); stroke: var(--jev-border); stroke-width: 1.6; }
+      .edge { fill: none; stroke: var(--edge); stroke-width: 2.2; stroke-linejoin: round; marker-end: url(#arrow); }
+      .connector { fill: none; stroke: var(--edge); stroke-width: 2.2; stroke-linejoin: round; }
+    </style>
+  </defs>
+  <rect width="1000" height="1040" fill="var(--paper)"/>
+  <rect x="660" y="29" width="15" height="15" rx="3" class="code"/>
+  <text x="684" y="43" class="small">Programmatic</text>
+  <rect x="856" y="29" width="15" height="15" rx="3" class="jev"/>
+  <text x="880" y="43" class="small">Jev</text>
+
+  <!-- The broad view supplies the candidate list. -->
+  <rect x="200" y="99" width="560" height="100" rx="13" class="code"/>
+  <text x="480" y="134" text-anchor="middle" class="title">Read and summarize the cluster</text>
+  <text x="480" y="167" text-anchor="middle" class="body">Objects, events, logs and resource state</text>
+  <path d="M 480 199 V 240" class="edge"/>
+
+  <rect x="200" y="240" width="560" height="116" rx="13" class="jev"/>
+  <text x="227" y="269" class="tag">JEV · FIRST CALL</text>
+  <text x="227" y="302" class="title">Where should we investigate?</text>
+  <text x="227" y="332" class="body">Rank components and choose a fault-object type</text>
+  <path d="M 480 356 V 400" class="edge"/>
+
+  <!-- Subsequent iterations enter here, with another candidate. -->
+  <rect x="200" y="400" width="560" height="100" rx="13" class="code"/>
+  <text x="480" y="436" text-anchor="middle" class="title">Collect focused evidence</text>
+  <text x="480" y="469" text-anchor="middle" class="body">Component details → numbered observations</text>
+  <path d="M 480 500 V 542" class="edge"/>
+
+  <rect x="200" y="542" width="560" height="146" rx="13" class="jev"/>
+  <text x="227" y="571" class="tag">JEV · ONE CALL PER INVESTIGATION</text>
+  <text x="227" y="604" class="title">What explains this component?</text>
+  <text x="227" y="635" class="body">Origin, victim, unrelated or undetermined?</text>
+  <text x="227" y="665" class="body">Cause category · key evidence · next component</text>
+
+  <!-- Programmatic routing combines Jev probabilities with checks. -->
+  <path d="M 480 688 V 719" class="connector"/>
+  <path d="M 480 719 H 175 V 758" class="edge"/>
+  <path d="M 480 719 H 485 V 758" class="edge"/>
+  <path d="M 480 719 H 795 V 758" class="edge"/>
+
+  <rect x="35" y="758" width="280" height="109" rx="13" class="code"/>
+  <text x="175" y="795" text-anchor="middle" class="title">Origin supported</text>
+  <text x="175" y="827" text-anchor="middle" class="body">Confirm the source</text>
+  <text x="175" y="853" text-anchor="middle" class="body">and fault object</text>
+  <path d="M 175 867 V 916" class="edge"/>
+
+  <rect x="345" y="758" width="280" height="109" rx="13" class="code"/>
+  <text x="485" y="795" text-anchor="middle" class="title">Victim</text>
+  <text x="485" y="827" text-anchor="middle" class="body">Prioritize a linked</text>
+  <text x="485" y="853" text-anchor="middle" class="body">dependency</text>
+
+  <rect x="655" y="758" width="280" height="109" rx="13" class="code"/>
+  <text x="795" y="790" text-anchor="middle" class="title" style="font-size:22px">Unrelated or</text>
+  <text x="795" y="816" text-anchor="middle" class="title" style="font-size:22px">undetermined</text>
+  <text x="795" y="849" text-anchor="middle" class="body">Try another candidate</text>
+
+  <path d="M 485 867 V 896 H 965 V 450 H 760" class="edge"/>
+  <path d="M 795 867 V 896" class="connector"/>
+  <text x="760" y="934" text-anchor="middle" class="small">Repeat with the next candidate</text>
+
+  <rect x="35" y="916" width="280" height="94" rx="13" class="code"/>
+  <text x="175" y="953" text-anchor="middle" class="title">Submit the diagnosis</text>
+  <text x="175" y="985" text-anchor="middle" class="body">Object + cause + evidence</text>
+
+</svg>
