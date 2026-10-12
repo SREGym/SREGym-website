@@ -1,4 +1,9 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/contributors" },
+};
 
 const CONTRIBUTORS = [
   { name: "Jackson Clark", link: "https://hacksonclark.github.io/", role: "Lead" },

@@ -18,6 +18,7 @@ import { CohortProblemList } from "./components/cohort-problem-list";
 export const metadata: Metadata = {
   title: "SREGym-0508 Cohort",
   description: "The 90-fault cohort used for SREGym-0508 leaderboard results.",
+  alternates: { canonical: "/problems/cohorts/sregym-0508" },
 };
 
 export default async function Sregym0508CohortPage() {

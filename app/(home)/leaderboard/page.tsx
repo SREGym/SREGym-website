@@ -1,5 +1,10 @@
 import { leaderboardBenchmarks } from "@/lib/leaderboard-data";
+import type { Metadata } from "next";
 import { LeaderboardClient } from "./components/leaderboard-client";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/leaderboard" },
+};
 
 export default function LeaderboardPage() {
   return (

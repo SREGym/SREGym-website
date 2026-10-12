@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 export default function StratusPage() {
   return (
     <div className="flex flex-1 flex-col items-center px-4 py-6 sm:pt-12">
@@ -10,6 +12,7 @@ export default function StratusPage() {
   );
 }
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Stratus",
+  alternates: { canonical: "/stratus" },
 };

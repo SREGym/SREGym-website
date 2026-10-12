@@ -19,6 +19,7 @@ export const metadata: Metadata = {
   title: "SREGym-Lite-0720 Cohort (Archived)",
   description:
     "The archived 20-fault cohort used for SREGym-Lite-0720 leaderboard results.",
+  alternates: { canonical: "/problems/cohorts/sregym-lite-0720" },
 };
 
 export default async function SregymLite0720CohortPage() {

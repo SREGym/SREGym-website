@@ -19,6 +19,7 @@ export const metadata: Metadata = {
   title: "SREGym-Lite-1004 Cohort",
   description:
     "The 17 active faults used for SREGym-Lite-1004 results, excluding four deprecated faults from the previous cohort.",
+  alternates: { canonical: "/problems/cohorts/sregym-lite" },
 };
 
 export default async function SregymLiteCohortPage() {

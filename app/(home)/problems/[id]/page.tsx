@@ -7,6 +7,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { getDefaultTask } from "@/lib/problems-data";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { buildTaskGithubUrl } from "../lib/utils";
 import { TaskDemo } from "./components/task-demo";
@@ -19,6 +20,15 @@ type PageProps = {
     id: string;
   }>;
 };
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { id } = await params;
+  if (!(await getDefaultTask(id))) notFound();
+
+  return {
+    alternates: { canonical: `/problems/${encodeURIComponent(id)}` },
+  };
+}
 
 export default async function Task({ params }: PageProps) {
   const { id } = await params;
