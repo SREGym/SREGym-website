@@ -6,6 +6,18 @@ const withMDX = createMDX();
 const config = {
   reactStrictMode: true,
   output: "standalone",
+  // Send canonicals in the initial HTML head, not streamed into the body.
+  htmlLimitedBots: /.*/,
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "sregym\\.com" }],
+        destination: "https://www.sregym.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
   // The social-image renderer reads these files at runtime. Explicitly include
   // them so standalone/serverless deployments retain the font assets.
   outputFileTracingIncludes: {

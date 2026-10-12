@@ -1,3 +1,9 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/ascii-logo" },
+};
+
 export default function Page() {
   const fs = require("fs");
   const path = require("path");

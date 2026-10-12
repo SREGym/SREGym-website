@@ -1,10 +1,15 @@
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Github, Terminal } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Callout } from "./components/callout";
 import { TerminalHero } from "./components/terminal-hero";
 import { LeaderboardPreview } from "./components/leaderboard-preview";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   return (
