@@ -22,6 +22,7 @@ const pages = [
   { path: "/blog/jev-sregym-lite", authors: 4 },
   { path: "/blog/jev-driven-sre-diagnosis", authors: 4 },
   { path: "/blog/postmortems-to-sre-benchmarks", authors: 11 },
+  { path: "/blog/frontier-data-summit", authors: 2 },
 ];
 
 for (const { path, authors } of pages) {
@@ -193,5 +194,40 @@ test("missing articles and sharing images return 404", async () => {
     "/blog/no-such-article/share-image",
   ]) {
     assert.equal((await get(path)).status, 404);
+  }
+});
+
+test("Frontier Data Summit article preserves its sections, links, and supplied images", async () => {
+  const response = await get("/blog/frontier-data-summit");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  const article = html.match(/<article\b[^>]*>(.*?)<\/article>/s)?.[1];
+  assert.ok(article, "Missing summit article content");
+  assert.ok(!article.includes("\u000b"));
+  assert.ok(article.includes("https://www.frontierdatasummit.ai/"));
+  assert.ok(article.includes("https://snorkel.ai/"));
+  for (const heading of [
+    "A Refreshing Perspective on AI Eval Research",
+    "SREGym at the Poster Session",
+    "The Community Behind SREGym",
+    "Looking Ahead: SREGym 2.0",
+  ]) {
+    assert.ok(article.includes(heading), `Missing section: ${heading}`);
+  }
+  assert.ok(article.includes("more than 60 contributors"));
+  assert.ok(article.includes("280 members"));
+  assert.ok(article.includes("environment scaling"));
+  for (const [file, width, height] of [
+    ["featured-poster.png", 2048, 1072],
+    ["sregym-poster.png", 1130, 1596],
+  ]) {
+    assert.ok(article.includes(file), `Missing supplied image: ${file}`);
+    const image = await get(`/blog/frontier-data-summit/${file}`);
+    assert.equal(image.status, 200);
+    assert.match(image.headers.get("content-type"), /image\/png/);
+    const png = Buffer.from(await image.arrayBuffer());
+    assert.equal(png.subarray(0, 8).toString("hex"), "89504e470d0a1a0a");
+    assert.equal(png.readUInt32BE(16), width);
+    assert.equal(png.readUInt32BE(20), height);
   }
 });
