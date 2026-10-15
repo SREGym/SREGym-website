@@ -2,6 +2,8 @@
 
 import {
   liteLeaderboardData,
+  rankLeaderboardEntries,
+  LITE_EVALUATION_NOTE,
   THIRD_PARTY_SUBMISSION_NOTE,
 } from "@/lib/leaderboard-data";
 import { cn } from "@/lib/utils";
@@ -11,10 +13,7 @@ import { runColumns } from "../leaderboard/components/run-columns";
 import { DataTable } from "../leaderboard/components/data-table";
 
 export function LeaderboardPreview() {
-  const topResults = [...liteLeaderboardData]
-    .sort((a, b) => b.e2ePct - a.e2ePct)
-    .slice(0, 5)
-    .map((entry, index) => ({ ...entry, rank: index + 1 }));
+  const topResults = rankLeaderboardEntries(liteLeaderboardData).slice(0, 5);
 
   return (
     <div className="flex w-full flex-col items-center gap-6">
@@ -32,11 +31,14 @@ export function LeaderboardPreview() {
           data={topResults}
           initialSort={{ id: "rank", desc: false }}
           columnVisibility={{ noise: false }}
-          footnote={
+          footnote={[
+            LITE_EVALUATION_NOTE,
             topResults.some((entry) => entry.thirdParty)
               ? THIRD_PARTY_SUBMISSION_NOTE
-              : undefined
-          }
+              : undefined,
+          ]
+            .filter(Boolean)
+            .join(" ")}
         />
       </div>
       <Link

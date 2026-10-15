@@ -90,7 +90,7 @@ export const runColumns: ColumnDef<RankedRunEntry>[] = [
       <SortableHeader
         column={column}
         label="Rank"
-        tooltip="Rank based on end-to-end (E2E) success rate within the current filter."
+        tooltip="Ranked by end-to-end (E2E) success rate, then lower mean time-to-mitigate (TTM), then lower mean time-to-diagnose (TTD), within the current filter."
       />
     ),
     cell: ({ row }) => {
@@ -271,7 +271,7 @@ export const runColumns: ColumnDef<RankedRunEntry>[] = [
       <SortableHeader
         column={column}
         label="Tokens"
-        tooltip="Mean token usage per problem run."
+        tooltip="Average input + output tokens per run, including cached input tokens."
       />
     ),
   },

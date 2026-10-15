@@ -17,6 +17,19 @@ export type RankedRunEntry = RunEntry & {
   rank: number;
 };
 
+export function rankLeaderboardEntries(
+  entries: readonly RunEntry[],
+): RankedRunEntry[] {
+  return [...entries]
+    .sort(
+      (a, b) =>
+        b.e2ePct - a.e2ePct ||
+        a.ttmSeconds - b.ttmSeconds ||
+        a.ttdSeconds - b.ttdSeconds,
+    )
+    .map((entry, index) => ({ ...entry, rank: index + 1 }));
+}
+
 export const THIRD_PARTY_SUBMISSION_NOTE =
   "* Third-party submissions. Results verified by the SREGym team.";
 
@@ -40,6 +53,7 @@ export type LeaderboardBenchmark = {
   id: string;
   label: string;
   summary: string;
+  evaluationNote?: string;
   supportsNoise: boolean;
   cohortHref?: string;
   entries: RunEntry[];
@@ -194,8 +208,11 @@ export const runLeaderboardData: RunEntry[] = [
   },
 ];
 
-// Results use the 17 active SREGym-Lite-1004 faults and three attempts per fault.
-// Each configuration therefore has 51 runs.
+export const LITE_EVALUATION_NOTE =
+  "Devin Oncall: 2 attempts per fault (34 runs). Other results: 3 attempts per fault (51 runs).";
+
+// Results use the 17 active SREGym-Lite-1004 faults. Devin Oncall uses two
+// attempts per fault (34 runs); other configurations use three (51 runs).
 // The four deprecated faults from the 21-fault cohort are excluded. Missing
 // attempts and timeouts count as failures; time means use runs with recorded
 // values.
@@ -377,6 +394,118 @@ export const liteLeaderboardData: RunEntry[] = [
     ttmSeconds: 553.7,
     tokens: "1.85M",
   },
+  {
+    agent: "Devin Oncall",
+    thirdParty: {
+      website: "https://devin.ai/",
+    },
+    model: "Claude Opus 5.5 (high)",
+    noise: false,
+    diagPct: 100.0,
+    mitPct: 100.0,
+    e2ePct: 100.0,
+    ttdSeconds: 76.1,
+    ttmSeconds: 141.0,
+    tokens: "1.24M",
+  },
+  {
+    agent: "Devin Oncall",
+    thirdParty: {
+      website: "https://devin.ai/",
+    },
+    model: "GPT-6 Astra (max)",
+    noise: false,
+    diagPct: 100.0,
+    mitPct: 100.0,
+    e2ePct: 100.0,
+    ttdSeconds: 190.8,
+    ttmSeconds: 388.4,
+    tokens: "1.11M",
+  },
+  {
+    agent: "Devin Oncall",
+    thirdParty: {
+      website: "https://devin.ai/",
+    },
+    model: "Claude Opus 5.5 (medium)",
+    noise: false,
+    diagPct: 97.1,
+    mitPct: 97.1,
+    e2ePct: 97.1,
+    ttdSeconds: 99.7,
+    ttmSeconds: 152.4,
+    tokens: "1.26M",
+  },
+  {
+    agent: "Devin Oncall",
+    thirdParty: {
+      website: "https://devin.ai/",
+    },
+    model: "GPT-6.1 Sol (max)",
+    noise: false,
+    diagPct: 94.1,
+    mitPct: 100.0,
+    e2ePct: 94.1,
+    ttdSeconds: 129.7,
+    ttmSeconds: 270.3,
+    tokens: "1.02M",
+  },
+  {
+    agent: "Devin Oncall",
+    thirdParty: {
+      website: "https://devin.ai/",
+    },
+    model: "GPT-6 Astra (medium)",
+    noise: false,
+    diagPct: 91.2,
+    mitPct: 100.0,
+    e2ePct: 91.2,
+    ttdSeconds: 89.2,
+    ttmSeconds: 172.4,
+    tokens: "797K",
+  },
+  {
+    agent: "Devin Oncall",
+    thirdParty: {
+      website: "https://devin.ai/",
+    },
+    model: "Claude Fable 5.1 (high)",
+    noise: false,
+    diagPct: 97.1,
+    mitPct: 88.2,
+    e2ePct: 85.3,
+    ttdSeconds: 164.2,
+    ttmSeconds: 278.9,
+    tokens: "1.42M",
+  },
+  {
+    agent: "Devin Oncall",
+    thirdParty: {
+      website: "https://devin.ai/",
+    },
+    model: "GPT-6.1 Sol (medium)",
+    noise: false,
+    diagPct: 94.1,
+    mitPct: 91.2,
+    e2ePct: 85.3,
+    ttdSeconds: 72.1,
+    ttmSeconds: 137.3,
+    tokens: "715K",
+  },
+  {
+    agent: "Devin Oncall",
+    thirdParty: {
+      website: "https://devin.ai/",
+    },
+    model: "Claude Fable 5.1 (medium)",
+    noise: false,
+    diagPct: 88.2,
+    mitPct: 88.2,
+    e2ePct: 82.4,
+    ttdSeconds: 135.2,
+    ttmSeconds: 220.6,
+    tokens: "1.11M",
+  },
 ];
 
 // Retained as an internal historical record and intentionally not exposed on
@@ -499,6 +628,7 @@ export const leaderboardBenchmarks: LeaderboardBenchmark[] = [
     id: "sregym-lite-1004",
     label: "SREGym-Lite",
     summary: "SREGym-Lite-1004 · 17 faults",
+    evaluationNote: LITE_EVALUATION_NOTE,
     supportsNoise: false,
     cohortHref: "/problems/cohorts/sregym-lite",
     entries: liteLeaderboardData,
