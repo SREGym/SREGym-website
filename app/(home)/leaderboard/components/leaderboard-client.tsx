@@ -6,7 +6,7 @@ import { ArrowRight, BarChart3, TableIcon } from "lucide-react";
 import {
   LeaderboardBenchmark,
   RunEntry,
-  RankedRunEntry,
+  rankLeaderboardEntries,
   THIRD_PARTY_SUBMISSION_NOTE,
 } from "@/lib/leaderboard-data";
 import Link from "next/link";
@@ -21,12 +21,6 @@ const filterOptions: { value: NoiseFilter; label: string }[] = [
   { value: "clean", label: "without noises" },
   { value: "noisy", label: "with noises" },
 ];
-
-function rankByE2E(entries: RunEntry[]): RankedRunEntry[] {
-  return [...entries]
-    .sort((a, b) => b.e2ePct - a.e2ePct)
-    .map((entry, i) => ({ ...entry, rank: i + 1 }));
-}
 
 export function LeaderboardClient({
   benchmarks,
@@ -49,7 +43,7 @@ export function LeaderboardClient({
     } else {
       filtered = benchmark.entries.filter((r) => r.noise);
     }
-    return rankByE2E(filtered);
+    return rankLeaderboardEntries(filtered);
   }, [benchmark, noiseFilter]);
 
   if (!benchmark) return null;
@@ -149,6 +143,11 @@ export function LeaderboardClient({
             </Link>
           )}
         </div>
+        {benchmark.evaluationNote && (
+          <p className="text-muted-foreground text-xs leading-relaxed">
+            {benchmark.evaluationNote}
+          </p>
+        )}
       </div>
 
       {view === "table" ? (
