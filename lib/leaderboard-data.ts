@@ -195,10 +195,53 @@ export const runLeaderboardData: RunEntry[] = [
 ];
 
 // Results use the 17 active SREGym-Lite-1004 faults and three attempts per fault.
+// Each configuration therefore has 51 runs.
 // The four deprecated faults from the 21-fault cohort are excluded. Missing
 // attempts and timeouts count as failures; time means use runs with recorded
 // values.
 export const liteLeaderboardData: RunEntry[] = [
+  {
+    agent: "CloudThinker",
+    thirdParty: {
+      website: "https://cloudthinker.io/",
+    },
+    model: "GPT-6 Astra (low)",
+    noise: false,
+    diagPct: 100.0,
+    mitPct: 100.0,
+    e2ePct: 100.0,
+    ttdSeconds: 126.2,
+    ttmSeconds: 342.0,
+    tokens: "736K",
+  },
+  {
+    agent: "CloudThinker",
+    thirdParty: {
+      website: "https://cloudthinker.io/",
+    },
+    model: "GPT-6 Astra (max)",
+    noise: false,
+    diagPct: 100.0,
+    mitPct: 100.0,
+    e2ePct: 100.0,
+    ttdSeconds: 310.0,
+    ttmSeconds: 675.0,
+    tokens: "1.74M",
+  },
+  {
+    agent: "CloudThinker",
+    thirdParty: {
+      website: "https://cloudthinker.io/",
+    },
+    model: "GPT-6.1 Sol (low)",
+    noise: false,
+    diagPct: 94.1,
+    mitPct: 98.0,
+    e2ePct: 92.2,
+    ttdSeconds: 152.9,
+    ttmSeconds: 273.8,
+    tokens: "564K",
+  },
   {
     agent: "Codex",
     model: "GPT-6 Astra (max)",
