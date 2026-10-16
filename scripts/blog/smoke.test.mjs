@@ -23,6 +23,7 @@ const pages = [
   { path: "/blog/jev-driven-sre-diagnosis", authors: 4 },
   { path: "/blog/postmortems-to-sre-benchmarks", authors: 11 },
   { path: "/blog/frontier-data-summit", authors: 2 },
+  { path: "/blog/decision-model-led-sre-diagnosis", authors: 5 },
 ];
 
 for (const { path, authors } of pages) {

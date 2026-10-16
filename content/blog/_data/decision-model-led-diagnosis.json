@@ -1,0 +1,292 @@
+{
+  "tools": [
+    [
+      "Workload",
+      "describe",
+      "Pod states, restarts, events, container settings"
+    ],
+    [
+      "Workload",
+      "config_and_changes",
+      "Who changed its spec and when, and the ConfigMaps and Secrets it reads"
+    ],
+    [
+      "Workload",
+      "related_objects",
+      "Volume claims, Service accounts, policies and autoscalers around it"
+    ],
+    [
+      "Logs",
+      "logs",
+      "Ongoing and stopped error lines, and the components they name"
+    ],
+    [
+      "Traffic",
+      "service_view",
+      "Whether its Services select its pods, with endpoints and ports"
+    ],
+    ["Traffic", "call_edges", "Who calls whom, and how often those calls fail"],
+    [
+      "Traffic",
+      "client_check",
+      "From a caller's pod, whether the name resolves and the port answers"
+    ],
+    [
+      "Metrics",
+      "metric_series",
+      "15 minutes of CPU, memory, restarts, request rate, errors and latency"
+    ],
+    [
+      "Backends",
+      "backend_probe",
+      "A read-only health command inside a database or queue"
+    ],
+    [
+      "Cluster",
+      "cluster_objects",
+      "Webhooks, quotas, network policies, RBAC, DNS, nodes, storage"
+    ],
+    [
+      "Cluster",
+      "object_view",
+      "The content of one object, such as a ConfigMap"
+    ],
+    ["Cluster", "events", "Recent Kubernetes events, warnings first"]
+  ],
+  "decisions": [
+    {
+      "step": 1,
+      "latency": "0.22 S",
+      "options": [
+        ["client_check", "frontend → product-catalog", 0.62],
+        ["describe", "product-catalog", 0.13],
+        ["logs", "product-catalog", 0.07],
+        ["config_and_changes", "frontend", 0.05],
+        ["client_check", "frontend → cart", 0.03],
+        ["submit_now", "", 0.03]
+      ],
+      "abnormal": "no, 0.34",
+      "enough": "no, 0.39",
+      "causes": [
+        ["cluster_object", "0.37"],
+        ["Deployment frontend", "0.30"],
+        ["Deployment product-catalog", "0.14"]
+      ]
+    },
+    {
+      "step": 7,
+      "latency": "0.16 S",
+      "options": [
+        ["submit_now", "", 0.17],
+        ["object_view", "Service checkout", 0.14],
+        ["logs", "cart", 0.13],
+        ["config_and_changes", "frontend", 0.1],
+        ["client_check", "frontend → product-reviews", 0.09],
+        ["describe", "cart", 0.07]
+      ],
+      "abnormal": "no, 0.11",
+      "enough": "no, 0.37",
+      "causes": [
+        ["cluster_object", "0.62"],
+        ["Deployment frontend", "0.21"]
+      ]
+    }
+  ],
+  "results": {
+    "headers": [
+      "Measure",
+      "GPT-6 Luna Decisions\nwith review",
+      "GPT-6 Luna Decisions\nwithout review",
+      "Jev\nwith review",
+      "Jev\nwithout review"
+    ],
+    "sections": [
+      {
+        "label": "DIAGNOSIS",
+        "rows": [
+          [
+            "Judged diagnosis passes",
+            "100/105 (95.2%)",
+            "83/105 (79.0%)",
+            "94/105 (89.5%)",
+            "82/105 (78.1%)"
+          ],
+          ["Mean score", "92.1", "80.0", "89.7", "82.4"],
+          [
+            "Faults passed in all five attempts",
+            "17/21",
+            "13/21",
+            "16/21",
+            "12/21"
+          ],
+          [
+            "Faults failed in all five attempts",
+            "0/21",
+            "2/21",
+            "1/21",
+            "1/21"
+          ],
+          ["Median diagnosis time", "33.3 s", "31.2 s", "36.2 s", "29.4 s"]
+        ]
+      },
+      {
+        "label": "DECISION MODEL",
+        "rows": [
+          [
+            "Calls",
+            "1237 (11.8 per attempt)",
+            "1210 (11.5 per attempt)",
+            "944 (9.0 per attempt)",
+            "924 (8.8 per attempt)"
+          ],
+          [
+            "Median summed API latency per attempt",
+            "2.21 s",
+            "2.13 s",
+            "1.36 s",
+            "1.33 s"
+          ],
+          ["Median latency per call", "0.23 s", "0.23 s", "0.18 s", "0.17 s"],
+          [
+            "Input tokens",
+            "11.05 M (105K per attempt)",
+            "10.82 M (103K per attempt)",
+            "8.96 M (85K per attempt)",
+            "8.82 M (84K per attempt)"
+          ],
+          [
+            "Output tokens",
+            "0",
+            "0",
+            "0.97 M (9.2K per attempt)",
+            "0.94 M (9.0K per attempt)"
+          ],
+          ["Estimated cost", "$1.10", "$1.08", "$0.38", "$0.37"]
+        ]
+      },
+      {
+        "label": "LLM (GPT-6 SOL, HIGH EFFORT)",
+        "rows": [
+          [
+            "Calls",
+            "210 (2 per attempt)",
+            "105 (1 per attempt)",
+            "210 (2 per attempt)",
+            "105 (1 per attempt)"
+          ],
+          [
+            "Median summed time per attempt",
+            "18.1 s",
+            "13.3 s",
+            "20.8 s",
+            "16.0 s"
+          ],
+          [
+            "Input tokens",
+            "2.60 M (24.7K per attempt)\n1.49 M cached (14.2K per attempt)",
+            "1.14 M (10.8K per attempt)\n0.73 M cached (7.0K per attempt)",
+            "2.57 M (24.4K per attempt)\n1.56 M cached (14.9K per attempt)",
+            "1.13 M (10.8K per attempt)\n0.80 M cached (7.6K per attempt)"
+          ],
+          [
+            "Output tokens",
+            "0.073 M (0.69K per attempt)",
+            "0.057 M (0.54K per attempt)",
+            "0.074 M (0.70K per attempt)",
+            "0.057 M (0.54K per attempt)"
+          ],
+          ["Estimated cost", "$3.24", "$1.52", "$3.06", "$1.40"]
+        ]
+      },
+      {
+        "label": "TOTAL",
+        "rows": [
+          [
+            "Estimated cost",
+            "$4.34 ($0.041 per attempt)",
+            "$2.61 ($0.025 per attempt)",
+            "$3.44 ($0.033 per attempt)",
+            "$1.77 ($0.017 per attempt)"
+          ]
+        ]
+      }
+    ]
+  },
+  "faultResults": {
+    "headers": [
+      "FAULT",
+      "LUNA REVIEW",
+      "LUNA NO REVIEW",
+      "JEV REVIEW",
+      "JEV NO REVIEW"
+    ],
+    "attempts": 5,
+    "rows": [
+      ["admission_webhook_outage", 5, 5, 5, 5],
+      ["cronjob_sidecar_blocks_completion", 4, 4, 5, 4],
+      ["duplicate_pvc_mounts", 5, 1, 5, 1],
+      ["edge_request_filter_cpu_saturation", 4, 5, 4, 4],
+      ["env_variable_shadowing", 5, 5, 4, 5],
+      ["finalizer_deadlock_controller", 5, 5, 0, 1],
+      ["internal_traffic_policy_local", 5, 5, 5, 3],
+      ["kafka_poison_pill_hol_block", 5, 4, 5, 5],
+      ["mutating_webhook_resource_limits", 4, 1, 5, 4],
+      ["namespace_memory_limit", 5, 5, 5, 5],
+      ["network_policy_block", 5, 5, 5, 5],
+      ["readiness_probe_misconfiguration", 5, 5, 5, 5],
+      ["rolling_update_misconfigured", 5, 4, 5, 5],
+      ["search_rate_retry_collapse", 5, 0, 4, 0],
+      ["secret_rotation_stale_env_credentials", 5, 0, 5, 5],
+      ["service_dns_resolution_failure", 5, 5, 5, 5],
+      ["service_wrong_pod_selection", 5, 5, 5, 5],
+      ["unschedulable_incorrect_port_assignment", 5, 5, 5, 5],
+      ["valkey_auth_disruption", 3, 4, 2, 2],
+      ["wrong_dns_policy", 5, 5, 5, 3],
+      ["wrong_service_selector", 5, 5, 5, 5]
+    ]
+  },
+  "reviewers": {
+    "headers": [
+      "LLM\nreviews and writes the report",
+      "GPT-6 Luna Decisions\ndecision model",
+      "Jev\ndecision model"
+    ],
+    "sections": [
+      {
+        "label": "WITH REVIEW",
+        "rows": [
+          [
+            "GPT-6 Sol, high effort",
+            "100/105 (95.2%)\nmean score 92.1",
+            "94/105 (89.5%)\nmean score 89.7"
+          ],
+          [
+            "GPT-5.6 Sol, high effort",
+            "91/105 (86.7%)\nmean score 85.3",
+            "84/105 (80.0%)\nmean score 85.0"
+          ],
+          [
+            "GPT-5.6 Luna, xhigh effort",
+            "88/105 (83.8%)\nmean score 83.9",
+            "86/105 (81.9%)\nmean score 83.2"
+          ]
+        ]
+      },
+      {
+        "label": "WITHOUT REVIEW",
+        "rows": [
+          [
+            "GPT-5.6 Sol, high effort",
+            "80/105 (76.2%)\nmean score 79.7",
+            "75/105 (71.4%)\nmean score 76.0"
+          ],
+          [
+            "GPT-5.6 Luna, xhigh effort",
+            "81/105 (77.1%)\nmean score 80.1",
+            "78/105 (74.3%)\nmean score 80.0"
+          ]
+        ]
+      }
+    ]
+  }
+}

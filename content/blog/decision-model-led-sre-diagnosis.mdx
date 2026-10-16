@@ -1,0 +1,136 @@
+---
+title: "A Decision Model Leads SRE Diagnosis and an LLM Catches What It Misses"
+description: "The decision model chooses the tools, judges each result, and proposes a root cause. The LLM reviewer then either confirms or revises the proposed root cause."
+seoDescription: "Jev and GPT-6 Luna Decisions lead SRE diagnosis with an LLM reviewer, passing 89.5% and 95.2% of diagnoses across 21 SREGym-Lite faults."
+authors:
+  - name: "Yukan He"
+  - name: "Saad Mohammad Rafid Pial"
+    url: "https://saadmrp1038.github.io/"
+  - name: "Yiming Su"
+    url: "https://yimingsu01.github.io/"
+  - name: "Jackson Clark"
+    url: "https://hacksonclark.github.io/"
+  - name: "Tianyin Xu"
+    url: "https://tianyin.github.io/"
+date: 2026-10-16
+category: "Research"
+---
+
+import { DecisionModelFigure } from "@/components/blog/decision-model-led-diagnosis/figures";
+
+SRE agents diagnose incidents by checking logs, metrics, traces, and cluster states. It often takes many rounds of tool calls to find the root cause. Each round may involve deciding what to check based on collected evidence. Decision models, such as [TypeSafe AI’s Jev](https://typesafe.ai/blog/introducing-system-one-models-and-jev) and [GPT-6 Luna Decisions](https://developers.openai.com/api/docs/guides/decisions), can make these repeated decisions **very** fast (which is often critical for handling critical failures).
+
+Most agents that use the decision models let an LLM lead, with them assisting specific decisions. For example, [LangChain's Jev harness](https://www.langchain.com/blog/building-a-harness-with-jev) uses Jev for routing and guardrails, and a recent [study of penetration-testing agents](https://arxiv.org/abs/2609.28940) gives Jev four key decisions.
+
+In this post, we explore an alternative approach. We let a decision model – Jev or GPT-6 Lunar Decisions – *lead* the investigation, choosing what to investigate and evaluating the evidence at each step. Once the investigation is complete, we use an LLM to review the root cause proposed by the decision model in a single call with no tools.
+
+Our Decision-Model-Led diagnosis agent first collects the cluster state. The decision model chooses the tools, judges each result, and proposes a root cause. The LLM reviewer then either confirms or revises the proposed root cause. Finally, the decision model selects the supporting evidence and the LLM writes the report.
+
+We compared Jev and GPT-6 Luna Decisions on the 21 faults in SREGym-Lite. With LLM review, Jev and GPT-6 Luna Decisions passed **89.5% (94/105)** and **95.2% (100/105)** diagnosis tasks, respectively, compared to **78.1% (82/105)** and **79.0% (83/105)** without LLM review. The median diagnosis time was about **29 to 36** seconds.
+
+The LLM review also shows us where the decision model goes wrong.There is almost no variance in a decision model’s answer to the same question, so we could rewrite a saved question, send it again and check the fix in seconds. After we rewrote the questions, the decision model chose the right root cause on its own in about a third of these cases.
+
+## How the Decision-Model-Led Diagnosis Agent works
+
+We built the agent based on the pipeline presented in our last [blog post](https://www.sregym.com/blog/jev-driven-sre-diagnosis). The main change is in the investigation. In our earlier pipeline, the decision model chose which component to inspect, and the pipeline followed a predefined routine to gather more evidence about it. In this new agent, the decision model also chooses  which tool to run on which target at each step.
+
+<DecisionModelFigure number={1} caption={"An overview of the decision-model-led diagnosis agent"} />
+
+A diagnosis begins with a programmatic collector that reads the cluster state, scores every component using signals such as ongoing errors and warning events, and then further inspects  the components with the highest scores. For example, if one of them keeps logging errors, the collector calls the log-reading tool to gather more details, so that the decision model can begin its investigation with this evidence.
+
+<DecisionModelFigure number={2} caption={"The cluster investigation tools."} />
+
+The investigation then runs one step at a time. At each step, the agent builds a list of candidate tool calls by matching each tool with the targets it can run on. Targets are ranked by anomaly score, and each tool keeps at most four targets. The resulting list contains up to 40 tool calls, plus an option to stop and submit the diagnosis.
+
+Then, the agent sends the decision model several questions in one request. The decision model chooses the next tool and judges whether the last result shows an anomaly. It also classifies new error lines, judges whether the evidence is sufficient to write a diagnosis, and selects the likely root cause.
+
+After that, the agent runs the chosen tool and adds the result to the decision model’s notes as a new observation, which completes the step. The investigation continues until the decision model chooses to submit (the evidence is enough and is confident about the root cause).
+
+Once the investigation is complete, the LLM reviews the proposed root cause using the top candidates and their supporting evidence. It can confirm the decision model's choice or select another candidate from this list, but cannot make additional tools. The decision model then selects the evidence supporting the final root cause, and the LLM uses it to write the report. In this setup, the LLM is only used for the review and report writing.
+
+## Agent in action
+
+In one SREGym-Lite run with Jev, the fault changed the DNS settings of the frontend Deployment in the Astronomy Shop app. Its pod now sent DNS queries to an external server instead of the cluster’s DNS, so the frontend could no longer resolve the names of the services it calls.
+
+The programmatic collector summarized the 25 components in the cluster and ranked them by signs of failure. These were the top three:
+
+<div className="[&_pre]:w-full [&_pre]:whitespace-pre-wrap [&_code]:whitespace-pre-wrap [&_.line]:break-words">
+
+```text
+deployment/frontend
+  1/1 ready; dnsPolicy and dnsConfig.nameservers changed 134s before the first symptom
+  54 ongoing error lines, e.g. Name resolution failed for target dns:product-catalog:8080
+daemonset/otel-collector-agent
+  3/3 ready; restarted 140s before the first symptom, no setting changed
+  8 ongoing error lines, e.g. call to /stats/summary endpoint failed
+deployment/postgresql
+  1/1 ready; memory 90Mi of its 100Mi limit
+```
+
+</div>
+
+In its first decision, the decision model judged that the evidence was not yet enough and chose to test whether the frontend could reach product-catalog.
+
+<DecisionModelFigure number={3} caption={"Decision model's first decision in this run."} />
+
+The test showed that the product-catalog Service name resolved to nothing from the frontend pod. Over the next few steps, the same test toward cart and checkout failed in the same way, while the Services behind them had not been changed. After seven decisions, Jev stopped and placed the root cause at cluster\_object, the catch-all option that names no specific object.
+
+<DecisionModelFigure number={4} caption={"Decision model's last decision in this run."} />
+
+The object that had been changed, however, was the frontend Deployment. The LLM review compared Jev’s leading candidates and their evidence. Since the frontend’s DNS settings had changed just before the symptoms while the Services it called were unchanged, it changed the root cause to the frontend Deployment.
+
+Finally, the decision model chose the observations that support this root cause, and the LLM wrote the report from them. The submitted diagnosis began like this:
+
+<div className="[&_pre]:w-full [&_pre]:whitespace-pre-wrap [&_code]:whitespace-pre-wrap [&_.line]:break-words">
+
+```text
+The root cause is the frontend Deployment, which serves the frontend Service in the astronomy-shop namespace. Its DNS settings changed shortly before symptoms began. The new dnsPolicy or dnsConfig prevents the frontend pod from resolving in-cluster Service names, so requests from the frontend fail before they can reach their targets.
+```
+
+</div>
+
+The whole run took 41 seconds. The LLM review and report took about 23 seconds, and the decision model's investigation took about 1 second.
+
+## Results on SREGym-Lite
+
+We ran each decision model on the 21 faults in SREGym-Lite five times with the LLM review and five times without it. GPT-6 Sol High reviews the root cause and writes the diagnosis report. We scored every diagnosis with the SREGym judge, powered by GPT-6 Astra at high reasoning effort. We use the default 0.70 diagnosis pass threshold.
+
+<DecisionModelFigure number={5} caption={"Results on SREGym-Lite. With the review, the LLM is called twice per diagnosis, once to review the root cause and once to write the report. Without the review, it only writes the report."} />
+
+With the LLM review, Luna passed 17 more diagnoses than without it and Jev 12 more, at a cost of about 5 seconds and less than 2 cents per diagnosis. The decision model answered each request in about 0.2 seconds, A diagnosis took about 9 requests with Jev and 12 with Luna, so the decision model’s total time per diagnosis was only about 1.4 and 2.2 seconds. Most of the time and cost went to the LLM.
+
+<DecisionModelFigure number={6} caption={"Passed diagnoses for each fault, out of five attempts per setup. Blue cells mark faults that passed most of the time and orange cells those that mostly failed."} />
+
+With the review, Luna passed 95.2% of diagnoses, the same as GPT-5.6 Sol (max), while running about 6x faster and costing about 15x less per diagnosis. Jev with the review passed 89.5%, close to Claude Opus 5 at 92.1%, while running about 6x faster at about 28x less per diagnosis.
+
+The decision model still depends on the evidence and answer choices we build for it, and the strongest LLM agents passed more diagnoses. But a fast investigation led by the decision model and a single LLM review already match a strong LLM agent at a fraction of its time and cost.
+
+To see how much the results depend on the LLM, we replaced GPT-6 Sol with GPT-5.6 Sol at high reasoning effort and with GPT-5.6 Luna at xhigh effort. We kept the recorded investigations and reran only the review and the report, letting each LLM write the reports both with and without the review. The same judge scored every diagnosis.
+
+<DecisionModelFigure number={7} caption={"Passed diagnoses and mean scores with different LLMs for the review and the report."} />
+
+The review improved the results with every LLM. With either GPT-5.6 model, it added 7 to 11 passed diagnoses for each decision model compared with writing the report alone. GPT-6 Sol still passed 8 to 12 more diagnoses than either GPT-5.6 model, so a stronger LLM makes better use of the same investigation.
+
+## What each catch tells us
+
+After the decision model gives its root cause, the LLM reviews the evidence and replaces the root cause when it thinks it is wrong. In the runs with the review, it fixed a wrong root cause in 14 of Luna’s 105 diagnoses and 13 of Jev’s, and it turned a right root cause into a wrong one only once. We call these fixes catches.
+
+Each catch leaves us a saved question that the decision model answered wrong, together with the LLM-corrected answer, because the judge passed the diagnosis built on the review’s root cause. Since the decision model almost always gives the same answer to the same question, we can send these saved questions again and test whether a better question fixes the mistake.
+
+We rewrote the questions with a few general rules, such as dropping the catch-all option when specific objects already carry the evidence. When another candidate had more direct evidence than the decision model’s choice, we also sent a short follow-up question that offered only these two candidates. We asked it twice with the candidates in opposite orders, because the decision model tends to favor the option listed first, and changed the answer only when the other candidate won both times. Together, these changes fixed about a third of the catches. In these cases the question was the problem, so we can fix how we build it.
+
+In the rest, the evidence was already in the question, and a clearer question did not change the answer. The decision model kept choosing the wrong candidate, which is usually closely related to the right one. These catches show us where the collector needs evidence that separates the candidates, or where we need a better decision model.
+
+## Where it still falls short
+
+The LLM review can only see the evidence the investigation collected and cannot run additional tools. If the collector misses a key observation, the reviewer cannot gather the missing evidence.
+
+Even with the relevant evidence available, the decision model can still make mistakes. Rewriting the questions corrected some mistakes, but not all of them. In the remaining cases, the review found the right root cause from the same investigation, but the decision model gave the same wrong answer even to the rewritten questions. Resolving these cases may require clearer evidence to distinguish the candidates or a better decision model.
+
+The review’s effectiveness also depends on which LLM is used. With GPT-5.6 Sol or GPT-5.6 Luna in place of GPT-6 Sol, the review still helped, but fewer diagnoses passed.
+
+## Concluding Remarks
+
+In this post, the decision model led the whole investigation, and an LLM only reviewed its root cause and wrote the report. This combination came close to strong LLM agents at a fraction of their time and cost, and each correction from the review pointed to a specific place where the agent could improve.
+
+Our next steps follow from these corrections. First, we plan to build the question rules from our offline experiment into the agent and to check every change against the saved questions before it reaches a cluster. Second, we want to broaden the evidence the agent collects, so that the decision model sees what tells one explanation apart from another, and the review has the evidence it needs to correct the remaining mistakes. Finally, because each correction comes with an answer the judge accepted, the corrections could also serve as training data for the decision model itself, so that it makes fewer of these mistakes without the review.
