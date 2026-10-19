@@ -11,14 +11,20 @@ inventory is an expandable reference. Data for all tables and decision panels li
 `content/blog/_data/decision-model-led-diagnosis.json`, shared by the renderer
 and the screen-reader-accessible tables. The workflow and decision panels have
 dedicated mobile layouts. The workflow reads from top to bottom, with tool
-execution branching to the side and returning to the menu. Step labels and
-descriptions are shared between the desktop and mobile layouts.
+execution branching to the side and returning to the list of possible tool calls.
+Step labels and descriptions are shared between the desktop and mobile layouts.
 Both layouts include a legend for programmatic, decision-model, and LLM steps.
 The LLM review has separate agree/disagree paths. Agreement keeps the model's
 root cause; disagreement applies the LLM's choice. Both feed the same evidence
 selection and report-writing steps.
 Decision probability bars share a fixed 0–1 scale;
 the yes/no numbers are probabilities of yes, not confidence in the displayed no.
+
+Use "tool" for a read-only capability and "tool call" for a specific use of that
+tool on a supplied target. The prepared list contains possible tool calls;
+`submit_now` is a separate request to stop, not a tool call. Do not use "checks"
+as an umbrella term for these calls. Actual tests such as `client_check` retain
+their names.
 
 The 1000 × 630 SVG cover uses the same role colors and shows the investigation
 loop followed by LLM review, decision-model evidence selection, and LLM report

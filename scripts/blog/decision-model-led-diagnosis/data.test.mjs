@@ -17,6 +17,45 @@ const measurements = await readJson(
   "../../../content/blog/_data/decision-model-led-measurements.json",
 );
 
+test("the post links Yukun He to his personal website", async () => {
+  const article = await readFile(
+    new URL("../../../content/blog/decision-model-led-sre-diagnosis.mdx", import.meta.url),
+    "utf8",
+  );
+  assert.match(article, /name: "Yukun He"\s+url: "https:\/\/yukunhe16\.github\.io\/"/);
+  assert.doesNotMatch(article, /mHLMsZ20LI8/);
+});
+
+test("the article and figures use tool calls for the selectable actions", async () => {
+  const paths = [
+    "../../../content/blog/decision-model-led-sre-diagnosis.mdx",
+    "../../../components/blog/decision-model-led-diagnosis/figures.tsx",
+    "./render-figures.mjs",
+    "../../../public/blog/decision-model-led-diagnosis/workflow.svg",
+    "../../../public/blog/decision-model-led-diagnosis/workflow-mobile.svg",
+    "../../../public/blog/decision-model-led-diagnosis/cover.svg",
+  ];
+  const contents = await Promise.all(paths.map((path) =>
+    readFile(new URL(path, import.meta.url), "utf8"),
+  ));
+  const [article] = contents;
+  assert.match(article, /selects a tool call at each step: which read-only tool to run and what it will inspect/);
+  assert.match(article, /limit of 40 tool calls, plus `submit_now` to request an end/);
+  assert.match(article, /the highest-ranked available tool call is used instead/);
+  assert.ok(study.tools.some(([, name]) => name === "client_check"));
+  for (const [index, content] of contents.entries()) {
+    assert.doesNotMatch(
+      content,
+      /\b(?:possible|available|remaining|read-only) checks\b|\b40 checks\b|\bChoose a check\b|\bIf a check is selected\b|\bCheck selected\b|\bNext check\b/,
+      `Outdated investigation terminology in ${paths[index]}`,
+    );
+  }
+  for (const content of contents.slice(3)) {
+    assert.match(content, /Tool call|tool call/);
+  }
+  assert.match(contents.at(-1), /id="read-only-tools"/);
+});
+
 test("the LLM comparison includes all three models with and without review", async () => {
   const expected = [
     "GPT-6 Sol, high effort",

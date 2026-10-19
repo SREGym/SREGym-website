@@ -167,19 +167,19 @@ function FigureTranscript({ number }: { number: keyof typeof figures }) {
             failure.
           </li>
           <li>
-            Collector: Check logs or workload state for early signs of failure.
+            Collector: Read logs or inspect workload state for signs of failure.
           </li>
           <li>
-            Orchestration: Build the tool menu by listing the checks the agent
-            can run next.
+            Orchestration: Prepare tool calls by listing tools and what each
+            can inspect.
           </li>
           <li>
-            Decision model, one call per step: Choose a check and likely cause.
-            Decide if more evidence is needed.
+            Decision model, one call per step: Choose a tool call and likely
+            cause. Decide if more evidence is needed.
           </li>
           <li>
-            If a check is selected: Run the read-only tool and add its result to
-            the notes. Loop back to build the tool menu for the next step.
+            If a tool call is selected: Run the read-only tool and add its result
+            to the notes. Loop back to prepare tool calls for the next step.
           </li>
           <li>
             When a stop rule or budget ends the investigation: The LLM reviews
@@ -324,7 +324,7 @@ export function DecisionModelFigure({
   if (number === 2) {
     return (
       <details className="decision-study-details decision-study-tools not-prose">
-        <summary>Explore the read-only tool menu · Figure 2</summary>
+        <summary>Explore the read-only tools · Figure 2</summary>
         {content}
       </details>
     );

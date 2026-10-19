@@ -4,7 +4,7 @@ description: "Decision models lead the investigation; LLMs review the conclusion
 seoDescription: "Jev and GPT-6 Luna Decisions lead SRE diagnosis with an LLM reviewer, passing 89.5% and 95.2% of diagnoses across 21 SREGym-Lite faults."
 authors:
   - name: "Yukun He"
-    url: "https://www.youtube.com/watch?v=mHLMsZ20LI8"
+    url: "https://yukunhe16.github.io/"
   - name: "Saad Mohammad Rafid Pial"
     url: "https://saadmrp1038.github.io"
   - name: "Yiming Su"
@@ -17,7 +17,7 @@ date: 2026-10-16
 category: "Research"
 cover:
   src: "/blog/decision-model-led-diagnosis/cover.svg"
-  alt: "The decision model leads an investigation loop with read-only checks. When the investigation ends, the LLM reviews the root cause, the decision model selects supporting evidence, and the LLM writes the diagnosis."
+  alt: "The decision model leads an investigation loop with read-only tool calls. When the investigation ends, the LLM reviews the root cause, the decision model selects supporting evidence, and the LLM writes the diagnosis."
   width: 1000
   height: 630
   showInArticle: false
@@ -44,26 +44,26 @@ The improvements from LLM review also show us where the decision model went wron
 
 ## How the agent works
 
-We built the agent based on the pipeline presented in our last [blog post](/blog/jev-driven-sre-diagnosis). The main change is in the investigation. In our earlier pipeline, the decision model chose which component to inspect, and the pipeline followed a predefined routine to gather more evidence about it. In this new agent, the decision model also chooses which tool to run on which target at each step. Here is the [implementation](https://github.com/SREGym/SREGym/tree/jev/clients/jev_agent).
+We built the agent based on the pipeline presented in our last [blog post](/blog/jev-driven-sre-diagnosis). The main change is in the investigation. In our earlier pipeline, the decision model chose which component to inspect, and the pipeline followed a predefined routine to gather more evidence about it. In this new agent, the decision model selects a tool call at each step: which read-only tool to run and what it will inspect. Here is the [implementation](https://github.com/SREGym/SREGym/tree/jev/clients/jev_agent).
 
-First, the programmatic collector reads the cluster state and scores each component using signals such as ongoing errors and warning events. It then checks the two highest-scoring components by reading their logs or inspecting their workload state.
+First, the programmatic collector reads the cluster state and scores each component using signals such as ongoing errors and warning events. It then reads logs or inspects workload state for the two highest-scoring components.
 
 <DecisionModelFigure number={1} caption={"The agent's workflow. If the LLM agrees, the original root cause is kept. If it disagrees, the agent uses the LLM's choice instead. Both paths lead to evidence selection and report writing."} />
 
-The investigation then runs one step at a time. First, a list of possible checks is prepared programmatically from the evidence collected so far. One check might read the frontend's logs. Another might test whether it can reach another service. Checks linked to errors or earlier clues come first. By default, the list is built with a limit of 40 checks, plus `submit_now` to request an end to the investigation.
+The investigation then runs one step at a time. First, a list of possible tool calls is prepared programmatically from the evidence collected so far. One option might read the frontend's logs. Another might test whether it can reach another service. Tool calls linked to errors or earlier clues come first. By default, the list is built with a limit of 40 tool calls, plus `submit_now` to request an end to the investigation.
 
-Then, the list of checks and the evidence collected so far are sent to the decision model together in one request. The questions include:
+Then, the list of tool calls and the evidence collected so far are sent to the decision model together in one request. The questions include:
 
-- **Which tool should run next, and on which component or connection?** The model chooses a check from the prepared list. This answer determines both the tool and where it will run. The model can instead select `submit_now` to request an end to the investigation.
+- **Which tool should run next, and on which component or connection?** The model selects a tool call from the prepared list. This answer determines both the tool and where it will run. The model can instead select `submit_now` to request an end to the investigation.
 - **Does the previous tool's output show signs of a problem?** The answer is saved alongside that output in the notes, so later steps can distinguish findings that suggest a problem from normal results. If the tool read logs, the model also identifies the kinds of errors reported.
 - **Is there enough evidence to write a diagnosis?** The answer can be yes or no.
 - **Which root cause best fits the evidence so far?** The model can answer "not yet known."
 
 The evidence and root-cause questions are answered independently. Naming a possible cause does not mean there is enough evidence to finish.
 
-The stopping rules then use these answers to decide whether to continue. Selecting `submit_now` does not submit the report. By default, the first request to stop is accepted if the model assigns it a probability of at least 0.5. If it is below 0.5, that first request is ignored. If the model selects `submit_now` again at the next step, the investigation can end even when it still says more evidence is needed. Step or time limits, or no remaining checks, can also end it.
+The stopping rules then use these answers to decide whether to continue. Selecting `submit_now` does not submit the report. By default, the first request to stop is accepted if the model assigns it a probability of at least 0.5. If it is below 0.5, that first request is ignored. If the model selects `submit_now` again at the next step, the investigation can end even when it still says more evidence is needed. Step or time limits, or no available tool calls, can also end it.
 
-If the investigation continues, the tool for the next check is run on the specified component or connection. When a request to stop is ignored, the highest-ranked available check other than `submit_now` is used instead. The tool's output is added to the investigation notes. A new step then begins with those updated notes and a new list of possible checks.
+If the investigation continues, the selected tool is run on the specified component or connection. When a request to stop is ignored, the highest-ranked available tool call is used instead. The tool's output is added to the investigation notes. A new step then begins with those updated notes and a new list of possible tool calls.
 
 Once the investigation ends, the LLM reviews the proposed root cause using the collected evidence and the leading candidates. It can confirm the decision model's choice or replace it with another supplied candidate. It cannot run tools or collect new evidence.
 
@@ -100,7 +100,7 @@ Jev first judged that the evidence was insufficient and chose to test whether th
 
 <DecisionModelFigure number={3} caption={"Jev first chooses a client check from frontend to product-catalog, with probability 0.62. All choice bars use a 0–1 scale; the yes/no judgments below show the probability of yes."} />
 
-The test showed that the frontend Pod could not resolve the product-catalog Service name. Checks toward cart and checkout failed in the same way, although none of those Services had been changed. After seven tool-use decisions, Jev stopped and selected `cluster_object` as the root cause. This catch-all option names no specific object. Jev still judged the evidence insufficient; the choice to submit and the sufficiency judgment were separate answers.
+The test showed that the frontend Pod could not resolve the product-catalog Service name. Connection tests toward cart and checkout failed in the same way, although none of those Services had been changed. After seven tool-use decisions, Jev stopped and selected `cluster_object` as the root cause. This catch-all option names no specific object. Jev still judged the evidence insufficient; the choice to submit and the sufficiency judgment were separate answers.
 
 <DecisionModelFigure number={4} caption={"At the last step, submit_now is the leading tool choice at only 0.17, and cluster_object leads the root-cause choices at 0.62. The model still answers no to evidence sufficiency. The LLM review then replaces the catch-all with the frontend Deployment."} />
 

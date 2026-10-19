@@ -313,7 +313,7 @@ test("decision-model article retains full measurements and fixed-scale decision 
   assert.ok(
     html.includes("Full measurements: calls, tokens, latency and cost"),
   );
-  assert.ok(html.includes("Explore the read-only tool menu"));
+  assert.ok(html.includes("Explore the read-only tools"));
   assert.ok(
     html.includes(
       "These tests reused saved questions and evidence without rerunning the investigation.",
@@ -335,7 +335,7 @@ test("decision-model article retains full measurements and fixed-scale decision 
   assert.match(coverSvg, /prefers-color-scheme:\s*dark/);
   for (const id of [
     "investigation-model",
-    "read-only-checks",
+    "read-only-tools",
     "llm-review",
     "evidence-selection",
     "llm-report",

@@ -331,20 +331,20 @@ function workflow(mobile = false) {
     ],
     [
       "program",
-      "Run initial checks",
-      "Check logs or workload state for early signs of failure.",
+      "Gather initial evidence",
+      "Read logs or inspect workload state for signs of failure.",
       "COLLECTOR",
     ],
     [
       "program",
-      "Build the tool menu",
-      "List the checks the agent can run next.",
+      "Prepare tool calls",
+      "List tools and what each can inspect.",
       "ORCHESTRATION",
     ],
     [
       "decision",
       "Choose the next step",
-      "Choose a check and likely cause. Decide if more evidence is needed.",
+      "Choose a tool call and likely cause. Decide if more evidence is needed.",
       "DECISION MODEL · ONE CALL",
     ],
     [
@@ -418,7 +418,7 @@ function workflow(mobile = false) {
       drawStep(i, 20, y, 350, 156);
       if (i < 4) arrow(`M195 ${y + 156}v34`);
     });
-    body += text(213, 808, "Check selected", { size: 15, cls: "muted" });
+    body += text(213, 808, "Tool call", { size: 15, cls: "muted" });
     arrow("M370 898H402V518H370", true);
     body += text(414, 713, "Repeat", {
       size: 15,
@@ -469,7 +469,7 @@ function workflow(mobile = false) {
   arrow("M424 404V468");
   arrow("M424 600V632");
   arrow("M784 714H864");
-  body += lines(824, 676, "Check selected", 72, {
+  body += lines(824, 676, "Tool call", 72, {
     size: 16,
     cls: "muted",
     anchor: "middle",
@@ -497,7 +497,7 @@ function workflow(mobile = false) {
 
 function cover() {
   const chip = `<rect x="-22" y="-22" width="44" height="44" rx="4"/><path d="M-11-22v-9m22 9v-9m-22 53v9m22-9v9m-33-42h-9m9 22h-9m53-22h9m-9 22h9m-43-11 8 8 15-17"/>`;
-  const checks = `<rect x="-34" y="-24" width="68" height="48" rx="5"/><path d="M-34-10h68m-54 12 9 7-9 7m22 0h18"/>`;
+  const toolIcon = `<rect x="-34" y="-24" width="68" height="48" rx="5"/><path d="M-34-10h68m-54 12 9 7-9 7m22 0h18"/>`;
   const review = `<path d="M-22-29h30l16 16v42h-46zM8-29v16h16m-35 10 7 7 14-16m-21 25h21"/>`;
   const evidence = `<rect x="-28" y="-25" width="56" height="50" rx="5"/><path d="m-18-10 5 5 8-9m-13 22 5 5 8-9M3-9h14M3 9h14"/>`;
   const report = `<path d="M-22-29h30l16 16v42h-46zM8-29v16h16m-34 12h22m-22 11h22m-22 11h16"/>`;
@@ -527,18 +527,18 @@ function cover() {
         chip,
       ) +
       card(
-        "read-only-checks",
+        "read-only-tools",
         570,
         60,
         370,
         220,
         "blue",
-        "Read-only checks",
+        "Read-only tools",
         "Collect evidence",
-        checks,
+        toolIcon,
       ) +
       `<path d="M430 150H570" class="flow"/>` +
-      text(500, 130, "Next check", {
+      text(500, 130, "Tool call", {
         size: 22,
         cls: "muted",
         anchor: "middle",
