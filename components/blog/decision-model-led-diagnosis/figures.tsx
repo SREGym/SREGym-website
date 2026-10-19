@@ -117,7 +117,7 @@ function ResultsFigure({ caption }: { caption: string }) {
                 })}
               </tr>
               <tr>
-                <th scope="row">Median time</th>
+                <th scope="row">Mean time</th>
                 <td>{diagnosis[4][withoutReview]}</td>
                 <td>{diagnosis[4][withReview]}</td>
               </tr>

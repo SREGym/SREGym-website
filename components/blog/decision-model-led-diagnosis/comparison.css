@@ -1,0 +1,27 @@
+.decision-agent-comparison {
+  --comparison-luna: #16738f;
+}
+.dark .decision-agent-comparison {
+  --comparison-luna: #70bfd6;
+}
+.decision-agent-comparison .jev-series-luna {
+  fill: var(--comparison-luna);
+}
+.decision-agent-comparison .jev-series-luna .jev-point-label-jev {
+  fill: var(--comparison-luna);
+}
+.decision-agent-comparison .jev-series-earlier-jev > path {
+  fill: var(--background);
+  stroke: var(--blog-muted);
+  stroke-width: 1.5;
+}
+.decision-agent-comparison .jev-series-luna > rect:not([fill="transparent"]) {
+  stroke: var(--background);
+  stroke-width: 1.5;
+}
+.decision-agent-comparison
+  .jev-series-luna:focus-visible
+  > rect:not([fill="transparent"]) {
+  stroke: var(--foreground);
+  stroke-width: 3;
+}

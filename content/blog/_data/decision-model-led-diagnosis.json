@@ -126,7 +126,7 @@
             "1/21",
             "1/21"
           ],
-          ["Median diagnosis time", "33.3 s", "31.2 s", "36.2 s", "29.4 s"]
+          ["Mean diagnosis time", "41.5 s", "36.9 s", "38.4 s", "31.9 s"]
         ]
       },
       {

@@ -1,10 +1,30 @@
 "use client";
 
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import data from "@/content/blog/_data/jev-diagnosis.json";
 import "./jev-diagnosis.css";
 
-type Model = (typeof data.comparison.models)[number];
+export type DiagnosisComparisonModel = {
+  id: string;
+  agent: string;
+  model: string;
+  label: string;
+  group: string;
+  passRate: number;
+  meanDiagnosisSeconds: number | null;
+  diagnosisCostUsd: number | null;
+  attempts: number;
+  annotationTitle?: string;
+  annotationDetail?: string;
+};
+type Model = DiagnosisComparisonModel;
 type Axis = "time" | "cost";
 
 type ChartPoint = { row: Model; x: number; y: number };
@@ -19,6 +39,7 @@ type ChartLabel = {
 };
 
 type LabelPosition = { side: "left" | "right" | "center"; dy: number };
+type LabelPositions = Record<string, Partial<Record<Axis, LabelPosition>>>;
 
 // Fixed annotation positions keep labels clear in both chart views.
 const labelPositions: Record<string, Record<Axis, LabelPosition>> = {
@@ -72,20 +93,26 @@ const labelPositions: Record<string, Record<Axis, LabelPosition>> = {
   },
 };
 
-function placeLabels(points: ChartPoint[], axis: Axis): ChartLabel[] {
+function placeLabels(
+  points: ChartPoint[],
+  axis: Axis,
+  positions: LabelPositions,
+): ChartLabel[] {
   return points.map((point) => {
     const match = point.row.label.match(/^(.*?) \((.*?)\)$/);
     const title =
-      point.row.group === "jev"
+      point.row.annotationTitle ??
+      (point.row.group === "jev"
         ? "Jev 1.13.0"
-        : (match?.[1] ?? point.row.label);
-    const effort = match?.[2] ?? "";
-    const width = title.length * 5.9;
+        : (match?.[1] ?? point.row.label));
+    const effort = point.row.annotationDetail ?? match?.[2] ?? "";
+    const width = Math.max(title.length * 5.9, effort.length * 5.3);
     const height = effort ? 25 : 15;
-    const position = labelPositions[point.row.label]?.[axis] ?? {
-      side: "right",
-      dy: -height / 2,
-    };
+    const position = positions[point.row.label]?.[axis] ??
+      labelPositions[point.row.label]?.[axis] ?? {
+        side: "right",
+        dy: -height / 2,
+      };
     return {
       point,
       title,
@@ -127,10 +154,21 @@ function Marker({
   y?: number;
   size?: number;
 }) {
-  if (group === "jev") {
+  if (group === "jev" || group === "earlier-jev") {
     return (
       <path
         d={`M ${x} ${y - size - 1} L ${x + size + 1} ${y} L ${x} ${y + size + 1} L ${x - size - 1} ${y} Z`}
+      />
+    );
+  }
+  if (group === "luna") {
+    return (
+      <rect
+        x={x - size}
+        y={y - size}
+        width={size * 2}
+        height={size * 2}
+        rx={1}
       />
     );
   }
@@ -158,9 +196,28 @@ function ModelMarker({ group }: { group: string }) {
   );
 }
 
-export function JevDiagnosisExplorer() {
+export function DiagnosisComparisonChart({
+  models = data.comparison.models,
+  series = groups,
+  availableAxes = ["time", "cost"],
+  annotationPositions = labelPositions,
+  caption,
+  className,
+  chartId,
+}: {
+  models?: readonly Model[];
+  series?: readonly { id: string; label: string }[];
+  availableAxes?: readonly Axis[];
+  annotationPositions?: LabelPositions;
+  caption?: ReactNode;
+  className?: string;
+  chartId?: string;
+} = {}) {
   const id = useId();
-  const [axis, setAxis] = useState<Axis>("cost");
+  const hasTimeAxis = availableAxes.includes("time");
+  const [axis, setAxis] = useState<Axis>(
+    availableAxes.includes("cost") ? "cost" : "time",
+  );
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [focusedId, setFocusedId] = useState<string | null>(null);
   const [width, setWidth] = useState(680);
@@ -207,10 +264,12 @@ export function JevDiagnosisExplorer() {
     return () => observer.disconnect();
   }, []);
 
-  const plotted = data.comparison.models.filter(
-    (row) => axis === "time" || row.diagnosisCostUsd !== null,
+  const plotted = models.filter((row) =>
+    axis === "time"
+      ? row.meanDiagnosisSeconds !== null
+      : row.diagnosisCostUsd !== null,
   );
-  const missingCosts = data.comparison.models.length - plotted.length;
+  const missingCosts = models.length - plotted.length;
   const height = 520;
   const margin = { left: 48, right: 112, top: 36, bottom: 62 };
   const plotWidth = width - margin.left - margin.right;
@@ -234,10 +293,10 @@ export function JevDiagnosisExplorer() {
     1000;
   const points = plotted.map((row) => ({
     row,
-    x: x(axis === "time" ? row.meanDiagnosisSeconds : row.diagnosisCostUsd!),
+    x: x(axis === "time" ? row.meanDiagnosisSeconds! : row.diagnosisCostUsd!),
     y: y(row.passRate),
   }));
-  const labels = placeLabels(points, axis);
+  const labels = placeLabels(points, axis, annotationPositions);
   const inspectedPoint = points.find(
     (point) => point.row.id === (hoveredId ?? focusedId),
   );
@@ -269,7 +328,10 @@ export function JevDiagnosisExplorer() {
 
   return (
     <figure
-      className="jev-explorer not-prose"
+      id={chartId}
+      className={["jev-explorer not-prose", className]
+        .filter(Boolean)
+        .join(" ")}
       aria-labelledby={`${id}-caption`}
     >
       <div className="jev-explorer-panel">
@@ -283,30 +345,28 @@ export function JevDiagnosisExplorer() {
             </h3>
           </div>
         </div>
-        <div className="jev-toolbar">
-          <div
-            className="jev-axis-toggle"
-            role="group"
-            aria-label="Horizontal axis"
-          >
-            <button
-              type="button"
-              aria-pressed={axis === "time"}
-              onClick={() => changeAxis("time")}
+        {availableAxes.length > 1 && (
+          <div className="jev-toolbar">
+            <div
+              className="jev-axis-toggle"
+              role="group"
+              aria-label="Horizontal axis"
             >
-              Diagnosis time
-            </button>
-            <button
-              type="button"
-              aria-pressed={axis === "cost"}
-              onClick={() => changeAxis("cost")}
-            >
-              Inference cost
-            </button>
+              {availableAxes.map((value) => (
+                <button
+                  key={value}
+                  type="button"
+                  aria-pressed={axis === value}
+                  onClick={() => changeAxis(value)}
+                >
+                  {value === "time" ? "Diagnosis time" : "Inference cost"}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
         <div className="jev-legend" aria-label="Agent families">
-          {groups.map((group) => (
+          {series.map((group) => (
             <span key={group.id}>
               <ModelMarker group={group.id} />
               {group.label}
@@ -403,7 +463,7 @@ export function JevDiagnosisExplorer() {
                       className={`jev-chart-point jev-series-${row.group}`}
                       role="button"
                       tabIndex={0}
-                      aria-label={`${row.label}, ${row.agent}: ${row.passRate.toFixed(1)}% pass rate, ${row.meanDiagnosisSeconds.toFixed(1)} seconds, inference cost ${cost(row.diagnosisCostUsd)}`}
+                      aria-label={`${row.label}, ${row.agent}: ${row.passRate.toFixed(1)}% pass rate${!hasTimeAxis || row.meanDiagnosisSeconds === null ? "" : `, ${row.meanDiagnosisSeconds.toFixed(1)} seconds`}, inference cost ${cost(row.diagnosisCostUsd)}`}
                       aria-describedby={inspected ? `${id}-tooltip` : undefined}
                       data-inspected={inspected}
                       onPointerEnter={(event) => {
@@ -441,7 +501,8 @@ export function JevDiagnosisExplorer() {
                         x={px}
                         y={py}
                         size={
-                          (row.group === "jev" ? 8 : 6) + (inspected ? 1 : 0)
+                          (["jev", "luna"].includes(row.group) ? 8 : 6) +
+                          (inspected ? 1 : 0)
                         }
                       />
                       {label && (
@@ -458,7 +519,7 @@ export function JevDiagnosisExplorer() {
                             x={label.x}
                             y={label.y + 11}
                             className={
-                              row.group === "jev"
+                              ["jev", "luna"].includes(row.group)
                                 ? "jev-point-label jev-point-label-jev"
                                 : "jev-point-label"
                             }
@@ -512,12 +573,16 @@ export function JevDiagnosisExplorer() {
                       <dt>Diagnosis cost / attempt</dt>
                       <dd>{cost(inspectedPoint.row.diagnosisCostUsd)}</dd>
                     </div>
-                    <div>
-                      <dt>Mean diagnosis time</dt>
-                      <dd>
-                        {inspectedPoint.row.meanDiagnosisSeconds.toFixed(1)} s
-                      </dd>
-                    </div>
+                    {hasTimeAxis &&
+                      inspectedPoint.row.meanDiagnosisSeconds !== null && (
+                        <div>
+                          <dt>Mean diagnosis time</dt>
+                          <dd>
+                            {inspectedPoint.row.meanDiagnosisSeconds.toFixed(1)}{" "}
+                            s
+                          </dd>
+                        </div>
+                      )}
                   </dl>
                 </div>
               )}
@@ -531,14 +596,20 @@ export function JevDiagnosisExplorer() {
         </div>
       </div>
       <figcaption id={`${id}-caption`}>
-        <p>
-          <strong>Figure 2.</strong> Diagnosis results on the same 21
-          SREGym-Lite faults. Jev ran five attempts per fault. Each LLM agent
-          ran three.
-        </p>
+        {caption ?? (
+          <p>
+            <strong>Figure 2.</strong> Diagnosis results on the same 21
+            SREGym-Lite faults. Jev ran five attempts per fault. Each LLM agent
+            ran three.
+          </p>
+        )}
       </figcaption>
     </figure>
   );
+}
+
+export function JevDiagnosisExplorer() {
+  return <DiagnosisComparisonChart />;
 }
 
 export function JevAttemptResults() {

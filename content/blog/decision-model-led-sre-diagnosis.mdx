@@ -17,6 +17,7 @@ category: "Research"
 ---
 
 import { DecisionModelFigure } from "@/components/blog/decision-model-led-diagnosis/figures";
+import { DecisionModelComparison } from "@/components/blog/decision-model-led-diagnosis/comparison";
 
 Site reliability engineering (SRE) agents diagnose incidents by inspecting logs, metrics, traces, and cluster state. At each step, they decide what to inspect next and which evidence supports a diagnosis. Fast decision models can help make these choices without an LLM reasoning through every step.
 
@@ -26,7 +27,7 @@ In this post, we present a **decision-model-led diagnosis agent**, bringing the 
 
 We run two types of experiments to measure the benefit of LLM review. **With review**, the LLM can confirm or change the proposed root cause. **Without review**, we keep the decision model's choice. Both setups then select supporting observations and use the LLM to write the report.
 
-Across 21 SREGym-Lite faults, with five attempts per fault in each setup, Jev passes **89.5% (94/105)** of diagnoses with LLM review and **78.1% (82/105)** without it. [GPT-6 Luna Decisions](https://developers.openai.com/api/docs/guides/decisions) passes **95.2% (100/105)** with review and **79.0% (83/105)** without it. Median diagnosis time ranges from about **29 to 36 seconds** across these setups.
+Across 21 SREGym-Lite faults, with five attempts per fault in each setup, Jev passes **89.5% (94/105)** of diagnoses with LLM review and **78.1% (82/105)** without it. [GPT-6 Luna Decisions](https://developers.openai.com/api/docs/guides/decisions) passes **95.2% (100/105)** with review and **79.0% (83/105)** without it. Mean diagnosis time ranges from **31.9 to 41.5 seconds** across these setups.
 
 The improvements from LLM review also show us where the decision model went wrong. For each run where the LLM corrects the decision model's root-cause choice, we save the root-cause question, the evidence and possible answers shown to the decision model, and the LLM's corrected answer. We then test if clearer wording or answer choices help the decision model reach the corrected answer using the saved evidence, without rerunning the investigation.
 
@@ -108,17 +109,17 @@ The root cause is the frontend Deployment, which serves the frontend Service in 
 
 </div>
 
-The diagnosis took **41 seconds**. LLM review and report writing took about **23 seconds**; the decision model's API calls took about **1 second**. The remaining roughly 17 seconds were spent outside those model calls, including collecting cluster state, running tools, and coordinating the investigation.
+The diagnosis took **44.3 seconds**. LLM review and report writing took about **23 seconds**; the decision model's API calls took about **1 second**. The remaining roughly 20 seconds were spent outside those model calls, including startup, collecting cluster state, running tools, and coordinating the investigation.
 
 ## Results on SREGym-Lite
 
-We ran both decision models on the same **21 SREGym-Lite faults** used in our previous diagnosis post. Each fault had five attempts with review and five without: **105 diagnoses per setup, 420 in total**. GPT-6 Sol at high reasoning effort reviews the root cause and writes the report. Without review, it only writes the report. We scored every diagnosis with GPT-6 Astra at high reasoning effort, using SREGym's composite diagnosis score and **0.70** pass threshold.
+We ran both decision models on the same **21 SREGym-Lite faults** used in our previous diagnosis post. Each fault had five attempts with review and five without: **105 diagnoses per setup, 420 in total**. GPT-6 Sol at high reasoning effort reviews the root cause and writes the report. Without review, it only writes the report. We scored every diagnosis with GPT-6 Astra at high reasoning effort, using SREGym's composite diagnosis score and **0.70** pass threshold. Diagnosis times below are means over all attempts, excluding the fixed 120-second observation wait and judging.
 
 ### What does LLM review add?
 
 <DecisionModelFigure number={5} caption={"Review improves passes for both decision models at a small additional cost. Time and estimated cost are per diagnosis; both conditions use an LLM to write the report."} />
 
-Review adds **12 passed diagnoses for Jev** and **17 for GPT-6 Luna Decisions**. Median end-to-end diagnosis time increases by **6.8 seconds for Jev** and **2.1 seconds for Luna**. Median time spent in the LLM rises by about **4.8 seconds** for each. Estimated cost increases by about **1.6 cents per diagnosis** in both configurations.
+Review adds **12 passed diagnoses for Jev** and **17 for GPT-6 Luna Decisions**. Mean diagnosis time increases by **6.6 seconds for Jev** and **4.6 seconds for Luna**. Median time spent in the LLM rises by about **4.8 seconds** for each. Estimated cost increases by about **1.6 cents per diagnosis** in both configurations.
 
 The decision models remain a small part of the runtime: about **0.2 seconds per request**, with roughly nine requests per diagnosis for Jev and twelve for Luna. Median summed decision-model API time is **1.36 seconds for Jev** and **2.21 seconds for Luna**. Most model time and inference cost go to the LLM, not to the decision model.
 
@@ -136,7 +137,9 @@ In one failed finalizer run, the reviewer replaced `cluster_object` with `deploy
 
 With review, Luna matches GPT-5.6 Sol (max)'s **95.2%** pass rate in our [earlier comparison](/blog/jev-driven-sre-diagnosis#results-across-105-diagnoses). Its estimated cost is about **4.1 cents per diagnosis**, compared with **62.2 cents** for the LLM agent—roughly **15× lower**. Jev passes **89.5%**, close to Claude Opus 5's **92.1%**. Its estimated cost is about **3.3 cents**, compared with **93.3 cents**—roughly **28× lower**.
 
-With review, median diagnosis time is **33.3 seconds for Luna** and **36.2 seconds for Jev**. For context, the LLM agents in the earlier comparison averaged **211 seconds for GPT-5.6 Sol (max)** and **210.1 seconds for Claude Opus 5**.
+<DecisionModelComparison />
+
+With review, mean diagnosis time is **41.5 seconds for Luna** and **38.4 seconds for Jev**. For context, the LLM agents in the earlier comparison averaged **211 seconds for GPT-5.6 Sol (max)** and **210.1 seconds for Claude Opus 5**.
 
 The decision model still depends on the evidence and answer choices the agent provides, and the strongest LLM agents pass more diagnoses. Review improves the pass rate without giving an LLM control over the tool-use loop, while keeping inference cost low.
 
