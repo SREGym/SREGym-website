@@ -173,6 +173,7 @@ test("this post uses means throughout and plain wording for corrected cases", as
   assert.doesNotMatch(article, /\bmedian\b/i);
   assert.doesNotMatch(article, /\bcatches\b|\bFor each catch\b/);
   assert.match(article, /For each corrected case/);
+  assert.match(article, /We evaluated Jev and GPT-6 Luna Decisions on the same 21 SREGym-Lite faults/);
   assert.match(article, /We scored each report twice and counted a correction only when the original failed both times and the reviewed report passed both times\./);
   assert.doesNotMatch(JSON.stringify(study.results), /median/i);
   const byId = Object.fromEntries(
@@ -187,11 +188,11 @@ test("this post uses means throughout and plain wording for corrected cases", as
       reviewed.meanDiagnosisSeconds -
       byId[`${model}-none`].meanDiagnosisSeconds;
     assert.ok(
-      article.includes(`**${difference.toFixed(1)} seconds for ${name}**`),
+      article.replaceAll("**", "").includes(`${difference.toFixed(1)} seconds for ${name}`),
     );
     assert.ok(
-      article.includes(
-        `**${reviewed.decision.meanSecondsPerAttempt.toFixed(2)} seconds`,
+      article.replaceAll("**", "").includes(
+        `${reviewed.decision.meanSecondsPerAttempt.toFixed(2)} seconds`,
       ),
     );
   }
@@ -269,7 +270,7 @@ test("published diagnosis times and review deltas use verified means, not median
     ),
     "utf8",
   );
-  assert.ok(article.includes("**44.3 seconds**"));
-  assert.ok(article.includes("**31.9 to 41.5 seconds**"));
+  assert.ok(article.replaceAll("**", "").includes("44.3 seconds"));
+  assert.ok(article.replaceAll("**", "").includes("31.9 to 41.5 seconds"));
   assert.ok(!article.includes("Median diagnosis time"));
 });
