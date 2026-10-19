@@ -34,7 +34,7 @@ const figures = {
   },
   7: {
     file: "reviewer-comparison",
-    height: 764,
+    height: 866,
     title: "LLM reviewer comparison",
   },
 } as const;

@@ -155,9 +155,9 @@ With review, mean diagnosis time is **41.5 seconds for Luna** and **38.4 seconds
 
 ### Does the choice of LLM matter?
 
-To test the choice of LLM, we replaced GPT-6 Sol with GPT-5.6 Sol at high reasoning effort and GPT-5.6 Luna at xhigh effort. We kept the recorded investigations and reran only the review and report writing. Each LLM wrote reports with and without root-cause review. The same judge scored every diagnosis.
+To test the choice of LLM, we replaced GPT-6 Sol with GPT-5.6 Sol at high reasoning effort and GPT-5.6 Luna at xhigh effort. For both GPT-5.6 models, we kept the recorded investigations and reran report writing with and without root-cause review. The table includes GPT-6 Sol's results from the separate runs in our main experiment. The same judge scored every diagnosis.
 
-<DecisionModelFigure number={7} caption={"Review improves passes with every tested LLM. GPT-6 Sol produces the most passing reports from the same recorded investigations. Mean rubric scores are shown on a 0–100 scale."} />
+<DecisionModelFigure number={7} caption={"Diagnosis passes and mean scores with each LLM, with and without root-cause review. Mean rubric scores are shown on a 0–100 scale."} />
 
 Review improved the results with every LLM. Each GPT-5.6 model passed 7 to 11 more diagnoses per decision model with review than with report writing alone. With review, GPT-6 Sol passed 8 to 12 more diagnoses than either GPT-5.6 model. Of the three LLMs tested, it produced the most passing diagnoses from the same recorded investigations.
 
@@ -167,7 +167,7 @@ Review improved the results with every LLM. Each GPT-5.6 model passed 7 to 11 mo
 
 For each run where review changed the root cause, we compared two reports. One was the submitted report using the LLM's reviewed choice. The other was generated afterward using the decision model's original choice. Both used evidence from the same saved investigation, rather than the separate runs with and without review compared above.
 
-Review corrected **14 of Luna's 105 diagnoses and 13 of Jev's**, changing them from failing to passing. Only one changed from passing to failing. We judged both reports twice and counted a change only if both judgments agreed.
+Review corrected **14 of Luna's 105 diagnoses and 13 of Jev's**, changing them from failing to passing. Only one changed from passing to failing. We scored each report twice and counted a correction only when the original failed both times and the reviewed report passed both times.
 
 For each corrected case, we saved the root-cause question, its evidence and answer choices, and the LLM's corrected answer. We then tested if clearer wording or answer choices would help the decision model select that cause using the same evidence.
 

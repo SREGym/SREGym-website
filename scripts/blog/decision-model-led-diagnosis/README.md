@@ -52,6 +52,12 @@ Neither archive supplies the question-rewrite replay summary, so its approximate
 “about a third” result remains attributed to the draft's offline replay, not
 presented as a newly measured live pass rate or an invented exact count.
 
+The LLM comparison includes all three models with and without review. GPT-6 Sol's
+rows use the main live experiments, including the separate no-review investigations.
+The GPT-5.6 rows use offline review/report reruns of the saved reviewed investigations.
+The section describes this difference; the GPT-6 Sol no-review row is not presented
+as a full offline replay, since `before_g6` covers only the 42 changed-root-cause cases.
+
 The full-measurements audit recomputes scores, pass counts, decision-model calls,
 tokens and timing, and review/report timing from the supplied archives. It reads
 only the final cumulative message snapshot in each trajectory to avoid counting

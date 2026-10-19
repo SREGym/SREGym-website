@@ -17,6 +17,33 @@ const measurements = await readJson(
   "../../../content/blog/_data/decision-model-led-measurements.json",
 );
 
+test("the LLM comparison includes all three models with and without review", async () => {
+  const expected = [
+    "GPT-6 Sol, high effort",
+    "GPT-5.6 Sol, high effort",
+    "GPT-5.6 Luna, xhigh effort",
+  ];
+  for (const section of study.reviewers.sections) {
+    assert.deepEqual(section.rows.map(([label]) => label), expected);
+  }
+  for (const [sectionIndex, suffix] of [[0, "review"], [1, "none"]]) {
+    const row = study.reviewers.sections[sectionIndex].rows[0];
+    for (const [column, model] of [[1, "luna"], [2, "jev"]]) {
+      const entry = measurements.configurations.find(({ id }) => id === `${model}-${suffix}`);
+      assert.equal(
+        row[column],
+        `${entry.passes}/105 (${((entry.passes / 105) * 100).toFixed(1)}%)\nmean score ${entry.meanScore.toFixed(1)}`,
+      );
+    }
+  }
+  const article = await readFile(
+    new URL("../../../content/blog/decision-model-led-sre-diagnosis.mdx", import.meta.url),
+    "utf8",
+  );
+  assert.match(article, /GPT-6 Sol's results from the separate runs in our main experiment/);
+  assert.match(article, /For both GPT-5\.6 models, we kept the recorded investigations/);
+});
+
 test("full measurements match the numeric audit of all 420 recorded runs", () => {
   assert.equal(measurements.configurations.length, 4);
   assert.deepEqual(measurements.faultIds, timings.faultIds);
@@ -146,6 +173,7 @@ test("this post uses means throughout and plain wording for corrected cases", as
   assert.doesNotMatch(article, /\bmedian\b/i);
   assert.doesNotMatch(article, /\bcatches\b|\bFor each catch\b/);
   assert.match(article, /For each corrected case/);
+  assert.match(article, /We scored each report twice and counted a correction only when the original failed both times and the reviewed report passed both times\./);
   assert.doesNotMatch(JSON.stringify(study.results), /median/i);
   const byId = Object.fromEntries(
     measurements.configurations.map((entry) => [entry.id, entry]),

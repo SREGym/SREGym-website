@@ -247,7 +247,7 @@
   },
   "reviewers": {
     "headers": [
-      "LLM\nreviews and writes the report",
+      "LLM\nreview and report writing",
       "GPT-6 Luna Decisions\ndecision model",
       "Jev\ndecision model"
     ],
@@ -275,6 +275,11 @@
       {
         "label": "WITHOUT REVIEW",
         "rows": [
+          [
+            "GPT-6 Sol, high effort",
+            "83/105 (79.0%)\nmean score 80.0",
+            "82/105 (78.1%)\nmean score 82.4"
+          ],
           [
             "GPT-5.6 Sol, high effort",
             "80/105 (76.2%)\nmean score 79.7",
