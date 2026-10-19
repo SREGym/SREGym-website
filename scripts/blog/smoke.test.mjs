@@ -23,6 +23,7 @@ const pages = [
   { path: "/blog/jev-driven-sre-diagnosis", authors: 4 },
   { path: "/blog/postmortems-to-sre-benchmarks", authors: 11 },
   { path: "/blog/frontier-data-summit", authors: 2 },
+  { path: "/blog/decision-model-led-sre-diagnosis", authors: 5 },
 ];
 
 for (const { path, authors } of pages) {
@@ -58,6 +59,9 @@ for (const { path, authors } of pages) {
 
     if (path === "/blog") {
       assert.ok(html.includes('src="/blog/jev-diagnosis/cover.svg"'));
+      assert.ok(
+        html.includes('src="/blog/decision-model-led-diagnosis/cover.svg"'),
+      );
     }
 
     if (path !== "/blog") {
@@ -103,6 +107,102 @@ for (const { path, authors } of pages) {
     assert.ok(png.length < 5 * 1024 * 1024);
   });
 }
+
+test("decision-model comparison uses only our matching 21-fault results", async () => {
+  const response = await get("/blog/decision-model-led-sre-diagnosis");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  const chart = html.match(
+    /<figure\b[^>]*id="decision-model-agent-comparison"[^>]*>(.*?)<\/figure>/s,
+  )?.[1];
+  assert.ok(chart, "The article needs the interactive comparison");
+  const previous = JSON.parse(
+    await readFile(
+      new URL("../../content/blog/_data/jev-diagnosis.json", import.meta.url),
+      "utf8",
+    ),
+  );
+  const study = JSON.parse(
+    await readFile(
+      new URL(
+        "../../content/blog/_data/decision-model-led-diagnosis.json",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+  );
+  const timings = JSON.parse(
+    await readFile(
+      new URL(
+        "../../content/blog/_data/decision-model-led-timings.json",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+  );
+  assert.equal(previous.comparison.cohort, "SREGym-Lite-0904");
+  assert.equal(previous.comparison.faultIds.length, 21);
+  assert.equal(study.faultResults.rows.length, 21);
+  assert.deepEqual(
+    previous.comparison.faultIds
+      .map((id) =>
+        id.replace(/_(hotel_reservation|social_network|astronomy_shop)$/, ""),
+      )
+      .sort(),
+    study.faultResults.rows.map(([id]) => id).sort(),
+  );
+  const labels = [
+    ...chart.matchAll(/<g\b[^>]*role="button"[^>]*aria-label="([^"]+)"/g),
+  ].map(([, label]) => label);
+  assert.equal(labels.length, 16);
+  for (const row of previous.comparison.models) {
+    assert.ok(
+      ["Jev-driven pipeline", "Codex", "Claude Code"].includes(row.agent),
+    );
+    assert.ok(
+      labels.some((label) =>
+        label.startsWith(
+          `${row.label}, ${row.agent}: ${row.passRate.toFixed(1)}%`,
+        ),
+      ),
+    );
+    assert.equal(row.attempts, row.id === "jev" ? 105 : 63);
+  }
+  for (const [column, model, timingId, review] of [
+    [1, "GPT-6 Luna Decisions", "luna-review", true],
+    [2, "GPT-6 Luna Decisions", "luna-none", false],
+    [3, "Jev", "jev-review", true],
+    [4, "Jev", "jev-none", false],
+  ]) {
+    const [, passed, attempts] =
+      study.results.sections[0].rows[0][column].match(/^(\d+)\/(\d+)/);
+    const [, cost] = study.results.sections
+      .at(-1)
+      .rows[0][column].match(/\(\$([\d.]+) per attempt\)/);
+    const rate = ((Number(passed) / Number(attempts)) * 100).toFixed(1);
+    const meanTime = timings.configurations
+      .find((entry) => entry.id === timingId)
+      .meanDiagnosisSeconds.toFixed(1);
+    assert.ok(
+      labels.includes(
+        `${model} ${review ? "with" : "without"} LLM review, Decision-model-led agent: ${rate}% pass rate, ${meanTime} seconds, inference cost $${Number(cost).toFixed(3)}`,
+      ),
+    );
+  }
+  assert.equal([...chart.matchAll(/data-marker-style="outline"/g)].length, 2);
+  assert.ok(!chart.includes("CloudThinker"));
+  assert.ok(!chart.includes("Devin Oncall"));
+  assert.ok(
+    chart.includes('aria-label="Horizontal axis"'),
+    "Both axes now use means",
+  );
+  assert.ok(chart.includes("Diagnosis time"));
+  assert.ok(chart.includes("Inference cost"));
+  assert.ok(html.includes("Mean diagnosis time"));
+  assert.ok(!html.includes("Median diagnosis time"));
+  assert.ok(chart.includes("mean inference cost"));
+  assert.ok(chart.includes("review and report writing"));
+});
 
 test("Jev-driven diagnosis article includes accessible measurements and the workflow image", async () => {
   const response = await get("/blog/jev-driven-sre-diagnosis");
@@ -195,6 +295,81 @@ test("missing articles and sharing images return 404", async () => {
   ]) {
     assert.equal((await get(path)).status, 404);
   }
+});
+
+test("decision-model article retains full measurements and fixed-scale decision panels", async () => {
+  const data = JSON.parse(
+    await readFile(
+      new URL(
+        "../../content/blog/_data/decision-model-led-diagnosis.json",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+  );
+  const response = await get("/blog/decision-model-led-sre-diagnosis");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.ok(
+    html.includes("Full measurements: calls, tokens, latency and cost"),
+  );
+  assert.ok(html.includes("Explore the read-only tool menu"));
+  assert.ok(
+    html.includes(
+      "These tests reused saved questions and evidence without rerunning the investigation.",
+    ),
+  );
+  assert.ok(
+    html.includes("not that the full agent would pass more diagnoses."),
+  );
+  assert.ok(html.includes('id="what-each-catch-tells-us"'));
+  assert.ok(html.includes('id="how-much-does-the-reviewer-matter"'));
+  assert.ok(
+    !html.includes('src="/blog/decision-model-led-diagnosis/cover.svg"'),
+  );
+  const cover = await get("/blog/decision-model-led-diagnosis/cover.svg");
+  assert.equal(cover.status, 200);
+  assert.match(cover.headers.get("content-type"), /image\/svg\+xml/);
+  const coverSvg = await cover.text();
+  assert.ok(coverSvg.includes('viewBox="0 0 1000 630"'));
+  assert.match(coverSvg, /prefers-color-scheme:\s*dark/);
+  for (const id of [
+    "investigation-model",
+    "read-only-checks",
+    "llm-review",
+    "evidence-selection",
+    "llm-report",
+  ]) {
+    assert.ok(coverSvg.includes(`id="${id}"`));
+  }
+  assert.ok(!html.includes("/decision-model-led-diagnosis/results.svg"));
+  for (const section of data.results.sections) {
+    for (const row of section.rows) {
+      for (const value of row)
+        assert.ok(html.includes(value), `Missing measurement: ${value}`);
+    }
+  }
+  for (const [index, name] of ["first-decision", "last-decision"].entries()) {
+    for (const suffix of ["", "-mobile"]) {
+      const response = await get(
+        `/blog/decision-model-led-diagnosis/${name}${suffix}.svg`,
+      );
+      assert.equal(response.status, 200);
+      const svg = await response.text();
+      const width = (suffix ? 330 : 470) * data.decisions[index].options[0][2];
+      assert.ok(svg.includes(`width="${width}"`));
+      assert.ok(
+        svg.includes(`P(yes) = ${data.decisions[index].enough.toFixed(2)}`),
+      );
+      assert.match(svg, /prefers-color-scheme:\s*dark/);
+    }
+  }
+  const passes = data.faultResults.rows.reduce(
+    (totals, [, ...values]) =>
+      totals.map((total, index) => total + values[index]),
+    [0, 0, 0, 0],
+  );
+  assert.deepEqual(passes, [100, 83, 94, 82]);
 });
 
 test("Frontier Data Summit article preserves its sections, links, and supplied images", async () => {
