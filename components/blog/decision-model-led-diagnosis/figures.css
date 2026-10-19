@@ -83,6 +83,13 @@
   padding: 0 16px 16px;
 }
 
+.decision-study-measurement-note {
+  padding: 0 16px 16px;
+  color: var(--blog-muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
 .decision-study-table-scroll table {
   min-width: 660px;
   table-layout: fixed;

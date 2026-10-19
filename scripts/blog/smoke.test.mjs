@@ -59,6 +59,9 @@ for (const { path, authors } of pages) {
 
     if (path === "/blog") {
       assert.ok(html.includes('src="/blog/jev-diagnosis/cover.svg"'));
+      assert.ok(
+        html.includes('src="/blog/decision-model-led-diagnosis/cover.svg"'),
+      );
     }
 
     if (path !== "/blog") {
@@ -151,7 +154,7 @@ test("decision-model comparison uses only our matching 21-fault results", async 
   const labels = [
     ...chart.matchAll(/<g\b[^>]*role="button"[^>]*aria-label="([^"]+)"/g),
   ].map(([, label]) => label);
-  assert.equal(labels.length, 14);
+  assert.equal(labels.length, 16);
   for (const row of previous.comparison.models) {
     assert.ok(
       ["Jev-driven pipeline", "Codex", "Claude Code"].includes(row.agent),
@@ -165,9 +168,11 @@ test("decision-model comparison uses only our matching 21-fault results", async 
     );
     assert.equal(row.attempts, row.id === "jev" ? 105 : 63);
   }
-  for (const [column, model, timingId] of [
-    [1, "GPT-6 Luna Decisions", "luna-review"],
-    [3, "Jev", "jev-review"],
+  for (const [column, model, timingId, review] of [
+    [1, "GPT-6 Luna Decisions", "luna-review", true],
+    [2, "GPT-6 Luna Decisions", "luna-none", false],
+    [3, "Jev", "jev-review", true],
+    [4, "Jev", "jev-none", false],
   ]) {
     const [, passed, attempts] =
       study.results.sections[0].rows[0][column].match(/^(\d+)\/(\d+)/);
@@ -180,10 +185,11 @@ test("decision-model comparison uses only our matching 21-fault results", async 
       .meanDiagnosisSeconds.toFixed(1);
     assert.ok(
       labels.includes(
-        `${model} with LLM review, Decision-model-led agent: ${rate}% pass rate, ${meanTime} seconds, inference cost $${Number(cost).toFixed(3)}`,
+        `${model} ${review ? "with" : "without"} LLM review, Decision-model-led agent: ${rate}% pass rate, ${meanTime} seconds, inference cost $${Number(cost).toFixed(3)}`,
       ),
     );
   }
+  assert.equal([...chart.matchAll(/data-marker-style="outline"/g)].length, 2);
   assert.ok(!chart.includes("CloudThinker"));
   assert.ok(!chart.includes("Devin Oncall"));
   assert.ok(
@@ -308,7 +314,34 @@ test("decision-model article retains full measurements and fixed-scale decision 
     html.includes("Full measurements: calls, tokens, latency and cost"),
   );
   assert.ok(html.includes("Explore the read-only tool menu"));
-  assert.ok(html.includes("offline question-replay result"));
+  assert.ok(
+    html.includes(
+      "These tests reused saved questions and evidence without rerunning the investigation.",
+    ),
+  );
+  assert.ok(
+    html.includes("not that the full agent would pass more diagnoses."),
+  );
+  assert.ok(html.includes('id="what-each-catch-tells-us"'));
+  assert.ok(html.includes('id="how-much-does-the-reviewer-matter"'));
+  assert.ok(
+    !html.includes('src="/blog/decision-model-led-diagnosis/cover.svg"'),
+  );
+  const cover = await get("/blog/decision-model-led-diagnosis/cover.svg");
+  assert.equal(cover.status, 200);
+  assert.match(cover.headers.get("content-type"), /image\/svg\+xml/);
+  const coverSvg = await cover.text();
+  assert.ok(coverSvg.includes('viewBox="0 0 1000 630"'));
+  assert.match(coverSvg, /prefers-color-scheme:\s*dark/);
+  for (const id of [
+    "investigation-model",
+    "read-only-checks",
+    "llm-review",
+    "evidence-selection",
+    "llm-report",
+  ]) {
+    assert.ok(coverSvg.includes(`id="${id}"`));
+  }
   assert.ok(!html.includes("/decision-model-led-diagnosis/results.svg"));
   for (const section of data.results.sections) {
     for (const row of section.rows) {

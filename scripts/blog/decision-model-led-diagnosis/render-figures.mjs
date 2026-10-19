@@ -495,7 +495,102 @@ function workflow(mobile = false) {
   return finish(1432);
 }
 
+function cover() {
+  const chip = `<rect x="-22" y="-22" width="44" height="44" rx="4"/><path d="M-11-22v-9m22 9v-9m-22 53v9m22-9v9m-33-42h-9m9 22h-9m53-22h9m-9 22h9m-43-11 8 8 15-17"/>`;
+  const checks = `<rect x="-34" y="-24" width="68" height="48" rx="5"/><path d="M-34-10h68m-54 12 9 7-9 7m22 0h18"/>`;
+  const review = `<path d="M-22-29h30l16 16v42h-46zM8-29v16h16m-35 10 7 7 14-16m-21 25h21"/>`;
+  const evidence = `<rect x="-28" y="-25" width="56" height="50" rx="5"/><path d="m-18-10 5 5 8-9m-13 22 5 5 8-9M3-9h14M3 9h14"/>`;
+  const report = `<path d="M-22-29h30l16 16v42h-46zM8-29v16h16m-34 12h22m-22 11h22m-22 11h16"/>`;
+  function card(id, x, y, width, height, palette, title, subtitle, icon) {
+    const center = x + width / 2;
+    const topRow = y < 300;
+    return `<g id="${id}">
+      <rect x="${x}" y="${y}" width="${width}" height="${height}" rx="12" fill="var(--${palette === "teal" ? "decision" : palette === "blue" ? "program" : "llm"})" stroke="var(--${palette})" stroke-width="2"/>
+      <g transform="translate(${center} ${y + (topRow ? 60 : 40)})" fill="none" stroke="var(--${palette})" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round">${icon}</g>
+      ${text(center, y + (topRow ? 124 : 96), title, { size: topRow ? 32 : 30, cls: "bold", anchor: "middle" })}
+      ${text(center, y + (topRow ? 168 : 135), subtitle, { size: 24, anchor: "middle" })}
+    </g>`;
+  }
+  return {
+    width: 1000,
+    height: 630,
+    body:
+      card(
+        "investigation-model",
+        60,
+        60,
+        370,
+        220,
+        "teal",
+        "Decision model",
+        "Leads investigation",
+        chip,
+      ) +
+      card(
+        "read-only-checks",
+        570,
+        60,
+        370,
+        220,
+        "blue",
+        "Read-only checks",
+        "Collect evidence",
+        checks,
+      ) +
+      `<path d="M430 150H570" class="flow"/>` +
+      text(500, 130, "Next check", {
+        size: 22,
+        cls: "muted",
+        anchor: "middle",
+      }) +
+      `<path d="M570 225H430" class="flow" stroke-dasharray="7 6"/>` +
+      text(500, 255, "Evidence", { size: 22, cls: "muted", anchor: "middle" }) +
+      `<path d="M245 280V330H190V400" class="flow"/>` +
+      text(265, 339, "Investigation ends", { size: 24, cls: "muted" }) +
+      card(
+        "llm-review",
+        60,
+        400,
+        260,
+        170,
+        "orange",
+        "LLM review",
+        "Check root cause",
+        review,
+      ) +
+      `<path d="M320 485H370" class="flow"/>` +
+      card(
+        "evidence-selection",
+        370,
+        400,
+        260,
+        170,
+        "teal",
+        "Decision model",
+        "Select evidence",
+        evidence,
+      ) +
+      `<path d="M630 485H680" class="flow"/>` +
+      card(
+        "llm-report",
+        680,
+        400,
+        260,
+        170,
+        "orange",
+        "LLM report",
+        "Write diagnosis",
+        report,
+      ),
+  };
+}
+
 const figures = {
+  cover: {
+    title:
+      "The decision model leads the investigation; the LLM reviews the root cause and writes the report",
+    ...cover(),
+  },
   workflow: {
     title: "An overview of the decision-model-led diagnosis agent",
     ...workflow(),

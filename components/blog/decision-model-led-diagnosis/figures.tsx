@@ -140,6 +140,9 @@ function ResultsFigure({ caption }: { caption: string }) {
         >
           <AccessibleTable {...data.results} />
         </div>
+        <p className="decision-study-measurement-note">
+          Report time includes evidence selection.
+        </p>
       </details>
       <figcaption id="decision-model-results-caption">
         <p>

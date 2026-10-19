@@ -140,13 +140,13 @@
             "924 (8.8 per attempt)"
           ],
           [
-            "Median summed API latency per attempt",
-            "2.21 s",
-            "2.13 s",
-            "1.36 s",
-            "1.33 s"
+            "Mean total API time per attempt",
+            "3.13 s",
+            "3.08 s",
+            "1.67 s",
+            "1.60 s"
           ],
-          ["Median latency per call", "0.23 s", "0.23 s", "0.18 s", "0.17 s"],
+          ["Mean latency per call", "0.27 s", "0.27 s", "0.19 s", "0.18 s"],
           [
             "Input tokens",
             "11.05 M (105K per attempt)",
@@ -175,11 +175,11 @@
             "105 (1 per attempt)"
           ],
           [
-            "Median summed time per attempt",
-            "18.1 s",
-            "13.3 s",
-            "20.8 s",
-            "16.0 s"
+            "Mean review/report time per attempt",
+            "18.9 s",
+            "13.9 s",
+            "22.3 s",
+            "15.8 s"
           ],
           [
             "Input tokens",

@@ -14,16 +14,22 @@ authors:
     url: "https://tianyin.github.io/"
 date: 2026-10-16
 category: "Research"
+cover:
+  src: "/blog/decision-model-led-diagnosis/cover.svg"
+  alt: "The decision model leads an investigation loop with read-only checks. When the investigation ends, the LLM reviews the root cause, the decision model selects supporting evidence, and the LLM writes the diagnosis."
+  width: 1000
+  height: 630
+  showInArticle: false
 ---
 
 import { DecisionModelFigure } from "@/components/blog/decision-model-led-diagnosis/figures";
 import { DecisionModelComparison } from "@/components/blog/decision-model-led-diagnosis/comparison";
 
-Site reliability engineering (SRE) agents diagnose incidents by inspecting logs, metrics, traces, and cluster state. At each step, they decide what to inspect next and which evidence supports a diagnosis. Fast decision models can help make these choices without an LLM reasoning through every step.
+Site reliability engineering (SRE) agents diagnose incidents by inspecting logs, metrics, traces, and cluster state. At each step, they decide what to inspect next and which evidence supports a diagnosis. Decision models can make these repeated decisions quickly, which is especially valuable when responding to critical failures.
 
 In our [first study](/blog/jev-sregym-lite), the LLM agent led the investigation, with [TypeSafe AI’s Jev](https://typesafe.ai/blog/introducing-system-one-models-and-jev) supporting it by ranking tests and reviewing conclusions. In our [second experiment](/blog/jev-driven-sre-diagnosis), Jev handled diagnosis without an LLM: a programmatic collector gathered cluster evidence, and Jev chose which component to inspect and which observations to submit. That pipeline passed **76.2% of diagnoses** on SREGym-Lite, but the collector could miss important evidence and Jev could favor the wrong clue.
 
-In this post, we present a **decision-model-led diagnosis agent**, bringing the LLM back in a supporting role. The decision model chooses **which tool to run on which target** and uses the results to propose a root cause. After the investigation, the LLM reviews this choice against the collected evidence, either confirming it or replacing it with another supplied candidate. It cannot run tools or collect new evidence. Whether the LLM keeps or changes the cause, the decision model then selects observations supporting the final choice from the evidence already collected. The LLM uses those selected observations to write the diagnosis report.
+In this post, we present a **decision-model-led diagnosis agent**, bringing the LLM back, but this time in a supporting role. The decision model chooses **which tool to run on which target** and uses the results to propose a root cause. After the investigation, the LLM reviews this choice against the collected evidence, either confirming it or replacing it with another supplied candidate. It cannot run tools or collect new evidence. Whether the LLM keeps or changes the cause, the decision model then selects observations supporting the final choice from the evidence already collected. The LLM uses those selected observations to write the diagnosis report.
 
 We run two types of experiments to measure the benefit of LLM review. **With review**, the LLM can confirm or change the proposed root cause. **Without review**, we keep the decision model's choice. Both setups then select supporting observations and use the LLM to write the report.
 
@@ -39,7 +45,7 @@ The improvements from LLM review also show us where the decision model went wron
 
 We built the agent based on the pipeline presented in our last [blog post](/blog/jev-driven-sre-diagnosis). The main change is in the investigation. In our earlier pipeline, the decision model chose which component to inspect, and the pipeline followed a predefined routine to gather more evidence about it. In this new agent, the decision model also chooses which tool to run on which target at each step. Here is the [implementation](https://github.com/SREGym/SREGym/tree/jev/clients/jev_agent).
 
-First, the programmatic collector reads the cluster state and scores each component using signals such as ongoing errors and warning events. It then checks the two highest-scoring components: logs for a component reporting errors, or describe for one whose workload state needs inspection.
+First, the programmatic collector reads the cluster state and scores each component using signals such as ongoing errors and warning events. It then checks the two highest-scoring components by reading their logs or inspecting their workload state.
 
 <DecisionModelFigure number={1} caption={"The agent's workflow. If the LLM agrees, the original root cause is kept. If it disagrees, the agent uses the LLM's choice instead. Both paths lead to evidence selection and report writing."} />
 
@@ -113,60 +119,67 @@ The diagnosis took **44.3 seconds**. LLM review and report writing took about **
 
 ## Results on SREGym-Lite
 
-We ran both decision models on the same **21 SREGym-Lite faults** used in our previous diagnosis post. Each fault had five attempts with review and five without: **105 diagnoses per setup, 420 in total**. GPT-6 Sol at high reasoning effort reviews the root cause and writes the report. Without review, it only writes the report. We scored every diagnosis with GPT-6 Astra at high reasoning effort, using SREGym's composite diagnosis score and **0.70** pass threshold. Diagnosis times below are means over all attempts, excluding the fixed 120-second observation wait and judging.
+We ran both decision models on the same **21 SREGym-Lite faults** used in our previous diagnosis post. Each fault had five attempts with review and five without: **105 diagnoses per setup, 420 in total**. GPT-6 Sol at high reasoning effort reviews the root cause and writes the report. Without review, it only writes the report.
+
+We scored every diagnosis with GPT-6 Astra at high reasoning effort. A diagnosis passes if its SREGym composite score is at least **0.70**. End-to-end diagnosis times below are means over all attempts, excluding the fixed 120-second observation wait and judging.
 
 ### What does LLM review add?
 
-<DecisionModelFigure number={5} caption={"Review improves passes for both decision models at a small additional cost. Time and estimated cost are per diagnosis; both conditions use an LLM to write the report."} />
+<DecisionModelFigure number={5} caption={"Review improves passes for both decision models at a small additional cost. Time and estimated cost are per diagnosis; both setups use GPT-6 Sol to write the report."} />
 
-Review adds **12 passed diagnoses for Jev** and **17 for GPT-6 Luna Decisions**. Mean diagnosis time increases by **6.6 seconds for Jev** and **4.6 seconds for Luna**. Median time spent in the LLM rises by about **4.8 seconds** for each. Estimated cost increases by about **1.6 cents per diagnosis** in both configurations.
+With review, Jev passes **12 more diagnoses** and GPT-6 Luna Decisions passes **17 more**. Mean diagnosis time increases by **6.6 seconds for Jev** and **4.6 seconds for Luna**. Estimated cost increases by about **1.6 cents per diagnosis** in both setups.
 
-The decision models remain a small part of the runtime: about **0.2 seconds per request**, with roughly nine requests per diagnosis for Jev and twelve for Luna. Median summed decision-model API time is **1.36 seconds for Jev** and **2.21 seconds for Luna**. Most model time and inference cost go to the LLM, not to the decision model.
+Most model time and inference cost go to the LLM, not to the decision model. With review, decision-model calls take a total of **1.67 seconds per diagnosis for Jev** and **3.13 seconds for Luna**, on average.
 
 ### Where does review help?
 
-<DecisionModelFigure number={6} caption={"Passes out of five attempts per fault. Review helps both models on duplicate PVC mounts and search-rate retry collapse, but does not resolve every fault. Blue cells mark mostly passing setups; orange cells mark mostly failing ones."} />
+<DecisionModelFigure number={6} caption={"Passes out of five attempts per fault. Blue cells mark mostly passing setups; orange cells mark mostly failing ones."} />
 
-Review does not help on every fault. On `finalizer_deadlock_controller`, Jev with review passes **0/5** attempts, while Luna passes **5/5** with or without review. On `valkey_auth_disruption`, Jev passes **2/5** in both conditions. Luna passes **3/5** with review and **4/5** without it. Choosing a different root cause does not always produce a passing diagnosis.
+On the duplicate PVC mounts fault, both decision models pass **5/5** attempts with review, compared with **1/5** without it. On search-rate retry collapse, neither passes an attempt without review. With review, Luna passes **5/5** and Jev passes **4/5**.
+
+Review does not help on every fault. On the cleanup-controller fault, `finalizer_deadlock_controller`, Jev with review passes **0/5** attempts, while Luna passes **5/5** with or without review. On `valkey_auth_disruption`, Jev passes **2/5** in both setups. Luna passes **3/5** with review and **4/5** without it.
 
 <span id="where-it-still-falls-short" className="block scroll-mt-24" aria-hidden="true" />
 
-In one failed finalizer run, the reviewer replaced `cluster_object` with `deployment/cleanup-controller`. The report described repeated HTTP 403 denials from the Kubernetes API, but could not identify the specific permission being denied. The review narrowed the location without fully explaining the failure.
+In one failed cleanup-controller run, the reviewer replaced `cluster_object` with `deployment/cleanup-controller`. The report described repeated HTTP 403 denials from the Kubernetes API, but missed the cause: a ClusterRole lacked permission to patch ConfigMaps. Naming the affected Deployment was not enough to explain the failure.
 
 ### How does this compare with LLM agents?
 
-With review, Luna matches GPT-5.6 Sol (max)'s **95.2%** pass rate in our [earlier comparison](/blog/jev-driven-sre-diagnosis#results-across-105-diagnoses). Its estimated cost is about **4.1 cents per diagnosis**, compared with **62.2 cents** for the LLM agent—roughly **15× lower**. Jev passes **89.5%**, close to Claude Opus 5's **92.1%**. Its estimated cost is about **3.3 cents**, compared with **93.3 cents**—roughly **28× lower**.
+With review, Luna reaches a **95.2%** pass rate, matching Codex with GPT-5.6 Sol (max) in our [earlier comparison](/blog/jev-driven-sre-diagnosis#results-across-105-diagnoses). Its estimated cost is about **4.1 cents per diagnosis**, compared with **62.2 cents** for Codex, roughly **15× lower**. Jev passes **89.5%**, close to the **92.1%** achieved by Claude Code with Claude Opus 5. Its estimated cost is about **3.3 cents**, compared with **93.3 cents** for Claude Code, roughly **28× lower**.
 
 <DecisionModelComparison />
 
 With review, mean diagnosis time is **41.5 seconds for Luna** and **38.4 seconds for Jev**. For context, the LLM agents in the earlier comparison averaged **211 seconds for GPT-5.6 Sol (max)** and **210.1 seconds for Claude Opus 5**.
 
-The decision model still depends on the evidence and answer choices the agent provides, and the strongest LLM agents pass more diagnoses. Review improves the pass rate without giving an LLM control over the tool-use loop, while keeping inference cost low.
+<span id="how-much-does-the-reviewer-matter" className="block scroll-mt-24" aria-hidden="true" />
 
-### How much does the reviewer matter?
+### Does the choice of LLM matter?
 
-To test the LLM's role, we replaced GPT-6 Sol with GPT-5.6 Sol at high reasoning effort and GPT-5.6 Luna at xhigh effort. We kept the recorded investigations and reran only the review and report writing. Each LLM wrote reports with and without the root-cause review. The same judge scored every diagnosis.
+To test the choice of LLM, we replaced GPT-6 Sol with GPT-5.6 Sol at high reasoning effort and GPT-5.6 Luna at xhigh effort. We kept the recorded investigations and reran only the review and report writing. Each LLM wrote reports with and without root-cause review. The same judge scored every diagnosis.
 
-<DecisionModelFigure number={7} caption={"Review improves passes with every tested LLM, but GPT-6 Sol makes the best use of the same recorded investigations. Mean rubric scores are shown on a 0–100 scale."} />
+<DecisionModelFigure number={7} caption={"Review improves passes with every tested LLM. GPT-6 Sol produces the most passing reports from the same recorded investigations. Mean rubric scores are shown on a 0–100 scale."} />
 
-Review improved the results with every LLM. Each GPT-5.6 model passed 7 to 11 more diagnoses per decision model with review than with report writing alone. GPT-6 Sol passed 8 to 12 more diagnoses than either GPT-5.6 model. A stronger LLM made better use of the same collected evidence.
+Review improved the results with every LLM. Each GPT-5.6 model passed 7 to 11 more diagnoses per decision model with review than with report writing alone. With review, GPT-6 Sol passed 8 to 12 more diagnoses than either GPT-5.6 model. Of the three LLMs tested, it produced the most passing diagnoses from the same recorded investigations.
 
-The LLM does more than format the report. It can correct the decision model's root-cause choice, and its ability to do so affects the final pass rate.
+<span id="what-each-catch-tells-us" className="block scroll-mt-24" aria-hidden="true" />
 
-## What each catch tells us
+## Can clearer questions improve the decisions?
 
-After the decision model gives its root cause, the LLM reviews the evidence and replaces the root cause when it thinks it is wrong. In the runs with review, **14 of Luna’s 105 diagnoses and 13 of Jev’s** changed from failing to passing after the root-cause replacement. Only one changed in the other direction. These transitions held across two judgments of both the original and reviewed reports. We call the failing-to-passing corrections catches.
+For each run where review changed the root cause, we compared two reports. One was the submitted report using the LLM's reviewed choice. The other was generated afterward using the decision model's original choice. Both used evidence from the same saved investigation, rather than the separate runs with and without review compared above.
 
-For this analysis, a catch pairs the original decision-model question with the reviewed root-cause choice whose diagnosis passed the SREGym judge. It gives us a judge-accepted alternative to replay, rather than just a final success rate. Because the decision model usually gives the same answer to the same question, we can test a revised question against the saved one without rerunning the cluster investigation.
+Review corrected **14 of Luna's 105 diagnoses and 13 of Jev's**, changing them from failing to passing. Only one changed from passing to failing. We judged both reports twice and counted a change only if both judgments agreed.
 
-We rewrote the questions with a few general rules. One was to drop the catch-all option when specific objects already carried the evidence—the kind of ambiguity illustrated by `cluster_object` in the DNS example. When another candidate had more direct evidence than the selected one, we also tried a short follow-up containing only those two candidates. We asked it twice, reversing their order, and changed the answer only when the alternative won both times. This guarded against the model favoring whichever option appeared first.
+For each corrected case, we saved the root-cause question, its evidence and answer choices, and the LLM's corrected answer. We then tested if clearer wording or answer choices would help the decision model select that cause using the same evidence.
 
-Together, these changes recovered the reviewed root-cause choice in **about a third of the saved catches**. This is an **offline question-replay result**, not an updated end-to-end diagnosis pass rate. It shows which choices can improve through question design before those changes are built into the live pipeline.
+We tried two changes:
 
-In the remaining catches, rewriting the question did not recover the reviewed choice even though the evidence was already present. The model often continued to favor a closely related candidate. Those cases call for evidence that better separates the candidates, or a decision model that can make better use of what it already sees.
+- **Remove a vague answer.** We removed the catch-all `cluster_object` option when the evidence pointed to specific objects, as in the DNS example.
+- **Compare two candidates directly.** We asked a follow-up question containing only the original choice and another candidate supported by the evidence. We asked it twice, reversing the answer order, and changed the choice only if the model selected the alternative both times.
+
+With these changes, the decision model selected the LLM's corrected root cause in **about a third of the corrected cases**. These tests reused saved questions and evidence without rerunning the investigation. They show that the model's choice can improve, not that the full agent would pass more diagnoses.
 
 ## Conclusion
 
-The agent passes **89.5% of diagnoses with Jev** and **95.2% with GPT-6 Luna Decisions**. The decision model chooses the tools and targets that guide the investigation. The LLM reviews the proposed root cause using the collected evidence. Both parts matter: the investigation must gather the right clues, and the reviewer must use them to explain the fault. The corrected choices also give us concrete questions to test and improve.
+With LLM review, the agent passes **89.5% of diagnoses with Jev** and **95.2% with GPT-6 Luna Decisions**. The decision model guides the investigation, while the LLM checks the proposed cause and writes the report. The LLM can improve a diagnosis without choosing every tool the agent runs.
 
-Next, we plan to integrate the offline question rules and check them against saved cases before rerunning live diagnoses. We also want to collect evidence that better distinguishes related causes. Over time, judge-accepted corrections could become training data for the decision model, reducing its need for review.
+Next, we plan to build these question changes into the agent and measure whether they improve diagnosis results in live runs. We also want to collect evidence that makes related causes easier to distinguish. The reviewed cases could eventually help train the decision model to make better choices with less need for LLM review.

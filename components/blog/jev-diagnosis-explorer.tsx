@@ -23,6 +23,7 @@ export type DiagnosisComparisonModel = {
   attempts: number;
   annotationTitle?: string;
   annotationDetail?: string;
+  markerStyle?: "filled" | "outline";
 };
 type Model = DiagnosisComparisonModel;
 type Axis = "time" | "cost";
@@ -182,13 +183,20 @@ function Marker({
   return <circle cx={x} cy={y} r={size} />;
 }
 
-function ModelMarker({ group }: { group: string }) {
+function ModelMarker({
+  group,
+  markerStyle,
+}: {
+  group: string;
+  markerStyle?: Model["markerStyle"];
+}) {
   return (
     <svg
       viewBox="0 0 16 16"
       width="16"
       height="16"
       className={`jev-marker jev-series-${group}`}
+      data-marker-style={markerStyle}
       aria-hidden="true"
     >
       <Marker group={group} />
@@ -466,6 +474,7 @@ export function DiagnosisComparisonChart({
                       aria-label={`${row.label}, ${row.agent}: ${row.passRate.toFixed(1)}% pass rate${!hasTimeAxis || row.meanDiagnosisSeconds === null ? "" : `, ${row.meanDiagnosisSeconds.toFixed(1)} seconds`}, inference cost ${cost(row.diagnosisCostUsd)}`}
                       aria-describedby={inspected ? `${id}-tooltip` : undefined}
                       data-inspected={inspected}
+                      data-marker-style={row.markerStyle}
                       onPointerEnter={(event) => {
                         if (event.pointerType !== "touch") inspect(row);
                       }}
@@ -501,8 +510,10 @@ export function DiagnosisComparisonChart({
                         x={px}
                         y={py}
                         size={
-                          (["jev", "luna"].includes(row.group) ? 8 : 6) +
-                          (inspected ? 1 : 0)
+                          (row.markerStyle !== "outline" &&
+                          ["jev", "luna"].includes(row.group)
+                            ? 8
+                            : 6) + (inspected ? 1 : 0)
                         }
                       />
                       {label && (
@@ -555,7 +566,10 @@ export function DiagnosisComparisonChart({
                   onPointerLeave={leavePoint}
                 >
                   <div className="jev-tooltip-heading">
-                    <ModelMarker group={inspectedPoint.row.group} />
+                    <ModelMarker
+                      group={inspectedPoint.row.group}
+                      markerStyle={inspectedPoint.row.markerStyle}
+                    />
                     <strong>{inspectedPoint.row.label}</strong>
                   </div>
                   <p className="jev-tooltip-meta">
