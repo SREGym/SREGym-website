@@ -198,6 +198,54 @@ test("missing articles and sharing images return 404", async () => {
   }
 });
 
+test("decision-model article retains full measurements and fixed-scale decision panels", async () => {
+  const data = JSON.parse(
+    await readFile(
+      new URL(
+        "../../content/blog/_data/decision-model-led-diagnosis.json",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+  );
+  const response = await get("/blog/decision-model-led-sre-diagnosis");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.ok(
+    html.includes("Full measurements: calls, tokens, latency and cost"),
+  );
+  assert.ok(html.includes("Explore the read-only tool menu"));
+  assert.ok(html.includes("offline question-replay result"));
+  assert.ok(!html.includes("/decision-model-led-diagnosis/results.svg"));
+  for (const section of data.results.sections) {
+    for (const row of section.rows) {
+      for (const value of row)
+        assert.ok(html.includes(value), `Missing measurement: ${value}`);
+    }
+  }
+  for (const [index, name] of ["first-decision", "last-decision"].entries()) {
+    for (const suffix of ["", "-mobile"]) {
+      const response = await get(
+        `/blog/decision-model-led-diagnosis/${name}${suffix}.svg`,
+      );
+      assert.equal(response.status, 200);
+      const svg = await response.text();
+      const width = (suffix ? 330 : 470) * data.decisions[index].options[0][2];
+      assert.ok(svg.includes(`width="${width}"`));
+      assert.ok(
+        svg.includes(`P(yes) = ${data.decisions[index].enough.toFixed(2)}`),
+      );
+      assert.match(svg, /prefers-color-scheme:\s*dark/);
+    }
+  }
+  const passes = data.faultResults.rows.reduce(
+    (totals, [, ...values]) =>
+      totals.map((total, index) => total + values[index]),
+    [0, 0, 0, 0],
+  );
+  assert.deepEqual(passes, [100, 83, 94, 82]);
+});
+
 test("Frontier Data Summit article preserves its sections, links, and supplied images", async () => {
   const response = await get("/blog/frontier-data-summit");
   assert.equal(response.status, 200);

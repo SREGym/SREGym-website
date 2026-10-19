@@ -1,0 +1,123 @@
+.decision-study-details {
+  border: 1px solid var(--blog-rule);
+  border-radius: 6px;
+  margin-block: 18px;
+}
+
+.decision-study-details > summary {
+  cursor: pointer;
+  padding: 14px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.decision-study-tools .research-figure {
+  margin: 0 16px 16px;
+}
+
+.decision-study-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.decision-study-results table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  line-height: 1.6;
+  font-variant-numeric: tabular-nums;
+}
+
+.decision-study-summary table {
+  table-layout: fixed;
+}
+
+.decision-study-summary th:first-child {
+  width: 44%;
+}
+
+.decision-study-results caption {
+  padding: 16px 12px;
+  border-bottom: 2px solid var(--blog-rule);
+  text-align: left;
+  font-size: 17px;
+  font-weight: 650;
+}
+
+.decision-study-results th,
+.decision-study-results td {
+  padding: 12px;
+  border-bottom: 1px solid var(--blog-rule);
+  text-align: right;
+  vertical-align: middle;
+}
+
+.decision-study-results th:first-child {
+  text-align: left;
+}
+
+.decision-study-results th {
+  font-weight: 500;
+}
+
+.decision-study-results thead {
+  color: var(--blog-muted);
+}
+
+.decision-study-summary td strong {
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.decision-study-count {
+  display: block;
+  color: var(--blog-muted);
+  font-size: 12px;
+}
+
+.decision-study-table-scroll {
+  overflow-x: auto;
+  padding: 0 16px 16px;
+}
+
+.decision-study-table-scroll table {
+  min-width: 660px;
+  table-layout: fixed;
+  font-size: 12px;
+}
+
+.decision-study-table-scroll th:first-child {
+  width: 28%;
+}
+
+.decision-study-table-scroll th,
+.decision-study-table-scroll td {
+  white-space: pre-line;
+}
+
+.decision-study-table-scroll th[scope="rowgroup"] {
+  background: var(--blog-panel);
+  text-align: left;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.decision-study-table-scroll:focus-visible {
+  outline: 2px solid var(--blog-accent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 700px) {
+  .decision-study-summary {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .decision-study-results th,
+  .decision-study-results td {
+    padding-inline: 8px;
+  }
+}

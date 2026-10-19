@@ -65,8 +65,8 @@
         ["client_check", "frontend → cart", 0.03],
         ["submit_now", "", 0.03]
       ],
-      "abnormal": "no, 0.34",
-      "enough": "no, 0.39",
+      "abnormal": 0.34,
+      "enough": 0.39,
       "causes": [
         ["cluster_object", "0.37"],
         ["Deployment frontend", "0.30"],
@@ -84,8 +84,8 @@
         ["client_check", "frontend → product-reviews", 0.09],
         ["describe", "cart", 0.07]
       ],
-      "abnormal": "no, 0.11",
-      "enough": "no, 0.37",
+      "abnormal": 0.11,
+      "enough": 0.37,
       "causes": [
         ["cluster_object", "0.62"],
         ["Deployment frontend", "0.21"]
@@ -111,7 +111,7 @@
             "94/105 (89.5%)",
             "82/105 (78.1%)"
           ],
-          ["Mean score", "92.1", "80.0", "89.7", "82.4"],
+          ["Mean score (0–100)", "92.1", "80.0", "89.7", "82.4"],
           [
             "Faults passed in all five attempts",
             "17/21",

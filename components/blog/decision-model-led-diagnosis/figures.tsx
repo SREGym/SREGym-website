@@ -1,11 +1,13 @@
 import { ResearchFigure } from "@/components/blog/research-figure";
 import data from "@/content/blog/_data/decision-model-led-diagnosis.json";
+import "./figures.css";
 
 // Heights match the generated SVG viewBoxes. See the renderer's README.
 const figures = {
   1: {
     file: "workflow",
-    height: 1450,
+    height: 1520,
+    mobileHeight: 1832,
     title: "Decision-model-led diagnosis workflow",
   },
   2: {
@@ -13,9 +15,18 @@ const figures = {
     height: 1030,
     title: "Cluster investigation tools",
   },
-  3: { file: "first-decision", height: 823, title: "First decision" },
-  4: { file: "last-decision", height: 792, title: "Last decision" },
-  5: { file: "results", height: 1840, title: "Results on SREGym-Lite" },
+  3: {
+    file: "first-decision",
+    height: 823,
+    mobileHeight: 949,
+    title: "First decision",
+  },
+  4: {
+    file: "last-decision",
+    height: 792,
+    mobileHeight: 919,
+    title: "Last decision",
+  },
   6: {
     file: "per-fault-results",
     height: 1216,
@@ -66,45 +77,123 @@ function AccessibleTable({ headers, sections }: SectionedTable) {
   );
 }
 
+function ResultsFigure({ caption }: { caption: string }) {
+  const diagnosis = data.results.sections[0].rows;
+  const costs = data.results.sections.at(-1)!.rows[0];
+  const costPerAttempt = (column: number) =>
+    costs[column].match(/\((\$[\d.]+) per attempt\)/)![1];
+
+  return (
+    <figure
+      id="decision-model-results"
+      className="research-figure decision-study-results not-prose"
+      aria-labelledby="decision-model-results-caption"
+    >
+      <div className="decision-study-summary">
+        {[
+          { title: "Jev", withoutReview: 4, withReview: 3 },
+          { title: "GPT-6 Luna Decisions", withoutReview: 2, withReview: 1 },
+        ].map(({ title, withoutReview, withReview }) => (
+          <table key={title}>
+            <caption>{title}</caption>
+            <thead>
+              <tr>
+                <th scope="col">Measure</th>
+                <th scope="col">No review</th>
+                <th scope="col">With review</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Diagnosis passes</th>
+                {[withoutReview, withReview].map((column) => {
+                  const [count, rate] = diagnosis[0][column].split(" ");
+                  return (
+                    <td key={column}>
+                      <strong>{rate.replace(/[()]/g, "")}</strong>
+                      <span className="decision-study-count">{count}</span>
+                    </td>
+                  );
+                })}
+              </tr>
+              <tr>
+                <th scope="row">Median time</th>
+                <td>{diagnosis[4][withoutReview]}</td>
+                <td>{diagnosis[4][withReview]}</td>
+              </tr>
+              <tr>
+                <th scope="row">Cost / diagnosis</th>
+                <td>{costPerAttempt(withoutReview)}</td>
+                <td>{costPerAttempt(withReview)}</td>
+              </tr>
+            </tbody>
+          </table>
+        ))}
+      </div>
+      <details className="decision-study-details">
+        <summary>Full measurements: calls, tokens, latency and cost</summary>
+        <div
+          className="decision-study-table-scroll"
+          role="region"
+          aria-label="Full results on SREGym-Lite"
+          tabIndex={0}
+        >
+          <AccessibleTable {...data.results} />
+        </div>
+      </details>
+      <figcaption id="decision-model-results-caption">
+        <p>
+          <strong>Figure 5.</strong> {caption}
+        </p>
+      </figcaption>
+    </figure>
+  );
+}
+
 function FigureTranscript({ number }: { number: keyof typeof figures }) {
   if (number === 1) {
     return (
-      <ol>
-        <li>
-          Programmatic: Read the cluster. Workloads, pods, Services, events,
-          changes, error lines and an anomaly score for each component.
-        </li>
-        <li>
-          Programmatic: Run the first tools. Logs or describe of the two
-          top-scoring components.
-        </li>
-        <li>
-          Programmatic: List the options. Up to 40 tool × target options,
-          highest scores first.
-        </li>
-        <li>
-          Decision Model, one call per step: What next, and is it enough? Next
-          tool; is the last result abnormal? Error kinds; is the evidence
-          enough? Where did the fault start?
-        </li>
-        <li>
-          If not yet: Run the chosen tool. The result becomes a new observation.
-          Loop back to list the options for the next step.
-        </li>
-        <li>
-          If enough and sure, asked to stop, or out of budget: LLM reviews the
-          conclusion. Pick the root cause from the top candidates. If it
-          disagrees, replace the root cause with the LLM&apos;s pick; if it
-          agrees, keep the root cause.
-        </li>
-        <li>
-          Decision Model: Pick the supporting evidence. One yes or no per
-          observation.
-        </li>
-        <li>
-          LLM: Write the report and submit. From the chosen observations only.
-        </li>
-      </ol>
+      <>
+        <p>
+          Blue blocks are programmatic steps, teal blocks are decision-model
+          steps, and orange blocks are LLM steps.
+        </p>
+        <ol>
+          <li>
+            Collector: Read the cluster state, looking for changes and signs of
+            failure.
+          </li>
+          <li>
+            Collector: Check logs or workload state for early signs of failure.
+          </li>
+          <li>
+            Orchestration: Build the tool menu by listing the checks the agent
+            can run next.
+          </li>
+          <li>
+            Decision model, one call per step: Choose a check and likely cause.
+            Decide if more evidence is needed.
+          </li>
+          <li>
+            If a check is selected: Run the read-only tool and add its result to
+            the notes. Loop back to build the tool menu for the next step.
+          </li>
+          <li>
+            When a stop rule or budget ends the investigation: The LLM reviews
+            the root cause, but cannot run tools. If it agrees, the agent keeps
+            the decision model&apos;s choice. If it disagrees, the agent
+            replaces the cause with the LLM&apos;s choice from the supplied
+            candidates. Both paths continue to evidence selection.
+          </li>
+          <li>
+            Decision model: Keep the observations that support the final root
+            cause.
+          </li>
+          <li>
+            LLM: Write and submit the report using the selected evidence.
+          </li>
+        </ol>
+      </>
     );
   }
   if (number === 2) {
@@ -158,8 +247,10 @@ function FigureTranscript({ number }: { number: keyof typeof figures }) {
           </tbody>
         </table>
         <p>
-          Is the last result abnormal? {decision.abnormal}. Is the evidence
-          enough? {decision.enough}.
+          Is the last result abnormal? {decision.abnormal >= 0.5 ? "Yes" : "No"}
+          , probability of yes {decision.abnormal.toFixed(2)}. Is the evidence
+          enough? {decision.enough >= 0.5 ? "Yes" : "No"}, probability of yes{" "}
+          {decision.enough.toFixed(2)}.
         </p>
         <p>Where did the fault start?</p>
         <ul>
@@ -172,7 +263,6 @@ function FigureTranscript({ number }: { number: keyof typeof figures }) {
       </>
     );
   }
-  if (number === 5) return <AccessibleTable {...data.results} />;
   if (number === 7) return <AccessibleTable {...data.reviewers} />;
   return (
     <table>
@@ -205,24 +295,36 @@ export function DecisionModelFigure({
   number,
   caption,
 }: {
-  number: keyof typeof figures;
+  number: keyof typeof figures | 5;
   caption: string;
 }) {
+  if (number === 5) return <ResultsFigure caption={caption} />;
   const figure = figures[number];
   const src = `/blog/decision-model-led-diagnosis/${figure.file}.svg`;
-  return (
+  const mobileHeight =
+    "mobileHeight" in figure ? figure.mobileHeight : undefined;
+  const content = (
     <ResearchFigure
       id={`decision-model-${figure.file}`}
       number={number}
       title={figure.title}
       src={src}
-      mobileSrc={src}
+      mobileSrc={mobileHeight ? src.replace(".svg", "-mobile.svg") : src}
       height={figure.height}
-      mobileHeight={Math.round((figure.height * 440) / 1200)}
+      mobileHeight={mobileHeight ?? Math.round((figure.height * 440) / 1200)}
       alt={caption}
       caption={caption}
     >
       <FigureTranscript number={number} />
     </ResearchFigure>
   );
+  if (number === 2) {
+    return (
+      <details className="decision-study-details decision-study-tools not-prose">
+        <summary>Explore the read-only tool menu · Figure 2</summary>
+        {content}
+      </details>
+    );
+  }
+  return content;
 }
