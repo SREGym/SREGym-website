@@ -65,7 +65,9 @@ export const runLeaderboardData: RunEntry[] = [
   // seven previously missing totals and subagent usage, including cached input.
   {
     agent: "Radar + Claude Code",
-    thirdParty: {},
+    thirdParty: {
+      website: "https://radarhq.io/",
+    },
     model: "Claude Opus 5.5 (medium)",
     noise: false,
     diagPct: 98.9,
@@ -233,7 +235,9 @@ export const liteLeaderboardData: RunEntry[] = [
   // original grades. TTM is cumulative; token usage includes cached input.
   {
     agent: "Radar + Claude Code",
-    thirdParty: {},
+    thirdParty: {
+      website: "https://radarhq.io/",
+    },
     model: "Claude Opus 5.5 (medium)",
     noise: false,
     diagPct: 100.0,

@@ -28,7 +28,9 @@ const {
 const agent = "Radar + Claude Code";
 const common = {
   agent,
-  thirdParty: {},
+  thirdParty: {
+    website: "https://radarhq.io/",
+  },
   model: "Claude Opus 5.5 (medium)",
   noise: false,
 };
