@@ -117,13 +117,8 @@ export const runColumns: ColumnDef<RankedRunEntry>[] = [
       const { agent, thirdParty } = row.original;
       if (!thirdParty) return <span>{agent}</span>;
 
-      return (
-        <a
-          href={thirdParty.website}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group"
-        >
+      const label = (
+        <>
           <span className="underline-offset-4 group-hover:underline group-focus-visible:underline">
             {agent}
           </span>
@@ -133,6 +128,19 @@ export const runColumns: ColumnDef<RankedRunEntry>[] = [
           >
             *
           </sup>
+        </>
+      );
+
+      if (!thirdParty.website) return <span>{label}</span>;
+
+      return (
+        <a
+          href={thirdParty.website}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group"
+        >
+          {label}
         </a>
       );
     },

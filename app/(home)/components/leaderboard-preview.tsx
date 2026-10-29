@@ -3,7 +3,6 @@
 import {
   liteLeaderboardData,
   rankLeaderboardEntries,
-  LITE_EVALUATION_NOTE,
   THIRD_PARTY_SUBMISSION_NOTE,
 } from "@/lib/leaderboard-data";
 import { cn } from "@/lib/utils";
@@ -31,14 +30,11 @@ export function LeaderboardPreview() {
           data={topResults}
           initialSort={{ id: "rank", desc: false }}
           columnVisibility={{ noise: false }}
-          footnote={[
-            LITE_EVALUATION_NOTE,
+          footnote={
             topResults.some((entry) => entry.thirdParty)
               ? THIRD_PARTY_SUBMISSION_NOTE
-              : undefined,
-          ]
-            .filter(Boolean)
-            .join(" ")}
+              : undefined
+          }
         />
       </div>
       <Link

@@ -1,7 +1,7 @@
 export type RunEntry = {
   agent: string;
   thirdParty?: {
-    website: string;
+    website?: string;
   };
   model: string;
   noise: boolean;
@@ -60,6 +60,21 @@ export type LeaderboardBenchmark = {
 };
 
 export const runLeaderboardData: RunEntry[] = [
+  // Third-party submission: 90 faults, three attempts each (270 runs), using
+  // original grades. TTM is cumulative. The corrected 619K token mean includes
+  // seven previously missing totals and subagent usage, including cached input.
+  {
+    agent: "Radar + Claude Code",
+    thirdParty: {},
+    model: "Claude Opus 5.5 (medium)",
+    noise: false,
+    diagPct: 98.9,
+    mitPct: 95.9,
+    e2ePct: 95.2,
+    ttdSeconds: 40.6,
+    ttmSeconds: 111.2,
+    tokens: "619K",
+  },
   {
     agent: "Stratus",
     model: "Claude Sonnet 4.6",
@@ -208,15 +223,26 @@ export const runLeaderboardData: RunEntry[] = [
   },
 ];
 
-export const LITE_EVALUATION_NOTE =
-  "Devin Oncall: 2 attempts per fault (34 runs). Other results: 3 attempts per fault (51 runs).";
-
 // Results use the 17 active SREGym-Lite-1004 faults. Devin Oncall uses two
 // attempts per fault (34 runs); other configurations use three (51 runs).
 // The four deprecated faults from the 21-fault cohort are excluded. Missing
 // attempts and timeouts count as failures; time means use runs with recorded
 // values.
 export const liteLeaderboardData: RunEntry[] = [
+  // Third-party submission: 17 faults, three attempts each (51 runs), using
+  // original grades. TTM is cumulative; token usage includes cached input.
+  {
+    agent: "Radar + Claude Code",
+    thirdParty: {},
+    model: "Claude Opus 5.5 (medium)",
+    noise: false,
+    diagPct: 100.0,
+    mitPct: 100.0,
+    e2ePct: 100.0,
+    ttdSeconds: 36.6,
+    ttmSeconds: 65.9,
+    tokens: "554K",
+  },
   {
     agent: "CloudThinker",
     thirdParty: {
@@ -628,7 +654,6 @@ export const leaderboardBenchmarks: LeaderboardBenchmark[] = [
     id: "sregym-lite-1004",
     label: "SREGym-Lite",
     summary: "SREGym-Lite-1004 · 17 faults",
-    evaluationNote: LITE_EVALUATION_NOTE,
     supportsNoise: false,
     cohortHref: "/problems/cohorts/sregym-lite",
     entries: liteLeaderboardData,
