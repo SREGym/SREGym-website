@@ -225,8 +225,9 @@ export const runLeaderboardData: RunEntry[] = [
   },
 ];
 
-// Results use the 17 active SREGym-Lite-1004 faults. Devin Oncall uses two
-// attempts per fault (34 runs); other configurations use three (51 runs).
+// Results use the 17 active SREGym-Lite-1004 faults. Devin Oncall and
+// Chiron + Claude Code use two attempts per fault (34 runs); other
+// configurations use three (51 runs).
 // The four deprecated faults from the 21-fault cohort are excluded. Missing
 // attempts and timeouts count as failures; time means use runs with recorded
 // values.
@@ -379,6 +380,20 @@ export const liteLeaderboardData: RunEntry[] = [
     ttdSeconds: 233.1,
     ttmSeconds: 444.9,
     tokens: "1.88M",
+  },
+  {
+    agent: "Chiron + Claude Code",
+    thirdParty: {
+      website: "https://chironvision.ai/",
+    },
+    model: "Claude Sonnet 5",
+    noise: false,
+    diagPct: 73.5,
+    mitPct: 79.4,
+    e2ePct: 61.8,
+    ttdSeconds: 111.2,
+    ttmSeconds: 177.7,
+    tokens: "0.99M",
   },
   {
     agent: "Codex",

@@ -49,6 +49,44 @@ test("Radar Lite submission preserves the supplied 51-run results", () => {
   ]);
 });
 
+test("Chiron Lite submission preserves the supplied 34-run results", () => {
+  const entries = liteLeaderboardData.filter(
+    (run) => run.agent === "Chiron + Claude Code",
+  );
+  assert.equal(entries.length, 1);
+  const { thirdParty, ...measurements } = entries[0];
+  assert.deepEqual(thirdParty, { website: "https://chironvision.ai/" });
+  assert.deepEqual(measurements, {
+    agent: "Chiron + Claude Code",
+    model: "Claude Sonnet 5",
+    noise: false,
+    diagPct: 73.5,
+    mitPct: 79.4,
+    e2ePct: 61.8,
+    ttdSeconds: 111.2,
+    ttmSeconds: 177.7,
+    tokens: "0.99M",
+  });
+});
+
+test("Chiron appears only in the active clean Lite cohort", () => {
+  const benchmark = leaderboardBenchmarks.find(
+    (entry) => entry.id === "sregym-lite-1004",
+  );
+  assert.equal(
+    benchmark.entries.filter((run) => run.agent === "Chiron + Claude Code").length,
+    1,
+  );
+  for (const entries of [runLeaderboardData, lite0720LeaderboardData]) {
+    assert.ok(!entries.some((run) => run.agent === "Chiron + Claude Code"));
+  }
+  assert.ok(
+    !liteLeaderboardData.some(
+      (run) => run.agent === "Chiron + Claude Code" && run.noise,
+    ),
+  );
+});
+
 test("Radar full-set submission preserves the corrected token mean and cumulative TTM", () => {
   assert.deepEqual(runLeaderboardData.filter((run) => run.agent === agent), [
     {
@@ -116,4 +154,6 @@ test("token counts retain the corrected compact values", () => {
   assert.equal(parseTokenCount("619K"), 619000);
   assert.equal(formatTokenCount("554K"), "554K");
   assert.equal(formatTokenCount("619K"), "619K");
+  assert.equal(parseTokenCount("0.99M"), 990000);
+  assert.equal(formatTokenCount("0.99M"), "990K");
 });
