@@ -49,24 +49,37 @@ test("Radar Lite submission preserves the supplied 51-run results", () => {
   ]);
 });
 
-test("Chiron Lite submission preserves the supplied 34-run results", () => {
+test("Chiron Lite submissions preserve both sets of 34-run results", () => {
   const entries = liteLeaderboardData.filter(
     (run) => run.agent === "Chiron + Claude Code",
   );
-  assert.equal(entries.length, 1);
-  const { thirdParty, ...measurements } = entries[0];
-  assert.deepEqual(thirdParty, { website: "https://chironvision.ai/" });
-  assert.deepEqual(measurements, {
+  const chiron = {
     agent: "Chiron + Claude Code",
-    model: "Claude Sonnet 5",
+    thirdParty: { website: "https://chironvision.ai/" },
     noise: false,
-    diagPct: 73.5,
-    mitPct: 79.4,
-    e2ePct: 61.8,
-    ttdSeconds: 111.2,
-    ttmSeconds: 177.7,
-    tokens: "0.99M",
-  });
+  };
+  assert.deepEqual(entries, [
+    {
+      ...chiron,
+      model: "Claude Opus 5.5 (medium)",
+      diagPct: 100.0,
+      mitPct: 100.0,
+      e2ePct: 100.0,
+      ttdSeconds: 57.5,
+      ttmSeconds: 97.1,
+      tokens: "277K",
+    },
+    {
+      ...chiron,
+      model: "Claude Sonnet 5",
+      diagPct: 73.5,
+      mitPct: 79.4,
+      e2ePct: 61.8,
+      ttdSeconds: 111.2,
+      ttmSeconds: 177.7,
+      tokens: "0.99M",
+    },
+  ]);
 });
 
 test("Chiron appears only in the active clean Lite cohort", () => {
@@ -75,7 +88,7 @@ test("Chiron appears only in the active clean Lite cohort", () => {
   );
   assert.equal(
     benchmark.entries.filter((run) => run.agent === "Chiron + Claude Code").length,
-    1,
+    2,
   );
   for (const entries of [runLeaderboardData, lite0720LeaderboardData]) {
     assert.ok(!entries.some((run) => run.agent === "Chiron + Claude Code"));
