@@ -249,6 +249,20 @@ export const liteLeaderboardData: RunEntry[] = [
     tokens: "554K",
   },
   {
+    agent: "Chiron + Claude Code",
+    thirdParty: {
+      website: "https://chironvision.ai/",
+    },
+    model: "Claude Opus 5.5 (medium)",
+    noise: false,
+    diagPct: 100.0,
+    mitPct: 100.0,
+    e2ePct: 100.0,
+    ttdSeconds: 57.5,
+    ttmSeconds: 97.1,
+    tokens: "277K",
+  },
+  {
     agent: "CloudThinker",
     thirdParty: {
       website: "https://cloudthinker.io/",
