@@ -1,0 +1,206 @@
+---
+title: "Jev-as-a-Judge for SRE"
+description: "We tested how closely Jev could match an LLM judge when grading SRE diagnosis reports."
+seoDescription: "Across 872 SREGym-Lite diagnosis reports, Jev agrees with GPT-6 Astra 91% of the time. Sending uncertain reports to the LLM raises agreement to 98.7%."
+authors:
+  - name: "Yukun He"
+    url: "https://yukunhe16.github.io/"
+  - name: "Saad Mohammad Rafid Pial"
+    url: "https://saadmrp1038.github.io"
+  - name: "Jackson Clark"
+    url: "https://hacksonclark.github.io"
+  - name: "Yiming Su"
+    url: "https://yimingsu01.github.io/"
+  - name: "Tianyin Xu"
+    url: "https://tianyin.github.io"
+date: 2026-11-08
+category: "Research"
+cover:
+  src: "/blog/jev-as-a-judge/cover.svg"
+  alt: "Jev grades each report. Reports with uncertain scores go to the LLM judge, while Jev decides the rest."
+  width: 1000
+  height: 470
+  showInArticle: false
+---
+
+import { ResearchFigure } from "@/components/blog/research-figure";
+
+LLM-as-a-Judge is a technique which uses large language models (LLMs) to assess the quality, relevance, or correctness of a text output against predefined criteria. See [its Wikipedia page](https://en.wikipedia.org/wiki/LLM-as-a-Judge) and [the survey paper](https://arxiv.org/abs/2411.15594). However, LLM-as-a-Judge is [known to be expensive](https://www.reddit.com/r/Rag/comments/1vpco6s/llmasajudge_is_expensive_how_do_you_evaluate_your/), if not slow.
+
+In this article, we explore using Decision Models such as [TypeSafe Jev](https://typesafe.ai/) to replace LLMs as the judges in the context of SRE using SREGym, following a recent proposal on [using Decision Models for Evals](https://hamel.dev/blog/posts/decision-model-evals/).
+
+**TL;DR.** With careful design, our [Jev](https://typesafe.ai/blog/introducing-system-one-models-and-jev)-as-a-Judge achieves verdicts closely to those of a strong LLM like GPT-6 Astra (evaluated on SREGym-Lite).
+
+Specifically, our Jev-as-a-Judge agrees with the LLM-as-a-Judge on ~**91%** of reports and **costs only 1/510**. When we allow Jev-as-a-Judge to send its unsure reports to the LLM-as-a-Judge for a second check, **the agreement rate rises to 98.7%**, at only a quarter of the cost of using the LLM-as-a-Judge alone.
+
+## How LLM-as-a-Judge works in SREGym
+
+SREGym injects faults into a cluster and has an agent investigate it. The agent submits a diagnosis report that describes the root cause. The LLM-as-a-Judge grades the report using a checklist of 9 questions. These questions are a series of small judgments. To answer each one, the LLM-as-a-Judge reads the report against the answer key and outputs yes or no.
+
+The following figure shows the 9 questions.
+
+<ResearchFigure
+  id="diagnosis-checklist"
+  number={1}
+  title="Diagnosis checklist"
+  src="/blog/jev-as-a-judge/checklist.svg"
+  mobileSrc="/blog/jev-as-a-judge/checklist-mobile.svg"
+  height={678}
+  mobileHeight={1329}
+  alt="Nine checklist questions in three dimensions: fault localization, fault characterization, and scope precision."
+  caption="The nine yes or no questions used to grade a diagnosis report."
+>
+
+**Fault localization (weight 0.33)**
+
+1. Does the report name the same component as the answer key's fault origin?
+2. Does it tell the fault origin apart from components that failed later as a result?
+3. Does it avoid naming a healthy component as the fault origin?
+
+**Fault characterization (weight 0.33)**
+
+1. Does it describe the same injected fault, such as a wrong port, a missing environment variable or a wrong image?
+2. Does it give concrete details of the change, such as the key, the wrong value, the port or the image tag?
+3. Does it avoid giving a wrong or unrelated fault type?
+
+**Scope precision (weight 0.34)**
+
+1. Does it avoid blaming components that the answer key does not list as causes?
+2. Does it mention every component that the answer key lists as a cause or as affected?
+3. Does it describe an impact or symptom consistent with the answer key?
+
+</ResearchFigure>
+
+Each dimension is scored by the fraction of questions to which the LLM-as-a-judge answers Yes. The final score is a weighted sum of the three dimensions, with weights of 0.33, 0.33, and 0.34. A report passes if its final score is at least 0.70, i.e., answering at least 7 out of the 9 questions correctly.
+
+## Decision Model as a Judge
+
+Unlike the LLM, which answers each question with Yes or No, the decision model gives a probability for each answer, such as Yes:0.83 and No:0.17. The Jev-as-a-Judge computes its score with the same formula as the checklist, and the probability of Yes takes the place of a Yes or No answer.
+
+### Choosing the Decision Threshold
+
+A report passes when its score reaches a decision threshold. We followed the practice described in [How To Use Decision Models for Evals](https://hamel.dev/blog/posts/decision-model-evals/) to choose the decision threshold by cross-validation.
+
+We mainly measure the agreement rate between the decision model and the LLM (GPT-6-Astra High). Of SREGym-Lite's 21 problems, 15 are tuning problems and the other 6 are unseen problems used for checking. Among the tuning problems, we hold out one problem at a time and choose the threshold that agrees best with the LLM-as-a-Judge on the other problems. We then measure the agreement rate on the held-out problem. The median of these thresholds is 0.62, and we use it as the decision threshold.
+
+### Adapting the checklist questions
+
+We find that the original questions are designed for LLM-as-a-Judge. The questions are not worded for decision models. For example, if we naively replace the LLM with a DM in the original LLM-as-a-Judge without changing the question, the Jev-as-a-Judge agrees with the LLM-as-a-Judge on only 86% of the tuning reports at the threshold of 0.70. Cross-validation on these questions lowers the threshold to 0.39.
+
+To design an effective Jev-as-a-Judge, we split the answer key into component, namespace and description fields, and rewrote each question to explicitly state when to answer Yes and when No. With these changes, the agreement on the tuning problems rises from 86% to 91%.
+
+<ResearchFigure
+  id="checklist-question-rewrite"
+  number={2}
+  title="Rewriting a checklist question"
+  src="/blog/jev-as-a-judge/question-rewrite.svg"
+  mobileSrc="/blog/jev-as-a-judge/question-rewrite-mobile.svg"
+  height={531}
+  mobileHeight={916}
+  alt="The original question asks about the injection logic. The rewritten question asks whether concrete details in the report match the description field of the answer key."
+  caption="The rewritten question tells Jev what to compare and when to answer Yes or No."
+>
+
+The original question asks if the report includes specific details changed in the injection logic, such as environment variables, wrong values, or ports. Jev cannot see the injection logic.
+
+The rewritten question asks if concrete change details match the answer key's description. Jev answers Yes if at least one detail matches and nothing contradicts the answer key. It answers No if details are missing, vague, or contradictory.
+
+</ResearchFigure>
+
+### Double checking unsure reports with LLMs
+
+In practice, a decision model is more likely to work together with engineers or an LLM, so we tried one more setup, termed the Mixed Judge. The Jev-as-a-Judge grades every report first. For reports it is unsure about, the Jev-as-a-Judge asks an LLM-as-a-Judge to double check.
+
+<ResearchFigure
+  id="mixed-judge-workflow"
+  number={3}
+  title="Mixed Judge workflow"
+  src="/blog/jev-as-a-judge/mixed-flow.svg"
+  mobileSrc="/blog/jev-as-a-judge/mixed-flow-mobile.svg"
+  height={433}
+  mobileHeight={540}
+  alt="Jev scores every report in one call. Reports below the lower cutoff fail, and reports above the upper cutoff pass. The LLM judge decides the verdict for reports within the range, roughly 0.33 to 0.75."
+  caption="Jev grades every report first. The LLM judges reports with scores inside the range."
+/>
+
+The Mixed Judge therefore needs a policy for when the Jev-as-a-Judge is unsure. When the Jev-as-a-Judge works alone, it uses a single threshold, and a report passes at a score of 0.62 or above. The Mixed Judge replaces this threshold with a range of scores in which the Jev-as-a-Judge is unsure, and a report that scores inside the range goes to the LLM-as-a-Judge. The width of the range sets how many reports would be sent to the LLM-as-a-Judge, so we treated the width as a *budget*. We fixed it so that the range holds the quarter of tuning reports whose scores lie closest to its centre.
+
+On the tuning problems, 25% is the smallest width that reaches the highest agreement with the LLM-as-a-Judge. We then chose the centre by the same cross-validation as the threshold, and the resulting range is 0.33 to 0.75.
+
+Nearly all of the reports on which the Jev-as-a-Judge disagrees with the LLM-as-a-Judge score inside this range. The LLM-as-a-Judge receives about a quarter of all reports, and the Mixed Judge agrees with the LLM-as-a-Judge on 98.7% of reports overall. The LLM-as-a-Judge reaches the same agreement rate when it judges the reports a second time.
+
+## Results
+
+### Agreement
+
+<ResearchFigure
+  id="judge-agreement"
+  number={4}
+  title="Agreement with the LLM judge"
+  src="/blog/jev-as-a-judge/agreement.svg"
+  mobileSrc="/blog/jev-as-a-judge/agreement-mobile.svg"
+  height={362}
+  mobileHeight={584}
+  alt="Agreement on tuning and unseen problems, and share sent to the LLM. Jev alone: 91%, 91%, 0%. Mixed Judge: 98.7%, 98.8%, 26%. LLM judging again: 98.4%, 99.6%, 100%."
+  caption="Agreement with the first LLM judgment on the tuning and unseen problems. The last column covers all 872 reports."
+/>
+
+Both setups reach about the same agreement on the unseen problems as on the tuning problems. We chose the threshold and the range on the tuning problems only, so the unseen results suggest that both choices carry over to new problems. The Jev-as-a-Judge alone passes about as many reports as the LLM-as-a-Judge.
+
+### Cost
+
+<ResearchFigure
+  id="judge-cost"
+  number={5}
+  title="Cost per 1,000 reports"
+  src="/blog/jev-as-a-judge/cost.svg"
+  mobileSrc="/blog/jev-as-a-judge/cost-mobile.svg"
+  height={269}
+  mobileHeight={248}
+  alt="At API prices, 1,000 reports cost 8 cents with Jev, 11 dollars with the Mixed Judge, and 42 dollars with the LLM judge."
+  caption="Estimated cost per 1,000 reports at API prices."
+/>
+
+Jev-as-a-Judge gives verdicts very close to those of the LLM-as-a-Judge at about 1/510 of the cost. At 74% lower cost, the Mixed Judge gives almost the same verdicts as the LLM-as-a-Judge.
+
+### Speed
+
+<ResearchFigure
+  id="judge-speed"
+  number={6}
+  title="Time per 1,000 reports"
+  src="/blog/jev-as-a-judge/speed.svg"
+  mobileSrc="/blog/jev-as-a-judge/speed-mobile.svg"
+  height={269}
+  mobileHeight={248}
+  alt="Judging 1,000 reports takes about 2 minutes with Jev, 1.1 hours with the Mixed Judge, and 4 hours with the LLM judge."
+  caption="Estimated time to judge 1,000 reports."
+/>
+
+The LLM-as-a-Judge takes about 14 seconds per report and Jev-as-a-Judge about 0.1 seconds, so Jev-as-a-Judge is about 140 times faster. Because the Mixed Judge sends about a quarter of the reports to the LLM-as-a-Judge, it needs about a quarter of the LLM-as-a-Judge's time.
+
+### Stability
+
+<ResearchFigure
+  id="judge-stability"
+  number={7}
+  title="Stability across repeated judgments"
+  src="/blog/jev-as-a-judge/stability.svg"
+  mobileSrc="/blog/jev-as-a-judge/stability-mobile.svg"
+  height={362}
+  mobileHeight={527}
+  alt="On a second judgment, Jev kept 98.7% of verdicts and changed 11. The Mixed Judge kept 99.0% and changed 9. The LLM judge kept 98.7% and changed 11."
+  caption="Verdicts that stayed the same or changed when each judge graded the same reports again."
+/>
+
+All three judges give stable verdicts. We asked each judge about every report a second time, and at most 1.3% of the verdicts changed.
+
+## Going Further
+
+On SREGym-Lite’s 21 problems, our Jev-as-a-Judge’s verdicts agree closely with those of an LLM-as-a-Judge using strong LLMs like GPT-6 Astra. That agreement gives us a base to build on in two directions.
+
+Jev-as-a-Judge can quickly show whether a change to an agent works, or how a new model does on SREGym-Lite. It judges a report over 100 times faster than the LLM-as-a-Judge, at about 1/510 of the cost, so 1,000 reports take about 2 minutes and 8 cents instead of 4 hours and $42. This makes it practical to judge every change, and the Mixed Judge can take over when a result needs to match the LLM-as-a-Judge more closely.
+
+Jev-as-a-Judge can potentially help model training. RL for an SRE agent needs a verdict on every attempt the agent makes, where the LLM-as-a-Judge would be too slow and expensive.
+
+Moreover, the reports and verdicts collected here could also be used to fine-tune an open model into a judge of our own, although that will need a larger and more varied set of reports.
