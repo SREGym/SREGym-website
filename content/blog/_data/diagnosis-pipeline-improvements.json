@@ -1,0 +1,179 @@
+{
+  "models": [
+    {
+      "name": "OpenAI Decision API",
+      "all": [
+        73,
+        81
+      ],
+      "lite": [
+        81,
+        86
+      ],
+      "random": [
+        63,
+        75
+      ]
+    },
+    {
+      "name": "TypeSafe Jev 1.13",
+      "all": [
+        62,
+        78
+      ],
+      "lite": [
+        76,
+        86
+      ],
+      "random": [
+        44,
+        69
+      ]
+    },
+    {
+      "name": "Liquid d1",
+      "all": [
+        68,
+        78
+      ],
+      "lite": [
+        76,
+        86
+      ],
+      "random": [
+        56,
+        69
+      ]
+    },
+    {
+      "name": "Microsoft Decision-1",
+      "all": [
+        62,
+        73
+      ],
+      "lite": [
+        76,
+        81
+      ],
+      "random": [
+        44,
+        63
+      ]
+    },
+    {
+      "name": "Liquid d1-ultra",
+      "all": [
+        70,
+        73
+      ],
+      "lite": [
+        81,
+        81
+      ],
+      "random": [
+        56,
+        63
+      ]
+    },
+    {
+      "name": "Cloudflare Clef Omni",
+      "all": [
+        59,
+        73
+      ],
+      "lite": [
+        67,
+        76
+      ],
+      "random": [
+        50,
+        69
+      ]
+    },
+    {
+      "name": "Cloudflare Clef",
+      "all": [
+        65,
+        70
+      ],
+      "lite": [
+        76,
+        81
+      ],
+      "random": [
+        50,
+        56
+      ]
+    },
+    {
+      "name": "Nace Drex v2.0",
+      "all": [
+        41,
+        70
+      ],
+      "lite": [
+        48,
+        76
+      ],
+      "random": [
+        31,
+        63
+      ]
+    },
+    {
+      "name": "Inception Mercury Decide",
+      "all": [
+        68,
+        70
+      ],
+      "lite": [
+        86,
+        76
+      ],
+      "random": [
+        44,
+        63
+      ]
+    },
+    {
+      "name": "Upstage Solar Decide",
+      "all": [
+        27,
+        65
+      ],
+      "lite": [
+        33,
+        71
+      ],
+      "random": [
+        19,
+        56
+      ]
+    }
+  ],
+  "average": {
+    "all": [
+      59,
+      73
+    ],
+    "lite": [
+      70,
+      80
+    ],
+    "random": [
+      46,
+      64
+    ]
+  },
+  "scoring": {
+    "candidate": "valkey-cart",
+    "victim": "cart",
+    "origin": 0.61,
+    "victimProbability": 0.9,
+    "nextProbability": 0.97
+  },
+  "evidence": {
+    "before": "{\"t\":{\"$date\":\"2026-10-24T08:53:19.939+00:00\"},\"s\":\"I\", \"c\":\"ACCESS\", \"id\":20249, \"ctx\":\"conn8\",\"msg\":\"Authentication failed\",\"attr\":{\"mechanism\":\"SCRAM-SHA-1\",\"speculative\":false,\"principalName\":\"admin\",\"authentica…",
+    "after": "Authentication failed; error=UserNotFound: Could not find user \"admin\" for db \"admin\"; s=I; c=ACCESS; id=20249; ctx=conn4; mechanism=SCRAM-SHA-1; speculative=false; principalName=admin; authenticationDatabase=admin;…"
+  }
+}
