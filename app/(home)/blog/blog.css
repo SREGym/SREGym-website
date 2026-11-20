@@ -353,6 +353,92 @@
   outline: 2px solid var(--blog-accent);
   outline-offset: 4px;
 }
+.pipeline-equations {
+  margin-block: 32px;
+  padding: 28px 12px;
+  border-block: 1px solid var(--blog-rule);
+  font-size: clamp(14px, 2vw, 18px);
+}
+.pipeline-equations .katex-display {
+  margin: 0;
+}
+.pipeline-equations .katex {
+  font-size: 1em;
+}
+.pipeline-equation + .pipeline-equation {
+  margin-top: 28px;
+}
+.pipeline-equation-mobile {
+  display: none;
+}
+.pipeline-results {
+  margin-block: 32px;
+  border: 1px solid var(--blog-rule);
+  border-radius: 6px;
+}
+.pipeline-results > summary {
+  cursor: pointer;
+  padding: 14px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+.pipeline-results-content {
+  padding: 0 16px 16px;
+}
+.pipeline-results-table {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+.pipeline-results-table > div {
+  margin: 0;
+  overflow: visible;
+}
+.blog-prose .pipeline-results-table table {
+  min-width: 680px;
+  margin: 0;
+}
+.blog-prose .pipeline-table-caption {
+  margin: 0 0 16px;
+  color: var(--blog-muted);
+  text-align: left;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.pipeline-results-table .pipeline-model-column {
+  width: 34%;
+}
+.blog-prose .pipeline-results-table table :where(th, td) {
+  width: auto;
+  padding: 12px 8px;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.blog-prose .pipeline-results-table table :where(th[scope="row"], th[rowspan]) {
+  text-align: left;
+}
+.blog-prose .pipeline-results-table table th[scope="colgroup"] {
+  text-align: center;
+}
+.blog-prose .pipeline-results-table tbody th {
+  font-weight: 400;
+}
+.pipeline-results-table:focus-visible {
+  outline: 2px solid var(--blog-accent);
+  outline-offset: 4px;
+}
+@media (max-width: 640px) {
+  .pipeline-equations {
+    font-size: clamp(13px, 4vw, 17px);
+  }
+  .pipeline-equation-desktop {
+    display: none;
+  }
+  .pipeline-equation-mobile {
+    display: block;
+  }
+}
 .research-figure {
   margin-block: 36px;
   scroll-margin-top: 88px;

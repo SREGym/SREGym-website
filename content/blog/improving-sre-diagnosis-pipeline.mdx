@@ -1,0 +1,182 @@
+---
+title: "From 59% to 73% Pass Rate: Improving Our SRE Diagnosis Pipeline"
+description: "We improved the pipeline around ten decision models, raising the average diagnosis pass rate from 59% to 73%."
+seoDescription: "How comparing possible causes, testing service connections, and keeping error details raised the average diagnosis pass rate across ten decision models."
+authors:
+  - name: "Munim Thahmid"
+    url: "https://github.com/munimthahmid"
+  - name: "Saad Mohammad Rafid Pial"
+    url: "https://saadmrp1038.github.io"
+  - name: "Jackson Clark"
+    url: "https://hacksonclark.github.io"
+  - name: "Tianyin Xu"
+    url: "https://tianyin.github.io"
+date: 2026-11-19
+category: "Research"
+cover:
+  src: "/blog/diagnosis-pipeline-improvements/cover.svg"
+  alt: "Average diagnosis pass rate rises from 59% with v1 to 73% with v1.1 across ten decision models and 37 problems."
+  width: 1000
+  height: 470
+  showInArticle: false
+---
+
+import { ResearchFigure } from "@/components/blog/research-figure";
+import { PipelineScoringEquations } from "@/components/blog/pipeline-scoring-equations";
+
+SREGym tests agents on their ability to diagnose and mitigate incidents in running applications. In an [earlier post](https://www.sregym.com/blog/jev-driven-sre-diagnosis), we tried a different approach to diagnosis. Instead of having an LLM agent investigate the incident, a diagnosis pipeline collects cluster evidence programmatically. A decision model, such as TypeSafe's Jev, then answers a few multiple-choice questions about it. It picks from the given options and returns a probability for each one. The pipeline uses its choices and the collected evidence to assemble a diagnosis report.
+
+The first version of our pipeline (v1) succeeded about as often as a frontier LLM agent (Codex + GPT-5.6 Sol-medium), at about 1/200 of the cost. That experiment also made it clear how much a decision model depends on the pipeline around it. The model can only choose from what the pipeline shows it.
+
+In this post, we introduce v1.1, an improved version of the pipeline. We traced failed v1 diagnoses and used what we learned to improve how the pipeline uses the model's answers, presents evidence, and builds requests.
+
+We tested both versions with ten decision models on 37 problems: the 21 SREGym-Lite problems and 16 drawn at random from the rest of SREGym. The average pass rate rose from 59% to 73%.
+
+## How v1 makes a diagnosis
+
+The v1 pipeline collects evidence across the application and asks the model to rank possible origins of the failure. It then gathers more evidence for individual candidates and asks whether each is the origin, a victim of a failure elsewhere, unrelated, or undetermined.
+
+The pipeline can stop when the model assigns a component an origin probability of at least 0.6. If no candidate meets that threshold, it uses fallback rules that can ultimately return to the initial ranking. For more details, see our [original blog post](https://www.sregym.com/blog/jev-driven-sre-diagnosis).
+
+## Where v1 can go wrong
+
+Take the deleted-account problem (`storage_user_unregistered-1`). SREGym deletes a user account from `mongodb-geo`, a database in a hotel-booking application called Hotel Reservation. The `geo` service uses this account to log in to the database. Without it, `geo` cannot log in and crashes. The database keeps running and logs the failed logins. The visible failure is in `geo`, but the missing account is in the database.
+
+<ResearchFigure
+  id="deleted-account"
+  number={1}
+  title="How the deleted account causes the failure"
+  src="/blog/diagnosis-pipeline-improvements/deleted-account.svg"
+  mobileSrc="/blog/diagnosis-pipeline-improvements/deleted-account-mobile.svg"
+  height={432}
+  mobileHeight={854}
+  alt="Deleting a database account prevents geo from logging in and causes geo to crash, while mongodb-geo keeps running."
+  caption="Deleting the account in mongodb-geo prevents geo from logging in. The database keeps running while geo crashes."
+/>
+
+All ten models failed this problem with v1. In one diagnosis, the model initially ranked `geo` first. After examining the components, it gave the database an origin probability of 0.28 and `geo` a probability of 0.12. Neither reached 0.6, so the pipeline used its fallback rules. They chose `geo`, even though the model's later answers gave the database the higher origin probability.
+
+Across the ten models, the fallback rules chose `geo` four times. More broadly, about a third of v1's diagnoses ended with the fallback rules, and only one in three of those passed.
+
+## What v1.1 introduces
+
+### Comparing possible causes
+
+v1.1 compares the candidates it has examined to choose the final cause. Each candidate's score starts with the model's probability that it is the origin. Evidence from a failing component that calls it can raise that score.
+
+If the model judges the failing component to be a victim and chooses the candidate as the next component to examine, the pipeline multiplies the probabilities of those two answers. It compares this value with the candidate's own origin probability and keeps the higher one.
+
+<PipelineScoringEquations />
+
+In a run on Astronomy Shop's `valkey_auth_disruption` fault, the `cart` service could not connect to its database, `valkey-cart`. Jev judged `cart` a victim with probability 0.90. It also chose `valkey-cart` as the next component to examine with probability 0.97. The pipeline multiplies these values to get 0.90 * 0.97 = 0.873. It uses that value as `valkey-cart`'s score because it is higher than its own origin probability of 0.61.
+
+<ResearchFigure
+  id="candidate-scoring"
+  number={2}
+  title="Candidate scoring in a recorded Jev run"
+  src="/blog/diagnosis-pipeline-improvements/candidate-scoring.svg"
+  mobileSrc="/blog/diagnosis-pipeline-improvements/candidate-scoring-mobile.svg"
+  height={685}
+  mobileHeight={945}
+  alt="The pipeline compares valkey-cart's origin probability of 0.61 with support from cart: 0.90 times 0.97 equals 0.873. It keeps the higher score, 0.873."
+  caption="Candidate scoring in a recorded Jev run. The pipeline keeps the larger of valkey-cart's origin probability and the support from cart."
+/>
+
+This helps the pipeline consider a component as a possible cause when its own origin probability is low but errors from other components point to it.
+
+### Testing service connections
+
+v1.1 also checks a connection from the component whose calls are failing. It tests whether the destination's name resolves and whether a connection can be established.
+
+In Social Network's missing-Service problem, SREGym deletes the `user-service` Kubernetes Service, which provides an address for reaching the `user-service` pods. The pods keep running, but `compose-post-service` can no longer reach them through that address.
+
+The checks reveal that the name does not resolve and the Service is missing. All ten v1 diagnoses failed, usually blaming the Deployment. With v1.1, seven pass.
+
+<ResearchFigure
+  id="service-connections"
+  number={3}
+  title="Checking a failed connection"
+  src="/blog/diagnosis-pipeline-improvements/service-connections.svg"
+  mobileSrc="/blog/diagnosis-pipeline-improvements/service-connections-mobile.svg"
+  height={664}
+  mobileHeight={1243}
+  alt="compose-post-service cannot resolve user-service or establish a connection. Kubernetes inventory shows the user-service Service is missing while its pods are still running."
+  caption="In the missing-Service run, the caller cannot resolve user-service. The Kubernetes inventory confirms the Service is missing while its pods keep running."
+/>
+
+### Keeping error details
+
+Choosing a component is only part of the diagnosis. SREGym's LLM judge also checks how well the report explains what went wrong.
+
+In six of the ten v1 diagnoses of the deleted-account problem, the reports named the database but did not explain why `geo` could not log in. Instead, they included the database's setup script. The log lines were also cut off before they showed why the login failed.
+
+v1.1 puts the error and its reason first in the log lines. Every v1.1 report on this problem includes the missing-user error `Authentication failed; error=UserNotFound: Could not find user "admin"`. Nine of the ten diagnoses pass. The tenth includes the error but still falls short of explaining the cause.
+
+<ResearchFigure
+  id="error-details"
+  number={4}
+  title="What the decision model sees"
+  src="/blog/diagnosis-pipeline-improvements/error-details.svg"
+  mobileSrc="/blog/diagnosis-pipeline-improvements/error-details-mobile.svg"
+  height={579}
+  mobileHeight={963}
+  alt="The v1 log excerpt is cut off before the missing-user reason. The v1.1 excerpt begins with Authentication failed and UserNotFound: Could not find user admin."
+  caption="Jev's recorded inputs for the deleted-account problem. v1 cuts off the missing-user reason, while v1.1 puts it first."
+/>
+
+## Results
+
+We ran 10 models once per problem with each pipeline. Of the 37 problems, 21 are the SREGym-Lite problems we used to build v1.1. The other 16 were drawn at random from the rest of SREGym.
+
+<ResearchFigure
+  id="model-results"
+  number={5}
+  title="Diagnosis pass rate by decision model"
+  src="/blog/diagnosis-pipeline-improvements/model-results.svg"
+  mobileSrc="/blog/diagnosis-pipeline-improvements/model-results-mobile.svg"
+  height={1042}
+  mobileHeight={1260}
+  alt="Pass rates for ten decision models on all 37 problems. Every model improves with v1.1. The average rises from 59 percent to 73 percent. The full values follow in Table 1."
+  caption="Diagnosis pass rates across all 37 problems, using one run per model with each pipeline version."
+/>
+
+<details className="pipeline-results">
+<summary>Full results by model</summary>
+<div className="pipeline-results-content">
+<p id="pipeline-results-caption" className="pipeline-table-caption">Table 1. Pass rate of each model, from one initial run per problem.</p>
+<div className="pipeline-results-table" role="region" aria-label="Diagnosis pass rates by model" tabIndex={0}>
+<table aria-labelledby="pipeline-results-caption">
+<colgroup><col className="pipeline-model-column" /><col span={6} /></colgroup>
+<thead>
+<tr><th rowSpan={2} scope="col">Model</th><th colSpan={2} scope="colgroup">All 37</th><th colSpan={2} scope="colgroup">21 Lite</th><th colSpan={2} scope="colgroup">16 random</th></tr>
+<tr><th scope="col">v1</th><th scope="col">v1.1</th><th scope="col">v1</th><th scope="col">v1.1</th><th scope="col">v1</th><th scope="col">v1.1</th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">OpenAI Decision API</th><td>73%</td><td>81%</td><td>81%</td><td>86%</td><td>63%</td><td>75%</td></tr>
+<tr><th scope="row">TypeSafe Jev 1.13</th><td>62%</td><td>78%</td><td>76%</td><td>86%</td><td>44%</td><td>69%</td></tr>
+<tr><th scope="row">Liquid d1</th><td>68%</td><td>78%</td><td>76%</td><td>86%</td><td>56%</td><td>69%</td></tr>
+<tr><th scope="row">Microsoft Decision-1</th><td>62%</td><td>73%</td><td>76%</td><td>81%</td><td>44%</td><td>63%</td></tr>
+<tr><th scope="row">Liquid d1-ultra</th><td>70%</td><td>73%</td><td>81%</td><td>81%</td><td>56%</td><td>63%</td></tr>
+<tr><th scope="row">Cloudflare Clef Omni</th><td>59%</td><td>73%</td><td>67%</td><td>76%</td><td>50%</td><td>69%</td></tr>
+<tr><th scope="row">Cloudflare Clef</th><td>65%</td><td>70%</td><td>76%</td><td>81%</td><td>50%</td><td>56%</td></tr>
+<tr><th scope="row">Nace Drex v2.0</th><td>41%</td><td>70%</td><td>48%</td><td>76%</td><td>31%</td><td>63%</td></tr>
+<tr><th scope="row">Inception Mercury Decide</th><td>68%</td><td>70%</td><td>86%</td><td>76%</td><td>44%</td><td>63%</td></tr>
+<tr><th scope="row">Upstage Solar Decide</th><td>27%</td><td>65%</td><td>33%</td><td>71%</td><td>19%</td><td>56%</td></tr>
+<tr><th scope="row">Average</th><td>59%</td><td>73%</td><td>70%</td><td>80%</td><td>46%</td><td>64%</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</details>
+
+All ten models passed more of the 37 problems with v1.1. The average pass rate rose from 59% to 73%. Every model also improved on the 16 randomly selected problems.
+
+Since v1.1 does more work, the mean inference cost also increased. For Jev, it rose from 0.15 cents with v1 to 0.35 cents with v1.1.
+
+## Next Steps
+
+Seven problems still defeated every model. In the search-rate retry collapse fault, `search` keeps retrying requests to `rate` after they time out. Those retries keep `rate` overloaded even after traffic returns to normal. The reports usually blame the `rate` service without explaining how `search` keeps the failure going.
+
+Next, we want to test whether records of individual requests and metrics over time could help the model make that connection. The decision model could also help choose what evidence the pipeline collects next.
+
+We’d like to test the pipeline on harder SREGym problems, including hardware faults and metastable failures that continue after their trigger is gone. **Can it diagnose these incidents as well as frontier LLM agents for a fraction of a cent per diagnosis?**
