@@ -14,7 +14,7 @@ export type CohortProblem = {
   category: Sregym0508Category;
 };
 
-export type LiteCohortProblem = {
+export type CohortProblemId = {
   id: string;
 };
 
@@ -74,11 +74,11 @@ export function getSregym0508Problems(): CohortProblem[] {
   return problems;
 }
 
-function getLiteCohortProblems(
+function getIdOnlyCohortProblems(
   manifestPath: string,
   cohortName: string,
   expectedCount: number,
-): LiteCohortProblem[] {
+): CohortProblemId[] {
   const [, ...rows] = fs.readFileSync(manifestPath, "utf-8").trim().split("\n");
 
   const problems = rows.map((row) => {
@@ -104,26 +104,36 @@ function getLiteCohortProblems(
   return problems;
 }
 
-export function getSregymLite0904Problems(): LiteCohortProblem[] {
-  return getLiteCohortProblems(
+export function getSregymLite0904Problems(): CohortProblemId[] {
+  return getIdOnlyCohortProblems(
     SREGYM_LITE_0904_MANIFEST_PATH,
     "SREGym-Lite-0904",
     21,
   );
 }
 
-export function getSregymLite1004Problems(): LiteCohortProblem[] {
-  return getLiteCohortProblems(
+export function getSregymLite1004Problems(): CohortProblemId[] {
+  return getIdOnlyCohortProblems(
     SREGYM_LITE_1004_MANIFEST_PATH,
     "SREGym-Lite-1004",
     17,
   );
 }
 
-export function getSregymLite0720Problems(): LiteCohortProblem[] {
-  return getLiteCohortProblems(
+export function getSregymLite0720Problems(): CohortProblemId[] {
+  return getIdOnlyCohortProblems(
     SREGYM_LITE_0720_MANIFEST_PATH,
     "SREGym-Lite-0720",
     20,
+  );
+}
+
+// Snapshot of the 85-fault noisy submission received on 2026-11-20.
+// 70 original faults plus 15 registered Slack Spine and Saleor variants.
+export function getSregym1120Problems(): CohortProblemId[] {
+  return getIdOnlyCohortProblems(
+    path.join(process.cwd(), "public", "data", "sregym-1120-problems.csv"),
+    "SREGym-1120",
+    85,
   );
 }
