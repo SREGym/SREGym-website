@@ -114,7 +114,7 @@ export function LeaderboardChart({ data }: { data: RankedRunEntry[] }) {
               <YAxis
                 type="category"
                 dataKey="name"
-                width={170}
+                width={200}
                 tickLine={false}
                 axisLine={false}
                 tick={CustomTick as never}

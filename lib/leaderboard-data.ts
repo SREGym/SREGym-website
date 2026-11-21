@@ -59,6 +59,7 @@ export type LeaderboardBenchmark = {
   entries: RunEntry[];
 };
 
+// The original 90-fault results are retained, including their noisy runs.
 export const runLeaderboardData: RunEntry[] = [
   // Third-party submission: 90 faults, three attempts each (270 runs), using
   // original grades. TTM is cumulative. The corrected 619K token mean includes
@@ -682,6 +683,26 @@ export const lite0720LeaderboardData: RunEntry[] = [
   },
 ];
 
+// Third-party submission: 85 faults, two attempts each (170 runs), with noise.
+// This cohort retains 70 original faults and adds 15 ported variants; the
+// 20 deprecated original faults are omitted.
+export const noisy1120LeaderboardData: RunEntry[] = [
+  {
+    agent: "Chiron + Claude Code",
+    thirdParty: {
+      website: "https://chironvision.ai/",
+    },
+    model: "Claude Sonnet 4.6 (medium)",
+    noise: true,
+    diagPct: 87.1,
+    mitPct: 80.6,
+    e2ePct: 72.9,
+    ttdSeconds: 126.2,
+    ttmSeconds: 293.0,
+    tokens: "732K",
+  },
+];
+
 export const leaderboardBenchmarks: LeaderboardBenchmark[] = [
   {
     id: "sregym-lite-1004",
@@ -692,11 +713,11 @@ export const leaderboardBenchmarks: LeaderboardBenchmark[] = [
     entries: liteLeaderboardData,
   },
   {
-    id: "sregym-0508",
+    id: "sregym-1120",
     label: "SREGym",
-    summary: "SREGym-0508 · 90 faults",
+    summary: "SREGym-1120 · 85 faults",
     supportsNoise: true,
-    cohortHref: "/problems/cohorts/sregym-0508",
-    entries: runLeaderboardData,
+    cohortHref: "/problems/cohorts/sregym-1120",
+    entries: [...runLeaderboardData, ...noisy1120LeaderboardData],
   },
 ];
