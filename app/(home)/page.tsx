@@ -6,7 +6,6 @@ import Link from "next/link";
 import { Callout } from "./components/callout";
 import { TerminalHero } from "./components/terminal-hero";
 import { LeaderboardPreview } from "./components/leaderboard-preview";
-import { LogoWall } from "./components/logo-wall";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
@@ -18,7 +17,7 @@ export default function Home() {
       <div className="flex w-full max-w-6xl flex-1 flex-col items-center">
         <div className="flex flex-col justify-center gap-16 sm:pt-24 sm:pb-0 w-full">
           <TerminalHero />
-          <div className="mx-auto flex flex-col gap-4 sm:gap-2 items-center">
+          <div className="mx-auto flex flex-col gap-4 sm:gap-2 items-center mb-12 sm:mb-9">
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-2 justify-center items-center w-full">
               <Link
                 href="https://github.com/SREGym/SREGym"
@@ -61,7 +60,6 @@ export default function Home() {
             </Link>
           </div>
           <LeaderboardPreview />
-          <LogoWall />
           <div className="mx-auto flex max-w-3xl flex-col gap-4 md:flex-row md:gap-2 hidden">
             <Callout
               className="flex-1"

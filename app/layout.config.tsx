@@ -21,6 +21,7 @@ export const baseOptions: BaseLayoutProps = {
   links: [
     { text: "Leaderboard", url: "/leaderboard" },
     { text: "Blog", url: "/blog", active: "nested-url" },
+    { text: "Users", url: "/users" },
   ],
   themeSwitch: {
     enabled: true,

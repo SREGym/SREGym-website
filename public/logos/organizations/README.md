@@ -7,11 +7,16 @@ directory. They are the same light and dark variants used in the
 
 `logo-sources.json` records the upstream sources of the original brand assets.
 The website serves the prepared PNGs locally and switches variants with its
-existing theme controls. The PNG files are unchanged. CSS frames exclude their
-transparent padding so the visible marks can be sized consistently. The wall
-uses the original brand colors at full opacity in both themes.
+existing theme controls. The PNG files are unchanged and already cropped by the
+upstream build. The Users page uses the original brand colors at full opacity in
+both themes.
+
+The current assets and organization list come from SREGym commit
+`b723f5407fc399ffe6f0fe06f18a7bdd78e7d2ab`. Display heights follow the README's
+relative proportions, enlarged slightly for the dedicated page.
 
 When updating the logo wall, copy both theme variants and update the organization
-list in `app/(home)/components/logo-wall.tsx` to match the SREGym README. If a PNG
-changes, update its visible pixel bounds in `logo-wall-layout.json` beside that
-component.
+list, links, display heights, and native image dimensions in
+`app/(home)/components/organizations.json` to match the SREGym README.
+Update `assetVersion` in `logo-wall.tsx` when refreshing the assets so cached
+image optimizations use the new files.

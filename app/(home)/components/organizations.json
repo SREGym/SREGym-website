@@ -1,0 +1,282 @@
+[
+  {
+    "id": "microsoft",
+    "name": "Microsoft Research",
+    "href": "https://www.microsoft.com/research/",
+    "displayHeight": 34,
+    "light": {
+      "width": 456,
+      "height": 108
+    },
+    "dark": {
+      "width": 456,
+      "height": 108
+    }
+  },
+  {
+    "id": "datadog",
+    "name": "Datadog",
+    "href": "https://www.datadoghq.com/",
+    "displayHeight": 38,
+    "light": {
+      "width": 558,
+      "height": 150
+    },
+    "dark": {
+      "width": 568,
+      "height": 150
+    }
+  },
+  {
+    "id": "pagerduty",
+    "name": "PagerDuty",
+    "href": "https://www.pagerduty.com/",
+    "displayHeight": 34,
+    "light": {
+      "width": 642,
+      "height": 144
+    },
+    "dark": {
+      "width": 642,
+      "height": 144
+    }
+  },
+  {
+    "id": "snorkel",
+    "name": "Snorkel AI",
+    "href": "https://snorkel.ai/",
+    "displayHeight": 42,
+    "light": {
+      "width": 504,
+      "height": 154
+    },
+    "dark": {
+      "width": 491,
+      "height": 154
+    }
+  },
+  {
+    "id": "cognition",
+    "name": "Cognition",
+    "href": "https://cognition.com/",
+    "displayHeight": 34,
+    "light": {
+      "width": 513,
+      "height": 110
+    },
+    "dark": {
+      "width": 513,
+      "height": 110
+    }
+  },
+  {
+    "id": "chiron",
+    "name": "Chiron",
+    "href": "https://chironvision.ai/",
+    "displayHeight": 37,
+    "light": {
+      "width": 401,
+      "height": 111
+    },
+    "dark": {
+      "width": 401,
+      "height": 111
+    }
+  },
+  {
+    "id": "cloudthinker",
+    "name": "CloudThinker",
+    "href": "https://cloudthinker.io/",
+    "displayHeight": 31,
+    "light": {
+      "width": 708,
+      "height": 126
+    },
+    "dark": {
+      "width": 708,
+      "height": 126
+    }
+  },
+  {
+    "id": "one2n",
+    "name": "One2N",
+    "href": "https://one2n.io/",
+    "displayHeight": 40,
+    "light": {
+      "width": 366,
+      "height": 123
+    },
+    "dark": {
+      "width": 366,
+      "height": 123
+    }
+  },
+  {
+    "id": "komodor",
+    "name": "Komodor",
+    "href": "https://komodor.com/",
+    "displayHeight": 29,
+    "light": {
+      "width": 533,
+      "height": 101
+    },
+    "dark": {
+      "width": 533,
+      "height": 101
+    }
+  },
+  {
+    "id": "skyhook",
+    "name": "Skyhook, makers of Radar",
+    "href": "https://radarhq.io/",
+    "displayHeight": 40,
+    "light": {
+      "width": 518,
+      "height": 145
+    },
+    "dark": {
+      "width": 518,
+      "height": 145
+    }
+  },
+  {
+    "id": "nofire",
+    "name": "NOFire",
+    "href": "https://www.nofire.ai/",
+    "displayHeight": 33,
+    "light": {
+      "width": 548,
+      "height": 118
+    },
+    "dark": {
+      "width": 548,
+      "height": 118
+    }
+  },
+  {
+    "id": "ciroos",
+    "name": "Ciroos",
+    "href": "https://ciroos.ai/",
+    "displayHeight": 36,
+    "light": {
+      "width": 552,
+      "height": 140
+    },
+    "dark": {
+      "width": 552,
+      "height": 144
+    }
+  },
+  {
+    "id": "bespoke",
+    "name": "Bespoke Labs",
+    "href": "https://bespokelabs.ai/",
+    "displayHeight": 29,
+    "light": {
+      "width": 654,
+      "height": 102
+    },
+    "dark": {
+      "width": 654,
+      "height": 102
+    }
+  },
+  {
+    "id": "exo",
+    "name": "Exo",
+    "href": "https://github.com/exoharness/exo",
+    "displayHeight": 40,
+    "light": {
+      "width": 299,
+      "height": 114
+    },
+    "dark": {
+      "width": 299,
+      "height": 114
+    }
+  },
+  {
+    "id": "p95",
+    "name": "P95.ai",
+    "href": "https://p95.ai/",
+    "displayHeight": 33,
+    "light": {
+      "width": 508,
+      "height": 100
+    },
+    "dark": {
+      "width": 508,
+      "height": 100
+    }
+  },
+  {
+    "id": "illinois",
+    "name": "University of Illinois Urbana-Champaign",
+    "href": "https://illinois.edu/",
+    "displayHeight": 42,
+    "light": {
+      "width": 504,
+      "height": 151
+    },
+    "dark": {
+      "width": 504,
+      "height": 151
+    }
+  },
+  {
+    "id": "washington",
+    "name": "University of Washington",
+    "href": "https://www.washington.edu/",
+    "displayHeight": 36,
+    "light": {
+      "width": 516,
+      "height": 126
+    },
+    "dark": {
+      "width": 516,
+      "height": 126
+    }
+  },
+  {
+    "id": "toronto",
+    "name": "University of Toronto",
+    "href": "https://www.utoronto.ca/",
+    "displayHeight": 50,
+    "light": {
+      "width": 482,
+      "height": 186
+    },
+    "dark": {
+      "width": 482,
+      "height": 186
+    }
+  },
+  {
+    "id": "berkeley",
+    "name": "University of California, Berkeley",
+    "href": "https://www.berkeley.edu/",
+    "displayHeight": 42,
+    "light": {
+      "width": 434,
+      "height": 142
+    },
+    "dark": {
+      "width": 434,
+      "height": 142
+    }
+  },
+  {
+    "id": "asu",
+    "name": "Arizona State University",
+    "href": "https://www.asu.edu/",
+    "displayHeight": 34,
+    "light": {
+      "width": 568,
+      "height": 114
+    },
+    "dark": {
+      "width": 556,
+      "height": 111
+    }
+  }
+]
