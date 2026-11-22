@@ -324,10 +324,16 @@ export function TerminalHero() {
     }
   }, [history, inputBuffer, done]);
 
-  // Focus terminal when animation finishes
+  // Keep the reader's position and focus if they have moved past the terminal.
   useEffect(() => {
-    if (done && terminalRef.current) {
-      terminalRef.current.focus();
+    if (
+      done &&
+      terminalRef.current &&
+      !window.location.hash &&
+      window.scrollY === 0 &&
+      document.activeElement === document.body
+    ) {
+      terminalRef.current.focus({ preventScroll: true });
     }
   }, [done]);
 
