@@ -8,10 +8,9 @@ directory. They are the same light and dark variants used in the
 `logo-sources.json` records the upstream sources of the original brand assets.
 The website serves the prepared PNGs locally and switches variants with its
 existing theme controls. The PNG files are unchanged and already cropped by the
-upstream build. The Users page uses the original brand colors at full opacity in
-both themes.
+upstream build. The Users page uses the prepared theme variants at full opacity.
 
-The current assets and organization list come from SREGym commit
+The initial assets and organization list came from SREGym commit
 `b723f5407fc399ffe6f0fe06f18a7bdd78e7d2ab`. Display heights follow the README's
 relative proportions, enlarged slightly for the dedicated page.
 

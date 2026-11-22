@@ -278,5 +278,47 @@
       "width": 556,
       "height": 111
     }
+  },
+  {
+    "id": "wisconsin",
+    "name": "University of Wisconsin–Madison",
+    "href": "https://www.wisc.edu/",
+    "displayHeight": 44,
+    "light": {
+      "width": 610,
+      "height": 214
+    },
+    "dark": {
+      "width": 610,
+      "height": 214
+    }
+  },
+  {
+    "id": "buet",
+    "name": "Bangladesh University of Engineering and Technology (BUET)",
+    "href": "https://www.buet.ac.bd/",
+    "displayHeight": 44,
+    "light": {
+      "width": 461,
+      "height": 179
+    },
+    "dark": {
+      "width": 461,
+      "height": 179
+    }
+  },
+  {
+    "id": "brac",
+    "name": "BRAC University",
+    "href": "https://www.bracu.ac.bd/",
+    "displayHeight": 55,
+    "light": {
+      "width": 240,
+      "height": 222
+    },
+    "dark": {
+      "width": 240,
+      "height": 222
+    }
   }
 ]
