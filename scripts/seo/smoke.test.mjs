@@ -45,6 +45,7 @@ test("public pages declare their own www canonical without tracking parameters",
   for (const path of [
     "/",
     "/leaderboard",
+    "/users",
     "/contributors",
     "/stratus",
     "/ascii-logo",
@@ -122,7 +123,7 @@ test("sitemap contains every listed blog article and only public destinations", 
     assert.equal(parsed.search, "");
     assert.equal(parsed.hash, "");
   }
-  for (const path of ["/", "/blog", "/leaderboard"]) {
+  for (const path of ["/", "/blog", "/leaderboard", "/users"]) {
     assert.ok(paths.includes(path), `Missing ${path}`);
   }
   for (const path of paths) {

@@ -1,0 +1,60 @@
+import Image from "next/image";
+import organizations from "./organizations.json";
+
+const assetVersion = "b723f540";
+
+type Organization = (typeof organizations)[number];
+
+function OrganizationLogo({
+  organization,
+  theme,
+}: {
+  organization: Organization;
+  theme: "light" | "dark";
+}) {
+  const image = organization[theme];
+  const width = Math.min(
+    180,
+    (image.width / image.height) * organization.displayHeight,
+  );
+
+  return (
+    <Image
+      src={`/logos/organizations/${theme}/${organization.id}.png?v=${assetVersion}`}
+      alt=""
+      width={image.width}
+      height={image.height}
+      sizes={`${Math.ceil(width)}px`}
+      className={theme === "light" ? "block dark:hidden" : "hidden dark:block"}
+      style={{
+        width,
+        height: "auto",
+        maxWidth: "100%",
+      }}
+    />
+  );
+}
+
+export function LogoWall() {
+  return (
+    <ul
+      aria-label="Organizations using SREGym"
+      className="grid grid-cols-2 gap-x-6 gap-y-6 sm:grid-cols-4 sm:gap-y-8 lg:grid-cols-5 lg:gap-x-8"
+    >
+      {organizations.map((organization) => (
+        <li key={organization.id} className="min-w-0">
+          <a
+            href={organization.href}
+            aria-label={organization.name}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="focus-visible:ring-ring focus-visible:ring-offset-background flex h-16 items-center justify-center focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:outline-none"
+          >
+            <OrganizationLogo organization={organization} theme="light" />
+            <OrganizationLogo organization={organization} theme="dark" />
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+}

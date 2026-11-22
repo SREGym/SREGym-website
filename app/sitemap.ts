@@ -10,6 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/",
     "/blog",
     "/leaderboard",
+    "/users",
     ...blog.getPages().map((page) => page.url),
     ...tasks.map((task) => `/problems/${encodeURIComponent(task.id)}`),
   ]);
