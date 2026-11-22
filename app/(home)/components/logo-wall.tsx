@@ -37,10 +37,13 @@ export function LogoWall() {
   return (
     <ul
       aria-label="Organizations using SREGym"
-      className="grid grid-cols-2 gap-x-6 gap-y-6 sm:grid-cols-4 sm:gap-y-8 lg:grid-cols-5 lg:gap-x-8"
+      className="flex flex-wrap justify-center gap-x-6 gap-y-6 sm:gap-y-8 lg:gap-x-8"
     >
       {organizations.map((organization) => (
-        <li key={organization.id} className="min-w-0">
+        <li
+          key={organization.id}
+          className="w-[calc((100%_-_1.5rem)/2)] min-w-0 flex-none sm:w-[calc((100%_-_4.5rem)/4)] lg:w-[calc((100%_-_8rem)/5)]"
+        >
           <a
             href={organization.href}
             aria-label={organization.name}
