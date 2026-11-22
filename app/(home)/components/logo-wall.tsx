@@ -1,8 +1,6 @@
 import Image from "next/image";
 import organizations from "./organizations.json";
 
-const assetVersion = "b723f540";
-
 type Organization = (typeof organizations)[number];
 
 function OrganizationLogo({
@@ -20,7 +18,7 @@ function OrganizationLogo({
 
   return (
     <Image
-      src={`/logos/organizations/${theme}/${organization.id}.png?v=${assetVersion}`}
+      src={`/logos/organizations/${theme}/${organization.id}.png`}
       alt=""
       width={image.width}
       height={image.height}

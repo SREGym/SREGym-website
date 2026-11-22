@@ -18,5 +18,6 @@ relative proportions, enlarged slightly for the dedicated page.
 When updating the logo wall, copy both theme variants and update the organization
 list, links, display heights, and native image dimensions in
 `app/(home)/components/organizations.json` to match the SREGym README.
-Update `assetVersion` in `logo-wall.tsx` when refreshing the assets so cached
-image optimizations use the new files.
+Use plain local asset paths. The deployed Amplify image optimizer fails to load
+local image URLs with query parameters. If cache busting is needed, rename the
+asset files instead.
