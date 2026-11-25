@@ -227,15 +227,16 @@
     "id": "washington",
     "name": "University of Washington",
     "href": "https://www.washington.edu/",
-    "displayHeight": 36,
+    "displayHeight": 57,
     "light": {
-      "width": 516,
-      "height": 126
+      "width": 746,
+      "height": 367
     },
     "dark": {
-      "width": 516,
-      "height": 126
-    }
+      "width": 746,
+      "height": 367
+    },
+    "file": "washington-stacked.png"
   },
   {
     "id": "toronto",

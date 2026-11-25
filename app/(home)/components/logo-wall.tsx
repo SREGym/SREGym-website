@@ -1,7 +1,7 @@
 import Image from "next/image";
 import organizations from "./organizations.json";
 
-type Organization = (typeof organizations)[number];
+type Organization = (typeof organizations)[number] & { file?: string };
 
 function OrganizationLogo({
   organization,
@@ -18,7 +18,7 @@ function OrganizationLogo({
 
   return (
     <Image
-      src={`/logos/organizations/${theme}/${organization.id}.png`}
+      src={`/logos/organizations/${theme}/${organization.file ?? `${organization.id}.png`}`}
       alt=""
       width={image.width}
       height={image.height}
