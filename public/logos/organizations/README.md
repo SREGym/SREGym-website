@@ -29,8 +29,11 @@ list, links, display heights, and native image dimensions in
 `app/(home)/components/organizations.json` to match the SREGym README.
 Set an organization's optional `file` field when its asset filename differs
 from its ID.
-Set `category` to `company` or `university`. Companies appear first, followed by
-universities in the same grid.
+Set `category` to `company` or `university`. Companies and universities appear in
+separate sections, with companies first.
+Desktop rows follow the README: four companies or five universities. Logos use
+their own widths, with gaps between them instead of fixed-width cells.
+On wider screens, logos and gaps scale together to fill more of the page.
 Use plain local asset paths. The deployed Amplify image optimizer fails to load
 local image URLs with query parameters. If cache busting is needed, rename the
 asset files instead.
