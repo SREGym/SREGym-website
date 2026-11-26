@@ -18,11 +18,19 @@ UW's official stacked signatures come from SREGym commit
 `274269094bf447f708a21da9e9cae451f2b140d7`. They are served as
 `washington-stacked.png` in each theme.
 
+Bluebox's original SVGs were supplied by Simon Ott on November 25, 2026. Its
+prepared PNGs are copied unchanged from the SREGym README assets.
+
+LUMS uses the blue header logo and white footer logo from its official website.
+Both PNGs are prepared in the SREGym repository and copied here unchanged.
+
 When updating the logo wall, copy both theme variants and update the organization
 list, links, display heights, and native image dimensions in
 `app/(home)/components/organizations.json` to match the SREGym README.
 Set an organization's optional `file` field when its asset filename differs
 from its ID.
+Set `category` to `company` or `university`. Companies appear first, followed by
+universities in the same grid.
 Use plain local asset paths. The deployed Amplify image optimizer fails to load
 local image URLs with query parameters. If cache busting is needed, rename the
 asset files instead.

@@ -11,7 +11,8 @@
     "dark": {
       "width": 456,
       "height": 108
-    }
+    },
+    "category": "company"
   },
   {
     "id": "datadog",
@@ -25,7 +26,8 @@
     "dark": {
       "width": 568,
       "height": 150
-    }
+    },
+    "category": "company"
   },
   {
     "id": "pagerduty",
@@ -39,7 +41,8 @@
     "dark": {
       "width": 642,
       "height": 144
-    }
+    },
+    "category": "company"
   },
   {
     "id": "snorkel",
@@ -53,7 +56,8 @@
     "dark": {
       "width": 491,
       "height": 154
-    }
+    },
+    "category": "company"
   },
   {
     "id": "cognition",
@@ -67,7 +71,8 @@
     "dark": {
       "width": 513,
       "height": 110
-    }
+    },
+    "category": "company"
   },
   {
     "id": "chiron",
@@ -81,7 +86,8 @@
     "dark": {
       "width": 401,
       "height": 111
-    }
+    },
+    "category": "company"
   },
   {
     "id": "cloudthinker",
@@ -95,7 +101,8 @@
     "dark": {
       "width": 708,
       "height": 126
-    }
+    },
+    "category": "company"
   },
   {
     "id": "one2n",
@@ -109,7 +116,8 @@
     "dark": {
       "width": 366,
       "height": 123
-    }
+    },
+    "category": "company"
   },
   {
     "id": "komodor",
@@ -123,7 +131,8 @@
     "dark": {
       "width": 533,
       "height": 101
-    }
+    },
+    "category": "company"
   },
   {
     "id": "skyhook",
@@ -137,7 +146,8 @@
     "dark": {
       "width": 518,
       "height": 145
-    }
+    },
+    "category": "company"
   },
   {
     "id": "nofire",
@@ -151,7 +161,8 @@
     "dark": {
       "width": 548,
       "height": 118
-    }
+    },
+    "category": "company"
   },
   {
     "id": "ciroos",
@@ -165,7 +176,8 @@
     "dark": {
       "width": 552,
       "height": 144
-    }
+    },
+    "category": "company"
   },
   {
     "id": "bespoke",
@@ -179,7 +191,8 @@
     "dark": {
       "width": 654,
       "height": 102
-    }
+    },
+    "category": "company"
   },
   {
     "id": "exo",
@@ -193,7 +206,8 @@
     "dark": {
       "width": 299,
       "height": 114
-    }
+    },
+    "category": "company"
   },
   {
     "id": "p95",
@@ -207,7 +221,23 @@
     "dark": {
       "width": 508,
       "height": 100
-    }
+    },
+    "category": "company"
+  },
+  {
+    "id": "bluebox",
+    "name": "Bluebox",
+    "href": "https://bluebox.ai/",
+    "displayHeight": 44,
+    "light": {
+      "width": 552,
+      "height": 173
+    },
+    "dark": {
+      "width": 552,
+      "height": 173
+    },
+    "category": "company"
   },
   {
     "id": "illinois",
@@ -221,7 +251,8 @@
     "dark": {
       "width": 504,
       "height": 151
-    }
+    },
+    "category": "university"
   },
   {
     "id": "washington",
@@ -236,7 +267,8 @@
       "width": 746,
       "height": 367
     },
-    "file": "washington-stacked.png"
+    "file": "washington-stacked.png",
+    "category": "university"
   },
   {
     "id": "toronto",
@@ -250,7 +282,8 @@
     "dark": {
       "width": 482,
       "height": 186
-    }
+    },
+    "category": "university"
   },
   {
     "id": "berkeley",
@@ -264,7 +297,8 @@
     "dark": {
       "width": 434,
       "height": 142
-    }
+    },
+    "category": "university"
   },
   {
     "id": "asu",
@@ -278,7 +312,8 @@
     "dark": {
       "width": 556,
       "height": 111
-    }
+    },
+    "category": "university"
   },
   {
     "id": "wisconsin",
@@ -292,7 +327,8 @@
     "dark": {
       "width": 610,
       "height": 214
-    }
+    },
+    "category": "university"
   },
   {
     "id": "buet",
@@ -306,7 +342,8 @@
     "dark": {
       "width": 461,
       "height": 179
-    }
+    },
+    "category": "university"
   },
   {
     "id": "brac",
@@ -320,6 +357,22 @@
     "dark": {
       "width": 240,
       "height": 222
-    }
+    },
+    "category": "university"
+  },
+  {
+    "id": "lums",
+    "name": "LUMS",
+    "href": "https://lums.edu.pk/",
+    "displayHeight": 62,
+    "light": {
+      "width": 552,
+      "height": 214
+    },
+    "dark": {
+      "width": 477,
+      "height": 183
+    },
+    "category": "university"
   }
 ]
